@@ -6,7 +6,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 "${K8SBASHSCRIPTS}/k8sDeployNginxIngressController.sh" "$K8SBASHSCRIPTS"
 # Create a pod shared volume
 "${K8SBASHSCRIPTS}/k8sDeployPersistentVolume.sh" "$K8SBASHSCRIPTS"
-"${K8SBASHSCRIPTS}/k8sDeployConfigService.sh" "$K8SBASHSCRIPTS"
+#"${K8SBASHSCRIPTS}/k8sDeployConfigService.sh" "$K8SBASHSCRIPTS"
 # Create services
 "${K8SBASHSCRIPTS}/k8sDeployConfigureServices.sh" "$K8SBASHSCRIPTS"
 "${K8SBASHSCRIPTS}/k8sDeployPolicyService.sh" "$K8SBASHSCRIPTS"

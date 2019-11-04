@@ -10,7 +10,7 @@ FILE_PRESENT=0
 
 if [ -d "$TARGET_DIR" ];
 then
-    MODEL_JAR=$(find "${EXAMPLE}/example-model/target" -type f -iname "example-model-*-shaded.jar")
+    MODEL_JAR=$(find "${EXAMPLE}/example-model/target" -type f -iname "example-model-*-SNAPSHOT.jar")
     if [ ! -z "$MODEL_JAR" ];
     then
         FILE_PRESENT=1
