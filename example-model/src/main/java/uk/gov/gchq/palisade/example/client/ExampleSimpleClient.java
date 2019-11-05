@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Crown Copyright
+ * Copyright 2019 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import uk.gov.gchq.palisade.example.runner.RestExample;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 import uk.gov.gchq.palisade.resource.LeafResource;
 import uk.gov.gchq.palisade.service.ConnectionDetail;
-import uk.gov.gchq.palisade.service.palisade.config.ApplicationConfiguration;
 import uk.gov.gchq.palisade.service.palisade.request.ReadRequest;
 import uk.gov.gchq.palisade.service.palisade.request.ReadResponse;
 import uk.gov.gchq.palisade.service.palisade.request.RegisterDataRequest;
@@ -53,7 +52,6 @@ import static java.util.Objects.requireNonNull;
 public class ExampleSimpleClient<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
     private static final String RESOURCE_TYPE = "employee";
-    private static ApplicationConfiguration palisadeConfig = new ApplicationConfiguration();
 
     @Autowired
     private static PalisadeService palisadeService;
