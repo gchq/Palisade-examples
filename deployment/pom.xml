@@ -26,14 +26,6 @@
         <version>0.4.0-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
-    <!--<dependencies>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>services-launcher</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-    </dependencies>-->
-
+  
     <artifactId>deployment</artifactId>
 </project>
