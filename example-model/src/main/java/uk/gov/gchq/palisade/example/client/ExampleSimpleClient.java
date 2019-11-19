@@ -71,7 +71,7 @@ public class ExampleSimpleClient<T> {
             String filename = args[1];
             String purpose = args[2];
             User user = ExampleUsers.getUser(userId);
-            LOGGER.info(user.getUserId().toString() + " is reading the Employee file with a purpose of " + purpose);
+            LOGGER.info(String.format("%s is reading the Employee file %s with a purpose of %s", user.getUserId().toString(), filename, purpose));
             final Stream<Employee> results = new ExampleSimpleClient(palisadeService).read(filename, user.getUserId().getId(), purpose);
             LOGGER.info(user.getUserId().toString() + " got back: ");
             results.map(Object::toString).forEach(LOGGER::info);

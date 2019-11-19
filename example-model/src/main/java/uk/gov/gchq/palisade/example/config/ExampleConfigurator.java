@@ -60,10 +60,8 @@ public final class ExampleConfigurator {
     }
 
     public ExampleConfigurator(final String file) {
-        final String file1;
         URI absoluteFileURI = ExampleFileUtil.convertToFileURI(file);
-        file1 = absoluteFileURI.toString();
-        this.file = file1;
+        this.file = absoluteFileURI.toString();
         initialiseExample();
     }
 
