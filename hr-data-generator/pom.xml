@@ -42,7 +42,7 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>palisade-service</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -51,5 +51,29 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.servicemix.tooling</groupId>
+                <artifactId>depends-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <outputFile>mvn_dependency_tree.txt</outputFile>
+                            <includeScope>false</includeScope>
+                            <includeType>false</includeType>
+                        </configuration>
+                        <id>depends</id>
+                        <phase>${depends.phase}</phase>
+                        <goals>
+                            <goal>generate-depends-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

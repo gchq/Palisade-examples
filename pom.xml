@@ -60,6 +60,11 @@
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <checkstyle.phase>verify</checkstyle.phase>
         <javafaker.version>1.0.1</javafaker.version>
+        <spring-cloud-starter-ribbon.version>1.4.7.RELEASE</spring-cloud-starter-ribbon.version>
+        <apache.commons.version>1.19</apache.commons.version>
+        <slf4j.api.version>1.7.28</slf4j.api.version>
+        <depends.maven.version>3.1.1</depends.maven.version>
+        <depends.phase>validate</depends.phase>
     </properties>
 
     <modules>
@@ -105,6 +110,25 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.servicemix.tooling</groupId>
+                <artifactId>depends-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <outputFile>mvn_dependency_tree.txt</outputFile>
+                            <includeScope>false</includeScope>
+                            <includeType>false</includeType>
+                        </configuration>
+                        <id>depends</id>
+                        <phase>${depends.phase}</phase>
+                        <goals>
+                            <goal>generate-depends-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
