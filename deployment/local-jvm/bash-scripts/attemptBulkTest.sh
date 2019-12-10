@@ -11,7 +11,7 @@ FILE_PRESENT=0
 if [ -d "$TARGET_DIR" ];
 then
     MODEL_JAR=$(find "${EXAMPLE}/example-model/target" -type f -iname "example-model-*-SNAPSHOT.jar")
-    if [ ! -z "$MODEL_JAR" ];
+    if [ -n "$MODEL_JAR" ];
     then
         FILE_PRESENT=1
     fi
@@ -23,4 +23,4 @@ if [ "$FILE_PRESENT" -eq 0 ];then
 fi
 
 # Run the bulk resource test
-PALISADE_REST_CONFIG_PATH=example/example-model/src/main/resources/configRest.json java -cp $MODEL_JAR uk.gov.gchq.palisade.example.runner.BulkTestExample "${EXAMPLE}/resources/data" $@
+PALISADE_REST_CONFIG_PATH=example/example-model/src/main/resources/configRest.json java -cp "$MODEL_JAR" uk.gov.gchq.palisade.example.runner.BulkTestExample "${EXAMPLE}/resources/data" $@
