@@ -50,11 +50,6 @@
             <artifactId>data-service</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <!--<dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>discovery-service</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>-->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>palisade-service</artifactId>
