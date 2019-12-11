@@ -27,6 +27,11 @@
 
     <artifactId>example-resource-service</artifactId>
 
+    <properties>
+        <standalone-path />
+        <standalone-port>8086</standalone-port>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
@@ -36,27 +41,89 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.servicemix.tooling</groupId>
-                <artifactId>depends-maven-plugin</artifactId>
-                <version>1.4.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${dependency.plugin.version}</version>
                 <executions>
                     <execution>
-                        <configuration>
-                            <outputFile>mvn_dependency_tree.txt</outputFile>
-                            <includeScope>false</includeScope>
-                            <includeType>false</includeType>
-                        </configuration>
-                        <id>depends</id>
-                        <phase>${depends.phase}</phase>
+                        <id>unpack</id>
+                        <phase>compile</phase>
                         <goals>
-                            <goal>generate-depends-file</goal>
+                            <goal>unpack</goal>
                         </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.parent.groupId}</groupId>
+                                    <artifactId>resource-service</artifactId>
+                                    <version>${project.parent.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>
+                                        ${project.build.directory}/${project.artifactId}-${project.version}
+                                    </outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <attachClasses>true</attachClasses>
+                    <classesClassifier>classes</classesClassifier>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>example-resource-service</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.0</version>
+                        <configuration>
+                            <path>/${standalone-path}</path>
+                            <port>${standalone-port}</port>
+                            <finalName>${project.artifactId}-${project.version}-executable.jar</finalName>
+                            <systemProperties>
+                                <palisade.properties.app.title>
+                                    ${project.artifactId}
+                                </palisade.properties.app.title>
+                                <palisade.rest.basePath>
+                                    ${standalone-path}
+                                </palisade.rest.basePath>
+                                <palisade.error-mode.debug>
+                                    true
+                                </palisade.error-mode.debug>
+                            </systemProperties>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>deploy</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>exec-war</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

@@ -51,6 +51,8 @@
         <encoding>UTF-8</encoding>
         <!-- Sane default when no revision property is passed in from the command line -->
         <revision>SNAPSHOT</revision>
+        <dependency.plugin.version>3.1.1</dependency.plugin.version>
+        <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
 
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
@@ -70,6 +72,7 @@
     <modules>
         <module>deployment</module>
         <module>example-model</module>
+        <module>example-services</module>
         <module>hr-data-generator</module>
         <module>performance</module>
     </modules>

@@ -31,10 +31,11 @@
     <modules>
         <module>example-audit-service</module>
         <module>example-data-service</module>
-        <module>example-launcher-service</module>
+        <module>example-discovery-service</module>
         <module>example-palisade-service</module>
         <module>example-policy-service</module>
         <module>example-resource-service</module>
+        <module>example-services-launcher</module>
         <module>example-user-service</module>
     </modules>
 
