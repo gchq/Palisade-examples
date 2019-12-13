@@ -18,7 +18,14 @@ package uk.gov.gchq.palisade.example.common;
 
 import uk.gov.gchq.palisade.User;
 
+import java.util.Arrays;
+import java.util.EnumSet;
+
+import static java.util.Objects.requireNonNull;
+
 public final class ExampleUsers {
+
+    private static EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     private ExampleUsers() {
     }
@@ -35,16 +42,16 @@ public final class ExampleUsers {
     }
 
     public static User getAlice() {
-        final User alice = new ExampleUser()
-                .trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE)
+        final User alice = new User()
                 .userId("Alice")
                 .auths("public", "private")
                 .roles(Role.HR.name());
+        trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE);
         return (alice);
     }
 
     public static User getBob() {
-        final User bob = new ExampleUser()
+        final User bob = new User()
                 .userId("Bob")
                 .auths("public")
                 .roles(Role.ESTATES.name());
@@ -52,10 +59,16 @@ public final class ExampleUsers {
     }
 
     public static User getEve() {
-        final User eve = new ExampleUser()
+        final User eve = new User()
                 .userId("Eve")
                 .auths("public")
                 .roles(Role.IT.name());
         return (eve);
+    }
+
+    public static void trainingCompleted(final TrainingCourse... trainingCompleted) {
+        requireNonNull(trainingCompleted, "cannot add null training completed");
+        trainingCourses.clear();
+        trainingCourses.addAll(Arrays.asList(trainingCompleted));
     }
 }
