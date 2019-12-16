@@ -73,7 +73,6 @@
         <module>deployment</module>
         <module>example-library</module>
         <module>example-model</module>
-        <module>example-services</module>
         <module>hr-data-generator</module>
         <module>performance</module>
     </modules>
@@ -115,21 +114,19 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.servicemix.tooling</groupId>
-                <artifactId>depends-maven-plugin</artifactId>
-                <version>1.4.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${depends.maven.version}</version>
                 <executions>
                     <execution>
-                        <configuration>
-                            <outputFile>mvn_dependency_tree.txt</outputFile>
-                            <includeScope>false</includeScope>
-                            <includeType>false</includeType>
-                        </configuration>
-                        <id>depends</id>
+                        <id>dependencies</id>
                         <phase>${depends.phase}</phase>
                         <goals>
-                            <goal>generate-depends-file</goal>
+                            <goal>tree</goal>
                         </goals>
+                        <configuration>
+                            <outputFile>mvn_dependency_tree.txt</outputFile>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
