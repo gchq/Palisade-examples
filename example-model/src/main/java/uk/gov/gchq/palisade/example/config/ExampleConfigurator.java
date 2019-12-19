@@ -108,7 +108,6 @@ public final class ExampleConfigurator {
         LOGGER.info("Adding user {} to the user service", request.user.getUserId().getId());
         String requestString = requestToString(request);
         LOGGER.info("Sending request to the user service");
-        LOGGER.info("Add User Request: {}", request);
         URI uri = URI.create(LOCALHOST + USER_PORT + "addUser");
         LOGGER.info(uri.toString());
 
