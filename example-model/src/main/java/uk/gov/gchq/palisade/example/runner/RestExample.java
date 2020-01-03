@@ -64,7 +64,7 @@ public class RestExample {
         final User eve = ExampleUsers.getEve();
 
         LOGGER.info("Creating data request...");
-        RegisterDataRequest dataRequest = new RegisterDataRequest().userId(alice.getUserId()).resourceId(sourceFile);
+        RegisterDataRequest dataRequest = new RegisterDataRequest().userId(alice.getUserId()).resourceId("file://" + sourceFile);
         LOGGER.debug("Data Request: {}", dataRequest);
 
         //Set the purpose to SALARY for the RegisterDataRequest
