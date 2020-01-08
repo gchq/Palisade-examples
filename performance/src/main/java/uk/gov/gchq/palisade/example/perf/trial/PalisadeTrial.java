@@ -49,7 +49,7 @@ public abstract class PalisadeTrial extends PerfTrial {
             throw new IllegalArgumentException("resourceName cannot be empty");
         }
 
-        ExampleSimpleClient client = new ExampleSimpleClient(palisadeService);
+        ExampleSimpleClient client = new ExampleSimpleClient();
 
         User alice = ExampleUsers.getAlice();
 
