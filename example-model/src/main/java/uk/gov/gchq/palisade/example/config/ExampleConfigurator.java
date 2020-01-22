@@ -23,21 +23,27 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
 import uk.gov.gchq.palisade.RequestId;
+import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.common.ExamplePolicies;
 import uk.gov.gchq.palisade.example.common.ExampleUsers;
+import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.example.request.AddSerialiserRequest;
+import uk.gov.gchq.palisade.example.request.AddUserRequest;
+import uk.gov.gchq.palisade.example.request.SetResourcePolicyRequest;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
+import uk.gov.gchq.palisade.reader.common.DataFlavour;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.resource.impl.SystemResource;
 import uk.gov.gchq.palisade.resource.request.AddResourceRequest;
+import uk.gov.gchq.palisade.service.CacheService;
 import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
-import uk.gov.gchq.palisade.service.policy.request.SetResourcePolicyRequest;
 import uk.gov.gchq.palisade.service.request.Request;
-import uk.gov.gchq.palisade.service.user.request.AddUserRequest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -59,6 +65,7 @@ import java.util.stream.IntStream;
 public final class ExampleConfigurator {
 
     private static final String LOCALHOST = "http://localhost:";
+    private static final String DATA_PORT = "8082/";
     private static final String DISCOVERY_PORT = "8083/";
     private static final String POLICY_PORT = "8085/";
     private static final String RESOURCE_PORT = "8086/";
@@ -68,6 +75,9 @@ public final class ExampleConfigurator {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleConfigurator.class);
     private final String file;
     private final HttpClient httpClient = HttpClient.newBuilder().version(Version.HTTP_2).build();
+
+    @Autowired
+    private CacheService cacheService;
 
     /**
      * Establishes policies and details for the examples and writes these into the configuration service.
@@ -90,56 +100,88 @@ public final class ExampleConfigurator {
     }
 
     private void initialiseExample() throws IOException {
-        // The user authorisation owner or sys admin needs to add the user
+        // Add the users to the User-service
+        LOGGER.info("");
+
+        LOGGER.info("ADDING USERS");
+        LOGGER.info("");
 
         final CompletableFuture<Boolean> userAliceStatus = addUserRequest(
                 AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getAlice())
         );
+        LOGGER.info("Alice added to the User-service");
+        LOGGER.info("----------");
+        LOGGER.info("");
 
         final CompletableFuture<Boolean> userBobStatus = addUserRequest(
                 AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getBob())
         );
+        LOGGER.info("Bob added to the User-service");
+        LOGGER.info("----------");
+        LOGGER.info("");
 
         final CompletableFuture<Boolean> userEveStatus = addUserRequest(
                 AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getEve())
         );
+        LOGGER.info("Eve added to the User-service");
+        LOGGER.info("----------");
+        LOGGER.info("");
 
-        // Using Custom Rule implementations
-        final SetResourcePolicyRequest customPolicies = ExamplePolicies.getExamplePolicy(file);
-        LOGGER.info(file);
-        LOGGER.info(customPolicies.toString());
-        final CompletableFuture<Boolean> policyStatus = addPolicyRequest(customPolicies);
+        LOGGER.info("GETTING DATA-SERVICE INFO");
+        LOGGER.info("");
 
-        // The connection detail for the resource needs to be added
-        LOGGER.info("Creating resource");
-        FileResource resource = createFileResource(file);
-        LOGGER.info("Getting service list from Eureka");
+        // Get all the Data-service instances from Eureka
+        LOGGER.info("Preparing to find Data-service instances through Eureka");
         List<ServiceInstance> serviceInstanceList = getServiceInstances();
-        SimpleConnectionDetail connectionDetail = new SimpleConnectionDetail();
+        LOGGER.info("Number of data-service instances found: {}", serviceInstanceList.size());
+        LOGGER.info("----------");
+        LOGGER.info("");
 
-        //connectionDetail.setService(dataService);
+        // Add the resource to the Resource-service
+        LOGGER.info("ADDING RESOURCES");
+        LOGGER.info("");
 
+        FileResource resource = createFileResource(file);
         CompletableFuture<Boolean> resourceStatus = new CompletableFuture<>();
+
         for (ServiceInstance instance : serviceInstanceList) {
-            LOGGER.info("Service found: {}", instance.getServiceId());
             final AddResourceRequest resourceRequest = new AddResourceRequest()
                     .resource(resource.serialisedFormat(file))
-                    .connectionDetail(connectionDetail);
-            LOGGER.info("Request created: {}", resourceRequest);
+                    .connectionDetail(new SimpleConnectionDetail().uri("http://localhost:8082"));
             resourceStatus = addResourceRequest(resourceRequest);
+            LOGGER.info("Example resources added to the Resource-service");
+            LOGGER.info("----------");
+            LOGGER.info("");
         }
 
+        // Using Custom Rule implementations
+        LOGGER.info("ADDING POLICIES");
+        LOGGER.info("");
+
+        final SetResourcePolicyRequest customPolicies = ExamplePolicies.getExamplePolicy(file);
+        final CompletableFuture<Boolean> policyStatus = addPolicyRequest(customPolicies);
+        LOGGER.info("Example resource policies added to the Policy-service");
+        LOGGER.info("----------");
+        LOGGER.info("");
+
+        LOGGER.info("ADDING SERIALISERS");
+        LOGGER.info("");
+
+        CompletableFuture<Boolean> serialiserStatus = createAvroSerialiser();
+        LOGGER.info("Example serialiser added to Data-service cache");
+        LOGGER.info("----------");
+        LOGGER.info("");
+
         // Wait for the users, policies and resources to be loaded
-        CompletableFuture.allOf(userAliceStatus, userBobStatus, userEveStatus, policyStatus, resourceStatus).join();
-        LOGGER.info("The example users, data access policies and resource details have been initialised.");
+        CompletableFuture.allOf(userAliceStatus, userBobStatus, userEveStatus, policyStatus, resourceStatus, serialiserStatus).join();
+        LOGGER.info("The example users, data access policies, resource(s) and serialiser details have been initialised.");
     }
 
     private CompletableFuture<Boolean> addUserRequest(final AddUserRequest request) {
-        LOGGER.info("Preparing to add user {} to the user service", request.user.getUserId().getId());
+        LOGGER.info("Adding {} to the user service", request.user.getUserId().getId());
         String requestString = requestToString(request);
-        LOGGER.info("Sending request to the user service");
         URI uri = URI.create(LOCALHOST + USER_PORT + "addUser");
-        LOGGER.info(uri.toString());
+        LOGGER.info("Sending user to {}", uri.toString());
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .POST(BodyPublishers.ofString(requestString))
@@ -148,18 +190,15 @@ public final class ExampleConfigurator {
                 .header("Accept", "application/json")
                 .build();
 
-        LOGGER.info("");
-
         return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(response -> Boolean.valueOf(response.body()));
     }
 
     private CompletableFuture<Boolean> addPolicyRequest(final SetResourcePolicyRequest request) {
-        LOGGER.info("Preparing to add resource policies to the policy service");
+        LOGGER.info("Adding resource policies to the policy service");
         String requestString = requestToString(request);
-        LOGGER.info("Sending request to the policy service");
         URI uri = URI.create(LOCALHOST + POLICY_PORT + "setResourcePolicySync");
-        LOGGER.info(uri.toString());
+        LOGGER.info("Sending policies to {}", uri.toString());
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .PUT(BodyPublishers.ofString(requestString))
@@ -167,37 +206,49 @@ public final class ExampleConfigurator {
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .build();
-
-        LOGGER.info("");
-
         return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(response -> Boolean.valueOf(response.body()));
     }
 
     private CompletableFuture<Boolean> addResourceRequest(final AddResourceRequest request) {
-        LOGGER.info("Preparing to add resource information to the resource service");
+        LOGGER.info("Adding resource information to the resource service");
         String requestString = requestToString(request);
-        LOGGER.info("Sending request to the resource service");
         URI uri = URI.create(LOCALHOST + RESOURCE_PORT + "addResource");
+        LOGGER.info("Sending resources to {}", uri.toString());
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
-                .PUT(BodyPublishers.ofString(requestString))
+                .POST(BodyPublishers.ofString(requestString))
                 .uri(uri)
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .build();
 
-        LOGGER.info("");
+        return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> Boolean.valueOf(response.body()));
+    }
+
+    private CompletableFuture<Boolean> addSerialiserRequest(final AddSerialiserRequest request) {
+        LOGGER.info("Adding serialiser information to the data service cache");
+        String requestString = requestToString(request);
+        URI uri = URI.create(LOCALHOST + DATA_PORT + "addSerialiser");
+        LOGGER.info("Sending serialiser to {}", uri.toString());
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .POST(BodyPublishers.ofString(requestString))
+                .uri(uri)
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .build();
 
         return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(response -> Boolean.valueOf(response.body()));
     }
 
     private List<ServiceInstance> getServiceInstances() {
-        LOGGER.info("Getting a list of instances for the data-service");
         List<ServiceInstance> serviceInstanceList = new ArrayList<>();
 
         URI uri = URI.create(LOCALHOST + DISCOVERY_PORT + "service-instances/data-service");
+        LOGGER.info("Requesting information from Eureka - {}", uri.toString());
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .GET()
                 .uri(uri)
@@ -211,9 +262,7 @@ public final class ExampleConfigurator {
         List<String> stringList = processResponse(strResponse);
         for (String string : stringList) {
             try {
-                LOGGER.info(string);
                 InstanceInfo instanceInfo = mapper.readValue(string, InstanceInfo.class);
-                LOGGER.info(instanceInfo.toString());
                 ServiceInstance serviceInstance = new EurekaServiceInstance(instanceInfo);
                 serviceInstanceList.add(serviceInstance);
             } catch (Exception ex) {
@@ -222,6 +271,13 @@ public final class ExampleConfigurator {
         }
 
         return serviceInstanceList;
+    }
+
+    private CompletableFuture<Boolean> createAvroSerialiser() {
+        DataFlavour dataFlavour = DataFlavour.of("employee", "avro");
+        AvroSerialiser<Employee> serialiser = new AvroSerialiser<>(Employee.class);
+        AddSerialiserRequest request = new AddSerialiserRequest().dataFlavour(dataFlavour).serialiser(serialiser);
+        return addSerialiserRequest(request);
     }
 
     private List<String> processResponse(final String value) {
@@ -233,14 +289,12 @@ public final class ExampleConfigurator {
         }
 
         final JSONArray finalJsonArray = jsonArray;
-        LOGGER.info(jsonArray.toString());
         return IntStream.range(0, jsonArray.length())
                 .mapToObj(index -> ((JSONObject) finalJsonArray.get(index)).optString("instanceInfo")).collect(Collectors.toList());
     }
 
     private String requestToString(final Request request) {
         try {
-            LOGGER.info("Parsing request to String");
             return mapper.writeValueAsString(request);
         } catch (JsonProcessingException ex) {
             LOGGER.info("Parsing request to String failed");
@@ -249,17 +303,14 @@ public final class ExampleConfigurator {
     }
 
     private FileResource createFileResource(final String id) {
-        LOGGER.info(id);
         String path = id.substring(0, id.lastIndexOf("/") + 1);
-        LOGGER.info(path);
-        FileResource file = new FileResource().id(id).type("");
+        FileResource file = new FileResource().id(id).serialisedFormat("avro").type("employee");
         file.setParent(createParentResource(path));
 
         return file;
     }
 
     private DirectoryResource createParentResource(final String path) {
-        LOGGER.info("File path: {}", path);
         DirectoryResource parent = new DirectoryResource();
         parent.id(path);
         String str = path.substring(0, path.lastIndexOf("/"));
@@ -271,12 +322,12 @@ public final class ExampleConfigurator {
             str = str.substring(0, str.lastIndexOf("/"));
         } while (!str.endsWith("//"));
 
-        LOGGER.info(pathList.toString());
-
         for (String s : pathList) {
             DirectoryResource resource = new DirectoryResource().id(s);
             resourceList.add(resource);
         }
+
+        int size = pathList.size();
 
         parent.parent(resourceList.get(1)
                 .parent(resourceList.get(2)
@@ -287,9 +338,11 @@ public final class ExampleConfigurator {
                                                         .parent(resourceList.get(7)
                                                                 .parent(createSystemResource(str)))))))));
 
-
-        LOGGER.info(parent.toString());
         return parent;
+    }
+
+    private DirectoryResource addParentResource(final String path) {
+        return new DirectoryResource().id(path);
     }
 
     private SystemResource createSystemResource(final String path) {

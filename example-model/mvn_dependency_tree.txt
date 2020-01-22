@@ -166,9 +166,10 @@ uk.gov.gchq.palisade:example-model:jar:0.4.0-SNAPSHOT
 |  |  +- javax.annotation:javax.annotation-api:jar:1.3.2:compile
 |  |  \- javax.xml.bind:jaxb-api:jar:2.3.1:compile
 |  |     \- javax.activation:javax.activation-api:jar:1.2.0:compile
-|  \- uk.gov.gchq.palisade:hr-data-generator:jar:0.4.0-SNAPSHOT:compile
-|     \- com.github.javafaker:javafaker:jar:1.0.1:compile
-|        \- org.yaml:snakeyaml:jar:android:1.23:compile
+|  +- uk.gov.gchq.palisade:hr-data-generator:jar:0.4.0-SNAPSHOT:compile
+|  |  \- com.github.javafaker:javafaker:jar:1.0.1:compile
+|  |     \- org.yaml:snakeyaml:jar:android:1.23:compile
+|  \- uk.gov.gchq.palisade:readers-common:jar:0.4.0-SNAPSHOT:compile
 +- uk.gov.gchq.palisade:hadoop-resource:jar:0.4.0-SNAPSHOT:compile
 |  \- org.apache.hadoop:hadoop-common:jar:3.2.0:compile
 |     +- org.apache.hadoop:hadoop-annotations:jar:3.2.0:compile
@@ -232,7 +233,6 @@ uk.gov.gchq.palisade:example-model:jar:0.4.0-SNAPSHOT
 |     +- com.fasterxml.woodstox:woodstox-core:jar:5.0.3:compile
 |     \- dnsjava:dnsjava:jar:2.1.7:compile
 +- uk.gov.gchq.palisade:hadoop-reader:jar:0.4.0-SNAPSHOT:compile
-|  +- uk.gov.gchq.palisade:readers-common:jar:0.4.0-SNAPSHOT:compile
 |  \- uk.gov.gchq.palisade:shade-hadoop-client:jar:0.4.0-SNAPSHOT:compile
 +- junit:junit:jar:4.12:test
 |  \- org.hamcrest:hamcrest-core:jar:2.1:test

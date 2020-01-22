@@ -99,9 +99,10 @@ uk.gov.gchq.palisade:performance:jar:0.4.0-SNAPSHOT
 |  +- org.springframework.cloud:spring-cloud-netflix-eureka-client:jar:2.2.0.RELEASE:compile
 |  |  \- org.springframework.cloud:spring-cloud-netflix-hystrix:jar:2.2.0.RELEASE:compile
 |  +- uk.gov.gchq.palisade:example-library:jar:0.4.0-SNAPSHOT:compile
-|  |  \- uk.gov.gchq.palisade:hr-data-generator:jar:0.4.0-SNAPSHOT:compile
-|  |     \- com.github.javafaker:javafaker:jar:1.0.1:compile
-|  |        \- org.yaml:snakeyaml:jar:android:1.23:compile
+|  |  +- uk.gov.gchq.palisade:hr-data-generator:jar:0.4.0-SNAPSHOT:compile
+|  |  |  \- com.github.javafaker:javafaker:jar:1.0.1:compile
+|  |  |     \- org.yaml:snakeyaml:jar:android:1.23:compile
+|  |  \- uk.gov.gchq.palisade:readers-common:jar:0.4.0-SNAPSHOT:compile
 |  +- uk.gov.gchq.palisade:hadoop-resource:jar:0.4.0-SNAPSHOT:compile
 |  |  \- org.apache.hadoop:hadoop-common:jar:3.2.0:compile
 |  |     +- org.apache.hadoop:hadoop-annotations:jar:3.2.0:compile
@@ -163,7 +164,6 @@ uk.gov.gchq.palisade:performance:jar:0.4.0-SNAPSHOT
 |  |     +- com.fasterxml.woodstox:woodstox-core:jar:5.0.3:compile
 |  |     \- dnsjava:dnsjava:jar:2.1.7:compile
 |  +- uk.gov.gchq.palisade:hadoop-reader:jar:0.4.0-SNAPSHOT:compile
-|  |  +- uk.gov.gchq.palisade:readers-common:jar:0.4.0-SNAPSHOT:compile
 |  |  \- uk.gov.gchq.palisade:shade-hadoop-client:jar:0.4.0-SNAPSHOT:compile
 |  \- org.json:json:jar:20190722:compile
 +- uk.gov.gchq.palisade:common:jar:0.4.0-SNAPSHOT:compile

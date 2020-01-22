@@ -21,26 +21,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
+import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.common.Purpose;
-import uk.gov.gchq.palisade.service.palisade.request.RegisterDataRequest;
+import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Version;
-import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse;
-import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 public class RestExample {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
     private final HttpClient httpClient = HttpClient.newBuilder().version(Version.HTTP_2).build();
-    private final ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     public static void main(final String... args) throws Exception {
         if (args.length < 1) {
@@ -56,50 +52,18 @@ public class RestExample {
 
     public void run(final String sourceFile) {
 
-        String requestString;
-        CompletableFuture<HttpResponse<String>> aliceResults = new CompletableFuture<>();
+        final ExampleSimpleClient client = new ExampleSimpleClient();
 
         final User alice = ExampleUsers.getAlice();
         final User bob = ExampleUsers.getBob();
         final User eve = ExampleUsers.getEve();
 
-        LOGGER.info("Creating data request...");
-        RegisterDataRequest dataRequest = new RegisterDataRequest().userId(alice.getUserId()).resourceId("file://" + sourceFile);
-        LOGGER.debug("Data Request: {}", dataRequest);
-
         //Set the purpose to SALARY for the RegisterDataRequest
+        LOGGER.info("");
         LOGGER.info("Alice [ " + alice.toString() + " } is reading the Employee file with a purpose of SALARY...");
-        setSalaryContext(dataRequest);
-        LOGGER.debug("Data Request: {}", dataRequest);
-
-        try {
-            requestString = this.mapper.readTree(this.mapper.writeValueAsString(dataRequest)).toString();
-        } catch (Exception ex) {
-            LOGGER.error("Error reading object: {}", ex.getMessage(), ex);
-            throw new RuntimeException(ex);
-        }
-
-        if (requestString != null) {
-            LOGGER.info("Creating HttpRequest...");
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(BodyPublishers.ofString(requestString))
-                    .uri(URI.create("http://localhost:8084/registerDataRequest"))
-                    .header("Content-Type", "application/json")
-                    .header("Accept", "application/json")
-                    .build();
-
-            LOGGER.info("Sending request to palisade service: {}, {}, {}", request.uri().getPath(), request.headers().toString(), requestString);
-            try {
-                aliceResults = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-                LOGGER.info("Request sent... ");
-            } catch (Exception ex) {
-                LOGGER.error("Error sending request: {}", ex.getMessage(), ex);
-                throw new RuntimeException(ex);
-            }
-        }
-
-        LOGGER.info("Alice got back: {}", aliceResults.join());
-        //aliceResults.map(Object::toString).forEach(LOGGER::info);
+        final Stream<Employee> aliceResults = client.read(sourceFile, alice.getUserId().getId(), Purpose.SALARY.name());
+        LOGGER.info("Alice got back: ");
+        aliceResults.map(Object::toString).forEach(LOGGER::info);
 
         /*LOGGER.info("");
         LOGGER.info("Alice [ " + alice.toString() + " } is reading the Employee file with a purpose of DUTY_OF_CARE...");
@@ -130,9 +94,5 @@ public class RestExample {
         final Stream<Employee> eveResults1 = client.read(sourceFile, eve.getUserId().getId(), "");
         LOGGER.info("Eve got back: ");
         eveResults1.map(Object::toString).forEach(LOGGER::info);*/
-    }
-
-    private RegisterDataRequest setSalaryContext(final RegisterDataRequest request) {
-        return request.context(new Context().purpose(Purpose.SALARY.name()));
     }
 }
