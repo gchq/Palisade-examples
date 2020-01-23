@@ -311,34 +311,27 @@ public final class ExampleConfigurator {
     }
 
     private DirectoryResource createParentResource(final String path) {
-        DirectoryResource parent = new DirectoryResource();
-        parent.id(path);
-        String str = path.substring(0, path.lastIndexOf("/"));
-        List<String> pathList = new ArrayList<>();
+        String str = path;
+
         List<DirectoryResource> resourceList = new ArrayList<>();
+        List<String> pathList = new ArrayList<>();
 
         do {
+            LOGGER.info(str);
             pathList.add(str);
-            str = str.substring(0, str.lastIndexOf("/"));
+            str = str.substring(0, str.lastIndexOf("/") - 1);
         } while (!str.endsWith("//"));
 
         for (String s : pathList) {
-            DirectoryResource resource = new DirectoryResource().id(s);
-            resourceList.add(resource);
+            DirectoryResource parentResource = addParentResource(s);
+            if (!resourceList.isEmpty()) {
+                resourceList.get(resourceList.size() - 1).setParent(parentResource);
+            }
+            resourceList.add(parentResource);
         }
+        resourceList.get(resourceList.size() - 1).setParent(createSystemResource(str));
 
-        int size = pathList.size();
-
-        parent.parent(resourceList.get(1)
-                .parent(resourceList.get(2)
-                        .parent(resourceList.get(3)
-                                .parent(resourceList.get(4)
-                                        .parent(resourceList.get(5)
-                                                .parent(resourceList.get(6)
-                                                        .parent(resourceList.get(7)
-                                                                .parent(createSystemResource(str)))))))));
-
-        return parent;
+        return resourceList.get(0);
     }
 
     private DirectoryResource addParentResource(final String path) {
