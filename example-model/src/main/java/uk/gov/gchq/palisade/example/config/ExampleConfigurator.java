@@ -28,7 +28,6 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
 import uk.gov.gchq.palisade.RequestId;
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.common.ExamplePolicies;
 import uk.gov.gchq.palisade.example.common.ExampleUsers;
