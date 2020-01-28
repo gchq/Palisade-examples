@@ -16,56 +16,25 @@
 
 package uk.gov.gchq.palisade.example.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.RequestId;
 import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
-import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.request.ReadRequest;
-import uk.gov.gchq.palisade.example.request.ReadResponse;
-import uk.gov.gchq.palisade.example.request.RegisterDataRequest;
-import uk.gov.gchq.palisade.example.runner.RestExample;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
-import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
-import uk.gov.gchq.palisade.resource.LeafResource;
-import uk.gov.gchq.palisade.service.ConnectionDetail;
-import uk.gov.gchq.palisade.service.request.DataRequestResponse;
-import uk.gov.gchq.palisade.service.request.Request;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpClient.Version;
-import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import static java.util.Objects.requireNonNull;
-
-public class ExampleSimpleClient<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
+public class ExampleSimpleClient<T> extends SimpleClient<Employee> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleSimpleClient.class);
     private static final String RESOURCE_TYPE = "employee";
-    private static ObjectMapper mapper = new ObjectMapper();
-    private final Serialiser<T> serializer;
-    private final HttpClient httpClient = HttpClient.newBuilder().version(Version.HTTP_2).build();
 
 
     public ExampleSimpleClient() {
-        this.serializer = (Serialiser<T>) new AvroSerialiser<>(Employee.class);
-        mapper = JSONSerialiser.createDefaultMapper();
+        super(new AvroSerialiser<>(Employee.class));
     }
 
     public static void main(final String[] args) {
@@ -88,113 +57,18 @@ public class ExampleSimpleClient<T> {
         }
     }
 
-    public Stream<T> read(final String filename, final String userId, final String purpose) {
+    public Stream<Employee> read(final String filename, final String userId, final String purpose) {
         URI absoluteFileURI = ExampleFileUtil.convertToFileURI(filename);
         String absoluteFile = absoluteFileURI.toString();
-        final DataRequestResponse dataRequestResponse = createRequest(absoluteFile, RESOURCE_TYPE, userId, purpose);
-        return getObjectStreams(dataRequestResponse);
+        return super.read(absoluteFile, RESOURCE_TYPE, userId, purpose);
     }
 
-    private DataRequestResponse createRequest(final String fileName, final String resourceType, final String userId, final String purpose) {
-        final RegisterDataRequest dataRequest = new RegisterDataRequest().resourceId(fileName).userId(new UserId().id(userId)).context(new Context().purpose(purpose));
-        LOGGER.info("Data Request: {}", dataRequest);
-        return postToPalisade(dataRequest);
-    }
 
-    public Serialiser<T> getSerializer() {
-        return serializer;
-    }
 
-    public Stream<T> getObjectStreams(final DataRequestResponse response) {
-        requireNonNull(response, "response");
 
-        final List<CompletableFuture<Stream<T>>> futureResults = new ArrayList<>(response.getResources().size());
-        for (final Entry<LeafResource, ConnectionDetail> entry : response.getResources().entrySet()) {
-            final ConnectionDetail connectionDetail = entry.getValue();
-            final String url = connectionDetail.createConnection();
-            final RequestId uuid = response.getOriginalRequestId();
 
-            final ReadRequest readRequest = new ReadRequest()
-                    .token(response.getToken())
-                    .resource(entry.getKey());
-            readRequest.setOriginalRequestId(uuid);
 
-            final CompletableFuture<ReadResponse> futureResponse = postToDataService(readRequest, url);
-            final CompletableFuture<Stream<T>> futureResult = futureResponse.thenApply(
-                    dataResponse -> {
-                        try {
-                            return getSerializer().deserialise(dataResponse.asInputStream());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-            );
-            futureResults.add(futureResult);
-        }
-        return futureResults.stream().flatMap(CompletableFuture::join);
-    }
 
-    private DataRequestResponse postToPalisade(final RegisterDataRequest request) {
 
-        DataRequestResponse dataRequestResponse = new DataRequestResponse();
-        String requestString = requestToString(request);
-        LOGGER.info("Parsing complete");
-
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .POST(BodyPublishers.ofString(requestString))
-                .uri(URI.create("http://localhost:8084/registerDataRequest"))
-                .header("Content-Type", "application/json")
-                .header("Accept", "application/json")
-                .build();
-
-        LOGGER.info("Http request created");
-        LOGGER.info("Sending request to Palisade-service - {}", httpRequest.uri());
-        String responseString = httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body).join();
-        LOGGER.info("Response received from Palisade-service");
-        try {
-            dataRequestResponse = mapper.readValue(responseString, DataRequestResponse.class);
-        } catch (Exception ex) {
-            LOGGER.error("Error mapping response: {}", ex.getMessage());
-        }
-        return dataRequestResponse;
-    }
-
-    private CompletableFuture<ReadResponse> postToDataService(final ReadRequest request, final String uri) {
-
-        CompletableFuture<ReadResponse> futureResponse = new CompletableFuture<>();
-        String requestString = requestToString(request);
-        LOGGER.info(requestString);
-        LOGGER.info("Parsing complete");
-
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .POST(BodyPublishers.ofString(requestString))
-                .uri(URI.create(uri + "/read"))
-                .header("Content-Type", "application/json")
-                .header("Accept", "application/json")
-                .build();
-
-        LOGGER.info("Http request created");
-        LOGGER.info("Sending request to Data-service - {}", httpRequest.uri());
-        String responseString = httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body).join();
-        try {
-            futureResponse = CompletableFuture.completedFuture(mapper.readValue(responseString, ReadResponse.class));
-        } catch (Exception ex) {
-            LOGGER.error("Error mapping response: {}", ex.getMessage());
-        }
-        LOGGER.info("Response received from Data-service for resource {}", request.getResource().getId());
-        return futureResponse;
-    }
-
-    private String requestToString(final Request request) {
-        try {
-            LOGGER.info("Parsing request to String");
-            return mapper.writeValueAsString(request);
-        } catch (JsonProcessingException ex) {
-            LOGGER.info("Parsing request to String failed");
-            throw new RuntimeException(ex);
-        }
-    }
 
 }

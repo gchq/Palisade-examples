@@ -28,6 +28,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
 import uk.gov.gchq.palisade.RequestId;
+import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.common.ExamplePolicies;
 import uk.gov.gchq.palisade.example.common.ExampleUsers;
@@ -312,14 +313,12 @@ public final class ExampleConfigurator {
 
     private DirectoryResource createParentResource(final String path) {
         String str = path;
-
         List<DirectoryResource> resourceList = new ArrayList<>();
         List<String> pathList = new ArrayList<>();
 
         do {
-            LOGGER.info(str);
             pathList.add(str);
-            str = str.substring(0, str.lastIndexOf("/") - 1);
+            str = str.substring(0, str.lastIndexOf("/"));
         } while (!str.endsWith("//"));
 
         for (String s : pathList) {
