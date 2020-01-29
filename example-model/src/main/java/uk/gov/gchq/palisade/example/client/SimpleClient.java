@@ -158,7 +158,7 @@ public class SimpleClient<T> {
         LOGGER.info("");
         InputStream inputStream = httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofInputStream())
                 .thenApply(HttpResponse::body).join();
-        LOGGER.info(inputStream.toString());
+
         ClientReadResponse readResponse = new ClientReadResponse(inputStream);
         return CompletableFuture.completedFuture(readResponse);
     }

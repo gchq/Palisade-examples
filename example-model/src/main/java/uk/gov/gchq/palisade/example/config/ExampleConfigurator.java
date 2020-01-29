@@ -145,9 +145,17 @@ public final class ExampleConfigurator {
         CompletableFuture<Boolean> resourceStatus = new CompletableFuture<>();
 
         for (ServiceInstance instance : serviceInstanceList) {
+            StringBuilder uri = new StringBuilder();
+
+            if (instance.isSecure()) {
+                uri.append("https://").append(instance.getHost()).append(":").append(instance.getMetadata().get("management.port"));
+            } else {
+                uri.append("http://").append(instance.getHost()).append(":").append(instance.getMetadata().get("management.port"));
+            }
+
             final AddResourceRequest resourceRequest = new AddResourceRequest()
                     .resource(resource.serialisedFormat(file))
-                    .connectionDetail(new SimpleConnectionDetail().uri("http://localhost:8082"));
+                    .connectionDetail(new SimpleConnectionDetail().uri(String.valueOf(uri)));
             resourceStatus = addResourceRequest(resourceRequest);
             LOGGER.info("Example resources added to the Resource-service");
             LOGGER.info("----------");
@@ -164,6 +172,7 @@ public final class ExampleConfigurator {
         LOGGER.info("----------");
         LOGGER.info("");
 
+        // Add the Avro serialiser to the data-service
         LOGGER.info("ADDING SERIALISERS");
         LOGGER.info("");
 

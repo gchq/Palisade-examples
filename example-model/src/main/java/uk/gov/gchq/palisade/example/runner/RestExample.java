@@ -59,41 +59,46 @@ public class RestExample {
         final User bob = ExampleUsers.getBob();
         final User eve = ExampleUsers.getEve();
 
-        //Set the purpose to SALARY for the RegisterDataRequest
+        //Alice is reading the employee file with a purpose of SALARY
         LOGGER.info("");
         LOGGER.info("Alice [ " + alice.toString() + " } is reading the Employee file with a purpose of SALARY...");
         final Stream<Employee> aliceResults = client.read(sourceFile, alice.getUserId().getId(), Purpose.SALARY.name());
         LOGGER.info("Alice got back: ");
         aliceResults.map(Object::toString).forEach(LOGGER::info);
 
-        /*LOGGER.info("");
+        //Alice is reading the employee file with a purpose of DUTY OF CARE
+        LOGGER.info("");
         LOGGER.info("Alice [ " + alice.toString() + " } is reading the Employee file with a purpose of DUTY_OF_CARE...");
         final Stream<Employee> aliceResults2 = client.read(sourceFile, alice.getUserId().getId(), Purpose.DUTY_OF_CARE.name());
         LOGGER.info("Alice got back: ");
         aliceResults2.map(Object::toString).forEach(LOGGER::info);
 
+        //Alice is reading the employee file with a purpose of STAFF REPORT
         LOGGER.info("");
         LOGGER.info("Alice [ " + alice.toString() + " } is reading the Employee file with a purpose of STAFF_REPORT...");
         final Stream<Employee> aliceResults3 = client.read(sourceFile, alice.getUserId().getId(), Purpose.STAFF_REPORT.name());
         LOGGER.info("Alice got back: ");
         aliceResults3.map(Object::toString).forEach(LOGGER::info);
 
+        //Bob is reading the employee file with a purpose of DUTY OF CARE
         LOGGER.info("");
         LOGGER.info("Bob [ " + bob.toString() + " } is reading the Employee file with a purpose of DUTY_OF_CARE...");
         final Stream<Employee> bobResults1 = client.read(sourceFile, bob.getUserId().getId(), Purpose.DUTY_OF_CARE.name());
         LOGGER.info("Bob got back: ");
         bobResults1.map(Object::toString).forEach(LOGGER::info);
 
+        //Bob is reading the employee file with a purpose that is empty
         LOGGER.info("");
         LOGGER.info("Bob [ " + bob.toString() + " } is reading the Employee file with a purpose that is empty...");
         final Stream<Employee> bobResults2 = client.read(sourceFile, bob.getUserId().getId(), "");
         LOGGER.info("Bob got back: ");
         bobResults2.map(Object::toString).forEach(LOGGER::info);
 
+        //Eve is reading the employee file with a purpose that is empty
         LOGGER.info("");
         LOGGER.info("Eve [ " + eve.toString() + " } is reading the Employee file with a purpose that is empty...");
         final Stream<Employee> eveResults1 = client.read(sourceFile, eve.getUserId().getId(), "");
         LOGGER.info("Eve got back: ");
-        eveResults1.map(Object::toString).forEach(LOGGER::info);*/
+        eveResults1.map(Object::toString).forEach(LOGGER::info);
     }
 }
