@@ -67,13 +67,13 @@ public class SimpleClient<T> {
     public Stream<T> read(final String filename, final String resourceType, final String userId, final String purpose) {
         LOGGER.info("");
         LOGGER.info("----------");
-        final DataRequestResponse dataRequestResponse = createRequest(filename, resourceType, userId, purpose);
+        final CompletableFuture<DataRequestResponse> dataRequestResponse = createRequest(filename, resourceType, userId, purpose);
         LOGGER.info("----------");
         LOGGER.info("");
-        return getObjectStreams(dataRequestResponse);
+        return getObjectStreams(dataRequestResponse.join());
     }
 
-    private DataRequestResponse createRequest(final String fileName, final String resourceType, final String userId, final String purpose) {
+    private CompletableFuture<DataRequestResponse> createRequest(final String fileName, final String resourceType, final String userId, final String purpose) {
         final RegisterDataRequest dataRequest = new RegisterDataRequest().resourceId(fileName).userId(new UserId().id(userId)).context(new Context().purpose(purpose));
         LOGGER.info("");
         LOGGER.info("GETTING REQUEST CONFIG FROM PALISADE-SERVICE");
@@ -116,7 +116,7 @@ public class SimpleClient<T> {
         return futureResults.stream().flatMap(CompletableFuture::join);
     }
 
-    private DataRequestResponse postToPalisade(final RegisterDataRequest request) {
+    private CompletableFuture<DataRequestResponse> postToPalisade(final RegisterDataRequest request) {
 
         DataRequestResponse dataRequestResponse = new DataRequestResponse();
         String requestString = requestToString(request);
@@ -139,7 +139,7 @@ public class SimpleClient<T> {
         } catch (Exception ex) {
             LOGGER.error("Error mapping response: {}", ex.getMessage());
         }
-        return dataRequestResponse;
+        return CompletableFuture.completedFuture(dataRequestResponse);
     }
 
     private CompletableFuture<ReadResponse> postToDataService(final ReadRequest request, final String uri) {

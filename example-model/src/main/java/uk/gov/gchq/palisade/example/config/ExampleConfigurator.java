@@ -63,7 +63,6 @@ import java.util.stream.IntStream;
  */
 public final class ExampleConfigurator {
 
-    private static final String DATA_URL = "http://localhost:8082/";
     private static final String DISCOVERY_URL = "http://localhost:8083/";
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -104,12 +103,12 @@ public final class ExampleConfigurator {
         addPolicies(statuses);
         addSerialiser(statuses);
 
-        // Wait for the users, policies and resources to be loaded
+        // Wait for the users, policies, resources and serialisers to be loaded
         CompletableFuture.allOf(statuses.get(0), statuses.get(1), statuses.get(2), statuses.get(3), statuses.get(4), statuses.get(5)).join();
         LOGGER.info("The example users, data access policies, resource(s) and serialiser details have been initialised.");
     }
 
-    private List<CompletableFuture<Boolean>> addUsers(final List<CompletableFuture<Boolean>> futureList) {
+    private void addUsers(final List<CompletableFuture<Boolean>> futureList) {
         // Add the users to the User-service
         LOGGER.info("ADDING USERS");
         LOGGER.info("");
@@ -144,10 +143,9 @@ public final class ExampleConfigurator {
         LOGGER.info("----------");
         LOGGER.info("");
 
-        return futureList;
     }
 
-    private List<CompletableFuture<Boolean>> addResources(final List<CompletableFuture<Boolean>> futureList) {
+    private void addResources(final List<CompletableFuture<Boolean>> futureList) {
         // Show the number of data-service instances from Eureka
         LOGGER.info("DATA SERVICE INFORMATION FROM EUREKA");
         LOGGER.info("Number of data-service instances found: {}", dataServiceInstances.size());
@@ -179,10 +177,9 @@ public final class ExampleConfigurator {
         }
         futureList.add(resourceStatus);
 
-        return futureList;
     }
 
-    private List<CompletableFuture<Boolean>> addPolicies(final List<CompletableFuture<Boolean>> futureList) {
+    private void addPolicies(final List<CompletableFuture<Boolean>> futureList) {
         // Using Custom Rule implementations
         LOGGER.info("ADDING POLICIES");
         LOGGER.info("");
@@ -194,10 +191,9 @@ public final class ExampleConfigurator {
         LOGGER.info("");
         futureList.add(policyStatus);
 
-        return futureList;
     }
 
-    private List<CompletableFuture<Boolean>> addSerialiser(final List<CompletableFuture<Boolean>> futureList) {
+    private void addSerialiser(final List<CompletableFuture<Boolean>> futureList) {
         // Add the Avro serialiser to the data-service
         LOGGER.info("ADDING SERIALISERS");
         LOGGER.info("");
@@ -208,7 +204,6 @@ public final class ExampleConfigurator {
         LOGGER.info("");
         futureList.add(serialiserStatus);
 
-        return futureList;
     }
 
     private void getServiceInstanceLists() {
@@ -219,6 +214,7 @@ public final class ExampleConfigurator {
         policyServiceInstances = getServiceInstances("policy-service");
         resourceServiceInstances = getServiceInstances("resource-service");
         userServiceInstances = getServiceInstances("user-service");
+        LOGGER.info("");
         LOGGER.info("Eureka instances acquired");
         LOGGER.info("----------");
         LOGGER.info("");
@@ -271,7 +267,7 @@ public final class ExampleConfigurator {
                 ServiceInstance serviceInstance = new EurekaServiceInstance(instanceInfo);
                 serviceInstanceList.add(serviceInstance);
             } catch (Exception ex) {
-                LOGGER.error("Error occurred during mapping: {}", ex.getMessage());
+                LOGGER.error("Error occurred while processing response: {}", ex.getMessage());
             }
         }
 
@@ -294,8 +290,12 @@ public final class ExampleConfigurator {
         }
 
         final JSONArray finalJsonArray = jsonArray;
-        return IntStream.range(0, jsonArray.length())
-                .mapToObj(index -> ((JSONObject) finalJsonArray.get(index)).optString("instanceInfo")).collect(Collectors.toList());
+        if (finalJsonArray != null) {
+            return IntStream.range(0, jsonArray.length())
+                    .mapToObj(index -> ((JSONObject) finalJsonArray.get(index)).optString("instanceInfo")).collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     private String requestToString(final Request request) {
