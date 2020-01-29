@@ -45,7 +45,6 @@ import uk.gov.gchq.palisade.service.CacheService;
 import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
 import uk.gov.gchq.palisade.service.request.Request;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Version;
@@ -64,17 +63,18 @@ import java.util.stream.IntStream;
  */
 public final class ExampleConfigurator {
 
-    private static final String LOCALHOST = "http://localhost:";
-    private static final String DATA_PORT = "8082/";
-    private static final String DISCOVERY_PORT = "8083/";
-    private static final String POLICY_PORT = "8085/";
-    private static final String RESOURCE_PORT = "8086/";
-    private static final String USER_PORT = "8087/";
+    private static final String DATA_URL = "http://localhost:8082/";
+    private static final String DISCOVERY_URL = "http://localhost:8083/";
     private static ObjectMapper mapper = new ObjectMapper();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleConfigurator.class);
     private final String file;
     private final HttpClient httpClient = HttpClient.newBuilder().version(Version.HTTP_2).build();
+
+    private List<ServiceInstance> dataServiceInstances;
+    private List<ServiceInstance> policyServiceInstances;
+    private List<ServiceInstance> resourceServiceInstances;
+    private List<ServiceInstance> userServiceInstances;
 
     @Autowired
     private CacheService cacheService;
@@ -91,52 +91,68 @@ public final class ExampleConfigurator {
     public ExampleConfigurator(final String file) {
         URI absoluteFileURI = ExampleFileUtil.convertToFileURI(file);
         this.file = absoluteFileURI.toString();
-        try {
-            initialiseExample();
-        } catch (IOException ex) {
-            LOGGER.debug("Error processing request {}", ex.getMessage());
-        }
+        getServiceInstanceLists();
+        initialiseExample();
 
     }
 
-    private void initialiseExample() throws IOException {
-        // Add the users to the User-service
-        LOGGER.info("");
+    private void initialiseExample() {
+        List<CompletableFuture<Boolean>> statuses = new ArrayList<>();
 
+        addUsers(statuses);
+        addResources(statuses);
+        addPolicies(statuses);
+        addSerialiser(statuses);
+
+        // Wait for the users, policies and resources to be loaded
+        CompletableFuture.allOf(statuses.get(0), statuses.get(1), statuses.get(2), statuses.get(3), statuses.get(4), statuses.get(5)).join();
+        LOGGER.info("The example users, data access policies, resource(s) and serialiser details have been initialised.");
+    }
+
+    private List<CompletableFuture<Boolean>> addUsers(final List<CompletableFuture<Boolean>> futureList) {
+        // Add the users to the User-service
         LOGGER.info("ADDING USERS");
         LOGGER.info("");
 
-        final CompletableFuture<Boolean> userAliceStatus = addUserRequest(
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getAlice())
+        final CompletableFuture<Boolean> userAliceStatus = sendRequest(
+                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getAlice()),
+                userServiceInstances,
+                "/addUser"
         );
+        futureList.add(userAliceStatus);
         LOGGER.info("Alice added to the User-service");
         LOGGER.info("----------");
         LOGGER.info("");
 
-        final CompletableFuture<Boolean> userBobStatus = addUserRequest(
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getBob())
+        final CompletableFuture<Boolean> userBobStatus = sendRequest(
+                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getBob()),
+                userServiceInstances,
+                "/addUser"
         );
+        futureList.add(userBobStatus);
         LOGGER.info("Bob added to the User-service");
         LOGGER.info("----------");
         LOGGER.info("");
 
-        final CompletableFuture<Boolean> userEveStatus = addUserRequest(
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getEve())
+        final CompletableFuture<Boolean> userEveStatus = sendRequest(
+                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getEve()),
+                userServiceInstances,
+                "/addUser"
         );
+        futureList.add(userEveStatus);
         LOGGER.info("Eve added to the User-service");
         LOGGER.info("----------");
         LOGGER.info("");
 
-        LOGGER.info("GETTING DATA-SERVICE INFO");
-        LOGGER.info("");
+        return futureList;
+    }
 
-        // Get all the Data-service instances from Eureka
-        LOGGER.info("Preparing to find Data-service instances through Eureka");
-        List<ServiceInstance> serviceInstanceList = getServiceInstances();
-        LOGGER.info("Number of data-service instances found: {}", serviceInstanceList.size());
+    private List<CompletableFuture<Boolean>> addResources(final List<CompletableFuture<Boolean>> futureList) {
+        // Show the number of data-service instances from Eureka
+        LOGGER.info("DATA SERVICE INFORMATION FROM EUREKA");
+        LOGGER.info("Number of data-service instances found: {}", dataServiceInstances.size());
         LOGGER.info("----------");
         LOGGER.info("");
-
         // Add the resource to the Resource-service
         LOGGER.info("ADDING RESOURCES");
         LOGGER.info("");
@@ -144,7 +160,7 @@ public final class ExampleConfigurator {
         FileResource resource = createFileResource(file);
         CompletableFuture<Boolean> resourceStatus = new CompletableFuture<>();
 
-        for (ServiceInstance instance : serviceInstanceList) {
+        for (ServiceInstance instance : dataServiceInstances) {
             StringBuilder uri = new StringBuilder();
 
             if (instance.isSecure()) {
@@ -156,22 +172,32 @@ public final class ExampleConfigurator {
             final AddResourceRequest resourceRequest = new AddResourceRequest()
                     .resource(resource.serialisedFormat(file))
                     .connectionDetail(new SimpleConnectionDetail().uri(String.valueOf(uri)));
-            resourceStatus = addResourceRequest(resourceRequest);
+            resourceStatus = sendRequest(resourceRequest, resourceServiceInstances, "/addResource");
             LOGGER.info("Example resources added to the Resource-service");
             LOGGER.info("----------");
             LOGGER.info("");
         }
+        futureList.add(resourceStatus);
 
+        return futureList;
+    }
+
+    private List<CompletableFuture<Boolean>> addPolicies(final List<CompletableFuture<Boolean>> futureList) {
         // Using Custom Rule implementations
         LOGGER.info("ADDING POLICIES");
         LOGGER.info("");
 
         final SetResourcePolicyRequest customPolicies = ExamplePolicies.getExamplePolicy(file);
-        final CompletableFuture<Boolean> policyStatus = addPolicyRequest(customPolicies);
+        final CompletableFuture<Boolean> policyStatus = sendRequest(customPolicies, policyServiceInstances, "/setResourcePolicySync");
         LOGGER.info("Example resource policies added to the Policy-service");
         LOGGER.info("----------");
         LOGGER.info("");
+        futureList.add(policyStatus);
 
+        return futureList;
+    }
+
+    private List<CompletableFuture<Boolean>> addSerialiser(final List<CompletableFuture<Boolean>> futureList) {
         // Add the Avro serialiser to the data-service
         LOGGER.info("ADDING SERIALISERS");
         LOGGER.info("");
@@ -180,17 +206,37 @@ public final class ExampleConfigurator {
         LOGGER.info("Example serialiser added to Data-service cache");
         LOGGER.info("----------");
         LOGGER.info("");
+        futureList.add(serialiserStatus);
 
-        // Wait for the users, policies and resources to be loaded
-        CompletableFuture.allOf(userAliceStatus, userBobStatus, userEveStatus, policyStatus, resourceStatus, serialiserStatus).join();
-        LOGGER.info("The example users, data access policies, resource(s) and serialiser details have been initialised.");
+        return futureList;
     }
 
-    private CompletableFuture<Boolean> addUserRequest(final AddUserRequest request) {
-        LOGGER.info("Adding {} to the user service", request.user.getUserId().getId());
+    private void getServiceInstanceLists() {
+        LOGGER.info("");
+        LOGGER.info("GETTING INSTANCES FOR SERVICES FROM EUREKA");
+        LOGGER.info("");
+        dataServiceInstances = getServiceInstances("data-service");
+        policyServiceInstances = getServiceInstances("policy-service");
+        resourceServiceInstances = getServiceInstances("resource-service");
+        userServiceInstances = getServiceInstances("user-service");
+        LOGGER.info("Eureka instances acquired");
+        LOGGER.info("----------");
+        LOGGER.info("");
+    }
+
+    private String getServiceUri(final List<ServiceInstance> instances) {
+        ServiceInstance instance = instances.get(0);
+        if (instance.isSecure()) {
+            return "https://" + instance.getHost() + ":" + instance.getMetadata().get("management.port");
+        } else {
+            return "http://" + instance.getHost() + ":" + instance.getMetadata().get("management.port");
+        }
+    }
+
+    private CompletableFuture<Boolean> sendRequest(final Request request, final List<ServiceInstance> instances, final String endpoint) {
         String requestString = requestToString(request);
-        URI uri = URI.create(LOCALHOST + USER_PORT + "addUser");
-        LOGGER.info("Sending user to {}", uri.toString());
+        URI uri = URI.create(getServiceUri(instances) + endpoint);
+        LOGGER.info("Sending request to {}", uri.toString());
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .POST(BodyPublishers.ofString(requestString))
@@ -203,60 +249,10 @@ public final class ExampleConfigurator {
                 .thenApply(response -> Boolean.valueOf(response.body()));
     }
 
-    private CompletableFuture<Boolean> addPolicyRequest(final SetResourcePolicyRequest request) {
-        LOGGER.info("Adding resource policies to the policy service");
-        String requestString = requestToString(request);
-        URI uri = URI.create(LOCALHOST + POLICY_PORT + "setResourcePolicySync");
-        LOGGER.info("Sending policies to {}", uri.toString());
-
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .PUT(BodyPublishers.ofString(requestString))
-                .uri(uri)
-                .header("Content-Type", "application/json")
-                .header("Accept", "application/json")
-                .build();
-        return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
-                .thenApply(response -> Boolean.valueOf(response.body()));
-    }
-
-    private CompletableFuture<Boolean> addResourceRequest(final AddResourceRequest request) {
-        LOGGER.info("Adding resource information to the resource service");
-        String requestString = requestToString(request);
-        URI uri = URI.create(LOCALHOST + RESOURCE_PORT + "addResource");
-        LOGGER.info("Sending resources to {}", uri.toString());
-
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .POST(BodyPublishers.ofString(requestString))
-                .uri(uri)
-                .header("Content-Type", "application/json")
-                .header("Accept", "application/json")
-                .build();
-
-        return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
-                .thenApply(response -> Boolean.valueOf(response.body()));
-    }
-
-    private CompletableFuture<Boolean> addSerialiserRequest(final AddSerialiserRequest request) {
-        LOGGER.info("Adding serialiser information to the data service cache");
-        String requestString = requestToString(request);
-        URI uri = URI.create(LOCALHOST + DATA_PORT + "addSerialiser");
-        LOGGER.info("Sending serialiser to {}", uri.toString());
-
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .POST(BodyPublishers.ofString(requestString))
-                .uri(uri)
-                .header("Content-Type", "application/json")
-                .header("Accept", "application/json")
-                .build();
-
-        return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
-                .thenApply(response -> Boolean.valueOf(response.body()));
-    }
-
-    private List<ServiceInstance> getServiceInstances() {
+    private List<ServiceInstance> getServiceInstances(final String name) {
         List<ServiceInstance> serviceInstanceList = new ArrayList<>();
 
-        URI uri = URI.create(LOCALHOST + DISCOVERY_PORT + "service-instances/data-service");
+        URI uri = URI.create(DISCOVERY_URL + "service-instances/" + name);
         LOGGER.info("Requesting information from Eureka - {}", uri.toString());
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .GET()
@@ -286,7 +282,7 @@ public final class ExampleConfigurator {
         DataFlavour dataFlavour = DataFlavour.of("employee", "avro");
         AvroSerialiser<Employee> serialiser = new AvroSerialiser<>(Employee.class);
         AddSerialiserRequest request = new AddSerialiserRequest().dataFlavour(dataFlavour).serialiser(serialiser);
-        return addSerialiserRequest(request);
+        return sendRequest(request, dataServiceInstances, "/addSerialiser");
     }
 
     private List<String> processResponse(final String value) {
