@@ -43,7 +43,7 @@ To run the example locally in JVMs follow these steps (from the root of the proj
    ```bash
       The example users, data access policies, resource(s) and serialiser details have been initialised.
    ```
-   If there is an issue and you have not seen this message then check that an instance for the data-service has been returned in the output. This will be displayed at the start of the configuration process.
+   If there is an issue and you have not seen this message then check that an instance for the services have been returned in the output. This will be displayed at the start of the configuration process. For example:
    ```bash
       data-service instances found: 1
    ```
