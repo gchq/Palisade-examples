@@ -168,7 +168,7 @@ public final class ExampleConfigurator {
             }
 
             final AddResourceRequest resourceRequest = new AddResourceRequest()
-                    .resource(resource.serialisedFormat(file))
+                    .resource(resource)
                     .connectionDetail(new SimpleConnectionDetail().uri(String.valueOf(uri)));
             resourceStatus = sendRequest(resourceRequest, resourceServiceInstances, "/addResource");
             LOGGER.info("Example resources added to the Resource-service");
@@ -233,13 +233,23 @@ public final class ExampleConfigurator {
         String requestString = requestToString(request);
         URI uri = URI.create(getServiceUri(instances) + endpoint);
         LOGGER.info("Sending request to {}", uri.toString());
+        HttpRequest httpRequest;
 
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .POST(BodyPublishers.ofString(requestString))
-                .uri(uri)
-                .header("Content-Type", "application/json")
-                .header("Accept", "application/json")
-                .build();
+        if ("/setResourcePolicySync".equals(endpoint)) {
+            httpRequest = HttpRequest.newBuilder()
+                    .PUT(BodyPublishers.ofString(requestString))
+                    .uri(uri)
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .build();
+        } else {
+            httpRequest = HttpRequest.newBuilder()
+                    .POST(BodyPublishers.ofString(requestString))
+                    .uri(uri)
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .build();
+        }
 
         return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(response -> Boolean.valueOf(response.body()));
@@ -249,7 +259,7 @@ public final class ExampleConfigurator {
         List<ServiceInstance> serviceInstanceList = new ArrayList<>();
 
         URI uri = URI.create(DISCOVERY_URL + "service-instances/" + name);
-        LOGGER.info("Requesting information from Eureka - {}", uri.toString());
+        LOGGER.info("Requesting information from Eureka for {}", name);
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .GET()
                 .uri(uri)
