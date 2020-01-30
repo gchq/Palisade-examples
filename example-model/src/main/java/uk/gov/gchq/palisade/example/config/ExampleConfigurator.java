@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
@@ -41,7 +40,6 @@ import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.resource.impl.SystemResource;
 import uk.gov.gchq.palisade.resource.request.AddResourceRequest;
-import uk.gov.gchq.palisade.service.CacheService;
 import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
 import uk.gov.gchq.palisade.service.request.Request;
 
@@ -64,9 +62,9 @@ import java.util.stream.IntStream;
 public final class ExampleConfigurator {
 
     private static final String DISCOVERY_URL = "http://localhost:8083/";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleConfigurator.class);
     private static ObjectMapper mapper = new ObjectMapper();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleConfigurator.class);
     private final String file;
     private final HttpClient httpClient = HttpClient.newBuilder().version(Version.HTTP_2).build();
 
@@ -74,9 +72,6 @@ public final class ExampleConfigurator {
     private List<ServiceInstance> policyServiceInstances;
     private List<ServiceInstance> resourceServiceInstances;
     private List<ServiceInstance> userServiceInstances;
-
-    @Autowired
-    private CacheService cacheService;
 
     /**
      * Establishes policies and details for the examples and writes these into the configuration service.
