@@ -25,7 +25,7 @@ To run the example locally in JVMs follow these steps (from the root of the proj
       ./deployment/local-jvm/bash-scripts/runServiceLauncher.sh
     ```
    
-1. It will take a couple of minutes for the services to start up. The status of this can be checked by going to http://localhost:8083. There should be 7 services into total to register with Eureka
+1. It will take a couple of minutes for the Spring Boot services to start up. The status of this can be checked by going to http://localhost:8083. There should be 7 services in total to register with Eureka:
     - Audit Service, Port 8081
     - Data-Service, Port 8082
     - Discovery-Service, Port 8083
@@ -43,9 +43,9 @@ To run the example locally in JVMs follow these steps (from the root of the proj
    ```bash
       The example users, data access policies, resource(s) and serialiser details have been initialised.
    ```
-   If there is an issue and you have not seen this message then check that an instance for the data-service has been returned in the output
+   If there is an issue and you have not seen this message then check that an instance for the data-service has been returned in the output. This will be displayed at the start of the configuration process.
    ```bash
-      Number of data-service instances found: 1
+      data-service instances found: 1
    ```
    If there are 0 instances of the data-service then this step will need to be done again. Exit the process using Ctrl + C and then run the script again
 

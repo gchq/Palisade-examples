@@ -146,11 +146,6 @@ public final class ExampleConfigurator {
     }
 
     private void addResources(final List<CompletableFuture<Boolean>> futureList) {
-        // Show the number of data-service instances from Eureka
-        LOGGER.info("DATA SERVICE INFORMATION FROM EUREKA");
-        LOGGER.info("Number of data-service instances found: {}", dataServiceInstances.size());
-        LOGGER.info("----------");
-        LOGGER.info("");
         // Add the resource to the Resource-service
         LOGGER.info("ADDING RESOURCES");
         LOGGER.info("");
@@ -214,7 +209,6 @@ public final class ExampleConfigurator {
         policyServiceInstances = getServiceInstances("policy-service");
         resourceServiceInstances = getServiceInstances("resource-service");
         userServiceInstances = getServiceInstances("user-service");
-        LOGGER.info("");
         LOGGER.info("Eureka instances acquired");
         LOGGER.info("----------");
         LOGGER.info("");
@@ -281,6 +275,8 @@ public final class ExampleConfigurator {
             }
         }
 
+        LOGGER.info("{} instances found: {}", name, serviceInstanceList.size());
+        LOGGER.info("");
         return serviceInstanceList;
     }
 
