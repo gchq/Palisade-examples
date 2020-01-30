@@ -62,13 +62,4 @@ public class ExampleSimpleClient<T> extends SimpleClient<Employee> {
         String absoluteFile = absoluteFileURI.toString();
         return super.read(absoluteFile, RESOURCE_TYPE, userId, purpose);
     }
-
-
-
-
-
-
-
-
-
 }

@@ -18,11 +18,7 @@ package uk.gov.gchq.palisade.example.common;
 
 import uk.gov.gchq.palisade.User;
 
-import java.util.EnumSet;
-
 public final class ExampleUsers {
-
-    private static EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     private ExampleUsers() {
     }

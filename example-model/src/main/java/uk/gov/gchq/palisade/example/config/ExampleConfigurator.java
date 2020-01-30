@@ -209,6 +209,13 @@ public final class ExampleConfigurator {
         LOGGER.info("");
     }
 
+    private CompletableFuture<Boolean> createAvroSerialiser() {
+        DataFlavour dataFlavour = DataFlavour.of("employee", "avro");
+        AvroSerialiser<Employee> serialiser = new AvroSerialiser<>(Employee.class);
+        AddSerialiserRequest request = new AddSerialiserRequest().dataFlavour(dataFlavour).serialiser(serialiser);
+        return sendRequest(request, dataServiceInstances, "/addSerialiser");
+    }
+
     private String getServiceUri(final List<ServiceInstance> instances) {
         ServiceInstance instance = instances.get(0);
         if (instance.isSecure()) {
@@ -273,13 +280,6 @@ public final class ExampleConfigurator {
         LOGGER.info("{} instances found: {}", name, serviceInstanceList.size());
         LOGGER.info("");
         return serviceInstanceList;
-    }
-
-    private CompletableFuture<Boolean> createAvroSerialiser() {
-        DataFlavour dataFlavour = DataFlavour.of("employee", "avro");
-        AvroSerialiser<Employee> serialiser = new AvroSerialiser<>(Employee.class);
-        AddSerialiserRequest request = new AddSerialiserRequest().dataFlavour(dataFlavour).serialiser(serialiser);
-        return sendRequest(request, dataServiceInstances, "/addSerialiser");
     }
 
     private List<String> processResponse(final String value) {

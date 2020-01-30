@@ -18,8 +18,14 @@ package uk.gov.gchq.palisade.example.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.appinfo.InstanceInfo;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.RequestId;
@@ -47,6 +53,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
@@ -54,14 +62,18 @@ import static java.util.Objects.requireNonNull;
 public class SimpleClient<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleClient.class);
+    private static final String DISCOVERY_URL = "http://localhost:8083/";
     private final Serialiser<T> serialiser;
     private static ObjectMapper mapper = new ObjectMapper();
     private final HttpClient httpClient = HttpClient.newBuilder().version(Version.HTTP_2).build();
+
+    private List<ServiceInstance> palisadeServiceInstances;
 
     public SimpleClient(final Serialiser<T> serialiser) {
         requireNonNull(serialiser, "serialiser cannot be null");
         this.serialiser = serialiser;
         mapper = JSONSerialiser.createDefaultMapper();
+        palisadeServiceInstances = getServiceInstances("palisade-service");
     }
 
     public Stream<T> read(final String filename, final String resourceType, final String userId, final String purpose) {
@@ -78,7 +90,7 @@ public class SimpleClient<T> {
         LOGGER.info("");
         LOGGER.info("GETTING REQUEST CONFIG FROM PALISADE-SERVICE");
         LOGGER.info("");
-        return postToPalisade(dataRequest);
+        return postToPalisade(dataRequest, palisadeServiceInstances);
     }
 
     public Stream<T> getObjectStreams(final DataRequestResponse response) {
@@ -116,20 +128,19 @@ public class SimpleClient<T> {
         return futureResults.stream().flatMap(CompletableFuture::join);
     }
 
-    private CompletableFuture<DataRequestResponse> postToPalisade(final RegisterDataRequest request) {
+    private CompletableFuture<DataRequestResponse> postToPalisade(final RegisterDataRequest request, final List<ServiceInstance> instances) {
 
         DataRequestResponse dataRequestResponse = new DataRequestResponse();
         String requestString = requestToString(request);
 
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .POST(BodyPublishers.ofString(requestString))
-                .uri(URI.create("http://localhost:8084/registerDataRequest"))
+                .uri(URI.create(getServiceUri(instances) + "/registerDataRequest"))
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .build();
 
-        LOGGER.info("Http request created");
-        LOGGER.info("Sending request to Palisade-service - {}", httpRequest.uri());
+        LOGGER.info("Sending request to Palisade-service");
         String responseString = httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body).join();
         LOGGER.info("");
@@ -153,8 +164,7 @@ public class SimpleClient<T> {
                 .header("Accept", "application/octet-stream")
                 .build();
 
-        LOGGER.info("Http request created");
-        LOGGER.info("Sending request to Data-service - {}", httpRequest.uri());
+        LOGGER.info("Sending request to Data-service");
         LOGGER.info("");
         InputStream inputStream = httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofInputStream())
                 .thenApply(HttpResponse::body).join();
@@ -174,6 +184,63 @@ public class SimpleClient<T> {
 
     public Serialiser<T> getSerialiser() {
         return serialiser;
+    }
+
+    private List<ServiceInstance> getServiceInstances(final String name) {
+        List<ServiceInstance> serviceInstanceList = new ArrayList<>();
+
+        URI uri = URI.create(DISCOVERY_URL + "service-instances/" + name);
+        LOGGER.info("Requesting information from Eureka for {}", name);
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .GET()
+                .uri(uri)
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .build();
+
+        String strResponse = httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> String.valueOf(response.body())).join();
+
+        List<String> stringList = processResponse(strResponse);
+        for (String string : stringList) {
+            try {
+                InstanceInfo instanceInfo = mapper.readValue(string, InstanceInfo.class);
+                ServiceInstance serviceInstance = new EurekaServiceInstance(instanceInfo);
+                serviceInstanceList.add(serviceInstance);
+            } catch (Exception ex) {
+                LOGGER.error("Error occurred while processing response: {}", ex.getMessage());
+            }
+        }
+
+        LOGGER.info("{} instances found: {}", name, serviceInstanceList.size());
+        LOGGER.info("");
+        return serviceInstanceList;
+    }
+
+    private List<String> processResponse(final String value) {
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(value);
+        } catch (JSONException ex) {
+            LOGGER.error("Error creating JSONArray: {}", ex.getMessage());
+        }
+
+        final JSONArray finalJsonArray = jsonArray;
+        if (finalJsonArray != null) {
+            return IntStream.range(0, jsonArray.length())
+                    .mapToObj(index -> ((JSONObject) finalJsonArray.get(index)).optString("instanceInfo")).collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    private String getServiceUri(final List<ServiceInstance> instances) {
+        ServiceInstance instance = instances.get(0);
+        if (instance.isSecure()) {
+            return "https://" + instance.getHost() + ":" + instance.getMetadata().get("management.port");
+        } else {
+            return "http://" + instance.getHost() + ":" + instance.getMetadata().get("management.port");
+        }
     }
 
 }

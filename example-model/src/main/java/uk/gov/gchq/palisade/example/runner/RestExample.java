@@ -16,7 +16,6 @@
 
 package uk.gov.gchq.palisade.example.runner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,18 +26,14 @@ import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.common.Purpose;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
-import java.net.http.HttpClient;
-import java.net.http.HttpClient.Version;
 import java.util.stream.Stream;
 
 @SpringBootApplication
 public class RestExample {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
-    private final HttpClient httpClient = HttpClient.newBuilder().version(Version.HTTP_2).build();
-    private ObjectMapper mapper = new ObjectMapper();
 
-    public static void main(final String... args) throws Exception {
+    public static void main(final String... args) {
         if (args.length < 1) {
             System.out.printf("Usage: %s file\n", RestExample.class.getTypeName());
             System.out.println("\nfile\tfile containing serialised Employee instances to read");
