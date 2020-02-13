@@ -5,87 +5,60 @@ This example demonstrates different users querying an avro file over a REST api 
 The example runs several different queries by the different users, with different purposes. When you run the example you will see the data has been redacted in line with the rules.  
 For an overview of the example see [here](../../README.md).
 
+In order to successfully run the Local JVM example please make sure that at least the Palisade-services and Palisade-examples repositories have been cloned from GitHub to the intended project location.
+
 To run the example locally in JVMs follow these steps (from the root of the project):
 
-1. Compile the code:
+1. Compile the code for both the services and examples code:
     ```bash
-    mvn clean install -P example
+    mvn clean install
     ```
  
-2.  Build the executable jars:
+1.  Make sure you are within the Palisade-examples directory:
      ```bash
-       ./example/deployment/local-jvm/bash-scripts/buildServices.sh
+       cd $ProjectPath/Palisade-examples
      ```
 
-3. Start the REST services, each service runs within a dedicated Tomcat instance. Either:
+1. Start the palisade services using the services manager. This will start all the palisade services on the JVM and remain open within the terminal window until it is closed using Ctrl + C:
 
-    a. Start them all in a single terminal using:
     ```bash
-      ./example/deployment/local-jvm/bash-scripts/startAllServices.sh
+      ./deployment/local-jvm/bash-scripts/runServiceLauncher.sh
     ```
+   
+1. It will take a couple of minutes for the Spring Boot services to start up. The status of this can be checked by going to http://localhost:8083. There should be 7 services in total to register with Eureka:
+    - Audit Service, Port 8081
+    - Data-Service, Port 8082
+    - Discovery-Service, Port 8083
+    - Palisade-service, Port 8084
+    - Policy-service, Port 8085
+    - Resource-service, Port 8086
+    - User-service, Port 8087
     
-    b. Or for better logging and understanding of what is going on you can
- run REST services in separate terminals. This way the logs for each
- service are split up:
- 
-    First start up the etcd service:
+1. Open up a new terminal window/tab and populate Palisade with the example data. Make sure you are still within the Palisade-examples directory:
     ```bash
-      ./example/deployment/local-jvm/bash-scripts/startETCD.sh
+      ./deployment/local-jvm/bash-scripts/configureExamples.sh
     ```
-    The config service should be started next, as the other services depend on it
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/startConfigService.sh
-    ```
-    Then configure the services:
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/configureServices.sh
-    ```
-    Then the remaining Palisade services:
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/startResourceService.sh
-    ```
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/startPolicyService.sh
-    ```
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/startUserService.sh
-    ```
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/startPalisadeService.sh
-    ```
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/startDataService.sh
-    ```
-    
-    You will need to wait until all the REST services have successfully started in tomcat. 
-    You should see 6 messages like:
-    ```
-    INFO: Starting ProtocolHandler ["http-bio-8080"]
-    INFO: Starting ProtocolHandler ["http-bio-8081"]
-    INFO: Starting ProtocolHandler ["http-bio-8082"]
-    INFO: Starting ProtocolHandler ["http-bio-8083"]
-    INFO: Starting ProtocolHandler ["http-bio-8084"]
-    INFO: Starting ProtocolHandler ["http-bio-8085"]
-    ```
-    
-    Then populate Palisade with the rules for the example data:
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/configureExamples.sh
-    ```
+   
+   If this has been successful you will see the following output at the end of the process:
+   ```bash
+      The example users, data access policies, resource(s) and serialiser details have been initialised.
+   ```
+   If there is an issue and you have not seen this message then check that an instance for the services have been returned in the output. This will be displayed at the start of the configuration process. For example:
+   ```bash
+      data-service instances found: 1
+   ```
+   If there are 0 instances of the data-service then this step will need to be done again. Exit the process using Ctrl + C and then run the script again
 
-4. Run the example:
+1. Run the example:
     ```bash
-      ./example/deployment/local-jvm/bash-scripts/runLocalJVMExample.sh
+      ./deployment/local-jvm/bash-scripts/runLocalJVMExample.sh
     ```
    Or for an easier to read output:
     ```bash
-      ./example/deployment/local-jvm/bash-scripts/runFormattedLocalJVMExample.sh
+      ./deployment/local-jvm/bash-scripts/runFormattedLocalJVMExample.sh
     ```     
     
     This just runs the java class: `uk.gov.gchq.palisade.example.runner.RestExample`. You can just run this class directly in your IDE.
 
-5. Stop the REST services
-    ```bash
-      ./example/deployment/local-jvm/bash-scripts/stopAllServices.sh
-    ```
+1. Stop the REST services. Go to the open terminal window that was used to start the services and use Ctrl + C to exit the process. This will close all the services.
 

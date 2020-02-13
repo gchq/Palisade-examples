@@ -41,17 +41,16 @@ public final class BulkTestExample {
     /**
      * Set by the destruct method to ensure this doesn't happen via a shutdown thread as well.
      */
-    private static AtomicBoolean hasDestructionOccured = new AtomicBoolean(false);
+    private static AtomicBoolean hasDestructionOccurred = new AtomicBoolean(false);
 
     public static void main(final String[] args) throws Exception {
         if (args.length < 2) {
-            System.out.printf("Usage: %s file\n", RestExample.class.getTypeName());
+            System.out.printf("Usage: %s directory quantity [behaviour]\n", BulkTestExample.class.getTypeName());
             System.out.println("\ndirectory\tdirectory to create files in (if directory exists, it will be temporarily renamed)");
             System.out.println("\nquantity\tnumber of Employee data files to create and try to retrieve");
             System.out.println();
             System.out.println("OPTIONAL:");
-            System.out.println("behaviour\tdc d = don't delete created files after test, c = don't create files at beginning," +
-                    " try to reuse previously created files, b = don't do either");
+            System.out.println("behaviour c|d|b\tno file [c]reation at beginning, no file [d]eletion at end, [b]oth no creation and no deletion");
             System.exit(1);
         }
 
@@ -59,13 +58,12 @@ public final class BulkTestExample {
         boolean shouldDelete = true;
         String directory = args[0];
 
-        int numFiles;
+        int numFiles = 0;
         try {
             numFiles = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
             System.out.println("Invalid number entered");
             System.exit(1);
-            return; //compiler doesn't realise above line won't return
         }
 
         if (args.length > 2) {
@@ -77,20 +75,19 @@ public final class BulkTestExample {
                 shouldCreate = false;
                 shouldDelete = false;
             } else {
-                throw new IllegalArgumentException(args[2] + " is invalid");
+                throw new IllegalArgumentException(args[2] + " is invalid - must be one of: 'c', 'd', 'b'");
             }
         }
-
-        //ensure we clean up if a SIGTERM occurs
+        // Ensure we clean up if a SIGTERM occurs
         configureShutdownHook(shouldDelete, directory);
 
-        //First create some bulk data (unless flag set)
+        // Create some bulk data (unless flag set)
         try {
             if (shouldCreate) {
                 createBulkData(directory, numFiles);
             }
 
-            //run test
+            // Run example
             RestExample.main(directory);
 
         } finally {
@@ -114,8 +111,7 @@ public final class BulkTestExample {
                 try {
                     removeBulkData(directory);
                 } catch (IOException e) {
-                    LOGGER.error("Exception on shutdown ", e);
-                    //don't throw exceptions from shutdown hooks!
+                    LOGGER.error("Exception on shutdown hook", e);
                 }
             }));
         }
@@ -128,7 +124,7 @@ public final class BulkTestExample {
      * @throws IOException for any filesystem errors
      */
     private static void removeBulkData(final String directory) throws IOException {
-        if (hasDestructionOccured.compareAndSet(false, true)) {
+        if (hasDestructionOccurred.compareAndSet(false, true)) {
             Path dir = Paths.get(directory);
             Path newLocation = generateNewDirectoryName(dir);
 

@@ -18,50 +18,23 @@ package uk.gov.gchq.palisade.example.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.RequestId;
 import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
-import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.runner.RestExample;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
-import uk.gov.gchq.palisade.resource.LeafResource;
-import uk.gov.gchq.palisade.service.ConnectionDetail;
-import uk.gov.gchq.palisade.service.palisade.request.ReadRequest;
-import uk.gov.gchq.palisade.service.palisade.request.ReadResponse;
-import uk.gov.gchq.palisade.service.palisade.request.RegisterDataRequest;
-import uk.gov.gchq.palisade.service.palisade.service.DataService;
-import uk.gov.gchq.palisade.service.palisade.service.PalisadeService;
-import uk.gov.gchq.palisade.service.request.DataRequestResponse;
 
-import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import static java.util.Objects.requireNonNull;
-
-public class ExampleSimpleClient<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
+public class ExampleSimpleClient<T> extends SimpleClient<Employee> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleSimpleClient.class);
     private static final String RESOURCE_TYPE = "employee";
 
-    @Autowired
-    private static PalisadeService palisadeService;
-    private final Serialiser<T> serializer;
 
-
-    public ExampleSimpleClient(final PalisadeService palisadeService) {
-        requireNonNull(palisadeService, "palisade service must be provided");
-        ExampleSimpleClient.palisadeService = palisadeService;
-        this.serializer = (Serialiser<T>) new AvroSerialiser<>(Employee.class);
+    public ExampleSimpleClient() {
+        super(new AvroSerialiser<>(Employee.class));
     }
 
     public static void main(final String[] args) {
@@ -71,8 +44,8 @@ public class ExampleSimpleClient<T> {
             String filename = args[1];
             String purpose = args[2];
             User user = ExampleUsers.getUser(userId);
-            LOGGER.info(user.getUserId().toString() + " is reading the Employee file with a purpose of " + purpose);
-            final Stream<Employee> results = new ExampleSimpleClient(palisadeService).read(filename, user.getUserId().getId(), purpose);
+            LOGGER.info(String.format("%s is reading the Employee file %s with a purpose of %s", user.getUserId().toString(), filename, purpose));
+            final Stream<Employee> results = new ExampleSimpleClient().read(filename, user.getUserId().getId(), purpose);
             LOGGER.info(user.getUserId().toString() + " got back: ");
             results.map(Object::toString).forEach(LOGGER::info);
 
@@ -84,50 +57,9 @@ public class ExampleSimpleClient<T> {
         }
     }
 
-    public Stream<T> read(final String filename, final String userId, final String purpose) {
+    public Stream<Employee> read(final String filename, final String userId, final String purpose) {
         URI absoluteFileURI = ExampleFileUtil.convertToFileURI(filename);
         String absoluteFile = absoluteFileURI.toString();
-        final DataRequestResponse dataRequestResponse = makeRequest(absoluteFile, RESOURCE_TYPE, userId, purpose);
-        return getObjectStreams(dataRequestResponse);
+        return super.read(absoluteFile, RESOURCE_TYPE, userId, purpose);
     }
-
-    private DataRequestResponse makeRequest(final String fileName, final String resourceType, final String userId, final String purpose) {
-        final RegisterDataRequest dataRequest = new RegisterDataRequest().resourceId(fileName).userId(new UserId().id(userId)).context(new Context().purpose(purpose));
-        return palisadeService.registerDataRequest(dataRequest).join();
-    }
-
-    public Serialiser<T> getSerializer() {
-        return serializer;
-    }
-
-    public Stream<T> getObjectStreams(final DataRequestResponse response) {
-        requireNonNull(response, "response");
-
-        final List<CompletableFuture<Stream<T>>> futureResults = new ArrayList<>(response.getResources().size());
-        for (final Entry<LeafResource, ConnectionDetail> entry : response.getResources().entrySet()) {
-            final ConnectionDetail connectionDetail = entry.getValue();
-            final DataService dataService = connectionDetail.createService();
-            final RequestId uuid = response.getOriginalRequestId();
-
-            final ReadRequest readRequest = new ReadRequest()
-                    .token(response.getToken())
-                    .resource(entry.getKey());
-            readRequest.setOriginalRequestId(uuid);
-
-            final CompletableFuture<ReadResponse> futureResponse = dataService.read(readRequest);
-            final CompletableFuture<Stream<T>> futureResult = futureResponse.thenApply(
-                    dataResponse -> {
-                        try {
-                            return getSerializer().deserialise(dataResponse.asInputStream());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-            );
-            futureResults.add(futureResult);
-        }
-
-        return futureResults.stream().flatMap(CompletableFuture::join);
-    }
-
 }

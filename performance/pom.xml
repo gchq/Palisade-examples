@@ -50,11 +50,6 @@
             <artifactId>data-service</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <!--<dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>discovery-service</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>-->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>palisade-service</artifactId>
@@ -76,5 +71,30 @@
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dateFormat>yyyyMMdd-HHmmss</dateFormat>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <generateGitPropertiesFile>false
+                    </generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <useNativeGit>true</useNativeGit>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
