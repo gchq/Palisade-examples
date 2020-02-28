@@ -35,7 +35,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class BulkTestExample {
     private static final Logger LOGGER = LoggerFactory.getLogger(BulkTestExample.class);
 
-    private BulkTestExample() {
+    private RestExample client;
+
+    public BulkTestExample(final RestExample restExample) {
+        this.client = restExample;
     }
 
     /**
@@ -43,7 +46,7 @@ public final class BulkTestExample {
      */
     private static AtomicBoolean hasDestructionOccurred = new AtomicBoolean(false);
 
-    public static void main(final String[] args) throws Exception {
+    public void run(final String[] args) throws Exception {
         if (args.length < 2) {
             System.out.printf("Usage: %s directory quantity [behaviour]\n", BulkTestExample.class.getTypeName());
             System.out.println("\ndirectory\tdirectory to create files in (if directory exists, it will be temporarily renamed)");
@@ -88,7 +91,7 @@ public final class BulkTestExample {
             }
 
             // Run example
-            RestExample.main(directory);
+            client.run(new String[] {directory});
 
         } finally {
             if (shouldDelete) {

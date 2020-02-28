@@ -18,7 +18,7 @@ package uk.gov.gchq.palisade.example.runner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.ApplicationArguments;
 
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
@@ -26,14 +26,25 @@ import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.common.Purpose;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.stream.Stream;
 
-@SpringBootApplication
 public class RestExample {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
 
-    public static void main(final String... args) {
+    ExampleSimpleClient client;
+
+    public RestExample(final ExampleSimpleClient exampleSimpleClient) {
+        this.client = exampleSimpleClient;
+    }
+
+    public void run(final ApplicationArguments appArgs) {
+        run(appArgs.getSourceArgs());
+    }
+
+    public void run(final String[] args) {
         if (args.length < 1) {
             System.out.printf("Usage: %s file\n", RestExample.class.getTypeName());
             System.out.println("\nfile\tfile containing serialised Employee instances to read");
@@ -43,12 +54,14 @@ public class RestExample {
         String sourceFile = args[0];
         LOGGER.info("");
         LOGGER.info("Going to request {} from Palisade", sourceFile);
-        new RestExample().run(sourceFile);
+        try {
+            this.run(sourceFile);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void run(final String sourceFile) {
-
-        final ExampleSimpleClient client = new ExampleSimpleClient();
+    public void run(final String sourceFile) throws IOException, URISyntaxException {
 
         final User alice = ExampleUsers.getAlice();
         final User bob = ExampleUsers.getBob();
