@@ -16,6 +16,7 @@
 
 package uk.gov.gchq.palisade.example.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import org.slf4j.Logger;
@@ -27,8 +28,8 @@ import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.RequestId;
 import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
+import uk.gov.gchq.palisade.example.request.ClientReadResponse;
 import uk.gov.gchq.palisade.example.request.ReadRequest;
-import uk.gov.gchq.palisade.example.request.ReadResponse;
 import uk.gov.gchq.palisade.example.request.RegisterDataRequest;
 import uk.gov.gchq.palisade.example.web.DataClient;
 import uk.gov.gchq.palisade.example.web.PalisadeClient;
@@ -37,8 +38,14 @@ import uk.gov.gchq.palisade.service.ConnectionDetail;
 import uk.gov.gchq.palisade.service.request.DataRequestResponse;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpClient.Version;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -66,34 +73,62 @@ public class SimpleClient<T> {
     }
 
     public Stream<T> read(final String filename, final String resourceType, final String userId, final String purpose) throws IOException, URISyntaxException {
-        DataRequestResponse dataRequestResponse = makeRequest(filename, resourceType, userId, purpose);
-        Stream<T> objectStreams = getObjectStreams(dataRequestResponse);
+        DataRequestResponse registeredRequest = makeRequest(filename, resourceType, userId, purpose);
+        Stream<T> objectStreams = getObjectStreams(registeredRequest);
         return objectStreams;
     }
 
     private DataRequestResponse makeRequest(final String fileName, final String resourceType, final String userId, final String purpose) {
-        RegisterDataRequest dataRequest = new RegisterDataRequest().resourceId(fileName).userId(new UserId().id(userId)).context(new Context().purpose(purpose));
-
         // While there may be many palisade services, just use one
         ServiceInstance palisadeService = getServiceInstances("palisade-service").get(0);
-        return palisadeClient.registerDataRequestSync(palisadeService.getUri(), dataRequest);
+
+        RegisterDataRequest dataRequest = new RegisterDataRequest().resourceId(fileName).userId(new UserId().id(userId)).context(new Context().purpose(purpose));
+
+        LOGGER.info("Registered data request: {}", dataRequest);
+        DataRequestResponse dataResponse =  palisadeClient.registerDataRequestSync(palisadeService.getUri(), dataRequest);
+        LOGGER.info("Received data response: {}", dataResponse);
+
+        return dataResponse;
     }
 
-    public Stream<T> getObjectStreams(final DataRequestResponse response) throws URISyntaxException, IOException {
-        requireNonNull(response, "response");
+    public Stream<T> getObjectStreams(final DataRequestResponse registeredRequest) throws URISyntaxException, IOException {
+        requireNonNull(registeredRequest, "registeredRequest");
 
-        final List<Stream<T>> dataStreams = new ArrayList<>(response.getResources().size());
-        for (final Entry<LeafResource, ConnectionDetail> entry : response.getResources().entrySet()) {
+        final List<Stream<T>> dataStreams = new ArrayList<>(registeredRequest.getResources().size());
+        for (final Entry<LeafResource, ConnectionDetail> entry : registeredRequest.getResources().entrySet()) {
             final ConnectionDetail connectionDetail = entry.getValue();
             final URI dataService = new URI(connectionDetail.createConnection());
-            final RequestId uuid = response.getOriginalRequestId();
+            final RequestId uuid = registeredRequest.getOriginalRequestId();
 
             final ReadRequest readRequest = new ReadRequest()
-                    .token(response.getToken())
+                    .token(registeredRequest.getToken())
                     .resource(entry.getKey());
             readRequest.setOriginalRequestId(uuid);
 
-            ReadResponse readResponse = dataClient.read(dataService, readRequest);
+            LOGGER.info("Requested data read: {}", readRequest);
+            String requestString = new ObjectMapper().writeValueAsString(readRequest);
+
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .POST(BodyPublishers.ofString(requestString))
+                    .uri(URI.create(dataService.toString() + "/read/chunked"))
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/octet-stream")
+                    .build();
+
+            LOGGER.info("Sending request to Data-service");
+            LOGGER.info("");
+            InputStream inputStream = HttpClient.newBuilder().version(Version.HTTP_2).build().sendAsync(httpRequest, HttpResponse.BodyHandlers.ofInputStream())
+                    .thenApply(HttpResponse::body).join();
+
+            ClientReadResponse readResponse = new ClientReadResponse(inputStream);
+            //StreamingResponseBody response = dataClient.readChunked(dataService, readRequest);
+
+            //LOGGER.info("Sinking internal stream");
+            //PipedInputStream inputStream = new PipedInputStream();
+            //PipedOutputStream internalSink = new PipedOutputStream(inputStream);
+            //ReadResponse readResponse = new ClientReadResponse(inputStream);
+
+            //response.writeTo(internalSink);
             Stream<T> dataStream = getSerialiser().deserialise(readResponse.asInputStream());
             dataStreams.add(dataStream);
         }
