@@ -28,9 +28,7 @@ import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.RequestId;
 import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
-import uk.gov.gchq.palisade.example.request.ClientReadResponse;
 import uk.gov.gchq.palisade.example.request.ReadRequest;
-import uk.gov.gchq.palisade.example.request.ReadResponse;
 import uk.gov.gchq.palisade.example.request.RegisterDataRequest;
 import uk.gov.gchq.palisade.example.web.DataClient;
 import uk.gov.gchq.palisade.example.web.PalisadeClient;
@@ -97,7 +95,7 @@ public class SimpleClient<T> {
                     .resource(entry.getKey());
             readRequest.setOriginalRequestId(uuid);
 
-            StreamingResponseBody responseBody = dataClient.readChunked(dataService, readRequest).getBody();
+            StreamingResponseBody responseBody = dataClient.readChunked(dataService, readRequest);
 
             PipedInputStream responseStream = new PipedInputStream();
             PipedOutputStream internalSink = new PipedOutputStream(responseStream);

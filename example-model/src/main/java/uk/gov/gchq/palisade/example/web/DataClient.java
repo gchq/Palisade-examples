@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import uk.gov.gchq.palisade.example.request.AddSerialiserRequest;
 import uk.gov.gchq.palisade.example.request.ReadRequest;
-import uk.gov.gchq.palisade.example.request.ReadResponse;
 
 import java.net.URI;
 

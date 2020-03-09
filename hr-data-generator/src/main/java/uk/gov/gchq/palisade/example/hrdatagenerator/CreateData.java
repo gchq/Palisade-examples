@@ -16,9 +16,6 @@
 
 package uk.gov.gchq.palisade.example.hrdatagenerator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.gov.gchq.palisade.Util;
 
 import java.io.File;
@@ -30,14 +27,12 @@ import java.util.concurrent.Future;
 
 public final class CreateData {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateData.class);
-
     private CreateData() {
     }
 
     public static void main(final String... args) {
         if (args.length < 3) {
-            LOGGER.error("This method needs at least three arguments. The directory path to save the files in, the number of employee's to generate and the number of files to split those employees between. An optional 4th argument is the number of threads to use which will default to 1.");
+            System.out.println("This method needs at least three arguments. The directory path to save the files in, the number of employee's to generate and the number of files to split those employees between. An optional 4th argument is the number of threads to use which will default to 1.");
         } else {
             String outputFilePath = args[0];
             long numberOfEmployees = Long.parseLong(args[1]);
@@ -59,10 +54,10 @@ public final class CreateData {
                     response.get();
                 }
             } catch (final Exception e) {
-                LOGGER.error(e.getLocalizedMessage(), e);
+                System.err.println(e.getLocalizedMessage());
             }
             long endTime = System.currentTimeMillis();
-            LOGGER.info("Took " + (endTime - startTime) + "ms to create " + numberOfEmployees + " employees");
+            System.out.println("Took " + (endTime - startTime) + "ms to create " + numberOfEmployees + " employees");
         }
     }
 }
