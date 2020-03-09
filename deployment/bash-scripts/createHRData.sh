@@ -10,7 +10,7 @@ FILE_PRESENT=0
 
 if [ -d "$TARGET_DIR" ];
 then
-    JAR_FILE=$(find "$TARGET_DIR" -type f -iname "hr-data-generator-*-SNAPSHOT.jar")
+    JAR_FILE=$(find "$TARGET_DIR" -type f -iname "hr-data-generator-*-SNAPSHOT-jar-with-dependencies.jar")
     if [ ! -z "$JAR_FILE" ];
     then
         FILE_PRESENT=1

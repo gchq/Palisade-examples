@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.discovery.EurekaClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -38,6 +39,8 @@ import uk.gov.gchq.palisade.example.web.PolicyClient;
 import uk.gov.gchq.palisade.example.web.ResourceClient;
 import uk.gov.gchq.palisade.example.web.UserClient;
 import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
+
+import static java.util.Objects.requireNonNull;
 
 @Configuration
 @EnableConfigurationProperties
@@ -69,32 +72,63 @@ public class ApplicationConfiguration {
         return new ExampleSimpleClient(palisadeClient, dataClient, eurekaClient);
     }
 
-    @ConditionalOnProperty(name = "example", havingValue = "bulk")
+    @Value("${example.directory:#{null}}")
+    private String directory;
+    @Value("${example.quantity:#{null}}")
+    private Integer quantity;
+
+    @ConditionalOnProperty(name = "example.type", havingValue = "bulk")
     @Bean("BulkRunner")
     public CommandLineRunner bulkRunner(final BulkTestExample bulkTestExample) {
+        requireNonNull(directory, "--example.directory=... must be provided");
+        requireNonNull(quantity, "--example.quantity=... must be provided");
         LOGGER.info("Constructed BulkRunner");
-        return bulkTestExample::run;
+        return args -> {
+            bulkTestExample.run(directory, quantity, true, true);
+            System.exit(0);
+        };
     }
 
-    @ConditionalOnProperty(name = "example", havingValue = "rest")
-    @Bean("RestRunner")
-    public CommandLineRunner restRunner(final RestExample restExample) {
-        LOGGER.info("Constructed RestRunner");
-        return restExample::run;
-    }
+    @Value("${example.userid:#{null}}")
+    private String userId;
+    @Value("${example.filename:#{null}}")
+    private String filename;
+    @Value("${example.purpose:#{null}}")
+    private String purpose;
 
-    @ConditionalOnProperty(name = "example", havingValue = "configure")
-    @Bean("ConfiguratorRunner")
-    public CommandLineRunner configuratorRunner(final ExampleConfigurator configurator) {
-        LOGGER.info("Constructed ConfiguratorRunner");
-        return configurator::run;
-    }
-
-    @ConditionalOnProperty(name = "example", havingValue = "client", matchIfMissing = true)
+    @ConditionalOnProperty(name = "example.type", havingValue = "client", matchIfMissing = true)
     @Bean("ClientRunner")
     public CommandLineRunner clientRunner(final ExampleSimpleClient exampleClient) {
+        requireNonNull(userId, "--example.userid=... must be provided");
+        requireNonNull(filename, "--example.filename=... must be provided");
+        requireNonNull(purpose, "--example.purpose=... must be provided");
         LOGGER.info("Constructed ClientRunner");
-        return exampleClient::run;
+        return args -> {
+            exampleClient.run(userId, filename, purpose);
+            System.exit(0);
+        };
+    }
+
+    @ConditionalOnProperty(name = "example.type", havingValue = "rest")
+    @Bean("RestRunner")
+    public CommandLineRunner restRunner(final RestExample restExample) {
+        requireNonNull(filename, "--example.filename=... must be provided");
+        LOGGER.info("Constructed RestRunner");
+        return args -> {
+            restExample.run(filename);
+            System.exit(0);
+        };
+    }
+
+    @ConditionalOnProperty(name = "example.type", havingValue = "configure")
+    @Bean("ConfiguratorRunner")
+    public CommandLineRunner configuratorRunner(final ExampleConfigurator configurator) {
+        requireNonNull(filename, "--example.filename=... must be provided");
+        LOGGER.info("Constructed ConfiguratorRunner");
+        return args -> {
+            configurator.run(filename);
+            System.exit(0);
+        };
     }
 
     @Bean

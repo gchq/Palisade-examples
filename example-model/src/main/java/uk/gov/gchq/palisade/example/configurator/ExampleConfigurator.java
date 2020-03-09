@@ -78,8 +78,8 @@ public class ExampleConfigurator {
         return this;
     }
 
-    public void run(final String[] args) {
-        this.file(args[0]).initialiseExample();
+    public void run(final String filename) {
+        this.file(filename).initialiseExample();
     }
 
     public void initialiseExample() {

@@ -103,8 +103,9 @@ uk.gov.gchq.palisade:example-model:jar:0.4.0-SNAPSHOT
 \- uk.gov.gchq.palisade:example-library:jar:0.4.0-SNAPSHOT:compile
    +- com.google.protobuf:protobuf-java:jar:3.5.1:compile
    +- uk.gov.gchq.palisade:hr-data-generator:jar:0.4.0-SNAPSHOT:compile
-   |  \- com.github.javafaker:javafaker:jar:1.0.1:compile
-   |     +- org.yaml:snakeyaml:jar:android:1.23:compile
-   |     \- com.github.mifmif:generex:jar:1.0.2:compile
-   |        \- dk.brics.automaton:automaton:jar:1.11-8:compile
+   |  +- com.github.javafaker:javafaker:jar:1.0.1:compile
+   |  |  +- org.yaml:snakeyaml:jar:android:1.23:compile
+   |  |  \- com.github.mifmif:generex:jar:1.0.2:compile
+   |  |     \- dk.brics.automaton:automaton:jar:1.11-8:compile
+   |  \- org.slf4j:slf4j-simple:jar:1.7.28:compile
    \- uk.gov.gchq.palisade:readers-common:jar:0.4.0-SNAPSHOT:compile

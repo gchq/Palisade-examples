@@ -46,51 +46,18 @@ public final class BulkTestExample {
      */
     private static AtomicBoolean hasDestructionOccurred = new AtomicBoolean(false);
 
-    public void run(final String[] args) throws Exception {
-        if (args.length < 2) {
-            LOGGER.info("Usage: {} directory quantity [behaviour]\n", BulkTestExample.class.getTypeName());
-            LOGGER.info("directory \t directory to create files in (if directory exists, it will be temporarily renamed)");
-            LOGGER.info("quantity  \t number of Employee data files to create and try to retrieve");
-            LOGGER.info("OPTIONAL:");
-            LOGGER.info("behaviour [cdb] \t no file [c]reation at beginning, no file [d]eletion at end, [b]oth no creation and no deletion");
-            System.exit(1);
-        }
-
-        boolean shouldCreate = true;
-        boolean shouldDelete = true;
-        String directory = args[0];
-
-        int numFiles = 0;
-        try {
-            numFiles = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            LOGGER.error("Invalid number entered");
-            System.exit(1);
-        }
-
-        if (args.length > 2) {
-            if (args[2].equalsIgnoreCase("c")) {
-                shouldCreate = false;
-            } else if (args[2].equalsIgnoreCase("d")) {
-                shouldDelete = false;
-            } else if (args[2].equalsIgnoreCase("b")) {
-                shouldCreate = false;
-                shouldDelete = false;
-            } else {
-                throw new IllegalArgumentException(args[2] + " is invalid - must be one of: 'c', 'd', 'b'");
-            }
-        }
+    public void run(final String directory, final Integer quantity,  final boolean shouldCreate, final boolean shouldDelete) throws Exception {
         // Ensure we clean up if a SIGTERM occurs
         configureShutdownHook(shouldDelete, directory);
 
         // Create some bulk data (unless flag set)
         try {
             if (shouldCreate) {
-                createBulkData(directory, numFiles);
+                createBulkData(directory, quantity);
             }
 
             // Run example
-            client.run(new String[] {directory});
+            client.run(directory);
 
         } finally {
             if (shouldDelete) {
