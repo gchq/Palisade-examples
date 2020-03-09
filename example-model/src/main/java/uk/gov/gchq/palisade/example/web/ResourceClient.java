@@ -29,5 +29,4 @@ public interface ResourceClient {
     @PostMapping(path = "/addResource", consumes = "application/json", produces = "application/json")
     Boolean addResource(final URI url, @RequestBody final AddResourceRequest request);
 
-
 }

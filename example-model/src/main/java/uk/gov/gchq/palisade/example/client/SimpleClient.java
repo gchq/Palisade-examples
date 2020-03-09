@@ -22,11 +22,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.RequestId;
 import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
+import uk.gov.gchq.palisade.example.request.ClientReadResponse;
 import uk.gov.gchq.palisade.example.request.ReadRequest;
 import uk.gov.gchq.palisade.example.request.ReadResponse;
 import uk.gov.gchq.palisade.example.request.RegisterDataRequest;
@@ -37,6 +39,8 @@ import uk.gov.gchq.palisade.service.ConnectionDetail;
 import uk.gov.gchq.palisade.service.request.DataRequestResponse;
 
 import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -93,8 +97,14 @@ public class SimpleClient<T> {
                     .resource(entry.getKey());
             readRequest.setOriginalRequestId(uuid);
 
-            ReadResponse readResponse = dataClient.read(dataService, readRequest);
-            Stream<T> dataStream = getSerialiser().deserialise(readResponse.asInputStream());
+            StreamingResponseBody responseBody = dataClient.readChunked(dataService, readRequest).getBody();
+
+            PipedInputStream responseStream = new PipedInputStream();
+            PipedOutputStream internalSink = new PipedOutputStream(responseStream);
+            responseBody.writeTo(internalSink);
+            internalSink.close();
+
+            Stream<T> dataStream = getSerialiser().deserialise(responseStream);
             dataStreams.add(dataStream);
         }
         return dataStreams.stream().flatMap(Function.identity());

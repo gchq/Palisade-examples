@@ -52,10 +52,10 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
             LOGGER.info(user.getUserId().toString() + " got back: ");
             results.map(Object::toString).forEach(LOGGER::info);
         } else {
-            System.out.printf("Usage: %s userId resource purpose\n\n", ExampleSimpleClient.class.getSimpleName());
-            System.out.println("userId\t\t the unique id of the user making this query");
-            System.out.println("resource\t the name of the resource being requested");
-            System.out.println("purpose\t\t purpose for accessing the resource");
+            LOGGER.info("Usage: {} userId resource purpose\n", ExampleSimpleClient.class.getSimpleName());
+            LOGGER.info("userId   \t the unique id of the user making this query");
+            LOGGER.info("resource \t the name of the resource being requested");
+            LOGGER.info("purpose  \t purpose for accessing the resource");
         }
     }
 

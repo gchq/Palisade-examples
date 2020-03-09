@@ -46,8 +46,8 @@ public class RestExample {
 
     public void run(final String[] args) {
         if (args.length < 1) {
-            System.out.printf("Usage: %s file\n", RestExample.class.getTypeName());
-            System.out.println("\nfile\tfile containing serialised Employee instances to read");
+            LOGGER.info("Usage: {} file\n", RestExample.class.getTypeName());
+            LOGGER.info("file \t file containing serialised Employee instances to read");
             System.exit(1);
         }
 
@@ -62,7 +62,6 @@ public class RestExample {
     }
 
     public void run(final String sourceFile) throws IOException, URISyntaxException {
-
         final User alice = ExampleUsers.getAlice();
         final User bob = ExampleUsers.getBob();
         final User eve = ExampleUsers.getEve();

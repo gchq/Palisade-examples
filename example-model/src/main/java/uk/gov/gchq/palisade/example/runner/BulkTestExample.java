@@ -48,12 +48,11 @@ public final class BulkTestExample {
 
     public void run(final String[] args) throws Exception {
         if (args.length < 2) {
-            System.out.printf("Usage: %s directory quantity [behaviour]\n", BulkTestExample.class.getTypeName());
-            System.out.println("\ndirectory\tdirectory to create files in (if directory exists, it will be temporarily renamed)");
-            System.out.println("\nquantity\tnumber of Employee data files to create and try to retrieve");
-            System.out.println();
-            System.out.println("OPTIONAL:");
-            System.out.println("behaviour c|d|b\tno file [c]reation at beginning, no file [d]eletion at end, [b]oth no creation and no deletion");
+            LOGGER.info("Usage: {} directory quantity [behaviour]\n", BulkTestExample.class.getTypeName());
+            LOGGER.info("directory \t directory to create files in (if directory exists, it will be temporarily renamed)");
+            LOGGER.info("quantity  \t number of Employee data files to create and try to retrieve");
+            LOGGER.info("OPTIONAL:");
+            LOGGER.info("behaviour [cdb] \t no file [c]reation at beginning, no file [d]eletion at end, [b]oth no creation and no deletion");
             System.exit(1);
         }
 
@@ -65,7 +64,7 @@ public final class BulkTestExample {
         try {
             numFiles = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid number entered");
+            LOGGER.error("Invalid number entered");
             System.exit(1);
         }
 

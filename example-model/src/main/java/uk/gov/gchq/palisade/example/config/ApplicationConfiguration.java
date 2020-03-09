@@ -47,25 +47,25 @@ public class ApplicationConfiguration {
 
     @Bean("BulkExample")
     public BulkTestExample bulkExample(final RestExample client) {
-        LOGGER.info("Constructed BulkExample");
+        LOGGER.debug("Constructed BulkExample");
         return new BulkTestExample(client);
     }
 
     @Bean("RestExample")
     public RestExample restExample(final ExampleSimpleClient client) {
-        LOGGER.info("Constructed RestExample");
+        LOGGER.debug("Constructed RestExample");
         return new RestExample(client);
     }
 
     @Bean("ExampleConfigurator")
     public ExampleConfigurator exampleConfigurator(final DataClient dataClient, final PolicyClient policyClient, final ResourceClient resourceClient, final UserClient userClient, final EurekaClient eurekaClient) {
-        LOGGER.info("Constructed ExampleConfigurator");
+        LOGGER.debug("Constructed ExampleConfigurator");
         return new ExampleConfigurator(dataClient, policyClient, resourceClient, userClient, eurekaClient);
     }
 
     @Bean("ExampleClient")
     public ExampleSimpleClient exampleClient(final PalisadeClient palisadeClient, final DataClient dataClient, final EurekaClient eurekaClient) {
-        LOGGER.info("Constructed ExampleClient");
+        LOGGER.debug("Constructed ExampleClient");
         return new ExampleSimpleClient(palisadeClient, dataClient, eurekaClient);
     }
 

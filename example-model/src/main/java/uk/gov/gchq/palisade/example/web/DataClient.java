@@ -31,9 +31,6 @@ import java.net.URI;
 @FeignClient(name = "data-service", url = "${web.client.data-service}")
 public interface DataClient {
 
-    @PostMapping(path = "/read", consumes = "application/json", produces = "application/json")
-    ReadResponse read(final URI url, @RequestBody final ReadRequest request);
-
     @PostMapping(value = "/read/chunked", consumes = "application/json", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     ResponseEntity<StreamingResponseBody> readChunked(URI url, @RequestBody final ReadRequest request);
 
