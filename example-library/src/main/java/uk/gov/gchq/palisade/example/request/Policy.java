@@ -29,7 +29,6 @@ import uk.gov.gchq.palisade.rule.Rule;
 import uk.gov.gchq.palisade.rule.Rules;
 
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
@@ -41,7 +40,7 @@ import static java.util.Objects.requireNonNull;
  * separating the rules that need to be applied at the resource level or the record level.
  *
  * @param <T> The Java class that the rules expect the records of data to be in
- *           the format of.
+ *            the format of.
  */
 public class Policy<T> {
     private Rules<T> recordRules;
