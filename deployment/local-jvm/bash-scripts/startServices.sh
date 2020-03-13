@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
 
-# Start all the services using the service manager from Palisade-services
-(cd ../Palisade-services/services-manager/target && java -jar -Dspring.profiles.active=discovery services-manager-*-exec.jar --run && java -jar -Dspring.profiles.active=services,debug services-manager-*-exec.jar --run) || echo "Error running services-manager-<version>-exec.jar - have you run 'mvn install'?"
+
+FILE=../Palisade-services/services-manager/target/services-manager-*-exec.jar
+
+if [[ -f "$FILE" ]]; then
+    # Start all the services using the service manager from Palisade-services
+    java -jar -Dspring.profiles.active=discovery $FILE --run
+    java -jar -Dspring.profiles.active=services,debug $FILE --run
+else
+    echo "Cannot find services-manager-<version>-exec.jar - have you run 'mvn install' in Palisade-services?"
+fi
