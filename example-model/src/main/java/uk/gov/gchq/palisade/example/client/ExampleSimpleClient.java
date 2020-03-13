@@ -43,9 +43,9 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
 
     public void run(final String userId, final String filename, final String purpose) throws IOException, URISyntaxException {
         User user = ExampleUsers.getUser(userId);
-        LOGGER.info(String.format("%s is reading the Employee file %s with a purpose of %s", user.getUserId().toString(), filename, purpose));
+        LOGGER.info("{} is reading the Employee file {} with a purpose of {}", user.getUserId(), filename, purpose);
         final Stream<Employee> results = read(filename, user.getUserId().getId(), purpose);
-        LOGGER.info(user.getUserId().toString() + " got back: ");
+        LOGGER.info("{} got back:", user.getUserId());
         results.map(Object::toString).forEach(LOGGER::info);
     }
 
