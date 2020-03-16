@@ -46,14 +46,23 @@ public final class BulkTestExample {
      */
     private static AtomicBoolean hasDestructionOccurred = new AtomicBoolean(false);
 
-    public void run(final String directory, final Integer quantity,  final boolean shouldCreate, final boolean shouldDelete) throws Exception {
+    /**
+     * The runner method to run a test of how many resources/files can be read in a single request
+     *
+     * @param directory the directory to create files in
+     * @param numCopies the number of resources to create
+     * @param shouldCreate true if the directory is empty and therefore the data needs creating
+     * @param shouldDelete true if you want the data to be deleted after the test has run
+     * @throws Exception for any file system error or URI exception
+     */
+    public void run(final String directory, final Integer numCopies,  final boolean shouldCreate, final boolean shouldDelete) throws Exception {
         // Ensure we clean up if a SIGTERM occurs
         configureShutdownHook(shouldDelete, directory);
 
         // Create some bulk data (unless flag set)
         try {
             if (shouldCreate) {
-                createBulkData(directory, quantity);
+                createBulkData(directory, numCopies);
             }
 
             // Run example
