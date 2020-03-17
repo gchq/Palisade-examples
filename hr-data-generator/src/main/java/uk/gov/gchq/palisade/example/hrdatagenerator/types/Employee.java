@@ -18,8 +18,8 @@ package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import uk.gov.gchq.palisade.ToStringBuilder;
 import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.example.hrdatagenerator.utils.DateHelper;
 

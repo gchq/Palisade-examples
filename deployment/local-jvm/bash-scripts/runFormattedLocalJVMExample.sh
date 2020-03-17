@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-. "$DIR/../../bash-scripts/setScriptPath.sh"
+FILE=example-model/target/example-model-*-exec.jar
+FORMATTER=deployment/bash-scripts/formatOutput.sh
 
-export PALISADE_REST_CONFIG_PATH="configRest.json"
-
-java -cp "$EXAMPLE"/example-model/target/example-model-*-jar-with-dependencies.jar uk.gov.gchq.palisade.example.runner.RestExample "$EXAMPLE/resources/data/" | $EXAMPLE/deployment/bash-scripts/formatOutput.sh
+if [[ -f "$FILE" ]]; then
+    # Run the formatted rest example
+    java -jar $FILE --example.filename="$(pwd)/resources/data" --example.type=rest | $(pwd)/$FORMATTER
+else
+    echo "Cannot find example-model-<version>-exec.jar - have you run 'mvn install'?"
+fi
