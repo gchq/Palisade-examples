@@ -77,12 +77,11 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
     }
 
     @Override
-    public User warm(final CacheWarmerFactory cacheWarmerFactory) {
-        ExampleUserCacheWarmerFactory userCacheWarmerFactory = (ExampleUserCacheWarmerFactory) cacheWarmerFactory;
+    public User warm() {
         return new ExampleUser()
-                .trainingCompleted(userCacheWarmerFactory.getTrainingCourses())
-                .userId(userCacheWarmerFactory.getUserId())
-                .auths(userCacheWarmerFactory.getAuths())
-                .roles(userCacheWarmerFactory.getRoles());
+                .trainingCompleted(this.getTrainingCourses())
+                .userId(this.getUserId())
+                .auths(this.getAuths())
+                .roles(this.getRoles());
     }
 }

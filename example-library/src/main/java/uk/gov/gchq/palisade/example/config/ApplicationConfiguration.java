@@ -18,13 +18,17 @@ package uk.gov.gchq.palisade.example.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import uk.gov.gchq.palisade.service.CacheWarmerFactory;
 
+@Configuration
 public class ApplicationConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
+    @Bean(name = "exampleUserCacheWarmer")
     public CacheWarmerFactory cacheWarmerFactory() {
         LOGGER.info("Example User Data Instantiated");
         return new ExampleUserCacheWarmerFactory();
