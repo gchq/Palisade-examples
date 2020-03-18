@@ -25,6 +25,7 @@ import uk.gov.gchq.palisade.example.common.TrainingCourse;
 import uk.gov.gchq.palisade.service.CacheWarmerFactory;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Set;
 
 @ConfigurationProperties
@@ -34,15 +35,16 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
     private String userId;
     private Set<String> auths;
     private Set<String> roles;
-    private TrainingCourse[] trainingCourses;
+    private EnumSet<TrainingCourse> trainingCourses;
 
     public ExampleUserCacheWarmerFactory() {
         this.userId = "";
         this.auths = Collections.emptySet();
         this.roles = Collections.emptySet();
+        this.trainingCourses = EnumSet.noneOf(TrainingCourse.class);
     }
 
-    public ExampleUserCacheWarmerFactory(final String userId, final Set<String> auths, final Set<String> roles, final TrainingCourse... trainingCourses) {
+    public ExampleUserCacheWarmerFactory(final String userId, final Set<String> auths, final Set<String> roles, final EnumSet<TrainingCourse> trainingCourses) {
         this.userId = userId;
         this.auths = auths;
         this.roles = roles;
@@ -74,17 +76,19 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
     }
 
     public TrainingCourse[] getTrainingCourses() {
-        return trainingCourses;
+        return (TrainingCourse[]) trainingCourses.toArray();
     }
 
-    public void setTrainingCourses(final TrainingCourse... trainingCourses) {
-        this.trainingCourses = trainingCourses;
+    public void setTrainingCourses(final String... trainingCourse) {
+        for (String course : trainingCourse) {
+            trainingCourses.add(TrainingCourse.valueOf(course));
+        }
     }
 
     @Override
     public User warm() {
         return new ExampleUser()
-                .trainingCompleted(this.getTrainingCourses())
+                .trainingCompleted(getTrainingCourses())
                 .userId(this.getUserId())
                 .auths(this.getAuths())
                 .roles(this.getRoles());
