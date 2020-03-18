@@ -26,6 +26,7 @@ import uk.gov.gchq.palisade.service.CacheWarmerFactory;
 
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
 
 @ConfigurationProperties
@@ -93,5 +94,39 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
                 .userId(this.getUserId())
                 .auths(this.getAuths())
                 .roles(this.getRoles());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final ExampleUserCacheWarmerFactory that = (ExampleUserCacheWarmerFactory) o;
+
+        return Objects.equals(userId, that.userId) &&
+                Objects.equals(auths, that.auths) &&
+                Objects.equals(roles, that.roles) &&
+                Objects.equals(trainingCourses, that.trainingCourses);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, auths, roles, trainingCourses);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("ExampleUsers{\n");
+        sb.append("\tuserId=").append(userId).append('\n');
+        sb.append("\tauths=").append(auths).append('\n');
+        sb.append("\troles=").append(roles).append('\n');
+        sb.append("\ttrainingCourses=").append(trainingCourses).append("\n");
+        sb.append('}');
+        return sb.toString();
     }
 }
