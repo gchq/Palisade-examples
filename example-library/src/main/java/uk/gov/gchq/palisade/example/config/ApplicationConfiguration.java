@@ -27,17 +27,17 @@ public class ApplicationConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
-    @Bean(name = "exampleUserData")
+    @Bean
     @ConditionalOnProperty(prefix = "cache", name = "configuration", havingValue = "exampleUserData")
-    public UserConfiguration userConfiguration() {
-        LOGGER.info("Example User Configuration");
-        return new UserConfiguration();
+    public ExampleUserConfiguration userConfiguration() {
+        LOGGER.info("Example User Configuration Instantiated");
+        return new ExampleUserConfiguration();
     }
 
     @Bean(name = "exampleUserCacheWarmer")
     @ConditionalOnProperty(prefix = "cache", name = "warmer", havingValue = "exampleUserCacheWarmer")
     public ExampleUserCacheWarmerFactory cacheWarmerFactory() {
-        LOGGER.info("Example User Data Instantiated");
+        LOGGER.info("Example User Cache Warmer Instantiated");
         return new ExampleUserCacheWarmerFactory();
     }
 }
