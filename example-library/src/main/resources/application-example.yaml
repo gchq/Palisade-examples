@@ -40,3 +40,4 @@ population:
 
 cache:
   warmer: exampleUserCacheWarmer
+  configuration: exampleUserData

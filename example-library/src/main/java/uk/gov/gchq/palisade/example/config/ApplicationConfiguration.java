@@ -27,6 +27,13 @@ public class ApplicationConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
+    @Bean(name = "exampleUserData")
+    @ConditionalOnProperty(prefix = "cache", name = "configuration", havingValue = "exampleUserData")
+    public UserConfiguration userConfiguration() {
+        LOGGER.info("Example User Configuration");
+        return new UserConfiguration();
+    }
+
     @Bean(name = "exampleUserCacheWarmer")
     @ConditionalOnProperty(prefix = "cache", name = "warmer", havingValue = "exampleUserCacheWarmer")
     public ExampleUserCacheWarmerFactory cacheWarmerFactory() {

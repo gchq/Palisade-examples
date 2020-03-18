@@ -87,6 +87,7 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
 
     @Override
     public User warm() {
+        System.out.println("Using the ExampleUser warm method");
         return new ExampleUser()
                 .trainingCompleted(getTrainingCourses())
                 .userId(this.getUserId())
