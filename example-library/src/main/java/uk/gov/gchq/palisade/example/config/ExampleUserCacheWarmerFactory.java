@@ -16,7 +16,6 @@
 
 package uk.gov.gchq.palisade.example.config;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import uk.gov.gchq.palisade.User;
@@ -30,7 +29,6 @@ import java.util.Objects;
 import java.util.Set;
 
 @ConfigurationProperties
-@EnableAutoConfiguration
 public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
 
     private String userId;
