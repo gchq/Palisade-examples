@@ -3,7 +3,7 @@
 FILE=services-manager/target/services-manager-*-exec.jar
 DIR=../Palisade-services/
 
-if [ -d $DIR]; then
+if [ -d $DIR ]; then
   # Important to cd before running the jar - the working directory must be somewhere under Palisade-services
   cd $DIR
   # Start all the services using the service manager from Palisade-services
