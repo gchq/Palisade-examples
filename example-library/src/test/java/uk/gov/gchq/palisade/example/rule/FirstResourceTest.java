@@ -17,6 +17,7 @@
 package uk.gov.gchq.palisade.example.rule;
 
 import org.junit.Test;
+
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.Role;
