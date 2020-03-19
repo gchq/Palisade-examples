@@ -16,7 +16,6 @@
 package uk.gov.gchq.palisade.example.web;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -29,7 +28,7 @@ import java.net.URI;
 @FeignClient(name = "data-service", url = "${web.client.data-service}")
 public interface DataClient {
 
-    @PostMapping(value = "/read/chunked", consumes = "application/json", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @PostMapping(value = "/read/chunked", consumes = "application/json", produces = "application/octet-stream")
     StreamingResponseBody readChunked(URI url, @RequestBody final ReadRequest request);
 
     @PostMapping(value = "/addSerialiser", consumes = "application/json", produces = "application/json")
