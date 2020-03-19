@@ -34,7 +34,7 @@ public class ApplicationConfiguration {
         return new ExampleUserConfiguration();
     }
 
-    @Bean(name = "exampleUserCacheWarmer")
+    @Bean
     @ConditionalOnProperty(prefix = "cache", name = "warmer", havingValue = "exampleUserCacheWarmer")
     public ExampleUserCacheWarmerFactory cacheWarmerFactory() {
         LOGGER.info("Example User Cache Warmer Instantiated");
