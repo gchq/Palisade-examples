@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Crown Copyright
+ * Copyright 2020 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package uk.gov.gchq.palisade.example;
 
-package uk.gov.gchq.palisade.example.perf;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
-/**
- * What sort of performance test is being run?
- */
-public enum TrialType {
-    /**
-     * A warm up test where results will be discarded.
-     */
-    DRY_RUN,
-    /**
-     * A live trial.
-     */
-    LIVE;
+@EnableFeignClients
+@EnableEurekaClient
+@SpringBootApplication
+public class ExampleApplication {
+
+    public static void main(final String[] args) {
+        new SpringApplicationBuilder(ExampleApplication.class).run(args);
+    }
+
 }

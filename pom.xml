@@ -76,7 +76,6 @@
         <module>example-library</module>
         <module>example-model</module>
         <module>hr-data-generator</module>
-        <module>performance</module>
     </modules>
 
     <dependencyManagement>

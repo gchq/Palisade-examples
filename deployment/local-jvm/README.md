@@ -22,17 +22,17 @@ To run the example locally in JVMs follow these steps (from the root of the proj
 1. Start the palisade services using the services manager. This will start all the palisade services on the JVM and remain open within the terminal window until it is closed using Ctrl + C:
 
     ```bash
-      ./deployment/local-jvm/bash-scripts/runServiceLauncher.sh
+      ./deployment/local-jvm/bash-scripts/startServices.sh
     ```
    
 1. It will take a couple of minutes for the Spring Boot services to start up. The status of this can be checked by going to http://localhost:8083. There should be 7 services in total to register with Eureka:
-    - Audit Service, Port 8081
-    - Data-Service, Port 8082
-    - Discovery-Service, Port 8083
-    - Palisade-service, Port 8084
-    - Policy-service, Port 8085
-    - Resource-service, Port 8086
-    - User-service, Port 8087
+    - Audit Service, port 8081
+    - Data Service, port 8082
+    - Discovery Service, port 8083
+    - Palisade Service, port 8084
+    - Policy Service, port 8085
+    - Resource Service, port 8086
+    - User Service, port 8087
     
 1. Open up a new terminal window/tab and populate Palisade with the example data. Make sure you are still within the Palisade-examples directory:
     ```bash
@@ -40,11 +40,11 @@ To run the example locally in JVMs follow these steps (from the root of the proj
     ```
    
    If this has been successful you will see the following output at the end of the process:
-   ```bash
+   ```
       The example users, data access policies, resource(s) and serialiser details have been initialised.
    ```
    If there is an issue and you have not seen this message then check that an instance for the services have been returned in the output. This will be displayed at the start of the configuration process. For example:
-   ```bash
+   ```
       data-service instances found: 1
    ```
    If there are 0 instances of the data-service then this step will need to be done again. Exit the process using Ctrl + C and then run the script again

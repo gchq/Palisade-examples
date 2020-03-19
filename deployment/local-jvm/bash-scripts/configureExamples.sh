@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-. "$DIR/../../bash-scripts/setScriptPath.sh"
+FILE=example-model/target/example-model-*-exec.jar
 
-export PALISADE_REST_CONFIG_PATH="configRest.json"
-
-java -cp "$EXAMPLE"/example-model/target/example-model-*-jar-with-dependencies.jar uk.gov.gchq.palisade.example.config.ExampleConfigurator "$EXAMPLE/resources/data/"
+if [[ -f "$FILE" ]]; then
+    # Run the example configurator
+    java -jar $FILE --example.filename="$(pwd)/resources/data" --example.type=configure
+else
+    echo "Cannot find example-model-<version>-exec.jar - have you run 'mvn install'?"
+fi
