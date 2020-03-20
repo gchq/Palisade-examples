@@ -83,7 +83,6 @@ public class ExampleConfigurator {
     }
 
     public void initialiseExample() {
-        addUsers();
         addResources();
         addPolicies();
         addSerialiser();
@@ -99,26 +98,6 @@ public class ExampleConfigurator {
                 .peek(instance -> LOGGER.info("Discovered {} :: {}:{}/{} ({})", instance.getAppName(), instance.getIPAddr(), instance.getPort(), instance.getSecurePort(), instance.getStatus()))
                 .map(EurekaServiceInstance::new)
                 .collect(Collectors.toList());
-    }
-
-    private void addUsers() {
-        // Add the users to the User-service
-        LOGGER.info("ADDING USERS");
-
-        AddUserRequest[] userRequests = new AddUserRequest[] {
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getAlice()),
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getBob()),
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getEve())
-        };
-
-        for (ServiceInstance userService : getServiceInstances("user-service")) {
-            for (AddUserRequest addUserRequest : userRequests) {
-                userClient.addUser(userService.getUri(), addUserRequest);
-                LOGGER.info("Added user {} to service {}", addUserRequest, userService.getUri());
-            }
-        }
-
-        LOGGER.info("");
     }
 
     private void addResources() {

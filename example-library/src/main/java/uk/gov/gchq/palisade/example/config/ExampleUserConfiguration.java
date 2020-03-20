@@ -17,8 +17,6 @@
 package uk.gov.gchq.palisade.example.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.context.annotation.Configuration;
 
 import uk.gov.gchq.palisade.service.UserConfiguration;
 
@@ -26,11 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Configuration
 @ConfigurationProperties(prefix = "population")
 public class ExampleUserConfiguration implements UserConfiguration {
 
-    @NestedConfigurationProperty
     private List<ExampleUserCacheWarmerFactory> users = new ArrayList<>();
 
     public ExampleUserConfiguration() {
@@ -41,11 +37,11 @@ public class ExampleUserConfiguration implements UserConfiguration {
     }
 
     @Override
-    public List<ExampleUserCacheWarmerFactory> getCacheWarmerFactory() {
+    public List<ExampleUserCacheWarmerFactory> getUsers() {
         return users;
     }
 
-    public void setCacheWarmerFactory(final List<ExampleUserCacheWarmerFactory> users) {
+    public void setUsers(final List<ExampleUserCacheWarmerFactory> users) {
         this.users = users;
     }
 
