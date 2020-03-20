@@ -16,14 +16,12 @@
 
 package uk.gov.gchq.palisade.example.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.RequestId;
@@ -39,15 +37,8 @@ import uk.gov.gchq.palisade.service.request.DataRequestResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpClient.Version;
-import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -102,28 +93,7 @@ public class SimpleClient<T> {
                     .resource(entry.getKey());
             readRequest.setOriginalRequestId(uuid);
 
-            InputStream responseStream;
-            try {
-                LOGGER.info("HttpRequest");
-                String requestString = new ObjectMapper().writeValueAsString(readRequest);
-                HttpRequest httpRequest = HttpRequest.newBuilder()
-                        .POST(BodyPublishers.ofString(requestString))
-                        .uri(URI.create(dataService.toString() + "/read/chunked"))
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/octet-stream")
-                        .build();
-                responseStream = HttpClient.newBuilder().version(Version.HTTP_2).build().sendAsync(httpRequest, HttpResponse.BodyHandlers.ofInputStream())
-                        .thenApply(HttpResponse::body).join();
-            } catch (Exception ex) {
-                LOGGER.error("{}:\n{}", ex.getMessage(), ex.getStackTrace());
-                LOGGER.info("Feign");
-                StreamingResponseBody responseBody = dataClient.readChunked(dataService, readRequest).getBody();
-                responseStream = new PipedInputStream();
-                PipedOutputStream internalSink = new PipedOutputStream((PipedInputStream) responseStream);
-                responseBody.writeTo(internalSink);
-                internalSink.close();
-            }
-
+            InputStream responseStream = dataClient.readChunked(dataService, readRequest).body().asInputStream();
             Stream<T> dataStream = getSerialiser().deserialise(responseStream);
             dataStreams.add(dataStream);
         }
