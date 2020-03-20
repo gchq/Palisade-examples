@@ -37,7 +37,6 @@ import uk.gov.gchq.palisade.example.web.ResourceClient;
 import uk.gov.gchq.palisade.example.web.UserClient;
 import uk.gov.gchq.palisade.reader.common.DataFlavour;
 import uk.gov.gchq.palisade.resource.ChildResource;
-import uk.gov.gchq.palisade.resource.ParentResource;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.resource.impl.SystemResource;
