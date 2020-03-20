@@ -36,6 +36,8 @@ import uk.gov.gchq.palisade.example.web.PolicyClient;
 import uk.gov.gchq.palisade.example.web.ResourceClient;
 import uk.gov.gchq.palisade.example.web.UserClient;
 import uk.gov.gchq.palisade.reader.common.DataFlavour;
+import uk.gov.gchq.palisade.resource.ChildResource;
+import uk.gov.gchq.palisade.resource.ParentResource;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.resource.impl.SystemResource;
@@ -44,11 +46,12 @@ import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
 
 import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Convenience class for the examples to configure the users and data access policies for the example.
@@ -174,38 +177,24 @@ public class ExampleConfigurator {
     }
 
     private FileResource createFileResource(final String id) {
-        String path = id.substring(0, id.lastIndexOf("/") + 1);
         FileResource file = new FileResource().id(id).serialisedFormat("avro").type("employee");
-        file.setParent(createParentResource(path));
+        Path path = Path.of(id).toAbsolutePath();
+        resolveParents(path.getParent(), file);
 
         return file;
     }
 
-    private DirectoryResource createParentResource(final String strPath) {
-        Path path = Paths.get(strPath);
-        ArrayList<DirectoryResource> resourceList = new ArrayList<>();
-        List<String> pathList = new ArrayList<>();
-        do {
-            pathList.add(path.toString());
-            path = Paths.get(path.getParent().toAbsolutePath().toString());
-        } while (path.getFileName() != null);
-
-        for (String s : pathList) {
-            DirectoryResource parentResource = addParentResource(s);
-            if (!resourceList.isEmpty()) {
-                resourceList.get(resourceList.size() - 1).setParent(parentResource);
-            }
-            resourceList.add(parentResource);
-        }
-        resourceList.get(resourceList.size() - 1).setParent(createSystemResource(path.toString()));
-        return resourceList.get(0);
+    private void resolveParents(final Path path, final ChildResource childResource) {
+        requireNonNull(path);
+        Optional<Path> parent = Optional.ofNullable(path.getParent());
+        parent.ifPresentOrElse(parentPath -> {
+            DirectoryResource directoryResource = new DirectoryResource().id(path.toString());
+            childResource.setParent(directoryResource);
+            resolveParents(parentPath, directoryResource);
+        }, () -> {
+            SystemResource systemResource = new SystemResource().id(path.toString());
+            childResource.setParent(systemResource);
+        });
     }
 
-    private DirectoryResource addParentResource(final String path) {
-        return new DirectoryResource().id(path);
-    }
-
-    private SystemResource createSystemResource(final String path) {
-        return new SystemResource().id(path);
-    }
 }
