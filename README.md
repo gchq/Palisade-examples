@@ -107,7 +107,7 @@ To run it:
 
 1.  Launch the services:
     ```bash
-      ./deployment/local-jvm/bash-scripts/runServiceLauncher.sh
+      ./deployment/local-jvm/bash-scripts/startServices.sh
     ```
 
 1. From a separate terminal run the launch script:
