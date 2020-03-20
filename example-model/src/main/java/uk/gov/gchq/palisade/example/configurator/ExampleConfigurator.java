@@ -43,6 +43,8 @@ import uk.gov.gchq.palisade.resource.request.AddResourceRequest;
 import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
 
 import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -57,12 +59,12 @@ public class ExampleConfigurator {
 
     private String file;
 
-    private DataClient dataClient;
-    private PolicyClient policyClient;
-    private ResourceClient resourceClient;
-    private UserClient userClient;
+    private final DataClient dataClient;
+    private final PolicyClient policyClient;
+    private final ResourceClient resourceClient;
+    private final UserClient userClient;
 
-    private EurekaClient eurekaClient;
+    private final EurekaClient eurekaClient;
 
     public ExampleConfigurator(final DataClient dataClient, final PolicyClient policyClient, final ResourceClient resourceClient, final UserClient userClient, final EurekaClient eurekaClient) {
         this.dataClient = dataClient;
@@ -105,7 +107,7 @@ public class ExampleConfigurator {
         // Add the users to the User-service
         LOGGER.info("ADDING USERS");
 
-        AddUserRequest[] userRequests = new AddUserRequest[] {
+        AddUserRequest[] userRequests = new AddUserRequest[]{
                 AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getAlice()),
                 AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getBob()),
                 AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getEve())
@@ -179,15 +181,14 @@ public class ExampleConfigurator {
         return file;
     }
 
-    private DirectoryResource createParentResource(final String path) {
-        String str = path;
-        List<DirectoryResource> resourceList = new ArrayList<>();
+    private DirectoryResource createParentResource(final String strPath) {
+        Path path = Paths.get(strPath);
+        ArrayList<DirectoryResource> resourceList = new ArrayList<>();
         List<String> pathList = new ArrayList<>();
-
         do {
-            pathList.add(str);
-            str = str.substring(0, str.lastIndexOf("/"));
-        } while (!str.endsWith("//"));
+            pathList.add(path.toString());
+            path = Paths.get(path.getParent().toAbsolutePath().toString());
+        } while (path.getFileName() != null);
 
         for (String s : pathList) {
             DirectoryResource parentResource = addParentResource(s);
@@ -196,8 +197,7 @@ public class ExampleConfigurator {
             }
             resourceList.add(parentResource);
         }
-        resourceList.get(resourceList.size() - 1).setParent(createSystemResource(str));
-
+        resourceList.get(resourceList.size() - 1).setParent(createSystemResource(path.toString()));
         return resourceList.get(0);
     }
 
