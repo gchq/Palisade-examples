@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-pgrep user-service | awk '{system("kill "$1)}'
+pgrep java | awk '{system("kill "$1)}'
