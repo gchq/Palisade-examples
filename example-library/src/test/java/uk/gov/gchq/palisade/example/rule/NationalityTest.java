@@ -17,6 +17,7 @@
 package uk.gov.gchq.palisade.example.rule;
 
 import org.junit.Test;
+
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.Purpose;
@@ -44,10 +45,10 @@ public class NationalityTest {
 
         // When
         Employee actual = NATIONALITY_RULE.apply(TEST_EMPLOYEE, TEST_USER_HR, STAFF_REPORT_CONTEXT);
-        Nationality actual_nationality = actual.getNationality();
+        Nationality actualNationality = actual.getNationality();
 
         // Then
-        assertEquals(TEST_EMPLOYEE.getNationality(), actual_nationality);
+        assertEquals(TEST_EMPLOYEE.getNationality(), actualNationality);
     }
 
     @Test

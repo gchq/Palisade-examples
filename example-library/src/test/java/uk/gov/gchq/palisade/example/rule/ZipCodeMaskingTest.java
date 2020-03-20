@@ -17,6 +17,7 @@
 package uk.gov.gchq.palisade.example.rule;
 
 import org.junit.Test;
+
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.UserId;
@@ -49,7 +50,7 @@ public class ZipCodeMaskingTest {
         String testZipCode = TEST_EMPLOYEE.getAddress().getZipCode();
 
         // Then
-        assertEquals(testZipCode.substring(0,testZipCode.length() - 1), actualZipCode.substring(0,testZipCode.length() - 1));
+        assertEquals(testZipCode.substring(0, testZipCode.length() - 1), actualZipCode.substring(0, testZipCode.length() - 1));
         assertEquals(testZipCode.charAt(testZipCode.length() - 1), actualZipCode.charAt(actualZipCode.length() - 1));
         assertNull(actualStreetNum);
         assertNull(actualStreetName);

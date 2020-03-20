@@ -49,10 +49,10 @@ public class BankDetailsRulesTest {
 
         // When
         Employee actual = BANK_DETAILS_RULE.apply(TEST_EMPLOYEE, TEST_USER_PAYROLL, SALARY_CONTEXT);
-        BankDetails actual_bank_details = actual.getBankDetails();
+        BankDetails actualBankDetails = actual.getBankDetails();
 
         // Then
-        assertEquals(TEST_EMPLOYEE.getBankDetails(), actual_bank_details);
+        assertEquals(TEST_EMPLOYEE.getBankDetails(), actualBankDetails);
     }
 
     @Test
