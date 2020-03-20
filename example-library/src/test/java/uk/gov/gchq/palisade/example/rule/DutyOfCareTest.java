@@ -17,6 +17,7 @@
 package uk.gov.gchq.palisade.example.rule;
 
 import org.junit.Test;
+
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.UserId;
@@ -38,7 +39,7 @@ public class DutyOfCareTest {
     private static final User TEST_USER3 = new User().userId(new UserId().id("1501105288")).roles("Not HR"); // End of chain and not HR
     private static final User TEST_USER4 = new User().userId(new UserId().id("1")).roles(Role.HR.name()); // Not in chain and HR
     private static final User TEST_USER5 = new User().userId(new UserId().id("1")).roles("Not HR"); // Not in chain and HR
-    private static final Manager[] managers = TEST_EMPLOYEE.getManager();
+    private static final Manager[] MANAGER = TEST_EMPLOYEE.getManager();
     private static final DutyOfCareRule DUTY_OF_CARE_RULE = new DutyOfCareRule();
     private static final Context DUTY_OF_CARE_CONTEXT = new Context().purpose(Purpose.DUTY_OF_CARE.name());
     private static final Context NOT_DUTY_OF_CARE_CONTEXT = new Context().purpose("Not Duty of Care");

@@ -21,8 +21,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
-
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
