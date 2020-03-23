@@ -59,7 +59,7 @@ public class ExampleConfigurator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleConfigurator.class);
 
-    private String file;
+    private Path file;
 
     private final DataClient dataClient;
     private final PolicyClient policyClient;
@@ -77,8 +77,7 @@ public class ExampleConfigurator {
     }
 
     public ExampleConfigurator file(final String file) {
-        URI absoluteFileURI = ExampleFileUtil.convertToFileURI(file);
-        this.file = absoluteFileURI.toString();
+        this.file = Path.of(file);
         return this;
     }
 
@@ -149,7 +148,7 @@ public class ExampleConfigurator {
         // Using Custom Rule implementations
         LOGGER.info("ADDING POLICIES");
 
-        SetResourcePolicyRequest setPolicyRequest = ExamplePolicies.getExamplePolicy(file);
+        SetResourcePolicyRequest setPolicyRequest = ExamplePolicies.getExamplePolicy(file.toString());
 
         for (ServiceInstance policyService : getServiceInstances("policy-service")) {
             policyClient.setResourcePolicyAsync(policyService.getUri(), setPolicyRequest);
@@ -175,9 +174,8 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    static FileResource createFileResource(final String id) {
-        FileResource file = new FileResource().id(id).serialisedFormat("avro").type("employee");
-        Path path = Path.of(id).toAbsolutePath();
+    static FileResource createFileResource(final Path path) {
+        FileResource file = fileResource(path).serialisedFormat("avro").type("employee");
         resolveParents(path.getParent(), file);
 
         return file;
@@ -187,13 +185,29 @@ public class ExampleConfigurator {
         requireNonNull(path);
         Optional<Path> parent = Optional.ofNullable(path.getParent());
         parent.ifPresentOrElse(parentPath -> {
-            DirectoryResource directoryResource = new DirectoryResource().id(path.toString());
+            DirectoryResource directoryResource = directoryResource(parentPath);
             childResource.setParent(directoryResource);
             resolveParents(parentPath, directoryResource);
         }, () -> {
-            SystemResource systemResource = new SystemResource().id(path.toString());
+            SystemResource systemResource = systemResource(path);
             childResource.setParent(systemResource);
         });
+    }
+
+    private static FileResource fileResource(final Path path) {
+        return new FileResource().id(toURI(path).toString());
+    }
+
+    private static DirectoryResource directoryResource(final Path path) {
+        return new DirectoryResource().id(toURI(path).toString());
+    }
+
+    private static SystemResource systemResource(final Path path) {
+        return new SystemResource().id(toURI(path).toString());
+    }
+
+    private static URI toURI(final Path path) {
+        return ExampleFileUtil.convertToFileURI(path.toString());
     }
 
 }

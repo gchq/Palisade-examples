@@ -45,7 +45,7 @@ public class ExampleConfiguratorTest {
         LOGGER.info("Testing createFileResource and resolveParents for file: {}", pom);
 
         // When
-        FileResource fileResource = ExampleConfigurator.createFileResource(pom.toString());
+        FileResource fileResource = ExampleConfigurator.createFileResource(pom);
 
         // Then
         LinkedList<Resource> parents = getAllParents(fileResource);
