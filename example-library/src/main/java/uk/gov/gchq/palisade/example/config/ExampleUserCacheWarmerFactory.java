@@ -74,8 +74,8 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
         this.roles = roles;
     }
 
-    public TrainingCourse[] getTrainingCourses() {
-        return (TrainingCourse[]) trainingCourses.toArray();
+    public EnumSet<TrainingCourse> getTrainingCourses() {
+        return trainingCourses;
     }
 
     public void setTrainingCourses(final String... trainingCourse) {
@@ -88,7 +88,7 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
     public User warm() {
         System.out.println("Using the ExampleUser warm method");
         return new ExampleUser()
-                .trainingCompleted(getTrainingCourses())
+                .trainingCompleted(trainingCourses)
                 .userId(this.getUserId())
                 .auths(this.getAuths())
                 .roles(this.getRoles());

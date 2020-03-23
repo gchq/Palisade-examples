@@ -46,6 +46,13 @@ public class ExampleUser extends User {
         return this;
     }
 
+    public ExampleUser trainingCompleted(final EnumSet<TrainingCourse> trainingCompleted) {
+        requireNonNull(trainingCompleted, "cannot add null training completed");
+        trainingCourses.clear();
+        trainingCourses.addAll(trainingCompleted);
+        return this;
+    }
+
     public EnumSet<TrainingCourse> getTrainingCompleted() {
         return trainingCourses;
     }
