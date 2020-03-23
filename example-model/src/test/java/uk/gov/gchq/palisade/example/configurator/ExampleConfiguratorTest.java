@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package uk.gov.gchq.palisade.example.configurator;
 
 import org.hamcrest.Matchers;
@@ -62,7 +61,7 @@ public class ExampleConfiguratorTest {
 
     private LinkedList<Resource> getAllParents(final Resource resource) {
         if (resource instanceof ChildResource) {
-            LinkedList<Resource> parents = getAllParents(((ChildResource) resource).getParent());
+            final LinkedList<Resource> parents = getAllParents(((ChildResource) resource).getParent());
             parents.addLast(resource);
             LOGGER.debug("Add {}", resource);
             return parents;
