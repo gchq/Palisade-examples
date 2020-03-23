@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 FILE=services-manager/target/services-manager-*-exec.jar
 DIR=../Palisade-services/
 
