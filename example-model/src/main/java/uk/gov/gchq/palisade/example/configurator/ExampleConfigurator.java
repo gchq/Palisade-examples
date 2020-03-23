@@ -105,7 +105,7 @@ public class ExampleConfigurator {
                 .collect(Collectors.toList());
     }
 
-    private void addUsers() {
+    void addUsers() {
         // Add the users to the User-service
         LOGGER.info("ADDING USERS");
 
@@ -125,7 +125,7 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    private void addResources() {
+    void addResources() {
         // Add the resource to the Resource-service
         LOGGER.info("ADDING RESOURCES");
 
@@ -145,7 +145,7 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    private void addPolicies() {
+    void addPolicies() {
         // Using Custom Rule implementations
         LOGGER.info("ADDING POLICIES");
 
@@ -159,7 +159,7 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    private void addSerialiser() {
+    void addSerialiser() {
         // Add the Avro serialiser to the data-service
         LOGGER.info("ADDING SERIALISERS");
 
@@ -175,7 +175,7 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    private FileResource createFileResource(final String id) {
+    static FileResource createFileResource(final String id) {
         FileResource file = new FileResource().id(id).serialisedFormat("avro").type("employee");
         Path path = Path.of(id).toAbsolutePath();
         resolveParents(path.getParent(), file);
@@ -183,7 +183,7 @@ public class ExampleConfigurator {
         return file;
     }
 
-    private void resolveParents(final Path path, final ChildResource childResource) {
+    private static void resolveParents(final Path path, final ChildResource childResource) {
         requireNonNull(path);
         Optional<Path> parent = Optional.ofNullable(path.getParent());
         parent.ifPresentOrElse(parentPath -> {
