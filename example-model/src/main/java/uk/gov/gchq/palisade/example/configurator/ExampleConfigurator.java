@@ -122,6 +122,8 @@ public class ExampleConfigurator {
 
         SetResourcePolicyRequest setPolicyRequest = ExamplePolicies.getExamplePolicy(file);
 
+        LOGGER.info(setPolicyRequest.toString());
+
         for (ServiceInstance policyService : getServiceInstances("policy-service")) {
             policyClient.setResourcePolicyAsync(policyService.getUri(), setPolicyRequest);
             LOGGER.info("Set policy {} to service {}", setPolicyRequest, policyService.getUri());

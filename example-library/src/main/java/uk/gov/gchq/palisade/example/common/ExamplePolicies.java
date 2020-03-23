@@ -17,7 +17,6 @@
 package uk.gov.gchq.palisade.example.common;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.request.Policy;
 import uk.gov.gchq.palisade.example.request.SetResourcePolicyRequest;
 import uk.gov.gchq.palisade.example.rule.BankDetailsRule;
 import uk.gov.gchq.palisade.example.rule.DutyOfCareRule;
@@ -31,6 +30,7 @@ import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.resource.impl.SystemResource;
+import uk.gov.gchq.palisade.service.request.Policy;
 
 import java.net.URI;
 import java.nio.file.FileSystems;

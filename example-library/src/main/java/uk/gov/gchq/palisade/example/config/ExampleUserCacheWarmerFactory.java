@@ -22,6 +22,7 @@ import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.ExampleUser;
 import uk.gov.gchq.palisade.example.common.TrainingCourse;
 import uk.gov.gchq.palisade.service.CacheWarmerFactory;
+import uk.gov.gchq.palisade.service.request.Policy;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -85,12 +86,17 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
     }
 
     @Override
-    public User warm() {
+    public User userWarm() {
         return new ExampleUser()
                 .trainingCompleted(trainingCourses)
                 .userId(this.getUserId())
                 .auths(this.getAuths())
                 .roles(this.getRoles());
+    }
+
+    @Override
+    public Policy policyWarm() {
+        return null;
     }
 
     @Override

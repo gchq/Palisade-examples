@@ -39,5 +39,5 @@ population:
         IT
 
 cache:
-  warmer: exampleUserCacheWarmer
-  configuration: exampleUserData
+  userWarmer: exampleUserCacheWarmer
+  userConfig: exampleUserData
