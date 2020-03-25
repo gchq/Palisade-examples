@@ -42,6 +42,7 @@ management:
 
 web:
   client:
+    audit-service: audit-service
     data-service: data-service
     palisade-service: palisade-service
     policy-service: policy-service

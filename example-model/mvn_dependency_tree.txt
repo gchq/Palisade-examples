@@ -101,6 +101,7 @@ uk.gov.gchq.palisade:example-model:jar:0.4.0-SNAPSHOT
 |     +- org.apache.commons:commons-compress:jar:1.8.1:compile
 |     \- org.tukaani:xz:jar:1.5:compile
 +- uk.gov.gchq.palisade:example-library:jar:0.4.0-SNAPSHOT:compile
+|  +- com.google.protobuf:protobuf-java:jar:3.5.1:compile
 |  +- uk.gov.gchq.palisade:hr-data-generator:jar:0.4.0-SNAPSHOT:compile
 |  |  +- com.github.javafaker:javafaker:jar:1.0.1:compile
 |  |  |  +- org.yaml:snakeyaml:jar:android:1.23:compile

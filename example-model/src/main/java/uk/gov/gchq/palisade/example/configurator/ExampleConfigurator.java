@@ -23,10 +23,8 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
-import uk.gov.gchq.palisade.example.common.ExamplePolicies;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.request.AddSerialiserRequest;
-import uk.gov.gchq.palisade.example.request.SetResourcePolicyRequest;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 import uk.gov.gchq.palisade.example.web.DataClient;
 import uk.gov.gchq.palisade.example.web.PolicyClient;
@@ -83,7 +81,6 @@ public class ExampleConfigurator {
 
     public void initialiseExample() {
         addResources();
-        addPolicies();
         addSerialiser();
 
         LOGGER.info("The example users, data access policies, resource(s) and serialiser details have been initialised.");
@@ -114,20 +111,6 @@ public class ExampleConfigurator {
                 resourceClient.addResource(resourceService.getUri(), addResourceRequest);
                 LOGGER.info("Added resource {} to service {}", addResourceRequest, resourceService.getUri());
             }
-        }
-
-        LOGGER.info("");
-    }
-
-    void addPolicies() {
-        // Using Custom Rule implementations
-        LOGGER.info("ADDING POLICIES");
-
-        SetResourcePolicyRequest setPolicyRequest = ExamplePolicies.getExamplePolicy(file.toString());
-
-        for (ServiceInstance policyService : getServiceInstances("policy-service")) {
-            policyClient.setResourcePolicyAsync(policyService.getUri(), setPolicyRequest);
-            LOGGER.info("Set policy {} to service {}", setPolicyRequest, policyService.getUri());
         }
 
         LOGGER.info("");
