@@ -40,7 +40,7 @@ public class EmployeeTest {
     @Test
     public void generateData() {
         try {
-            CreateData.main(new String[]{".data", "50", "1"});
+            CreateData.main(new String[]{"/data", "50", "1"});
         } finally {
             FileUtils.deleteQuietly(new File(".data"));
         }
