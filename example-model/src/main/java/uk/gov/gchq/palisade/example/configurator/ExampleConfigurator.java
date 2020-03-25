@@ -33,6 +33,7 @@ import uk.gov.gchq.palisade.example.web.PolicyClient;
 import uk.gov.gchq.palisade.example.web.ResourceClient;
 import uk.gov.gchq.palisade.example.web.UserClient;
 import uk.gov.gchq.palisade.reader.common.DataFlavour;
+import uk.gov.gchq.palisade.resource.ChildResource;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.resource.impl.SystemResource;
@@ -40,9 +41,12 @@ import uk.gov.gchq.palisade.resource.request.AddResourceRequest;
 import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
 
 import java.net.URI;
-import java.util.ArrayList;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Convenience class for the examples to configure the users and data access policies for the example.
@@ -51,14 +55,14 @@ public class ExampleConfigurator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleConfigurator.class);
 
-    private String file;
+    private Path file;
 
-    private DataClient dataClient;
-    private PolicyClient policyClient;
-    private ResourceClient resourceClient;
-    private UserClient userClient;
+    private final DataClient dataClient;
+    private final PolicyClient policyClient;
+    private final ResourceClient resourceClient;
+    private final UserClient userClient;
 
-    private EurekaClient eurekaClient;
+    private final EurekaClient eurekaClient;
 
     public ExampleConfigurator(final DataClient dataClient, final PolicyClient policyClient, final ResourceClient resourceClient, final UserClient userClient, final EurekaClient eurekaClient) {
         this.dataClient = dataClient;
@@ -69,8 +73,7 @@ public class ExampleConfigurator {
     }
 
     public ExampleConfigurator file(final String file) {
-        URI absoluteFileURI = ExampleFileUtil.convertToFileURI(file);
-        this.file = absoluteFileURI.toString();
+        this.file = Path.of(file);
         return this;
     }
 
@@ -116,13 +119,11 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    private void addPolicies() {
+    void addPolicies() {
         // Using Custom Rule implementations
         LOGGER.info("ADDING POLICIES");
 
-        SetResourcePolicyRequest setPolicyRequest = ExamplePolicies.getExamplePolicy(file);
-
-        LOGGER.info(setPolicyRequest.toString());
+        SetResourcePolicyRequest setPolicyRequest = ExamplePolicies.getExamplePolicy(file.toString());
 
         for (ServiceInstance policyService : getServiceInstances("policy-service")) {
             policyClient.setResourcePolicyAsync(policyService.getUri(), setPolicyRequest);
@@ -132,7 +133,7 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    private void addSerialiser() {
+    void addSerialiser() {
         // Add the Avro serialiser to the data-service
         LOGGER.info("ADDING SERIALISERS");
 
@@ -148,41 +149,39 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    private FileResource createFileResource(final String id) {
-        String path = id.substring(0, id.lastIndexOf("/") + 1);
-        FileResource file = new FileResource().id(id).serialisedFormat("avro").type("employee");
-        file.setParent(createParentResource(path));
+    static FileResource createFileResource(final Path path) {
+        FileResource file = fileResource(path).serialisedFormat("avro").type("employee");
+        resolveParents(path.getParent(), file);
 
         return file;
     }
 
-    private DirectoryResource createParentResource(final String path) {
-        String str = path;
-        List<DirectoryResource> resourceList = new ArrayList<>();
-        List<String> pathList = new ArrayList<>();
-
-        do {
-            pathList.add(str);
-            str = str.substring(0, str.lastIndexOf("/"));
-        } while (!str.endsWith("//"));
-
-        for (String s : pathList) {
-            DirectoryResource parentResource = addParentResource(s);
-            if (!resourceList.isEmpty()) {
-                resourceList.get(resourceList.size() - 1).setParent(parentResource);
-            }
-            resourceList.add(parentResource);
-        }
-        resourceList.get(resourceList.size() - 1).setParent(createSystemResource(str));
-
-        return resourceList.get(0);
+    private static void resolveParents(final Path path, final ChildResource childResource) {
+        requireNonNull(path);
+        Optional<Path> parent = Optional.ofNullable(path.getParent());
+        parent.ifPresentOrElse(parentPath -> {
+            DirectoryResource directoryResource = directoryResource(parentPath);
+            childResource.setParent(directoryResource);
+            resolveParents(parentPath, directoryResource);
+        }, () -> {
+            SystemResource systemResource = systemResource(path);
+            childResource.setParent(systemResource);
+        });
     }
 
-    private DirectoryResource addParentResource(final String path) {
-        return new DirectoryResource().id(path);
+    private static FileResource fileResource(final Path path) {
+        return new FileResource().id(toURI(path).toString());
     }
 
-    private SystemResource createSystemResource(final String path) {
-        return new SystemResource().id(path);
+    private static DirectoryResource directoryResource(final Path path) {
+        return new DirectoryResource().id(toURI(path).toString());
+    }
+
+    private static SystemResource systemResource(final Path path) {
+        return new SystemResource().id(toURI(path).toString());
+    }
+
+    private static URI toURI(final Path path) {
+        return ExampleFileUtil.convertToFileURI(path.toString());
     }
 }
