@@ -19,7 +19,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import uk.gov.gchq.palisade.reader.request.AuditRequest;
+import uk.gov.gchq.palisade.service.request.AuditRequest;
 
 import java.net.URI;
 

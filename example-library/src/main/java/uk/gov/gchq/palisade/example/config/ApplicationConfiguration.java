@@ -28,7 +28,7 @@ public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
     @Bean
-    @ConditionalOnProperty(prefix = "cache", name = "userConfig", havingValue = "exampleUserData")
+    @ConditionalOnProperty(prefix = "cache", name = "userConfig", havingValue = "exampleUserConfig")
     public ExampleUserConfiguration userConfiguration() {
         LOGGER.info("Example User Configuration Instantiated");
         return new ExampleUserConfiguration();
@@ -36,8 +36,22 @@ public class ApplicationConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "cache", name = "userWarmer", havingValue = "exampleUserCacheWarmer")
-    public ExampleUserCacheWarmerFactory cacheWarmerFactory() {
+    public ExampleUserCacheWarmerFactory userCacheWarmerFactory() {
         LOGGER.info("Example User Cache Warmer Instantiated");
         return new ExampleUserCacheWarmerFactory();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "cache", name = "policyConfig", havingValue = "examplePolicyConfig")
+    public ExamplePolicyConfiguration policyConfiguration() {
+        LOGGER.info("Example Policy Configuration Instantiated");
+        return new ExamplePolicyConfiguration();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "cache", name = "policyWarmer", havingValue = "examplePolicyCacheWarmer")
+    public ExamplePolicyCacheWarmerFactory policyCacheWarmerFactory() {
+        LOGGER.info("Example Policy Cache Warmer Instantiated");
+        return new ExamplePolicyCacheWarmerFactory();
     }
 }

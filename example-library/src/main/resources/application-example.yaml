@@ -19,7 +19,7 @@ eureka:
 
 population:
   users:
-    - userId: alice
+    - userId: Alice
       auths:
         public
         private
@@ -27,17 +27,31 @@ population:
         HR
       trainingCourses:
         PAYROLL_TRAINING_COURSE
-    - userId: bob
+    - userId: Bob
       auths:
         public
       roles:
         ESTATES
-    - userId: eve
+    - userId: Eve
       auths:
         public
       roles:
         IT
+  resource: ../Palisade-examples/resources/data
+  policies:
+    - type: Employee
+      owner: Alice
+      recordRules:
+        "1-Bank details only visible for the purpose of salary": BankDetailsRule
+        "2-Emergency numbers only available for duty of care purpose": DutyOfCareRule
+        "3-Nationality is only available for staff report": NationalityRule
+        "4-Address masked for estates staff and otherwise only available for duty of care": ZipCodeMaskingRule
+        "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": RecordMaskingRule
+      resourceRules:
+        "1-Only HR can access the first resource": FirstResourceRule
 
 cache:
   userWarmer: exampleUserCacheWarmer
-  userConfig: exampleUserData
+  userConfig: exampleUserConfig
+  policyWarmer: examplePolicyCacheWarmer
+  policyConfig: examplePolicyConfig
