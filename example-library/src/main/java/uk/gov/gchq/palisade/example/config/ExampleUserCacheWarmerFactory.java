@@ -21,8 +21,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.ExampleUser;
 import uk.gov.gchq.palisade.example.common.TrainingCourse;
-import uk.gov.gchq.palisade.service.CacheWarmerFactory;
-import uk.gov.gchq.palisade.service.request.Policy;
+import uk.gov.gchq.palisade.service.UserCacheWarmerFactory;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -30,7 +29,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @ConfigurationProperties
-public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
+public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
 
     private String userId;
     private Set<String> auths;
@@ -92,11 +91,6 @@ public class ExampleUserCacheWarmerFactory implements CacheWarmerFactory {
                 .userId(this.getUserId())
                 .auths(this.getAuths())
                 .roles(this.getRoles());
-    }
-
-    @Override
-    public Policy policyWarm() {
-        return null;
     }
 
     @Override

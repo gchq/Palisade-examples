@@ -18,7 +18,6 @@ package uk.gov.gchq.palisade.example.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.rule.BankDetailsRule;
@@ -27,14 +26,14 @@ import uk.gov.gchq.palisade.example.rule.FirstResourceRule;
 import uk.gov.gchq.palisade.example.rule.NationalityRule;
 import uk.gov.gchq.palisade.example.rule.RecordMaskingRule;
 import uk.gov.gchq.palisade.example.rule.ZipCodeMaskingRule;
-import uk.gov.gchq.palisade.service.CacheWarmerFactory;
+import uk.gov.gchq.palisade.service.PolicyCacheWarmerFactory;
 import uk.gov.gchq.palisade.service.request.Policy;
 
 import java.util.Map;
 import java.util.Objects;
 
 @ConfigurationProperties
-public class ExamplePolicyCacheWarmerFactory implements CacheWarmerFactory {
+public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory {
 
     private String type;
     private String owner;
@@ -81,11 +80,6 @@ public class ExamplePolicyCacheWarmerFactory implements CacheWarmerFactory {
 
     public void setRecordRules(final Map<String, String> recordRules) {
         this.recordRules = recordRules;
-    }
-
-    @Override
-    public User userWarm() {
-        return null;
     }
 
     @Override

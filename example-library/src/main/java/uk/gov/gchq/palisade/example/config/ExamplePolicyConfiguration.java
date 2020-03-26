@@ -23,7 +23,6 @@ import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
-import uk.gov.gchq.palisade.service.CacheWarmerFactory;
 import uk.gov.gchq.palisade.service.PolicyConfiguration;
 
 import java.net.URI;
@@ -48,7 +47,7 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
     }
 
     @Override
-    public List<? extends CacheWarmerFactory> getPolicies() {
+    public List<ExamplePolicyCacheWarmerFactory> getPolicies() {
         return policies;
     }
 
