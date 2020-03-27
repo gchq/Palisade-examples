@@ -18,6 +18,7 @@ package uk.gov.gchq.palisade.example.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.rule.BankDetailsRule;
@@ -31,6 +32,9 @@ import uk.gov.gchq.palisade.service.request.Policy;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.StringJoiner;
+
+import static java.util.Objects.requireNonNull;
 
 @ConfigurationProperties
 public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory {
@@ -40,9 +44,17 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
     private Map<String, String> resourceRules;
     private Map<String, String> recordRules;
 
+    /**
+     * Constructor with 0 arguments for an example implementation
+     * of the {@link PolicyCacheWarmerFactory} interface
+     */
     public ExamplePolicyCacheWarmerFactory() {
     }
 
+    /**
+     * Constructor with 4 arguments for an example implementation
+     * of the {@link PolicyCacheWarmerFactory} interface
+     */
     public ExamplePolicyCacheWarmerFactory(final String type, final String owner, final Map<String, String> resourceRules, final Map<String, String> recordRules) {
         this.type = type;
         this.owner = owner;
@@ -50,35 +62,47 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
         this.recordRules = recordRules;
     }
 
+    @Generated
     public String getType() {
         return type;
     }
 
+    @Generated
     public void setType(final String type) {
+        requireNonNull(type);
         this.type = type;
     }
 
+    @Generated
     public String getOwner() {
         return owner;
     }
 
+    @Generated
     public void setOwner(final String owner) {
+        requireNonNull(owner);
         this.owner = owner;
     }
 
+    @Generated
     public Map<String, String> getResourceRules() {
         return resourceRules;
     }
 
+    @Generated
     public void setResourceRules(final Map<String, String> resourceRules) {
+        requireNonNull(resourceRules);
         this.resourceRules = resourceRules;
     }
 
+    @Generated
     public Map<String, String> getRecordRules() {
         return recordRules;
     }
 
+    @Generated
     public void setRecordRules(final Map<String, String> recordRules) {
+        requireNonNull(recordRules);
         this.recordRules = recordRules;
     }
 
@@ -130,15 +154,14 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
     }
 
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ExamplePolicyCacheWarmerFactory)) {
             return false;
         }
-
         final ExamplePolicyCacheWarmerFactory that = (ExamplePolicyCacheWarmerFactory) o;
         return Objects.equals(type, that.type) &&
                 Objects.equals(owner, that.owner) &&
@@ -147,18 +170,20 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hash(type, owner, resourceRules, recordRules);
     }
 
     @Override
+    @Generated
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ExamplePolicies{\n");
-        sb.append("\t\ttype=").append(type).append("\n");
-        sb.append("\t\towner=").append(owner).append("\n");
-        sb.append("\t\tresourceRules=").append(resourceRules).append("\n");
-        sb.append("\t\trecordRules=").append(recordRules).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return new StringJoiner(", ", ExamplePolicyCacheWarmerFactory.class.getSimpleName() + "[", "]")
+                .add("type='" + type + "'")
+                .add("owner='" + owner + "'")
+                .add("resourceRules=" + resourceRules)
+                .add("recordRules=" + recordRules)
+                .add(super.toString())
+                .toString();
     }
 }

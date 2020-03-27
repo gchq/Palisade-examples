@@ -18,56 +18,73 @@ package uk.gov.gchq.palisade.example.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.service.UserConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
+
+import static java.util.Objects.requireNonNull;
 
 @ConfigurationProperties(prefix = "population")
 public class ExampleUserConfiguration implements UserConfiguration {
 
     private List<ExampleUserCacheWarmerFactory> users = new ArrayList<>();
 
+    /**
+     * Constructor with 0 arguments for an example implementation
+     * of the {@link UserConfiguration} interface
+     */
     public ExampleUserConfiguration() {
     }
 
+    /**
+     * Constructor with 1 argument for an example implementation
+     * of the {@link UserConfiguration} interface
+     */
     public ExampleUserConfiguration(final List<ExampleUserCacheWarmerFactory> users) {
         this.users = users;
     }
 
     @Override
+    @Generated
     public List<ExampleUserCacheWarmerFactory> getUsers() {
         return users;
     }
 
+    @Generated
     public void setUsers(final List<ExampleUserCacheWarmerFactory> users) {
+        requireNonNull(users);
         this.users = users;
     }
 
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ExampleUserConfiguration)) {
             return false;
         }
-
         final ExampleUserConfiguration that = (ExampleUserConfiguration) o;
         return Objects.equals(users, that.users);
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hash(users);
     }
 
     @Override
+    @Generated
     public String toString() {
-        return "ExampleUserConfiguration{" +
-                "users=" + users +
-                '}';
+        return new StringJoiner(", ", ExampleUserConfiguration.class.getSimpleName() + "[", "]")
+                .add("users=" + users)
+                .add(super.toString())
+                .toString();
     }
 }

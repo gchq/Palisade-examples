@@ -18,6 +18,7 @@ package uk.gov.gchq.palisade.example.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 import uk.gov.gchq.palisade.resource.Resource;
@@ -29,7 +30,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
+import static java.util.Objects.requireNonNull;
 import static uk.gov.gchq.palisade.example.common.ExamplePolicies.getParent;
 
 @ConfigurationProperties(prefix = "population")
@@ -38,28 +41,42 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
     private String resource;
     private List<ExamplePolicyCacheWarmerFactory> policies = new ArrayList<>();
 
+    /**
+     * Constructor with 0 arguments for an example implementation
+     * of the {@link PolicyConfiguration} interface
+     */
     public ExamplePolicyConfiguration() {
     }
 
+    /**
+     * Constructor with 2 arguments for an example implementation
+     * of the {@link PolicyConfiguration} interface
+     */
     public ExamplePolicyConfiguration(final List<ExamplePolicyCacheWarmerFactory> policies, final String resource) {
         this.policies = policies;
         this.resource = resource;
     }
 
     @Override
+    @Generated
     public List<ExamplePolicyCacheWarmerFactory> getPolicies() {
         return policies;
     }
 
+    @Generated
     public void setPolicies(final List<ExamplePolicyCacheWarmerFactory> policies) {
+        requireNonNull(policies);
         this.policies = policies;
     }
 
+    @Generated
     public String getResource() {
         return resource;
     }
 
+    @Generated
     public void setResource(final String resource) {
+        requireNonNull(resource);
         this.resource = resource;
     }
 
@@ -82,31 +99,32 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
     }
 
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ExamplePolicyConfiguration)) {
             return false;
         }
-
         final ExamplePolicyConfiguration that = (ExamplePolicyConfiguration) o;
         return Objects.equals(resource, that.resource) &&
                 Objects.equals(policies, that.policies);
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hash(resource, policies);
     }
 
     @Override
+    @Generated
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ExamplePolicyConfiguration{\n");
-        sb.append("\tresource=").append(resource).append("\n");
-        sb.append("\tpolicies=").append(policies).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return new StringJoiner(", ", ExamplePolicyConfiguration.class.getSimpleName() + "[", "]")
+                .add("resource='" + resource + "'")
+                .add("policies=" + policies)
+                .add(super.toString())
+                .toString();
     }
 }

@@ -18,6 +18,7 @@ package uk.gov.gchq.palisade.example.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.ExampleUser;
 import uk.gov.gchq.palisade.example.common.TrainingCourse;
@@ -27,6 +28,9 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
+
+import static java.util.Objects.requireNonNull;
 
 @ConfigurationProperties
 public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
@@ -36,6 +40,10 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
     private Set<String> roles;
     private EnumSet<TrainingCourse> trainingCourses;
 
+    /**
+     * Constructor with 0 arguments for an example implementation
+     * of the {@link UserCacheWarmerFactory} interface
+     */
     public ExampleUserCacheWarmerFactory() {
         this.userId = "";
         this.auths = Collections.emptySet();
@@ -43,6 +51,10 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
         this.trainingCourses = EnumSet.noneOf(TrainingCourse.class);
     }
 
+    /**
+     * Constructor with 4 arguments for an example implementation
+     * of the {@link UserCacheWarmerFactory} interface
+     */
     public ExampleUserCacheWarmerFactory(final String userId, final Set<String> auths, final Set<String> roles, final EnumSet<TrainingCourse> trainingCourses) {
         this.userId = userId;
         this.auths = auths;
@@ -50,35 +62,47 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
         this.trainingCourses = trainingCourses;
     }
 
+    @Generated
     public String getUserId() {
         return userId;
     }
 
+    @Generated
     public void setUserId(final String userId) {
+        requireNonNull(userId);
         this.userId = userId;
     }
 
+    @Generated
     public Set<String> getAuths() {
         return auths;
     }
 
+    @Generated
     public void setAuths(final Set<String> auths) {
+        requireNonNull(auths);
         this.auths = auths;
     }
 
+    @Generated
     public Set<String> getRoles() {
         return roles;
     }
 
+    @Generated
     public void setRoles(final Set<String> roles) {
+        requireNonNull(roles);
         this.roles = roles;
     }
 
+    @Generated
     public EnumSet<TrainingCourse> getTrainingCourses() {
         return trainingCourses;
     }
 
+    @Generated
     public void setTrainingCourses(final String... trainingCourse) {
+        requireNonNull(trainingCourse);
         for (String course : trainingCourse) {
             trainingCourses.add(TrainingCourse.valueOf(course));
         }
@@ -94,17 +118,15 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
     }
 
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ExampleUserCacheWarmerFactory)) {
             return false;
         }
-
         final ExampleUserCacheWarmerFactory that = (ExampleUserCacheWarmerFactory) o;
-
         return Objects.equals(userId, that.userId) &&
                 Objects.equals(auths, that.auths) &&
                 Objects.equals(roles, that.roles) &&
@@ -112,18 +134,20 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hash(userId, auths, roles, trainingCourses);
     }
 
     @Override
+    @Generated
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ExampleUsers{\n");
-        sb.append("\tuserId=").append(userId).append('\n');
-        sb.append("\tauths=").append(auths).append('\n');
-        sb.append("\troles=").append(roles).append('\n');
-        sb.append("\ttrainingCourses=").append(trainingCourses).append("\n");
-        sb.append('}');
-        return sb.toString();
+        return new StringJoiner(", ", ExampleUserCacheWarmerFactory.class.getSimpleName() + "[", "]")
+                .add("userId='" + userId + "'")
+                .add("auths=" + auths)
+                .add("roles=" + roles)
+                .add("trainingCourses=" + trainingCourses)
+                .add(super.toString())
+                .toString();
     }
 }
