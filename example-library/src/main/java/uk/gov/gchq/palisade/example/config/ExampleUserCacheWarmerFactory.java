@@ -54,6 +54,11 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
     /**
      * Constructor with 4 arguments for an example implementation
      * of the {@link UserCacheWarmerFactory} interface
+     *
+     * @param userId            a {@link String} value of a user.
+     * @param auths             a {@link Set} of {@link String} auth values for the user.
+     * @param roles             a {@link Set} of {@link String} role values for the user.
+     * @param trainingCourses   an {@link EnumSet} of {@link TrainingCourse}s for the user.
      */
     public ExampleUserCacheWarmerFactory(final String userId, final Set<String> auths, final Set<String> roles, final EnumSet<TrainingCourse> trainingCourses) {
         this.userId = userId;

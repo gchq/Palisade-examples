@@ -43,6 +43,8 @@ public class ExampleUserConfiguration implements UserConfiguration {
     /**
      * Constructor with 1 argument for an example implementation
      * of the {@link UserConfiguration} interface
+     *
+     * @param users     a list of objects implementing the {@link uk.gov.gchq.palisade.service.UserCacheWarmerFactory} interface
      */
     public ExampleUserConfiguration(final List<ExampleUserCacheWarmerFactory> users) {
         this.users = users;

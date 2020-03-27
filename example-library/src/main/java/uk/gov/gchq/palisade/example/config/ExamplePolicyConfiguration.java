@@ -51,6 +51,9 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
     /**
      * Constructor with 2 arguments for an example implementation
      * of the {@link PolicyConfiguration} interface
+     *
+     * @param policies  a {@link List} of objects implementing the {@link uk.gov.gchq.palisade.service.PolicyCacheWarmerFactory} interface
+     * @param resource  a {@link String} value of the resource that will have the policies applied to it.
      */
     public ExamplePolicyConfiguration(final List<ExamplePolicyCacheWarmerFactory> policies, final String resource) {
         this.policies = policies;

@@ -54,6 +54,11 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
     /**
      * Constructor with 4 arguments for an example implementation
      * of the {@link PolicyCacheWarmerFactory} interface
+     *
+     * @param type          a {@link String} of the {@link Policy} type.
+     * @param owner         a {@link String} value of the owner of the policy
+     * @param resourceRules a {@link Map} containing the ({@link String}) message and the ({@link String}) rule name.
+     * @param recordRules   a {@link Map} containing the ({@link String}) message and the ({@link String}) rule name.
      */
     public ExamplePolicyCacheWarmerFactory(final String type, final String owner, final Map<String, String> resourceRules, final Map<String, String> recordRules) {
         this.type = type;
