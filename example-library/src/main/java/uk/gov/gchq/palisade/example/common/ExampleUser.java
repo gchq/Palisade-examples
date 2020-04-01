@@ -15,14 +15,13 @@
  */
 package uk.gov.gchq.palisade.example.common;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import uk.gov.gchq.palisade.ToStringBuilder;
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.User;
 
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
@@ -62,36 +61,33 @@ public class ExampleUser extends User {
     }
 
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ExampleUser)) {
             return false;
         }
-
-        final ExampleUser exampleUser = (ExampleUser) o;
-
-        return new EqualsBuilder()
-                .appendSuper(super.equals(o))
-                .append(trainingCourses, exampleUser.trainingCourses)
-                .isEquals();
+        if (!super.equals(o)) {
+            return false;
+        }
+        final ExampleUser user = (ExampleUser) o;
+        return Objects.equals(trainingCourses, user.trainingCourses);
     }
 
     @Override
+    @Generated
     public int hashCode() {
-        return new HashCodeBuilder(11, 19)
-                .appendSuper(super.hashCode())
-                .append(trainingCourses)
-                .toHashCode();
+        return Objects.hash(super.hashCode(), trainingCourses);
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .appendSuper(super.toString())
-                .append("trainingCourses", trainingCourses)
+        return new StringJoiner(", ", ExampleUser.class.getSimpleName() + "[", "]")
+                .add("trainingCourses=" + trainingCourses)
+                .add(super.toString())
                 .toString();
     }
 }

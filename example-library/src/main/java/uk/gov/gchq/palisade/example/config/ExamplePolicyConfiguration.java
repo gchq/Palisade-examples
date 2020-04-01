@@ -21,43 +21,56 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
+import uk.gov.gchq.palisade.resource.ParentResource;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
+import uk.gov.gchq.palisade.resource.impl.SystemResource;
 import uk.gov.gchq.palisade.service.PolicyConfiguration;
 
 import java.net.URI;
-import java.util.ArrayList;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.stream.StreamSupport;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
-import static uk.gov.gchq.palisade.example.common.ExamplePolicies.getParent;
 
 @ConfigurationProperties(prefix = "population")
 public class ExamplePolicyConfiguration implements PolicyConfiguration {
 
     private String resource;
-    private List<ExamplePolicyCacheWarmerFactory> policies = new ArrayList<>();
+    private List<ExamplePolicyCacheWarmerFactory> policies;
+    private List<ExampleUserCacheWarmerFactory> users;
 
     /**
      * Constructor with 0 arguments for an example implementation
      * of the {@link PolicyConfiguration} interface
      */
     public ExamplePolicyConfiguration() {
+        resource = "";
+        policies = Collections.emptyList();
+        users = Collections.emptyList();
     }
 
     /**
      * Constructor with 2 arguments for an example implementation
      * of the {@link PolicyConfiguration} interface
      *
-     * @param policies  a {@link List} of objects implementing the {@link uk.gov.gchq.palisade.service.PolicyCacheWarmerFactory} interface
      * @param resource  a {@link String} value of the resource that will have the policies applied to it.
+     * @param policies  a {@link List} of objects implementing the {@link uk.gov.gchq.palisade.service.PolicyCacheWarmerFactory} interface
+     * @param users     a {@link List} of objects implementing the {@link uk.gov.gchq.palisade.service.UserCacheWarmerFactory} interface
      */
-    public ExamplePolicyConfiguration(final List<ExamplePolicyCacheWarmerFactory> policies, final String resource) {
-        this.policies = policies;
+    public ExamplePolicyConfiguration(final String resource, final List<ExamplePolicyCacheWarmerFactory> policies,
+                                      final List<ExampleUserCacheWarmerFactory> users) {
         this.resource = resource;
+        this.policies = policies;
+        this.users = users;
     }
 
     @Override
@@ -84,6 +97,18 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
     }
 
     @Override
+    @Generated
+    public List<ExampleUserCacheWarmerFactory> getUsers() {
+        return users;
+    }
+
+    @Generated
+    public void setUsers(final List<ExampleUserCacheWarmerFactory> users) {
+        requireNonNull(users);
+        this.users = users;
+    }
+
+    @Override
     public Resource createResource() {
         URI normalised = ExampleFileUtil.convertToFileURI(resource);
         String resource = normalised.toString();
@@ -92,6 +117,36 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
         } else {
             return new DirectoryResource().id(resource).parent(getParent(resource));
         }
+    }
+
+    public ParentResource getParent(final String fileURL) {
+        URI normalised = ExampleFileUtil.convertToFileURI(fileURL);
+        //this should only be applied to URLs that start with 'file://' not other types of URL
+        if (normalised.getScheme().equals(FileSystems.getDefault().provider().getScheme())) {
+            Path current = Paths.get(normalised);
+            Path parent = current.getParent();
+            //no parent can be found, must already be a directory tree root
+            if (isNull(parent)) {
+                throw new IllegalArgumentException(fileURL + " is already a directory tree root");
+            } else if (isDirectoryRoot(parent)) {
+                //else if this is a directory tree root
+                return new SystemResource().id(parent.toUri().toString());
+            } else {
+                //else recurse up a level
+                return new DirectoryResource().id(parent.toUri().toString()).parent(getParent(parent.toUri().toString()));
+            }
+        } else {
+            //if this is another scheme then there is no definable parent
+            return new SystemResource().id("");
+        }
+    }
+
+    public boolean isDirectoryRoot(final Path path) {
+        return StreamSupport
+                .stream(FileSystems.getDefault()
+                        .getRootDirectories()
+                        .spliterator(), false)
+                .anyMatch(path::equals);
     }
 
     private String createFilePath(final String file) {
@@ -112,13 +167,14 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
         }
         final ExamplePolicyConfiguration that = (ExamplePolicyConfiguration) o;
         return Objects.equals(resource, that.resource) &&
-                Objects.equals(policies, that.policies);
+                Objects.equals(policies, that.policies) &&
+                Objects.equals(users, that.users);
     }
 
     @Override
     @Generated
     public int hashCode() {
-        return Objects.hash(resource, policies);
+        return Objects.hash(resource, policies, users);
     }
 
     @Override
@@ -127,6 +183,7 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
         return new StringJoiner(", ", ExamplePolicyConfiguration.class.getSimpleName() + "[", "]")
                 .add("resource='" + resource + "'")
                 .add("policies=" + policies)
+                .add("users=" + users)
                 .add(super.toString())
                 .toString();
     }

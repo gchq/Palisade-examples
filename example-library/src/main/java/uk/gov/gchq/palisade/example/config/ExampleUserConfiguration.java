@@ -22,6 +22,7 @@ import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.service.UserConfiguration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -38,6 +39,7 @@ public class ExampleUserConfiguration implements UserConfiguration {
      * of the {@link UserConfiguration} interface
      */
     public ExampleUserConfiguration() {
+        users = Collections.emptyList();
     }
 
     /**

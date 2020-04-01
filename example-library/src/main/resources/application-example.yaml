@@ -13,10 +13,6 @@
 # limitations under the License.
 #
 
-eureka:
-  client:
-    enabled: true
-
 population:
   users:
     - userId: Alice
@@ -42,13 +38,13 @@ population:
     - type: Employee
       owner: Alice
       recordRules:
-        "1-Bank details only visible for the purpose of salary": BankDetailsRule
-        "2-Emergency numbers only available for duty of care purpose": DutyOfCareRule
-        "3-Nationality is only available for staff report": NationalityRule
-        "4-Address masked for estates staff and otherwise only available for duty of care": ZipCodeMaskingRule
-        "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": RecordMaskingRule
+        "1-Bank details only visible for the purpose of salary": uk.gov.gchq.palisade.example.rule.BankDetailsRule
+        "2-Emergency numbers only available for duty of care purpose": uk.gov.gchq.palisade.example.rule.DutyOfCareRule
+        "3-Nationality is only available for staff report": uk.gov.gchq.palisade.example.rule.NationalityRule
+        "4-Address masked for estates staff and otherwise only available for duty of care": uk.gov.gchq.palisade.example.rule.ZipCodeMaskingRule
+        "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.rule.RecordMaskingRule
       resourceRules:
-        "1-Only HR can access the first resource": FirstResourceRule
+        "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.rule.FirstResourceRule
 
 cache:
   userWarmer: exampleUserCacheWarmer

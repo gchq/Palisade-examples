@@ -16,20 +16,21 @@
 
 package uk.gov.gchq.palisade.example.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.rule.BankDetailsRule;
-import uk.gov.gchq.palisade.example.rule.DutyOfCareRule;
-import uk.gov.gchq.palisade.example.rule.FirstResourceRule;
-import uk.gov.gchq.palisade.example.rule.NationalityRule;
-import uk.gov.gchq.palisade.example.rule.RecordMaskingRule;
-import uk.gov.gchq.palisade.example.rule.ZipCodeMaskingRule;
+import uk.gov.gchq.palisade.resource.Resource;
+import uk.gov.gchq.palisade.rule.Rule;
 import uk.gov.gchq.palisade.service.PolicyCacheWarmerFactory;
+import uk.gov.gchq.palisade.service.UserCacheWarmerFactory;
 import uk.gov.gchq.palisade.service.request.Policy;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -38,6 +39,8 @@ import static java.util.Objects.requireNonNull;
 
 @ConfigurationProperties
 public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExamplePolicyCacheWarmerFactory.class);
 
     private String type;
     private String owner;
@@ -49,6 +52,10 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
      * of the {@link PolicyCacheWarmerFactory} interface
      */
     public ExamplePolicyCacheWarmerFactory() {
+        type = "";
+        owner = "";
+        resourceRules = Collections.emptyMap();
+        recordRules = Collections.emptyMap();
     }
 
     /**
@@ -112,50 +119,52 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
     }
 
     @Override
-    public Policy<Employee> policyWarm() {
+    public Policy<Employee> policyWarm(final List<? extends UserCacheWarmerFactory> users) {
         Policy<Employee> policy = new Policy<>();
-        if ("Alice".equals(getOwner())) {
-            policy.owner(ExampleUsers.getAlice());
-        }
-        if ("Bob".equals(getOwner())) {
-            policy.owner(ExampleUsers.getBob());
-        }
-        if ("Eve".equals(getOwner())) {
-            policy.owner(ExampleUsers.getEve());
+        for (ExampleUserCacheWarmerFactory user : (List<ExampleUserCacheWarmerFactory>) users) {
+            if (user.getUserId().equals(owner)) {
+                policy.owner(user.userWarm());
+            }
         }
         for (String key : resourceRules.keySet()) {
-            createRule(policy, key, resourceRules.get(key));
+            policy.resourceLevelRule(key, (Rule<Resource>) createRule(resourceRules.get(key), "resource"));
         }
         for (String key : recordRules.keySet()) {
-            createRule(policy, key, recordRules.get(key));
+            policy.recordLevelRule(key, (Rule<Employee>) createRule(recordRules.get(key), "record"));
         }
-
         return policy;
     }
 
-    private void createRule(final Policy<Employee> policy, final String message, final String rule) {
-        switch (rule) {
-            case "BankDetailsRule":
-                policy.recordLevelRule(message, new BankDetailsRule());
-                break;
-            case "DutyOfCareRule":
-                policy.recordLevelRule(message, new DutyOfCareRule());
-                break;
-            case "NationalityRule":
-                policy.recordLevelRule(message, new NationalityRule());
-                break;
-            case "ZipCodeMaskingRule":
-                policy.recordLevelRule(message, new ZipCodeMaskingRule());
-                break;
-            case "RecordMaskingRule":
-                policy.recordLevelRule(message, new RecordMaskingRule());
-                break;
-            case "FirstResourceRule":
-                policy.resourceLevelRule(message, new FirstResourceRule());
-                break;
-            default:
-                break;
+    private Rule<?> createRule(final String rule, final String ruleType) {
+        if ("resource".equalsIgnoreCase(ruleType)) {
+            try {
+                LOGGER.debug("{} - {}", rule, ruleType);
+                return (Rule<Resource>) Class.forName(rule).getConstructor().newInstance();
+            } catch (ClassNotFoundException | NoSuchMethodException ex) {
+                LOGGER.error("Error getting class: {}", ex.getMessage());
+            } catch (IllegalAccessException e) {
+                LOGGER.error("Error accessing constructor: {}", e.getMessage());
+            } catch (InstantiationException e) {
+                LOGGER.error("Error instantiating: {}", e.getMessage());
+            } catch (InvocationTargetException e) {
+                LOGGER.error("Invocation Target Exception: {}", e.getMessage());
+            }
         }
+        if ("record".equalsIgnoreCase(ruleType)) {
+            try {
+                LOGGER.debug("{} - {}", rule, ruleType);
+                return (Rule<Employee>) Class.forName(rule).getConstructor().newInstance();
+            } catch (ClassNotFoundException | NoSuchMethodException ex) {
+                LOGGER.error("Error getting class: {}", ex.getMessage());
+            } catch (IllegalAccessException e) {
+                LOGGER.error("Error accessing constructor: {}", e.getMessage());
+            } catch (InstantiationException e) {
+                LOGGER.error("Error instantiating: {}", e.getMessage());
+            } catch (InvocationTargetException e) {
+                LOGGER.error("Invocation Target Exception: {}", e.getMessage());
+            }
+        }
+        return null;
     }
 
     @Override

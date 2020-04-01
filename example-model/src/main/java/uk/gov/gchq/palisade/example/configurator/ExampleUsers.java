@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.common;
+package uk.gov.gchq.palisade.example.configurator;
 
 import uk.gov.gchq.palisade.User;
+import uk.gov.gchq.palisade.example.common.ExampleUser;
+import uk.gov.gchq.palisade.example.common.Role;
+import uk.gov.gchq.palisade.example.common.TrainingCourse;
 
 public final class ExampleUsers {
 
