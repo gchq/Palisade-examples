@@ -22,14 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
-import uk.gov.gchq.palisade.RequestId;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
-import uk.gov.gchq.palisade.example.common.ExamplePolicies;
-import uk.gov.gchq.palisade.example.common.ExampleUsers;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.request.AddSerialiserRequest;
-import uk.gov.gchq.palisade.example.request.AddUserRequest;
-import uk.gov.gchq.palisade.example.request.SetResourcePolicyRequest;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 import uk.gov.gchq.palisade.example.web.DataClient;
 import uk.gov.gchq.palisade.example.web.PolicyClient;
@@ -47,7 +42,6 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
@@ -86,9 +80,7 @@ public class ExampleConfigurator {
     }
 
     public void initialiseExample() {
-        addUsers();
         addResources();
-        addPolicies();
         addSerialiser();
 
         LOGGER.info("The example users, data access policies, resource(s) and serialiser details have been initialised.");
@@ -104,27 +96,7 @@ public class ExampleConfigurator {
                 .collect(Collectors.toList());
     }
 
-    void addUsers() {
-        // Add the users to the User-service
-        LOGGER.info("ADDING USERS");
-
-        AddUserRequest[] userRequests = new AddUserRequest[]{
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getAlice()),
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getBob()),
-                AddUserRequest.create(new RequestId().id(UUID.randomUUID().toString())).withUser(ExampleUsers.getEve())
-        };
-
-        for (ServiceInstance userService : getServiceInstances("user-service")) {
-            for (AddUserRequest addUserRequest : userRequests) {
-                userClient.addUser(userService.getUri(), addUserRequest);
-                LOGGER.info("Added user {} to service {}", addUserRequest, userService.getUri());
-            }
-        }
-
-        LOGGER.info("");
-    }
-
-    void addResources() {
+    private void addResources() {
         // Add the resource to the Resource-service
         LOGGER.info("ADDING RESOURCES");
 
@@ -139,20 +111,6 @@ public class ExampleConfigurator {
                 resourceClient.addResource(resourceService.getUri(), addResourceRequest);
                 LOGGER.info("Added resource {} to service {}", addResourceRequest, resourceService.getUri());
             }
-        }
-
-        LOGGER.info("");
-    }
-
-    void addPolicies() {
-        // Using Custom Rule implementations
-        LOGGER.info("ADDING POLICIES");
-
-        SetResourcePolicyRequest setPolicyRequest = ExamplePolicies.getExamplePolicy(file.toString());
-
-        for (ServiceInstance policyService : getServiceInstances("policy-service")) {
-            policyClient.setResourcePolicyAsync(policyService.getUri(), setPolicyRequest);
-            LOGGER.info("Set policy {} to service {}", setPolicyRequest, policyService.getUri());
         }
 
         LOGGER.info("");
@@ -209,5 +167,4 @@ public class ExampleConfigurator {
     private static URI toURI(final Path path) {
         return ExampleFileUtil.convertToFileURI(path.toString());
     }
-
 }

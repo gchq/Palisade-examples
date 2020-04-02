@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Crown Copyright
+ * Copyright 2020 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.common;
+package uk.gov.gchq.palisade.example.configurator;
 
 import uk.gov.gchq.palisade.User;
+import uk.gov.gchq.palisade.example.common.ExampleUser;
+import uk.gov.gchq.palisade.example.common.Role;
+import uk.gov.gchq.palisade.example.common.TrainingCourse;
 
 public final class ExampleUsers {
 
