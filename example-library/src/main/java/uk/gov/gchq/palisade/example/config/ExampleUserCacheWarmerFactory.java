@@ -35,20 +35,16 @@ import static java.util.Objects.requireNonNull;
 @ConfigurationProperties
 public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
 
-    private String userId;
-    private Set<String> auths;
-    private Set<String> roles;
-    private EnumSet<TrainingCourse> trainingCourses;
+    private String userId = "";
+    private Set<String> auths = Collections.emptySet();
+    private Set<String> roles = Collections.emptySet();
+    private EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     /**
      * Constructor with 0 arguments for an example implementation
      * of the {@link UserCacheWarmerFactory} interface
      */
     public ExampleUserCacheWarmerFactory() {
-        this.userId = "";
-        this.auths = Collections.emptySet();
-        this.roles = Collections.emptySet();
-        this.trainingCourses = EnumSet.noneOf(TrainingCourse.class);
     }
 
     /**

@@ -54,25 +54,21 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExamplePolicyCacheWarmerFactory.class);
 
-    private String type;
-    private String resource;
-    private String owner;
-    private Map<String, String> resourceRules;
-    private Map<String, String> recordRules;
+    private String type = "";
+    private String resource = "";
+    private String owner = "";
+    private Map<String, String> resourceRules = Collections.emptyMap();
+    private Map<String, String> recordRules = Collections.emptyMap();
 
     /**
      * Constructor with 0 arguments for an example implementation
      * of the {@link PolicyCacheWarmerFactory} interface
      */
     public ExamplePolicyCacheWarmerFactory() {
-        type = "";
-        owner = "";
-        resourceRules = Collections.emptyMap();
-        recordRules = Collections.emptyMap();
     }
 
     /**
-     * Constructor with 4 arguments for an example implementation
+     * Constructor with 5 arguments for an example implementation
      * of the {@link PolicyCacheWarmerFactory} interface
      *
      * @param type          a {@link String} value of the {@link Policy} type.

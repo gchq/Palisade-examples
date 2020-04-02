@@ -45,9 +45,5 @@ population:
         "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.rule.RecordMaskingRule
       resourceRules:
         "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.rule.FirstResourceRule
-
-cache:
-  userWarmer: exampleUserCacheWarmer
-  userConfig: exampleUserConfig
-  policyWarmer: examplePolicyCacheWarmer
-  policyConfig: examplePolicyConfig
+  policy: example
+  user: example

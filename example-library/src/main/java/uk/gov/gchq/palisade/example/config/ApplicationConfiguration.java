@@ -28,28 +28,28 @@ public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
     @Bean
-    @ConditionalOnProperty(prefix = "cache", name = "userConfig", havingValue = "exampleUserConfig")
+    @ConditionalOnProperty(prefix = "population", name = "user", havingValue = "example")
     public ExampleUserConfiguration userConfiguration() {
         LOGGER.info("Example User Configuration Instantiated");
         return new ExampleUserConfiguration();
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "cache", name = "userWarmer", havingValue = "exampleUserCacheWarmer")
+    @ConditionalOnProperty(prefix = "population", name = "user", havingValue = "example")
     public ExampleUserCacheWarmerFactory userCacheWarmerFactory() {
         LOGGER.info("Example User Cache Warmer Instantiated");
         return new ExampleUserCacheWarmerFactory();
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "cache", name = "policyConfig", havingValue = "examplePolicyConfig")
+    @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
     public ExamplePolicyConfiguration policyConfiguration() {
         LOGGER.info("Example Policy Configuration Instantiated");
         return new ExamplePolicyConfiguration();
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "cache", name = "policyWarmer", havingValue = "examplePolicyCacheWarmer")
+    @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
     public ExamplePolicyCacheWarmerFactory policyCacheWarmerFactory() {
         LOGGER.info("Example Policy Cache Warmer Instantiated");
         return new ExamplePolicyCacheWarmerFactory();
