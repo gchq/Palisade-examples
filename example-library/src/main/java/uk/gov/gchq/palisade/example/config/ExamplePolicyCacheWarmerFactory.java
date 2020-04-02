@@ -154,11 +154,11 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
                 policy.owner(user.userWarm());
             }
         }
-        for (String key : resourceRules.keySet()) {
-            policy.resourceLevelRule(key, (Rule<Resource>) createRule(resourceRules.get(key), "resource"));
+        for (Entry<String, String> entry : resourceRules.entrySet()) {
+            policy.resourceLevelRule(entry.getKey(), (Rule<Resource>) createRule(entry.getValue(), "resource"));
         }
-        for (String key : recordRules.keySet()) {
-            policy.recordLevelRule(key, (Rule<Employee>) createRule(recordRules.get(key), "record"));
+        for (Entry<String, String> entry : recordRules.entrySet()) {
+            policy.recordLevelRule(entry.getKey(), (Rule<Employee>) createRule(entry.getValue(), "record"));
         }
         return new MapEntry<>(createResource(), policy);
     }
@@ -168,28 +168,16 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
             try {
                 LOGGER.debug("Adding rule {} for rule type {}", rule, ruleType);
                 return (Rule<Resource>) Class.forName(rule).getConstructor().newInstance();
-            } catch (ClassNotFoundException | NoSuchMethodException ex) {
-                LOGGER.error("Error getting class: {}", ex.getMessage());
-            } catch (IllegalAccessException e) {
-                LOGGER.error("Error accessing constructor: {}", e.getMessage());
-            } catch (InstantiationException e) {
-                LOGGER.error("Error instantiating: {}", e.getMessage());
-            } catch (InvocationTargetException e) {
-                LOGGER.error("Invocation Target Exception: {}", e.getMessage());
+            } catch (Exception ex) {
+                LOGGER.error("Error creating resourceLevel rule: {} - {}", ex.getMessage(), ex.getCause());
             }
         }
         if ("record".equalsIgnoreCase(ruleType)) {
             try {
                 LOGGER.debug("Adding rule {} for rule type {}", rule, ruleType);
                 return (Rule<Employee>) Class.forName(rule).getConstructor().newInstance();
-            } catch (ClassNotFoundException | NoSuchMethodException ex) {
-                LOGGER.error("Error getting class: {}", ex.getMessage());
-            } catch (IllegalAccessException e) {
-                LOGGER.error("Error accessing constructor: {}", e.getMessage());
-            } catch (InstantiationException e) {
-                LOGGER.error("Error instantiating: {}", e.getMessage());
-            } catch (InvocationTargetException e) {
-                LOGGER.error("Invocation Target Exception: {}", e.getMessage());
+            } catch (Exception ex) {
+                LOGGER.error("Error creating recordLevel rule: {} - {}", ex.getMessage(), ex.getCause());
             }
         }
         return null;
@@ -198,11 +186,11 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
     @Override
     public Resource createResource() {
         URI normalised = ExampleFileUtil.convertToFileURI(resource);
-        String resource = normalised.toString();
+        String resourceString = normalised.toString();
         if (resource.endsWith(".avro")) {
-            return new FileResource().id(resource).type(Employee.class.getTypeName()).serialisedFormat("avro").parent(getParent(resource));
+            return new FileResource().id(resourceString).type(Employee.class.getTypeName()).serialisedFormat("avro").parent(getParent(resourceString));
         } else {
-            return new DirectoryResource().id(resource).parent(getParent(resource));
+            return new DirectoryResource().id(resourceString).parent(getParent(resourceString));
         }
     }
 
