@@ -206,7 +206,7 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
         }
     }
 
-    public ParentResource getParent(final String fileURL) {
+    private ParentResource getParent(final String fileURL) {
         URI normalised = ExampleFileUtil.convertToFileURI(fileURL);
         //this should only be applied to URLs that start with 'file://' not other types of URL
         if (normalised.getScheme().equals(FileSystems.getDefault().provider().getScheme())) {
@@ -228,7 +228,7 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
         }
     }
 
-    public boolean isDirectoryRoot(final Path path) {
+    private boolean isDirectoryRoot(final Path path) {
         return StreamSupport
                 .stream(FileSystems.getDefault()
                         .getRootDirectories()
