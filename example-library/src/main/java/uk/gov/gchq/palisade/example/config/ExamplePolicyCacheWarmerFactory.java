@@ -146,7 +146,7 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
         Policy<Employee> policy = new Policy<>();
         for (ExampleUserCacheWarmerFactory user : (List<ExampleUserCacheWarmerFactory>) users) {
             if (user.getUserId().equals(owner)) {
-                policy.owner(user.userWarm());
+                policy.setOwner(user.userWarm());
             }
         }
         for (Entry<String, String> entry : resourceRules.entrySet()) {
