@@ -21,39 +21,18 @@ podTemplate(containers: [
         stage('Bootstrap') {
             sh "echo ${env.BRANCH_NAME}"
         }
-        stage('Install a Maven project') {
-            x = env.BRANCH_NAME
-
-            if (x.substring(0, 2) == "PR") {
-                y = x.substring(3)
-                git url: 'https://github.com/gchq/Palisade-examples.git'
-                sh "git fetch origin pull/${y}/head:${x}"
-                sh "git checkout ${x}"
-            } else { //just a normal branch
-                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/gchq/Palisade-examples.git'
-            }
-            container('maven') {
-                configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                    sh 'mvn -s $MAVEN_SETTINGS install'
-                }
-            }
-        }
-        stage('SonarQube analysis') {
-            container('maven') {
-                withCredentials([string(credentialsId: '3dc8e0fb-23de-471d-8009-ed1d5890333a', variable: 'SONARQUBE_WEBHOOK'),
-                                 string(credentialsId: 'b01b7c11-ccdf-4ac5-b022-28c9b861379a', variable: 'KEYSTORE_PASS'),
-                                 file(credentialsId: '91d1a511-491e-4fac-9da5-a61b7933f4f6', variable: 'KEYSTORE')]) {
+        stage('Build Palisade Services') {
+            git url: 'https://github.com/gchq/Palisade-Services.git'
+            sh "git fetch origin develop"
+            sh "git checkout ${env.BRANCH_NAME} || git checkout develop"
+                container('docker-cmds') {
                     configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                        withSonarQubeEnv(installationName: 'sonar') {
-                            sh 'mvn -s $MAVEN_SETTINGS org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey="Palisade-Examples/${BRANCH_NAME}" -Dsonar.projectName="Palisade-Examples/${BRANCH_NAME}" -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS'
-                        }
+                        sh 'mvn -s $MAVEN_SETTINGS install -Dmaven.test.skip=true'
                     }
                 }
-            }
         }
-        stage('Build a Maven project') {
+        stage('Build Palisade Examples') {
             x = env.BRANCH_NAME
-
             if (x.substring(0, 2) == "PR") {
                 y = x.substring(3)
                 git url: 'https://github.com/gchq/Palisade-examples.git'
@@ -71,6 +50,40 @@ podTemplate(containers: [
                         sh 'mvn -s $MAVEN_SETTINGS deploy -Dmaven.test.skip=true'
                     } else {
                         sh "echo - no deploy"
+                    }
+                }
+            }
+            stage('Install a Maven project') {
+                x = env.BRANCH_NAME
+
+                if (x.substring(0, 2) == "PR") {
+                    y = x.substring(3)
+                    git url: 'https://github.com/gchq/Palisade-examples.git'
+                    sh "git fetch origin pull/${y}/head:${x}"
+                    sh "git checkout ${x}"
+                } else { //just a normal branch
+                    git branch: "${env.BRANCH_NAME}", url: 'https://github.com/gchq/Palisade-examples.git'
+                }
+                container('maven') {
+                    configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
+                        sh 'mvn -s $MAVEN_SETTINGS install'
+                        sh 'pwd'
+                        sh 'ls'
+                        sh './deployment/local-jvm/bash-scripts/startServices.sh'
+                        sh './deployment/local-jvm/bash-scripts/configureExamples.sh'
+                    }
+                }
+            }
+            stage('SonarQube analysis') {
+                container('maven') {
+                    withCredentials([string(credentialsId: '3dc8e0fb-23de-471d-8009-ed1d5890333a', variable: 'SONARQUBE_WEBHOOK'),
+                                     string(credentialsId: 'b01b7c11-ccdf-4ac5-b022-28c9b861379a', variable: 'KEYSTORE_PASS'),
+                                     file(credentialsId: '91d1a511-491e-4fac-9da5-a61b7933f4f6', variable: 'KEYSTORE')]) {
+                        configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
+                            withSonarQubeEnv(installationName: 'sonar') {
+                                sh 'mvn -s $MAVEN_SETTINGS org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey="Palisade-Examples/${BRANCH_NAME}" -Dsonar.projectName="Palisade-Examples/${BRANCH_NAME}" -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS'
+                            }
+                        }
                     }
                 }
             }
