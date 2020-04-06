@@ -8,9 +8,9 @@ shift
 cmd="$@"
 
 until $(curl --output /dev/null -sf $host); do
-  echo >&2 "$host is unavailable - sleeping"
+  >&2 echo "$host is unavailable - sleeping"
   sleep 1
 done
 
-echo >&2 "$host is up - executing command"
-exec $cmdw
+>&2 echo "$host is up - executing command"
+exec $cmd
