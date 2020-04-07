@@ -19,10 +19,8 @@ package uk.gov.gchq.palisade.example.runner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.common.Purpose;
-import uk.gov.gchq.palisade.example.configurator.ExampleUsers;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
 import java.io.IOException;
@@ -41,49 +39,49 @@ public class RestExample {
 
     public void run(final String filename) throws IOException, URISyntaxException {
 
-        final User alice = ExampleUsers.getAlice();
-        final User bob = ExampleUsers.getBob();
-        final User eve = ExampleUsers.getEve();
+        final String alice = "Alice";
+        final String bob = "Bob";
+        final String eve = "Eve";
 
         //Alice is reading the employee file with a purpose of SALARY
         LOGGER.info("");
-        LOGGER.info("Alice ({}) is reading the Employee file with a purpose of SALARY...", alice);
-        final Stream<Employee> aliceResults = client.read(filename, alice.getUserId().getId(), Purpose.SALARY.name());
+        LOGGER.info("Alice is reading the Employee file with a purpose of SALARY...");
+        final Stream<Employee> aliceResults = client.read(filename, alice, Purpose.SALARY.name());
         LOGGER.info("Alice got back: ");
         aliceResults.map(Object::toString).forEach(LOGGER::info);
 
         //Alice is reading the employee file with a purpose of DUTY OF CARE
         LOGGER.info("");
-        LOGGER.info("Alice ({}) is reading the Employee file with a purpose of DUTY_OF_CARE...", alice);
-        final Stream<Employee> aliceResults2 = client.read(filename, alice.getUserId().getId(), Purpose.DUTY_OF_CARE.name());
+        LOGGER.info("Alice is reading the Employee file with a purpose of DUTY_OF_CARE...");
+        final Stream<Employee> aliceResults2 = client.read(filename, alice, Purpose.DUTY_OF_CARE.name());
         LOGGER.info("Alice got back: ");
         aliceResults2.map(Object::toString).forEach(LOGGER::info);
 
         //Alice is reading the employee file with a purpose of STAFF REPORT
         LOGGER.info("");
-        LOGGER.info("Alice ({}) is reading the Employee file with a purpose of STAFF_REPORT...", alice);
-        final Stream<Employee> aliceResults3 = client.read(filename, alice.getUserId().getId(), Purpose.STAFF_REPORT.name());
+        LOGGER.info("Alice is reading the Employee file with a purpose of STAFF_REPORT...");
+        final Stream<Employee> aliceResults3 = client.read(filename, alice, Purpose.STAFF_REPORT.name());
         LOGGER.info("Alice got back: ");
         aliceResults3.map(Object::toString).forEach(LOGGER::info);
 
         //Bob is reading the employee file with a purpose of DUTY OF CARE
         LOGGER.info("");
-        LOGGER.info("Bob ({}) is reading the Employee file with a purpose of DUTY_OF_CARE...", bob);
-        final Stream<Employee> bobResults1 = client.read(filename, bob.getUserId().getId(), Purpose.DUTY_OF_CARE.name());
+        LOGGER.info("Bob is reading the Employee file with a purpose of DUTY_OF_CARE...");
+        final Stream<Employee> bobResults1 = client.read(filename, bob, Purpose.DUTY_OF_CARE.name());
         LOGGER.info("Bob got back: ");
         bobResults1.map(Object::toString).forEach(LOGGER::info);
 
         //Bob is reading the employee file with a purpose that is empty
         LOGGER.info("");
-        LOGGER.info("Bob ({}) is reading the Employee file with a purpose that is empty...", bob);
-        final Stream<Employee> bobResults2 = client.read(filename, bob.getUserId().getId(), "");
+        LOGGER.info("Bob is reading the Employee file with a purpose that is empty...");
+        final Stream<Employee> bobResults2 = client.read(filename, bob, "");
         LOGGER.info("Bob got back: ");
         bobResults2.map(Object::toString).forEach(LOGGER::info);
 
         //Eve is reading the employee file with a purpose that is empty
         LOGGER.info("");
-        LOGGER.info("Eve ({}) is reading the Employee file with a purpose that is empty...", eve);
-        final Stream<Employee> eveResults1 = client.read(filename, eve.getUserId().getId(), "");
+        LOGGER.info("Eve is reading the Employee file with a purpose that is empty...");
+        final Stream<Employee> eveResults1 = client.read(filename, eve, "");
         LOGGER.info("Eve got back: ");
         eveResults1.map(Object::toString).forEach(LOGGER::info);
     }
