@@ -20,9 +20,7 @@ import com.netflix.discovery.EurekaClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
-import uk.gov.gchq.palisade.example.configurator.ExampleUsers;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 import uk.gov.gchq.palisade.example.web.DataClient;
@@ -42,10 +40,9 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
     }
 
     public void run(final String userId, final String filename, final String purpose) throws IOException, URISyntaxException {
-        User user = ExampleUsers.getUser(userId);
-        LOGGER.info("{} is reading the Employee file {} with a purpose of {}", user.getUserId(), filename, purpose);
-        final Stream<Employee> results = read(filename, user.getUserId().getId(), purpose);
-        LOGGER.info("{} got back:", user.getUserId());
+        LOGGER.info("{} is reading the Employee file {} with a purpose of {}", userId, filename, purpose);
+        final Stream<Employee> results = read(filename, userId, purpose);
+        LOGGER.info("{} got back:", userId);
         results.map(Object::toString).forEach(LOGGER::info);
     }
 
