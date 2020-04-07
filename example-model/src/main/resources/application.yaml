@@ -48,3 +48,38 @@ web:
     policy-service: policy-service
     resource-service: resource-service
     user-service: user-service
+
+---
+
+spring:
+  profiles: bulk
+
+example:
+  type: bulk
+  directory: "resources/data"
+
+---
+
+spring:
+  profiles: client
+
+example:
+  type: client
+
+---
+
+spring:
+  profiles: rest
+
+example:
+  type: rest
+  filename: "resources/data"
+
+---
+
+spring:
+  profiles: configure
+
+example:
+  type: configure
+  filename: "resources/data"
