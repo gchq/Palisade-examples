@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-num=$(wc -l exampleOutput.txt | awk '{ print $1 }')
+num=$(wc -l deployment/local-jvm/bash-scripts/exampleOutput.txt | awk '{ print $1 }')
 echo "$num"
