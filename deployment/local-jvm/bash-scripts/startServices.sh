@@ -8,7 +8,8 @@ if [ -d $DIR ]; then
   cd $DIR
   # Start all the services using the service manager from Palisade-services
   if [ -f $FILE ]; then
-    java -jar -Dspring.profiles.active=discovery,debug $FILE --manager.mode=run && java -jar -Dspring.profiles.active=example,debug $FILE --manager.mode=run
+    java -jar -Dspring.profiles.active=discovery $FILE --run
+    java -jar -Dspring.profiles.active=example,debug $FILE --run
   else
     echo "Cannot find services-manager-<version>-exec.jar - have you run 'mvn install' in Palisade-services?"
   fi

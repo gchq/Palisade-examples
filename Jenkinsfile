@@ -21,16 +21,6 @@ podTemplate(containers: [
         stage('Bootstrap') {
             sh "echo ${env.BRANCH_NAME}"
         }
-        stage('Build Palisade Services') {
-            git url: 'https://github.com/gchq/Palisade-Services.git'
-            sh "git fetch origin develop"
-            sh "git checkout ${env.BRANCH_NAME} || git checkout develop"
-                container('maven') {
-                    configFileProvider([configFile(fileId: "450d38e2-db65-4601-8be0-8621455e93b5", variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn -s $MAVEN_SETTINGS install -Dmaven.test.skip=true'
-                    }
-                }
-        }
         stage('Install a Maven project') {
             x = env.BRANCH_NAME
 
@@ -45,10 +35,6 @@ podTemplate(containers: [
             container('maven') {
                 configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
                     sh 'mvn -s $MAVEN_SETTINGS install'
-                    sh 'pwd'
-                    sh 'ls'
-                    sh './deployment/local-jvm/bash-scripts/startServices.sh'
-                    sh './deployment/local-jvm/bash-scripts/configureExamples.sh'
                 }
             }
         }
@@ -65,8 +51,9 @@ podTemplate(containers: [
                 }
             }
         }
-        stage('Deploy Examples') {
+        stage('Build a Maven project') {
             x = env.BRANCH_NAME
+
             if (x.substring(0, 2) == "PR") {
                 y = x.substring(3)
                 git url: 'https://github.com/gchq/Palisade-examples.git'
