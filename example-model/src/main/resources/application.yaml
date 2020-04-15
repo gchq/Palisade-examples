@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 spring:
   application:
     name: example-model
@@ -30,15 +31,7 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
     enabled: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-        - health
-        - info
-        - metrics
+    register-with-eureka: false
 
 web:
   client:
@@ -48,3 +41,38 @@ web:
     policy-service: policy-service
     resource-service: resource-service
     user-service: user-service
+
+---
+
+spring:
+  profiles: bulk
+
+example:
+  type: bulk
+  directory: "../Palisade-examples/resources/data"
+
+---
+
+spring:
+  profiles: client
+
+example:
+  type: client
+
+---
+
+spring:
+  profiles: rest
+
+example:
+  type: rest
+  filename: "../Palisade-examples/resources/data"
+
+---
+
+spring:
+  profiles: configure
+
+example:
+  type: configure
+  filename: "../Palisade-examples/resources/data"

@@ -18,10 +18,10 @@
 The Example module contains all the example specific modules:
 
 - [hr-data-generator](hr-data-generator/README.md), which can create a fake sample dataset based around possible data that a company might hold about its employees.
-- example-model, contains all the deployment agnostic example code such as the rules and example configuration.
-- [example-services](example-services/README.md), contains all the example JVM REST based services
+- example-model, contains all the deployment agnostic example code such as the rules and example configuration, as well as all the example JVM REST based services.
 - deployment, contains all the deployment specific code and scripts
-- [performance](performance/README.md), which provides a performance benchmarking tool
+// - [example-services](example-services/README.md), contains all the example JVM REST based services
+// - [performance](performance/README.md), which provides a performance benchmarking tool
 
 The example demonstrates different users querying an avro file over a REST api.
 
