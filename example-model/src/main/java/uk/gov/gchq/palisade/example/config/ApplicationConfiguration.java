@@ -131,7 +131,7 @@ public class ApplicationConfiguration {
 
     @Bean
     @Primary
-    public ObjectMapper objectMapper() {
+    public ObjectMapper jacksonObjectMapper() {
         return JSONSerialiser.createDefaultMapper();
     }
 }
