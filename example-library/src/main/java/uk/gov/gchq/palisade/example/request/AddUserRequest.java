@@ -18,15 +18,16 @@ package uk.gov.gchq.palisade.example.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.RequestId;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.service.request.Request;
+
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
@@ -58,34 +59,32 @@ public class AddUserRequest extends Request {
     }
 
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof AddUserRequest)) {
+            return false;
+        }
+        if (!super.equals(o)) {
             return false;
         }
         final AddUserRequest that = (AddUserRequest) o;
-
-        return new EqualsBuilder()
-                .appendSuper(super.equals(o))
-                .append(user, that.user)
-                .isEquals();
+        return Objects.equals(user, that.user);
     }
 
     @Override
+    @Generated
     public int hashCode() {
-        return new HashCodeBuilder(17, 61)
-                .appendSuper(super.hashCode())
-                .append(user)
-                .toHashCode();
+        return Objects.hash(super.hashCode(), user);
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .appendSuper(super.toString())
-                .append("user", user)
+        return new StringJoiner(", ", AddUserRequest.class.getSimpleName() + "[", "]")
+                .add("user=" + user)
                 .toString();
     }
 

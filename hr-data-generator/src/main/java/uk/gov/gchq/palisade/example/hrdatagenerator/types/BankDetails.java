@@ -16,9 +16,10 @@
 
 package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import uk.gov.gchq.palisade.Generated;
 
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class BankDetails {
     private String sortCode;
@@ -56,10 +57,11 @@ public class BankDetails {
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("sortCode", sortCode)
-                .append("accountNumber", accountNumber)
+        return new StringJoiner(", ", BankDetails.class.getSimpleName() + "[", "]")
+                .add("sortCode='" + sortCode + "'")
+                .add("accountNumber='" + accountNumber + "'")
                 .toString();
     }
 }

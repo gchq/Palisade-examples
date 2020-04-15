@@ -16,11 +16,12 @@
 
 package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.UserId;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class Manager {
     private UserId uid;
@@ -79,10 +80,12 @@ public class Manager {
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("uid", uid)
-                .append("manager", manager)
+        return new StringJoiner(", ", Manager.class.getSimpleName() + "[", "]")
+                .add("uid=" + uid)
+                .add("manager=" + Arrays.toString(manager))
+                .add("managerType='" + managerType + "'")
                 .toString();
     }
 }
