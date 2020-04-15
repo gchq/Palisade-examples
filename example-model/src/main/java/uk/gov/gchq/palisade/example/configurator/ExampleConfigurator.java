@@ -24,6 +24,7 @@ import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.example.request.AddResourceRequest;
 import uk.gov.gchq.palisade.example.request.AddSerialiserRequest;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 import uk.gov.gchq.palisade.example.web.DataClient;
@@ -35,7 +36,6 @@ import uk.gov.gchq.palisade.resource.ChildResource;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.resource.impl.SystemResource;
-import uk.gov.gchq.palisade.resource.request.AddResourceRequest;
 import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
 
 import java.net.URI;
@@ -103,9 +103,9 @@ public class ExampleConfigurator {
         FileResource resource = createFileResource(file);
 
         for (ServiceInstance dataService : getServiceInstances("data-service")) {
+            resource.setConnectionDetail(new SimpleConnectionDetail().uri(dataService.getUri().toString()));
             AddResourceRequest addResourceRequest = new AddResourceRequest()
-                    .resource(resource)
-                    .connectionDetail(new SimpleConnectionDetail().uri(dataService.getUri().toString()));
+                    .resource(resource);
 
             for (ServiceInstance resourceService : getServiceInstances("resource-service")) {
                 resourceClient.addResource(resourceService.getUri(), addResourceRequest);
