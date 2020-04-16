@@ -17,9 +17,11 @@
 package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 
 import com.github.javafaker.Faker;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import uk.gov.gchq.palisade.Generated;
 
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class Address {
 
@@ -81,13 +83,14 @@ public class Address {
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("streetAddressNumber", streetAddressNumber)
-                .append("streetName", streetName)
-                .append("city", city)
-                .append("state", state)
-                .append("zipCode", zipCode)
+        return new StringJoiner(", ", Address.class.getSimpleName() + "[", "]")
+                .add("streetAddressNumber='" + streetAddressNumber + "'")
+                .add("streetName='" + streetName + "'")
+                .add("city='" + city + "'")
+                .add("state='" + state + "'")
+                .add("zipCode='" + zipCode + "'")
                 .toString();
     }
 }

@@ -19,10 +19,14 @@ package uk.gov.gchq.palisade.example.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import uk.gov.gchq.palisade.Context;
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.RequestId;
 import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.exception.ForbiddenException;
 import uk.gov.gchq.palisade.service.request.Request;
+
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
@@ -109,6 +113,7 @@ public class RegisterDataRequest extends Request {
     }
 
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -119,33 +124,25 @@ public class RegisterDataRequest extends Request {
         if (!super.equals(o)) {
             return false;
         }
-
-        RegisterDataRequest that = (RegisterDataRequest) o;
-
-        if (!getUserId().equals(that.getUserId())) {
-            return false;
-        }
-        if (!getContext().equals(that.getContext())) {
-            return false;
-        }
-        return getResourceId().equals(that.getResourceId());
+        final RegisterDataRequest that = (RegisterDataRequest) o;
+        return Objects.equals(userId, that.userId) &&
+                Objects.equals(context, that.context) &&
+                Objects.equals(resourceId, that.resourceId);
     }
 
     @Override
+    @Generated
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + getUserId().hashCode();
-        result = 31 * result + getContext().hashCode();
-        result = 31 * result + getResourceId().hashCode();
-        return result;
+        return Objects.hash(super.hashCode(), userId, context, resourceId);
     }
 
     @Override
+    @Generated
     public String toString() {
-        return "RegisterDataRequest{" +
-                "userId=" + userId +
-                ", context=" + context +
-                ", resourceId='" + resourceId + '\'' +
-                '}';
+        return new StringJoiner(", ", RegisterDataRequest.class.getSimpleName() + "[", "]")
+                .add("userId=" + userId)
+                .add("context=" + context)
+                .add("resourceId='" + resourceId + "'")
+                .toString();
     }
 }
