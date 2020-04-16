@@ -19,11 +19,13 @@ package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 
-import uk.gov.gchq.palisade.ToStringBuilder;
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.example.hrdatagenerator.utils.DateHelper;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class Employee {
 
@@ -212,25 +214,26 @@ public class Employee {
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("uid", uid)
-                .append("name", name)
-                .append("dateOfBirth", dateOfBirth)
-                .append("contactNumbers", contactNumbers)
-                .append("emergencyContacts", emergencyContacts)
-                .append("address", address)
-                .append("bankDetails", bankDetails)
-                .append("taxCode", taxCode)
-                .append("nationality", nationality)
-                .append("manager", manager)
-                .append("hireDate", hireDate)
-                .append("grade", grade)
-                .append("department", department)
-                .append("salaryAmount", salaryAmount)
-                .append("salaryBonus", salaryBonus)
-                .append("workLocation", workLocation)
-                .append("sex", sex)
+        return new StringJoiner(", ", Employee.class.getSimpleName() + "[", "]")
+                .add("uid=" + uid)
+                .add("name='" + name + "'")
+                .add("dateOfBirth='" + dateOfBirth + "'")
+                .add("contactNumbers=" + Arrays.toString(contactNumbers))
+                .add("emergencyContacts=" + Arrays.toString(emergencyContacts))
+                .add("address=" + address)
+                .add("bankDetails=" + bankDetails)
+                .add("taxCode='" + taxCode + "'")
+                .add("nationality=" + nationality)
+                .add("manager=" + Arrays.toString(manager))
+                .add("hireDate='" + hireDate + "'")
+                .add("grade=" + grade)
+                .add("department=" + department)
+                .add("salaryAmount=" + salaryAmount)
+                .add("salaryBonus=" + salaryBonus)
+                .add("workLocation=" + workLocation)
+                .add("sex=" + sex)
                 .toString();
     }
 }

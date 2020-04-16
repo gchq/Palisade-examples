@@ -18,9 +18,12 @@ package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import uk.gov.gchq.palisade.Generated;
+
+import java.util.Arrays;
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class EmergencyContact {
     private String contactName;
@@ -72,11 +75,12 @@ public class EmergencyContact {
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("contactName", contactName)
-                .append("relation", relation)
-                .append("contactNumbers", contactNumbers)
+        return new StringJoiner(", ", EmergencyContact.class.getSimpleName() + "[", "]")
+                .add("contactName='" + contactName + "'")
+                .add("relation=" + relation)
+                .add("contactNumbers=" + Arrays.toString(contactNumbers))
                 .toString();
     }
 }
