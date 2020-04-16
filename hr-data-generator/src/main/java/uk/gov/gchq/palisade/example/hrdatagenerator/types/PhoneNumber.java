@@ -16,9 +16,10 @@
 
 package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import uk.gov.gchq.palisade.Generated;
 
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class PhoneNumber {
     private String type; // is this a home number, work number, mobile number ...
@@ -72,10 +73,11 @@ public class PhoneNumber {
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("type", type)
-                .append("phone number", phoneNumber)
+        return new StringJoiner(", ", PhoneNumber.class.getSimpleName() + "[", "]")
+                .add("type='" + type + "'")
+                .add("phoneNumber='" + phoneNumber + "'")
                 .toString();
     }
 }

@@ -17,15 +17,16 @@
 package uk.gov.gchq.palisade.example.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.RequestId;
-import uk.gov.gchq.palisade.ToStringBuilder;
 import uk.gov.gchq.palisade.exception.ForbiddenException;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.service.request.Policy;
 import uk.gov.gchq.palisade.service.request.Request;
+
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
@@ -94,39 +95,34 @@ public class SetResourcePolicyRequest extends Request {
 
 
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof SetResourcePolicyRequest)) {
             return false;
         }
-
+        if (!super.equals(o)) {
+            return false;
+        }
         final SetResourcePolicyRequest that = (SetResourcePolicyRequest) o;
-
-        return new EqualsBuilder()
-                .appendSuper(super.equals(o))
-                .append(resource, that.resource)
-                .append(policy, that.policy)
-                .isEquals();
+        return Objects.equals(resource, that.resource) &&
+                Objects.equals(policy, that.policy);
     }
 
     @Override
+    @Generated
     public int hashCode() {
-        return new HashCodeBuilder(17, 29)
-                .appendSuper(super.hashCode())
-                .append(resource)
-                .append(policy)
-                .toHashCode();
+        return Objects.hash(super.hashCode(), resource, policy);
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .appendSuper(super.toString())
-                .append("resource", resource)
-                .append("policy", policy)
+        return new StringJoiner(", ", SetResourcePolicyRequest.class.getSimpleName() + "[", "]")
+                .add("resource=" + resource)
+                .add("policy=" + policy)
                 .toString();
     }
 }
