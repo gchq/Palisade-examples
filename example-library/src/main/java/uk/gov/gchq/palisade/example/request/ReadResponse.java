@@ -16,14 +16,13 @@
 
 package uk.gov.gchq.palisade.example.request;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import uk.gov.gchq.palisade.ToStringBuilder;
+import uk.gov.gchq.palisade.Generated;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.Objects.requireNonNull;
@@ -33,7 +32,7 @@ public abstract class ReadResponse {
     /**
      * Specifies if the data stream has been retrieved from this response.
      */
-    private AtomicBoolean isUsed = new AtomicBoolean(false);
+    private final AtomicBoolean isUsed = new AtomicBoolean(false);
 
     /**
      * Retrieves the data returned from the request as an {@link InputStream}. This method can only be called once.
@@ -88,34 +87,33 @@ public abstract class ReadResponse {
         message(message);
     }
 
+
     @Override
+    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ReadResponse)) {
             return false;
         }
-
         final ReadResponse that = (ReadResponse) o;
-
-        return new EqualsBuilder()
-                .append(message, that.message)
-                .isEquals();
+        return Objects.equals(message, that.message) &&
+                Objects.equals(isUsed, that.isUsed);
     }
 
     @Override
+    @Generated
     public int hashCode() {
-        return new HashCodeBuilder(17, 61)
-                .append(message)
-                .toHashCode();
+        return Objects.hash(message, isUsed);
     }
 
     @Override
+    @Generated
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("message", message)
+        return new StringJoiner(", ", ReadResponse.class.getSimpleName() + "[", "]")
+                .add("message='" + message + "'")
+                .add("isUsed=" + isUsed)
                 .toString();
     }
 }
