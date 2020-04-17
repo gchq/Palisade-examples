@@ -36,9 +36,9 @@ public class ApplicationConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "user", havingValue = "example")
-    public ExampleUserCacheWarmerFactory userCacheWarmerFactory() {
+    public ExampleUserPrepopulationFactory userCacheWarmerFactory() {
         LOGGER.info("Example User Cache Warmer Instantiated");
-        return new ExampleUserCacheWarmerFactory();
+        return new ExampleUserPrepopulationFactory();
     }
 
     @Bean
@@ -50,8 +50,8 @@ public class ApplicationConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
-    public ExamplePolicyCacheWarmerFactory policyCacheWarmerFactory() {
+    public ExamplePolicyPrepopulationFactory policyCacheWarmerFactory() {
         LOGGER.info("Example Policy Cache Warmer Instantiated");
-        return new ExamplePolicyCacheWarmerFactory();
+        return new ExamplePolicyPrepopulationFactory();
     }
 }

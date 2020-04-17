@@ -19,9 +19,9 @@ package uk.gov.gchq.palisade.example.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.service.PolicyCacheWarmerFactory;
+import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
 import uk.gov.gchq.palisade.service.PolicyConfiguration;
-import uk.gov.gchq.palisade.service.UserCacheWarmerFactory;
+import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,8 +33,8 @@ import static java.util.Objects.requireNonNull;
 @ConfigurationProperties(prefix = "population")
 public class ExamplePolicyConfiguration implements PolicyConfiguration {
 
-    private List<ExamplePolicyCacheWarmerFactory> policies;
-    private List<ExampleUserCacheWarmerFactory> users;
+    private List<ExamplePolicyPrepopulationFactory> policies;
+    private List<ExampleUserPrepopulationFactory> users;
 
     /**
      * Constructor with 0 arguments for an example implementation
@@ -49,35 +49,35 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
      * Constructor with 2 arguments for an example implementation
      * of the {@link PolicyConfiguration} interface
      *
-     * @param policies  a {@link List} of objects implementing the {@link PolicyCacheWarmerFactory} interface
-     * @param users     a {@link List} of objects implementing the {@link UserCacheWarmerFactory} interface
+     * @param policies  a {@link List} of objects implementing the {@link PolicyPrepopulationFactory} interface
+     * @param users     a {@link List} of objects implementing the {@link UserPrepopulationFactory} interface
      */
-    public ExamplePolicyConfiguration(final List<ExamplePolicyCacheWarmerFactory> policies,
-                                      final List<ExampleUserCacheWarmerFactory> users) {
+    public ExamplePolicyConfiguration(final List<ExamplePolicyPrepopulationFactory> policies,
+                                      final List<ExampleUserPrepopulationFactory> users) {
         this.policies = policies;
         this.users = users;
     }
 
     @Override
     @Generated
-    public List<ExamplePolicyCacheWarmerFactory> getPolicies() {
+    public List<ExamplePolicyPrepopulationFactory> getPolicies() {
         return policies;
     }
 
     @Generated
-    public void setPolicies(final List<ExamplePolicyCacheWarmerFactory> policies) {
+    public void setPolicies(final List<ExamplePolicyPrepopulationFactory> policies) {
         requireNonNull(policies);
         this.policies = policies;
     }
 
     @Override
     @Generated
-    public List<ExampleUserCacheWarmerFactory> getUsers() {
+    public List<ExampleUserPrepopulationFactory> getUsers() {
         return users;
     }
 
     @Generated
-    public void setUsers(final List<ExampleUserCacheWarmerFactory> users) {
+    public void setUsers(final List<ExampleUserPrepopulationFactory> users) {
         requireNonNull(users);
         this.users = users;
     }

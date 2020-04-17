@@ -30,8 +30,8 @@ import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.resource.impl.SystemResource;
 import uk.gov.gchq.palisade.rule.Rule;
-import uk.gov.gchq.palisade.service.PolicyCacheWarmerFactory;
-import uk.gov.gchq.palisade.service.UserCacheWarmerFactory;
+import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
+import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
 import uk.gov.gchq.palisade.service.request.Policy;
 
 import java.net.URI;
@@ -50,9 +50,9 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
 @ConfigurationProperties
-public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory {
+public class ExamplePolicyPrepopulationFactory implements PolicyPrepopulationFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExamplePolicyCacheWarmerFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExamplePolicyPrepopulationFactory.class);
 
     private String type = "";
     private String resource = "";
@@ -62,14 +62,14 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
 
     /**
      * Constructor with 0 arguments for an example implementation
-     * of the {@link PolicyCacheWarmerFactory} interface
+     * of the {@link PolicyPrepopulationFactory} interface
      */
-    public ExamplePolicyCacheWarmerFactory() {
+    public ExamplePolicyPrepopulationFactory() {
     }
 
     /**
      * Constructor with 5 arguments for an example implementation
-     * of the {@link PolicyCacheWarmerFactory} interface
+     * of the {@link PolicyPrepopulationFactory} interface
      *
      * @param type          a {@link String} value of the {@link Policy} type.
      * @param resource      a {@link String} value of the {@link Resource} to be used.
@@ -77,8 +77,8 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
      * @param resourceRules a {@link Map} containing the ({@link String}) message and the ({@link String}) rule name.
      * @param recordRules   a {@link Map} containing the ({@link String}) message and the ({@link String}) rule name.
      */
-    public ExamplePolicyCacheWarmerFactory(final String type, final String resource, final String owner,
-                                           final Map<String, String> resourceRules, final Map<String, String> recordRules) {
+    public ExamplePolicyPrepopulationFactory(final String type, final String resource, final String owner,
+                                             final Map<String, String> resourceRules, final Map<String, String> recordRules) {
         this.type = type;
         this.resource = resource;
         this.owner = owner;
@@ -142,11 +142,11 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
     }
 
     @Override
-    public Entry<Resource, Policy> policyWarm(final List<? extends UserCacheWarmerFactory> users) {
+    public Entry<Resource, Policy> build(final List<? extends UserPrepopulationFactory> users) {
         Policy<Employee> policy = new Policy<>();
-        for (ExampleUserCacheWarmerFactory user : (List<ExampleUserCacheWarmerFactory>) users) {
+        for (ExampleUserPrepopulationFactory user : (List<ExampleUserPrepopulationFactory>) users) {
             if (user.getUserId().equals(owner)) {
-                policy.setOwner(user.userWarm());
+                policy.setOwner(user.build());
             }
         }
         for (Entry<String, String> entry : resourceRules.entrySet()) {
@@ -225,10 +225,10 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ExamplePolicyCacheWarmerFactory)) {
+        if (!(o instanceof ExamplePolicyPrepopulationFactory)) {
             return false;
         }
-        final ExamplePolicyCacheWarmerFactory that = (ExamplePolicyCacheWarmerFactory) o;
+        final ExamplePolicyPrepopulationFactory that = (ExamplePolicyPrepopulationFactory) o;
         return Objects.equals(type, that.type) &&
                 Objects.equals(resource, that.resource) &&
                 Objects.equals(owner, that.owner) &&
@@ -245,7 +245,7 @@ public class ExamplePolicyCacheWarmerFactory implements PolicyCacheWarmerFactory
     @Override
     @Generated
     public String toString() {
-        return new StringJoiner(", ", ExamplePolicyCacheWarmerFactory.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", ExamplePolicyPrepopulationFactory.class.getSimpleName() + "[", "]")
                 .add("type='" + type + "'")
                 .add("resource='" + resource + "'")
                 .add("owner='" + owner + "'")

@@ -20,6 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.service.UserConfiguration;
+import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,7 @@ import static java.util.Objects.requireNonNull;
 @ConfigurationProperties(prefix = "population")
 public class ExampleUserConfiguration implements UserConfiguration {
 
-    private List<ExampleUserCacheWarmerFactory> users = new ArrayList<>();
+    private List<ExampleUserPrepopulationFactory> users = new ArrayList<>();
 
     /**
      * Constructor with 0 arguments for an example implementation
@@ -46,20 +47,20 @@ public class ExampleUserConfiguration implements UserConfiguration {
      * Constructor with 1 argument for an example implementation
      * of the {@link UserConfiguration} interface
      *
-     * @param users     a list of objects implementing the {@link uk.gov.gchq.palisade.service.UserCacheWarmerFactory} interface
+     * @param users     a list of objects implementing the {@link UserPrepopulationFactory} interface
      */
-    public ExampleUserConfiguration(final List<ExampleUserCacheWarmerFactory> users) {
+    public ExampleUserConfiguration(final List<ExampleUserPrepopulationFactory> users) {
         this.users = users;
     }
 
     @Override
     @Generated
-    public List<ExampleUserCacheWarmerFactory> getUsers() {
+    public List<ExampleUserPrepopulationFactory> getResources() {
         return users;
     }
 
     @Generated
-    public void setUsers(final List<ExampleUserCacheWarmerFactory> users) {
+    public void setUsers(final List<ExampleUserPrepopulationFactory> users) {
         requireNonNull(users);
         this.users = users;
     }
