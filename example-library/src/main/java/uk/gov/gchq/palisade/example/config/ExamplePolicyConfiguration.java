@@ -19,8 +19,8 @@ package uk.gov.gchq.palisade.example.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
 import uk.gov.gchq.palisade.service.PolicyConfiguration;
+import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
 import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
 
 import java.util.Collections;

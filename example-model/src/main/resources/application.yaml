@@ -49,7 +49,7 @@ spring:
 
 example:
   type: bulk
-  directory: "../Palisade-examples/resources/data"
+  directory: "../Palisade-examples/resources/data/"
 
 ---
 
@@ -66,13 +66,4 @@ spring:
 
 example:
   type: rest
-  filename: "../Palisade-examples/resources/data"
-
----
-
-spring:
-  profiles: configure
-
-example:
-  type: configure
-  filename: "../Palisade-examples/resources/data"
+  filename: "../Palisade-examples/resources/data/"

@@ -19,43 +19,32 @@ package uk.gov.gchq.palisade.example.config;
 import org.apache.avro.reflect.MapEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
-import uk.gov.gchq.palisade.resource.ParentResource;
 import uk.gov.gchq.palisade.resource.Resource;
-import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
-import uk.gov.gchq.palisade.resource.impl.FileResource;
-import uk.gov.gchq.palisade.resource.impl.SystemResource;
 import uk.gov.gchq.palisade.rule.Rule;
 import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
 import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
 import uk.gov.gchq.palisade.service.request.Policy;
+import uk.gov.gchq.palisade.util.ResourceBuilder;
 
-import java.net.URI;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.StringJoiner;
-import java.util.stream.StreamSupport;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
-@ConfigurationProperties
 public class ExamplePolicyPrepopulationFactory implements PolicyPrepopulationFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExamplePolicyPrepopulationFactory.class);
 
     private String type = "";
-    private String resource = "";
+    private File resource;
     private String owner = "";
     private Map<String, String> resourceRules = Collections.emptyMap();
     private Map<String, String> recordRules = Collections.emptyMap();
@@ -72,12 +61,12 @@ public class ExamplePolicyPrepopulationFactory implements PolicyPrepopulationFac
      * of the {@link PolicyPrepopulationFactory} interface
      *
      * @param type          a {@link String} value of the {@link Policy} type.
-     * @param resource      a {@link String} value of the {@link Resource} to be used.
+     * @param resource      a {@link File} value of the {@link Resource} to be used.
      * @param owner         a {@link String} value of the owner of the policy
      * @param resourceRules a {@link Map} containing the ({@link String}) message and the ({@link String}) rule name.
      * @param recordRules   a {@link Map} containing the ({@link String}) message and the ({@link String}) rule name.
      */
-    public ExamplePolicyPrepopulationFactory(final String type, final String resource, final String owner,
+    public ExamplePolicyPrepopulationFactory(final String type, final File resource, final String owner,
                                              final Map<String, String> resourceRules, final Map<String, String> recordRules) {
         this.type = type;
         this.resource = resource;
@@ -98,12 +87,12 @@ public class ExamplePolicyPrepopulationFactory implements PolicyPrepopulationFac
     }
 
     @Generated
-    public String getResource() {
+    public File getResource() {
         return resource;
     }
 
     @Generated
-    public void setResource(final String resource) {
+    public void setResource(final File resource) {
         requireNonNull(resource);
         this.resource = resource;
     }
@@ -180,43 +169,7 @@ public class ExamplePolicyPrepopulationFactory implements PolicyPrepopulationFac
 
     @Override
     public Resource createResource() {
-        URI normalised = ExampleFileUtil.convertToFileURI(resource);
-        String resourceString = normalised.toString();
-        if (resource.endsWith(".avro")) {
-            return new FileResource().id(resourceString).type(Employee.class.getTypeName()).serialisedFormat("avro").parent(getParent(resourceString));
-        } else {
-            return new DirectoryResource().id(resourceString).parent(getParent(resourceString));
-        }
-    }
-
-    private ParentResource getParent(final String fileURL) {
-        URI normalised = ExampleFileUtil.convertToFileURI(fileURL);
-        //this should only be applied to URLs that start with 'file://' not other types of URL
-        if (normalised.getScheme().equals(FileSystems.getDefault().provider().getScheme())) {
-            Path current = Paths.get(normalised);
-            Path parent = current.getParent();
-            //no parent can be found, must already be a directory tree root
-            if (isNull(parent)) {
-                throw new IllegalArgumentException(fileURL + " is already a directory tree root");
-            } else if (isDirectoryRoot(parent)) {
-                //else if this is a directory tree root
-                return new SystemResource().id(parent.toUri().toString());
-            } else {
-                //else recurse up a level
-                return new DirectoryResource().id(parent.toUri().toString()).parent(getParent(parent.toUri().toString()));
-            }
-        } else {
-            //if this is another scheme then there is no definable parent
-            return new SystemResource().id("");
-        }
-    }
-
-    private boolean isDirectoryRoot(final Path path) {
-        return StreamSupport
-                .stream(FileSystems.getDefault()
-                        .getRootDirectories()
-                        .spliterator(), false)
-                .anyMatch(path::equals);
+        return ResourceBuilder.create(resource.toURI());
     }
 
     @Override
