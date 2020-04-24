@@ -30,28 +30,24 @@ public class ApplicationConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "user", havingValue = "example")
     public ExampleUserConfiguration userConfiguration() {
-        LOGGER.info("Example User Configuration Instantiated");
         return new ExampleUserConfiguration();
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "user", havingValue = "example")
     public ExampleUserPrepopulationFactory userCacheWarmerFactory() {
-        LOGGER.info("Example User Cache Warmer Instantiated");
         return new ExampleUserPrepopulationFactory();
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
     public ExamplePolicyConfiguration policyConfiguration() {
-        LOGGER.info("Example Policy Configuration Instantiated");
         return new ExamplePolicyConfiguration();
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
     public ExamplePolicyPrepopulationFactory policyCacheWarmerFactory() {
-        LOGGER.info("Example Policy Cache Warmer Instantiated");
         return new ExamplePolicyPrepopulationFactory();
     }
 }

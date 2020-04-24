@@ -13,7 +13,11 @@
 # limitations under the License.
 #
 
+# Not interpreted by any java code, simply used by reference in the population.resources section
+connectionDetail: data-service
+
 population:
+  user: example
   users:
     - userId: Alice
       auths:
@@ -33,6 +37,8 @@ population:
         public
       roles:
         IT
+
+  policy: example
   policies:
     - type: Employee
       resource: ../Palisade-examples/resources/data/
@@ -45,5 +51,16 @@ population:
         "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.rule.RecordMaskingRule
       resourceRules:
         "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.rule.FirstResourceRule
-  policy: example
-  user: example
+
+  resource: std
+  resources:
+  - resourceId: ../Palisade-examples/resources/data/employee_file0.avro
+    connectionDetail: ${population.connectionDetail}
+    attributes:
+      type: employee
+      serialisedFormat: avro
+  - resourceId: ../Palisade-examples/resources/data/employee_file1.avro
+    connectionDetail: ${population.connectionDetail}
+    attributes:
+      type: employee
+      serialisedFormat: avro
