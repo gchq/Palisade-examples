@@ -54,13 +54,14 @@ population:
 
   resource: std
   resources:
-  - resourceId: ../Palisade-examples/resources/data/employee_file0.avro
-    connectionDetail: ${population.connectionDetail}
-    attributes:
-      type: employee
-      serialisedFormat: avro
-  - resourceId: ../Palisade-examples/resources/data/employee_file1.avro
-    connectionDetail: ${population.connectionDetail}
-    attributes:
-      type: employee
-      serialisedFormat: avro
+    ../Palisade-examples/resources/data/:
+      - resourceId: ../Palisade-examples/resources/data/employee_file0.avro
+        connectionDetail: ${population.connectionDetail}
+        attributes:
+          type: employee
+          serialisedFormat: avro
+      - resourceId: ../Palisade-examples/resources/data/employee_file1.avro
+        connectionDetail: ${population.connectionDetail}
+        attributes:
+          type: employee
+          serialisedFormat: avro
