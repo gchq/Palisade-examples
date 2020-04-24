@@ -55,7 +55,7 @@ public class ExampleUserConfiguration implements UserConfiguration {
 
     @Override
     @Generated
-    public List<ExampleUserPrepopulationFactory> getResources() {
+    public List<ExampleUserPrepopulationFactory> getUsers() {
         return users;
     }
 
