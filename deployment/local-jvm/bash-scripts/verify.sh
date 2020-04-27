@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+<<COMMENT
 FILE=rest-example.log
 DIR=../Palisade-services/
 
@@ -16,3 +16,7 @@ if [ -d $DIR ]; then
 else
   echo "Cannot find Palisade-services directory - have you run 'git clone'?"
 fi
+COMMENT
+
+num=$(wc -l deployment/local-jvm/bash-scripts/exampleOutput.txt | awk '{ print $1 }')
+echo "$num"
