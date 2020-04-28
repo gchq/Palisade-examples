@@ -8,7 +8,7 @@ if [ -d $DIR ]; then
   cd $DIR
   # Start all the services using the service manager from Palisade-services
   if [ -f $FILE ]; then
-    num=$(wc -l deployment/local-jvm/bash-scripts/$FILE | awk '{ print $1 }')
+    num=$(wc -l $FILE | awk '{ print $1 }')
     echo "$num"
   else
     echo "Cannot find rest-example.log, have you run the example?"
