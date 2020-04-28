@@ -16,7 +16,6 @@
 
 package uk.gov.gchq.palisade.example.config;
 
-import org.apache.avro.reflect.MapEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +29,7 @@ import uk.gov.gchq.palisade.service.request.Policy;
 import uk.gov.gchq.palisade.util.ResourceBuilder;
 
 import java.io.File;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -144,7 +144,7 @@ public class ExamplePolicyPrepopulationFactory implements PolicyPrepopulationFac
         for (Entry<String, String> entry : recordRules.entrySet()) {
             policy.recordLevelRule(entry.getKey(), (Rule<Employee>) createRule(entry.getValue(), "record"));
         }
-        return new MapEntry<>(createResource(), policy);
+        return new SimpleImmutableEntry<>(createResource(), policy);
     }
 
     private Rule<?> createRule(final String rule, final String ruleType) {
