@@ -26,7 +26,6 @@ import org.springframework.context.annotation.Configuration;
 import uk.gov.gchq.palisade.service.ConnectionDetail;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Configuration
 public class ApplicationConfiguration {

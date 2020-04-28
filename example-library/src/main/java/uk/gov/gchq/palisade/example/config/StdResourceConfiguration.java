@@ -20,8 +20,10 @@ import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.service.ResourceConfiguration;
 import uk.gov.gchq.palisade.service.ResourcePrepopulationFactory;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -42,17 +44,17 @@ public class StdResourceConfiguration implements ResourceConfiguration {
      * Constructor with 1 argument for a standard implementation
      * of the {@link ResourceConfiguration} interface
      *
-     * @param resources     a list of objects implementing the {@link ResourcePrepopulationFactory} interface
+     * @param resources a list of objects implementing the {@link ResourcePrepopulationFactory} interface
      */
     public StdResourceConfiguration(final List<StdResourcePrepopulationFactory> resources) {
         this.resources = resources;
     }
 
-    @Override
-    @Generated
-    public List<StdResourcePrepopulationFactory> getResources() {
-        return resources;
-    }
+//    @Override
+//    @Generated
+//    public List<StdResourcePrepopulationFactory> getResources() {
+//        return resources;
+//    }
 
     @Generated
     public void setResources(final List<StdResourcePrepopulationFactory> resources) {
@@ -86,5 +88,10 @@ public class StdResourceConfiguration implements ResourceConfiguration {
                 .add("resources=" + resources)
                 .add(super.toString())
                 .toString();
+    }
+
+    @Override
+    public <T extends ResourcePrepopulationFactory> Map<URI, List<T>> getResources() {
+        return null;
     }
 }

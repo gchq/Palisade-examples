@@ -18,21 +18,13 @@ package uk.gov.gchq.palisade.example.config;
 
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.resource.LeafResource;
-import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.service.ConnectionDetail;
 import uk.gov.gchq.palisade.service.ResourcePrepopulationFactory;
-import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
-import uk.gov.gchq.palisade.util.ResourceBuilder;
 
-import java.io.File;
-import java.net.URI;
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static java.util.Objects.requireNonNull;
 
@@ -92,15 +84,15 @@ public class StdResourcePrepopulationFactory implements ResourcePrepopulationFac
         this.attributes = attributes;
     }
 
-    @Override
-    public Entry<Resource, LeafResource> build() {
-        String type = requireNonNull(attributes.get("type"), "Attribute 'type' cannot be null");
-        String serialisedFormat = requireNonNull(attributes.get("serialisedFormat"), "Attribute 'serialisedFormat' cannot be null");
-        ConnectionDetail simpleConnectionDetail = connectionDetailMapper.apply(connectionDetail);
-        Resource rootResource = ResourceBuilder.create(new File(rootId).toURI());
-        URI resourceURI = new File(resourceId).toURI();
-        return new SimpleImmutableEntry<>(rootResource, ResourceBuilder.create(resourceURI, simpleConnectionDetail, type, serialisedFormat, attributes));
-    }
+//    @Override
+//    public Entry<Resource, LeafResource> build() {
+//        String type = requireNonNull(attributes.get("type"), "Attribute 'type' cannot be null");
+//        String serialisedFormat = requireNonNull(attributes.get("serialisedFormat"), "Attribute 'serialisedFormat' cannot be null");
+//        ConnectionDetail simpleConnectionDetail = connectionDetailMapper.apply(connectionDetail);
+//        Resource rootResource = ResourceBuilder.create(new File(rootId).toURI());
+//        URI resourceURI = new File(resourceId).toURI();
+//        return new SimpleImmutableEntry<>(rootResource, ResourceBuilder.create(resourceURI, simpleConnectionDetail, type, serialisedFormat, attributes));
+//    }
 
     @Override
     @Generated
@@ -122,5 +114,10 @@ public class StdResourcePrepopulationFactory implements ResourcePrepopulationFac
     @Generated
     public int hashCode() {
         return Objects.hash(resourceId, rootId, connectionDetail, attributes);
+    }
+
+    @Override
+    public LeafResource build() {
+        return null;
     }
 }
