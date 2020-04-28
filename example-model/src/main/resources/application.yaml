@@ -67,3 +67,11 @@ spring:
 example:
   type: rest
   filename: "../Palisade-examples/resources/data/"
+
+---
+
+spring:
+  profiles: configure
+
+example:
+  type: configure

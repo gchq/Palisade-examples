@@ -16,13 +16,10 @@
 
 package uk.gov.gchq.palisade.example.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.service.UserConfiguration;
 import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -30,10 +27,9 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
-@ConfigurationProperties(prefix = "population")
 public class ExampleUserConfiguration implements UserConfiguration {
 
-    private List<ExampleUserPrepopulationFactory> users = new ArrayList<>();
+    private List<ExampleUserPrepopulationFactory> users;
 
     /**
      * Constructor with 0 arguments for an example implementation

@@ -16,8 +16,6 @@
 
 package uk.gov.gchq.palisade.example.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.service.PolicyConfiguration;
 import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
@@ -30,7 +28,6 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
-@ConfigurationProperties(prefix = "population")
 public class ExamplePolicyConfiguration implements PolicyConfiguration {
 
     private List<ExamplePolicyPrepopulationFactory> policies;

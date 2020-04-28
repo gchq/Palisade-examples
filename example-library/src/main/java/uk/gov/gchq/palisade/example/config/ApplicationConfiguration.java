@@ -19,8 +19,14 @@ package uk.gov.gchq.palisade.example.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import uk.gov.gchq.palisade.service.ConnectionDetail;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -29,6 +35,7 @@ public class ApplicationConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "user", havingValue = "example")
+    @ConfigurationProperties(prefix = "population")
     public ExampleUserConfiguration userConfiguration() {
         return new ExampleUserConfiguration();
     }
@@ -41,6 +48,7 @@ public class ApplicationConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
+    @ConfigurationProperties(prefix = "population")
     public ExamplePolicyConfiguration policyConfiguration() {
         return new ExamplePolicyConfiguration();
     }
@@ -49,5 +57,18 @@ public class ApplicationConfiguration {
     @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
     public ExamplePolicyPrepopulationFactory policyCacheWarmerFactory() {
         return new ExamplePolicyPrepopulationFactory();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "population", name = "resource", havingValue = "std", matchIfMissing = true)
+    @ConfigurationProperties(prefix = "population")
+    public StdResourceConfiguration resourceConfiguration() {
+        return new StdResourceConfiguration();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "population", name = "resource", havingValue = "std", matchIfMissing = true)
+    public StdResourcePrepopulationFactory resourcePrepopulationFactory(final Function<String, ConnectionDetail> connectionDetailMapper) {
+        return new StdResourcePrepopulationFactory(connectionDetailMapper);
     }
 }

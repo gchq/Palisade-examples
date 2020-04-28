@@ -14,7 +14,9 @@
 #
 
 # Not interpreted by any java code, simply used by reference in the population.resources section
-connectionDetail: data-service
+default:
+  rootId: ../Palisade-examples/resources/data/
+  connectionDetail: data-service
 
 population:
   user: example
@@ -54,14 +56,15 @@ population:
 
   resource: std
   resources:
-    ../Palisade-examples/resources/data/:
-      - resourceId: ../Palisade-examples/resources/data/employee_file0.avro
-        connectionDetail: ${population.connectionDetail}
-        attributes:
-          type: employee
-          serialisedFormat: avro
-      - resourceId: ../Palisade-examples/resources/data/employee_file1.avro
-        connectionDetail: ${population.connectionDetail}
-        attributes:
-          type: employee
-          serialisedFormat: avro
+    - resourceId: ../Palisade-examples/resources/data/employee_file0.avro
+      rootId: ${default.rootId}
+      connectionDetail: ${default.connectionDetail}
+      attributes:
+        type: employee
+        serialisedFormat: avro
+    - resourceId: ../Palisade-examples/resources/data/employee_file1.avro
+      rootId: ${default.rootId}
+      connectionDetail: ${default.connectionDetail}
+      attributes:
+        type: employee
+        serialisedFormat: avro

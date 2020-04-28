@@ -16,8 +16,6 @@
 
 package uk.gov.gchq.palisade.example.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.ExampleUser;
@@ -32,7 +30,6 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
-@ConfigurationProperties
 public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory {
 
     private String userId = "";
