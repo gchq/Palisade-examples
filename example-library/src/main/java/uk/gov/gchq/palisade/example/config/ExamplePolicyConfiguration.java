@@ -40,7 +40,7 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
     }
 
     /**
-     * Constructor with 2 arguments for an example implementation
+     * Constructor with 1 argument for an example implementation
      * of the {@link PolicyConfiguration} interface
      *
      * @param policies  a {@link List} of objects implementing the {@link PolicyPrepopulationFactory} interface
