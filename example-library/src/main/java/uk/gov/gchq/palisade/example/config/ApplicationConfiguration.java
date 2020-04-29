@@ -23,13 +23,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import uk.gov.gchq.palisade.service.ConnectionDetail;
-
-import java.util.function.Function;
-
 @Configuration
 public class ApplicationConfiguration {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
     @Bean
@@ -58,16 +53,4 @@ public class ApplicationConfiguration {
         return new ExamplePolicyPrepopulationFactory();
     }
 
-    @Bean
-    @ConditionalOnProperty(prefix = "population", name = "resource", havingValue = "std", matchIfMissing = true)
-    @ConfigurationProperties(prefix = "population")
-    public StdResourceConfiguration resourceConfiguration() {
-        return new StdResourceConfiguration();
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "population", name = "resource", havingValue = "std", matchIfMissing = true)
-    public StdResourcePrepopulationFactory resourcePrepopulationFactory(final Function<String, ConnectionDetail> connectionDetailMapper) {
-        return new StdResourcePrepopulationFactory(connectionDetailMapper);
-    }
 }

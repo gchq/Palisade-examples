@@ -19,7 +19,6 @@ package uk.gov.gchq.palisade.example.config;
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.service.PolicyConfiguration;
 import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
-import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +30,6 @@ import static java.util.Objects.requireNonNull;
 public class ExamplePolicyConfiguration implements PolicyConfiguration {
 
     private List<ExamplePolicyPrepopulationFactory> policies;
-    private List<ExampleUserPrepopulationFactory> users;
 
     /**
      * Constructor with 0 arguments for an example implementation
@@ -39,20 +37,16 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
      */
     public ExamplePolicyConfiguration() {
         policies = Collections.emptyList();
-        users = Collections.emptyList();
     }
 
     /**
-     * Constructor with 2 arguments for an example implementation
+     * Constructor with 1 argument for an example implementation
      * of the {@link PolicyConfiguration} interface
      *
      * @param policies  a {@link List} of objects implementing the {@link PolicyPrepopulationFactory} interface
-     * @param users     a {@link List} of objects implementing the {@link UserPrepopulationFactory} interface
      */
-    public ExamplePolicyConfiguration(final List<ExamplePolicyPrepopulationFactory> policies,
-                                      final List<ExampleUserPrepopulationFactory> users) {
+    public ExamplePolicyConfiguration(final List<ExamplePolicyPrepopulationFactory> policies) {
         this.policies = policies;
-        this.users = users;
     }
 
     @Override
@@ -69,18 +63,6 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
 
     @Override
     @Generated
-    public List<ExampleUserPrepopulationFactory> getUsers() {
-        return users;
-    }
-
-    @Generated
-    public void setUsers(final List<ExampleUserPrepopulationFactory> users) {
-        requireNonNull(users);
-        this.users = users;
-    }
-
-    @Override
-    @Generated
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -89,14 +71,13 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
             return false;
         }
         final ExamplePolicyConfiguration that = (ExamplePolicyConfiguration) o;
-        return Objects.equals(policies, that.policies) &&
-                Objects.equals(users, that.users);
+        return Objects.equals(policies, that.policies);
     }
 
     @Override
     @Generated
     public int hashCode() {
-        return Objects.hash(policies, users);
+        return Objects.hash(policies);
     }
 
     @Override
@@ -104,7 +85,6 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
     public String toString() {
         return new StringJoiner(", ", ExamplePolicyConfiguration.class.getSimpleName() + "[", "]")
                 .add("policies=" + policies)
-                .add("users=" + users)
                 .add(super.toString())
                 .toString();
     }
