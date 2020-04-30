@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 podTemplate(containers: [
         containerTemplate(name: 'maven', image: 'maven:3.6.1-jdk-11', ttyEnabled: true, command: 'cat')
 ]) {
@@ -35,7 +36,7 @@ podTemplate(containers: [
                 if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
                     container('maven') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                            sh 'mvn -s $MAVEN_SETTINGS install'
+                            sh 'mvn -s $MAVEN_SETTINGS install -P quick'
                         }
                     }
                 }
@@ -46,7 +47,7 @@ podTemplate(containers: [
                 if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
                     container('maven') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                            sh 'mvn -s $MAVEN_SETTINGS install'
+                            sh 'mvn -s $MAVEN_SETTINGS install -P quick'
                         }
                     }
                 }
@@ -103,7 +104,7 @@ podTemplate(containers: [
     }
     // No need to occupy a node
     stage("SonarQube Quality Gate") {
-        timeout(time: 1, unit: 'HOURS') {
+        timeout(time: 1, unit: 'MINUTES') {
             // Just in case something goes wrong, pipeline will be killed after a timeout
             def qg = waitForQualityGate()
             // Reuse taskId previously collected by withSonarQubeEnv
