@@ -43,7 +43,6 @@ podTemplate(containers: [
             }
             dir ('Palisade-clients') {
                 git url: 'https://github.com/gchq/Palisade-clients.git'
-                sh "git fetch origin develop"
                 if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
                     container('maven') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
@@ -57,8 +56,7 @@ podTemplate(containers: [
         stage('Install, Unit Tests, Checkstyle') {
             dir ('Palisade-examples') {
                 git url: 'https://github.com/gchq/Palisade-examples.git'
-                sh "git fetch origin develop"
-                sh "git checkout ${GIT_BRANCH_NAME} || git checkout develop"
+                sh "git checkout ${GIT_BRANCH_NAME}"
                 container('maven') {
                     configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
                         sh 'mvn -s $MAVEN_SETTINGS install'
