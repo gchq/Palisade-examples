@@ -24,12 +24,12 @@ import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
 import uk.gov.gchq.palisade.clients.simpleclient.request.AddSerialiserRequest;
 import uk.gov.gchq.palisade.clients.simpleclient.web.DataClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.PolicyClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.ResourceClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.UserClient;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
-import uk.gov.gchq.palisade.example.web.PolicyClient;
-import uk.gov.gchq.palisade.example.web.ResourceClient;
-import uk.gov.gchq.palisade.example.web.UserClient;
 import uk.gov.gchq.palisade.reader.common.DataFlavour;
 import uk.gov.gchq.palisade.resource.ChildResource;
 import uk.gov.gchq.palisade.resource.impl.DirectoryResource;

@@ -20,7 +20,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients
+@EnableFeignClients("uk.gov.gchq.palisade")
 @EnableEurekaClient
 @SpringBootApplication
 public class ExampleApplication {
