@@ -41,7 +41,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -83,16 +82,17 @@ public class SimpleClient<T> {
         requireNonNull(response, "response");
 
         final List<Stream<T>> dataStreams = new ArrayList<>(response.getResources().size());
-        for (final Entry<LeafResource, ConnectionDetail> entry : response.getResources().entrySet()) {
-            final ConnectionDetail connectionDetail = entry.getValue();
+        for (final LeafResource resource : response.getResources()) {
+            final ConnectionDetail connectionDetail = resource.getConnectionDetail();
             final URI dataService = new URI(connectionDetail.createConnection());
             final RequestId uuid = response.getOriginalRequestId();
 
             final ReadRequest readRequest = new ReadRequest()
                     .token(response.getToken())
-                    .resource(entry.getKey());
+                    .resource(resource);
             readRequest.setOriginalRequestId(uuid);
 
+            LOGGER.info("Resource {} has DATA-SERVICE connection detail {}", resource.getId(), connectionDetail);
             InputStream responseStream = dataClient.readChunked(dataService, readRequest).body().asInputStream();
             Stream<T> dataStream = getSerialiser().deserialise(responseStream);
             dataStreams.add(dataStream);

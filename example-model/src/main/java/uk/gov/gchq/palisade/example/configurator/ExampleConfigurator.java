@@ -25,26 +25,11 @@ import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.request.AddSerialiserRequest;
-import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 import uk.gov.gchq.palisade.example.web.DataClient;
-import uk.gov.gchq.palisade.example.web.PolicyClient;
-import uk.gov.gchq.palisade.example.web.ResourceClient;
-import uk.gov.gchq.palisade.example.web.UserClient;
 import uk.gov.gchq.palisade.reader.common.DataFlavour;
-import uk.gov.gchq.palisade.resource.ChildResource;
-import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
-import uk.gov.gchq.palisade.resource.impl.FileResource;
-import uk.gov.gchq.palisade.resource.impl.SystemResource;
-import uk.gov.gchq.palisade.resource.request.AddResourceRequest;
-import uk.gov.gchq.palisade.service.SimpleConnectionDetail;
 
-import java.net.URI;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Convenience class for the examples to configure the users and data access policies for the example.
@@ -53,34 +38,19 @@ public class ExampleConfigurator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleConfigurator.class);
 
-    private Path file;
-
     private final DataClient dataClient;
-    private final PolicyClient policyClient;
-    private final ResourceClient resourceClient;
-    private final UserClient userClient;
-
     private final EurekaClient eurekaClient;
 
-    public ExampleConfigurator(final DataClient dataClient, final PolicyClient policyClient, final ResourceClient resourceClient, final UserClient userClient, final EurekaClient eurekaClient) {
+    public ExampleConfigurator(final DataClient dataClient, final EurekaClient eurekaClient) {
         this.dataClient = dataClient;
-        this.policyClient = policyClient;
-        this.resourceClient = resourceClient;
-        this.userClient = userClient;
         this.eurekaClient = eurekaClient;
     }
 
-    public ExampleConfigurator file(final String file) {
-        this.file = Path.of(file);
-        return this;
-    }
-
-    public void run(final String filename) {
-        this.file(filename).initialiseExample();
+    public void run() {
+        this.initialiseExample();
     }
 
     public void initialiseExample() {
-        addResources();
         addSerialiser();
 
         LOGGER.info("The example users, data access policies, resource(s) and serialiser details have been initialised.");
@@ -94,26 +64,6 @@ public class ExampleConfigurator {
                 .peek(instance -> LOGGER.info("Discovered {} :: {}:{}/{} ({})", instance.getAppName(), instance.getIPAddr(), instance.getPort(), instance.getSecurePort(), instance.getStatus()))
                 .map(EurekaServiceInstance::new)
                 .collect(Collectors.toList());
-    }
-
-    private void addResources() {
-        // Add the resource to the Resource-service
-        LOGGER.info("ADDING RESOURCES");
-
-        FileResource resource = createFileResource(file);
-
-        for (ServiceInstance dataService : getServiceInstances("data-service")) {
-            AddResourceRequest addResourceRequest = new AddResourceRequest()
-                    .resource(resource)
-                    .connectionDetail(new SimpleConnectionDetail().uri(dataService.getUri().toString()));
-
-            for (ServiceInstance resourceService : getServiceInstances("resource-service")) {
-                resourceClient.addResource(resourceService.getUri(), addResourceRequest);
-                LOGGER.info("Added resource {} to service {}", addResourceRequest, resourceService.getUri());
-            }
-        }
-
-        LOGGER.info("");
     }
 
     void addSerialiser() {
@@ -132,39 +82,4 @@ public class ExampleConfigurator {
         LOGGER.info("");
     }
 
-    static FileResource createFileResource(final Path path) {
-        FileResource file = fileResource(path).serialisedFormat("avro").type("employee");
-        resolveParents(path.getParent(), file);
-
-        return file;
-    }
-
-    private static void resolveParents(final Path path, final ChildResource childResource) {
-        requireNonNull(path);
-        Optional<Path> parent = Optional.ofNullable(path.getParent());
-        parent.ifPresentOrElse(parentPath -> {
-            DirectoryResource directoryResource = directoryResource(parentPath);
-            childResource.setParent(directoryResource);
-            resolveParents(parentPath, directoryResource);
-        }, () -> {
-            SystemResource systemResource = systemResource(path);
-            childResource.setParent(systemResource);
-        });
-    }
-
-    private static FileResource fileResource(final Path path) {
-        return new FileResource().id(toURI(path).toString());
-    }
-
-    private static DirectoryResource directoryResource(final Path path) {
-        return new DirectoryResource().id(toURI(path).toString());
-    }
-
-    private static SystemResource systemResource(final Path path) {
-        return new SystemResource().id(toURI(path).toString());
-    }
-
-    private static URI toURI(final Path path) {
-        return ExampleFileUtil.convertToFileURI(path.toString());
-    }
 }
