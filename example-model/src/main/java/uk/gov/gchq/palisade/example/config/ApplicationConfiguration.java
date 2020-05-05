@@ -34,9 +34,6 @@ import uk.gov.gchq.palisade.example.runner.BulkTestExample;
 import uk.gov.gchq.palisade.example.runner.RestExample;
 import uk.gov.gchq.palisade.example.web.DataClient;
 import uk.gov.gchq.palisade.example.web.PalisadeClient;
-import uk.gov.gchq.palisade.example.web.PolicyClient;
-import uk.gov.gchq.palisade.example.web.ResourceClient;
-import uk.gov.gchq.palisade.example.web.UserClient;
 import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
 
 import static java.util.Objects.requireNonNull;
@@ -59,7 +56,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean("ExampleConfigurator")
-    public ExampleConfigurator exampleConfigurator(final DataClient dataClient, final PolicyClient policyClient, final ResourceClient resourceClient, final UserClient userClient, final EurekaClient eurekaClient) {
+    public ExampleConfigurator exampleConfigurator(final DataClient dataClient, final EurekaClient eurekaClient) {
         LOGGER.debug("Constructed ExampleConfigurator");
         return new ExampleConfigurator(dataClient, eurekaClient);
     }
