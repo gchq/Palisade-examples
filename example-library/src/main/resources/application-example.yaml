@@ -15,11 +15,11 @@
 
 # Not interpreted by any java code, simply used by reference in the population.resources section
 default:
-  rootId: ../Palisade-examples/resources/data/
+  rootId: ../Palisade-examples/resources/
   connectionDetail: data-service
 
 population:
-  user: example
+  userProvider: example
   users:
     - userId: Alice
       auths:
@@ -40,10 +40,9 @@ population:
       roles:
         IT
 
-  policy: example
+  policyProvider: std
   policies:
-    - type: Employee
-      resource: ../Palisade-examples/resources/data/
+    - resource: ../Palisade-examples/resources/data/
       owner: Alice
       recordRules:
         "1-Bank details only visible for the purpose of salary": uk.gov.gchq.palisade.example.rule.BankDetailsRule
@@ -54,7 +53,7 @@ population:
       resourceRules:
         "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.rule.FirstResourceRule
 
-  resource: std
+  resourceProvider: std
   resources:
     - resourceId: ../Palisade-examples/resources/data/employee_file0.avro
       rootId: ${default.rootId}
