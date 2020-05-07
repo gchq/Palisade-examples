@@ -35,12 +35,8 @@ eureka:
 
 web:
   client:
-    audit-service: audit-service
     data-service: data-service
     palisade-service: palisade-service
-    policy-service: policy-service
-    resource-service: resource-service
-    user-service: user-service
 
 ---
 
@@ -49,7 +45,7 @@ spring:
 
 example:
   type: bulk
-  directory: "../Palisade-examples/resources/data"
+  directory: "../Palisade-examples/resources/data/"
 
 ---
 
@@ -66,7 +62,7 @@ spring:
 
 example:
   type: rest
-  filename: "../Palisade-examples/resources/data"
+  filename: "../Palisade-examples/resources/data/"
 
 ---
 
@@ -75,4 +71,3 @@ spring:
 
 example:
   type: configure
-  filename: "../Palisade-examples/resources/data"

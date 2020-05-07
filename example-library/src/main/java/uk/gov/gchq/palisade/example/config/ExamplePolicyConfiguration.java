@@ -16,12 +16,9 @@
 
 package uk.gov.gchq.palisade.example.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.service.PolicyCacheWarmerFactory;
 import uk.gov.gchq.palisade.service.PolicyConfiguration;
-import uk.gov.gchq.palisade.service.UserCacheWarmerFactory;
+import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,11 +27,9 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
-@ConfigurationProperties(prefix = "population")
 public class ExamplePolicyConfiguration implements PolicyConfiguration {
 
-    private List<ExamplePolicyCacheWarmerFactory> policies;
-    private List<ExampleUserCacheWarmerFactory> users;
+    private List<ExamplePolicyPrepopulationFactory> policies;
 
     /**
      * Constructor with 0 arguments for an example implementation
@@ -42,44 +37,28 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
      */
     public ExamplePolicyConfiguration() {
         policies = Collections.emptyList();
-        users = Collections.emptyList();
     }
 
     /**
      * Constructor with 2 arguments for an example implementation
      * of the {@link PolicyConfiguration} interface
      *
-     * @param policies  a {@link List} of objects implementing the {@link PolicyCacheWarmerFactory} interface
-     * @param users     a {@link List} of objects implementing the {@link UserCacheWarmerFactory} interface
+     * @param policies  a {@link List} of objects implementing the {@link PolicyPrepopulationFactory} interface
      */
-    public ExamplePolicyConfiguration(final List<ExamplePolicyCacheWarmerFactory> policies,
-                                      final List<ExampleUserCacheWarmerFactory> users) {
+    public ExamplePolicyConfiguration(final List<ExamplePolicyPrepopulationFactory> policies) {
         this.policies = policies;
-        this.users = users;
     }
 
     @Override
     @Generated
-    public List<ExamplePolicyCacheWarmerFactory> getPolicies() {
+    public List<ExamplePolicyPrepopulationFactory> getPolicies() {
         return policies;
     }
 
     @Generated
-    public void setPolicies(final List<ExamplePolicyCacheWarmerFactory> policies) {
+    public void setPolicies(final List<ExamplePolicyPrepopulationFactory> policies) {
         requireNonNull(policies);
         this.policies = policies;
-    }
-
-    @Override
-    @Generated
-    public List<ExampleUserCacheWarmerFactory> getUsers() {
-        return users;
-    }
-
-    @Generated
-    public void setUsers(final List<ExampleUserCacheWarmerFactory> users) {
-        requireNonNull(users);
-        this.users = users;
     }
 
     @Override
@@ -92,14 +71,13 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
             return false;
         }
         final ExamplePolicyConfiguration that = (ExamplePolicyConfiguration) o;
-        return Objects.equals(policies, that.policies) &&
-                Objects.equals(users, that.users);
+        return Objects.equals(policies, that.policies);
     }
 
     @Override
     @Generated
     public int hashCode() {
-        return Objects.hash(policies, users);
+        return Objects.hash(policies);
     }
 
     @Override
@@ -107,7 +85,6 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
     public String toString() {
         return new StringJoiner(", ", ExamplePolicyConfiguration.class.getSimpleName() + "[", "]")
                 .add("policies=" + policies)
-                .add("users=" + users)
                 .add(super.toString())
                 .toString();
     }
