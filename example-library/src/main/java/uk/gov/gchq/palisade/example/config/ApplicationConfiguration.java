@@ -25,9 +25,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApplicationConfiguration {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
-
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
     @ConfigurationProperties(prefix = "population")
@@ -40,18 +37,4 @@ public class ApplicationConfiguration {
     public ExampleUserPrepopulationFactory userPrepopulationFactory() {
         return new ExampleUserPrepopulationFactory();
     }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "population", name = "policyProvider", havingValue = "example")
-    @ConfigurationProperties(prefix = "population")
-    public ExamplePolicyConfiguration policyConfiguration() {
-        return new ExamplePolicyConfiguration();
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "population", name = "policyProvider", havingValue = "example")
-    public ExamplePolicyPrepopulationFactory policyPrepopulationFactory() {
-        return new ExamplePolicyPrepopulationFactory();
-    }
-
 }
