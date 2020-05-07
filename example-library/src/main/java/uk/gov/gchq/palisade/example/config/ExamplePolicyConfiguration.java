@@ -18,7 +18,6 @@ package uk.gov.gchq.palisade.example.config;
 
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.service.PolicyConfiguration;
-import uk.gov.gchq.palisade.service.PolicyPrepopulationFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +42,7 @@ public class ExamplePolicyConfiguration implements PolicyConfiguration {
      * Constructor with 2 arguments for an example implementation
      * of the {@link PolicyConfiguration} interface
      *
-     * @param policies  a {@link List} of objects implementing the {@link PolicyPrepopulationFactory} interface
+     * @param policies  a {@link List} of objects implementing the {@link uk.gov.gchq.palisade.service.PolicyPrepopulationFactory} interface
      */
     public ExamplePolicyConfiguration(final List<ExamplePolicyPrepopulationFactory> policies) {
         this.policies = policies;

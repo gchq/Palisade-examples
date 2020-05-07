@@ -148,23 +148,13 @@ public class ExamplePolicyPrepopulationFactory implements PolicyPrepopulationFac
     }
 
     private Rule<?> createRule(final String rule, final String ruleType) {
-        if ("resource".equalsIgnoreCase(ruleType)) {
-            try {
-                LOGGER.debug("Adding rule {} for rule type {}", rule, ruleType);
-                return (Rule<Resource>) Class.forName(rule).getConstructor().newInstance();
-            } catch (Exception ex) {
-                LOGGER.error("Error creating resourceLevel rule: {} - {}", ex.getMessage(), ex.getCause());
-            }
+        try {
+            LOGGER.debug("Adding rule {} for rule type {}", rule, ruleType);
+            return (Rule<?>) Class.forName(rule).getConstructor().newInstance();
+        } catch (Exception ex) {
+            LOGGER.error(String.format("Error creating %s rule", ruleType), ex);
+            return null;
         }
-        if ("record".equalsIgnoreCase(ruleType)) {
-            try {
-                LOGGER.debug("Adding rule {} for rule type {}", rule, ruleType);
-                return (Rule<Employee>) Class.forName(rule).getConstructor().newInstance();
-            } catch (Exception ex) {
-                LOGGER.error("Error creating recordLevel rule: {} - {}", ex.getMessage(), ex.getCause());
-            }
-        }
-        return null;
     }
 
     @Override
