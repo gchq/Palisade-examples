@@ -11,8 +11,8 @@ if [ -d $DIR ]; then
     num=$(wc -l $FILE | awk '{ print $1 }')
 
     #check the length of the exampleOutput text file and pass if its 980
-    if [ $num == 944 ]; then
-      echo "Success"
+    if [ $num == 900 ]; then
+      echo "Success - Number of lines was 944"
     else
       echo "Number of lines was not 944, but was: $num"
       exit 1
