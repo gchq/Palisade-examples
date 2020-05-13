@@ -16,13 +16,11 @@
 
 package uk.gov.gchq.palisade.example.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.ExampleUser;
 import uk.gov.gchq.palisade.example.common.TrainingCourse;
-import uk.gov.gchq.palisade.service.UserCacheWarmerFactory;
+import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -32,8 +30,7 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
-@ConfigurationProperties
-public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
+public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory {
 
     private String userId = "";
     private Set<String> auths = Collections.emptySet();
@@ -42,21 +39,21 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
 
     /**
      * Constructor with 0 arguments for an example implementation
-     * of the {@link UserCacheWarmerFactory} interface
+     * of the {@link UserPrepopulationFactory} interface
      */
-    public ExampleUserCacheWarmerFactory() {
+    public ExampleUserPrepopulationFactory() {
     }
 
     /**
      * Constructor with 4 arguments for an example implementation
-     * of the {@link UserCacheWarmerFactory} interface
+     * of the {@link UserPrepopulationFactory} interface
      *
      * @param userId            a {@link String} value of a user.
      * @param auths             a {@link Set} of {@link String} auth values for the user.
      * @param roles             a {@link Set} of {@link String} role values for the user.
      * @param trainingCourses   an {@link EnumSet} of {@link TrainingCourse}s for the user.
      */
-    public ExampleUserCacheWarmerFactory(final String userId, final Set<String> auths, final Set<String> roles, final EnumSet<TrainingCourse> trainingCourses) {
+    public ExampleUserPrepopulationFactory(final String userId, final Set<String> auths, final Set<String> roles, final EnumSet<TrainingCourse> trainingCourses) {
         this.userId = userId;
         this.auths = auths;
         this.roles = roles;
@@ -110,7 +107,7 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
     }
 
     @Override
-    public User userWarm() {
+    public User build() {
         return new ExampleUser()
                 .trainingCompleted(trainingCourses)
                 .userId(this.getUserId())
@@ -124,10 +121,10 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ExampleUserCacheWarmerFactory)) {
+        if (!(o instanceof ExampleUserPrepopulationFactory)) {
             return false;
         }
-        final ExampleUserCacheWarmerFactory that = (ExampleUserCacheWarmerFactory) o;
+        final ExampleUserPrepopulationFactory that = (ExampleUserPrepopulationFactory) o;
         return Objects.equals(userId, that.userId) &&
                 Objects.equals(auths, that.auths) &&
                 Objects.equals(roles, that.roles) &&
@@ -143,7 +140,7 @@ public class ExampleUserCacheWarmerFactory implements UserCacheWarmerFactory {
     @Override
     @Generated
     public String toString() {
-        return new StringJoiner(", ", ExampleUserCacheWarmerFactory.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", ExampleUserPrepopulationFactory.class.getSimpleName() + "[", "]")
                 .add("userId='" + userId + "'")
                 .add("auths=" + auths)
                 .add("roles=" + roles)

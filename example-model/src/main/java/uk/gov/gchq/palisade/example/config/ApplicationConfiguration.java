@@ -59,9 +59,9 @@ public class ApplicationConfiguration {
     }
 
     @Bean("ExampleConfigurator")
-    public ExampleConfigurator exampleConfigurator(final DataClient dataClient, final PolicyClient policyClient, final ResourceClient resourceClient, final UserClient userClient, final EurekaClient eurekaClient) {
+    public ExampleConfigurator exampleConfigurator(final DataClient dataClient, final EurekaClient eurekaClient) {
         LOGGER.debug("Constructed ExampleConfigurator");
-        return new ExampleConfigurator(dataClient, policyClient, resourceClient, userClient, eurekaClient);
+        return new ExampleConfigurator(dataClient, eurekaClient);
     }
 
     @Bean("ExampleClient")
@@ -121,10 +121,9 @@ public class ApplicationConfiguration {
     @ConditionalOnProperty(name = "example.type", havingValue = "configure")
     @Bean("ConfiguratorRunner")
     public CommandLineRunner configuratorRunner(final ExampleConfigurator configurator) {
-        requireNonNull(filename, "--example.filename=... must be provided");
         LOGGER.info("Constructed ConfiguratorRunner");
         return args -> {
-            configurator.run(filename);
+            configurator.run();
             System.exit(0);
         };
     }

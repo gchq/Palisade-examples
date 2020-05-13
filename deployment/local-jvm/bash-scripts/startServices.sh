@@ -10,7 +10,6 @@ if [ -d $DIR ]; then
   if [ -f $FILE ]; then
     java -jar -Dspring.profiles.active=discovery $FILE --manager.mode=run
     java -jar -Dspring.profiles.active=example,debug $FILE --manager.mode=run
-
   else
     echo "Cannot find services-manager-<version>-exec.jar - have you run 'mvn install' in Palisade-services?"
   fi

@@ -16,42 +16,23 @@
 
 package uk.gov.gchq.palisade.example.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApplicationConfiguration {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
-
     @Bean
-    @ConditionalOnProperty(prefix = "population", name = "user", havingValue = "example")
+    @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
+    @ConfigurationProperties(prefix = "population")
     public ExampleUserConfiguration userConfiguration() {
-        LOGGER.info("Example User Configuration Instantiated");
         return new ExampleUserConfiguration();
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "population", name = "user", havingValue = "example")
-    public ExampleUserCacheWarmerFactory userCacheWarmerFactory() {
-        LOGGER.info("Example User Cache Warmer Instantiated");
-        return new ExampleUserCacheWarmerFactory();
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
-    public ExamplePolicyConfiguration policyConfiguration() {
-        LOGGER.info("Example Policy Configuration Instantiated");
-        return new ExamplePolicyConfiguration();
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = "population", name = "policy", havingValue = "example")
-    public ExamplePolicyCacheWarmerFactory policyCacheWarmerFactory() {
-        LOGGER.info("Example Policy Cache Warmer Instantiated");
-        return new ExamplePolicyCacheWarmerFactory();
+    @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
+    public ExampleUserPrepopulationFactory userPrepopulationFactory() {
+        return new ExampleUserPrepopulationFactory();
     }
 }
