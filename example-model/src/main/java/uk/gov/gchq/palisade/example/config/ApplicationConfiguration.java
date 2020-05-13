@@ -30,9 +30,6 @@ import org.springframework.context.annotation.Primary;
 
 import uk.gov.gchq.palisade.clients.simpleclient.web.DataClient;
 import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
-import uk.gov.gchq.palisade.clients.simpleclient.web.PolicyClient;
-import uk.gov.gchq.palisade.clients.simpleclient.web.ResourceClient;
-import uk.gov.gchq.palisade.clients.simpleclient.web.UserClient;
 import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.configurator.ExampleConfigurator;
 import uk.gov.gchq.palisade.example.runner.BulkTestExample;
