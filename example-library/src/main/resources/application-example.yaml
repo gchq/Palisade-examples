@@ -67,3 +67,10 @@ population:
       attributes:
         type: employee
         serialisedFormat: avro
+
+  serialiserProvider: std
+  serialisers:
+    - dataFlavour:
+        "employee": avro
+      serialiser:
+        "uk.gov.gchq.palisade.data.serialise.AvroSerialiser": uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee
