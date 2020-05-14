@@ -22,10 +22,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.netflix.eureka.EurekaServiceInstance;
 
+import uk.gov.gchq.palisade.clients.simpleclient.request.AddSerialiserRequest;
+import uk.gov.gchq.palisade.clients.simpleclient.web.DataClient;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.request.AddSerialiserRequest;
-import uk.gov.gchq.palisade.example.web.DataClient;
 import uk.gov.gchq.palisade.reader.common.DataFlavour;
 
 import java.util.List;

@@ -20,11 +20,13 @@ import com.netflix.discovery.EurekaClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.gov.gchq.palisade.clients.simpleclient.client.SimpleClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.DataClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
-import uk.gov.gchq.palisade.example.web.DataClient;
-import uk.gov.gchq.palisade.example.web.PalisadeClient;
+
 
 import java.io.IOException;
 import java.net.URI;
