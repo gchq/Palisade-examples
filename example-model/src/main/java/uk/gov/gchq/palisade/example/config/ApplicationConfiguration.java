@@ -28,11 +28,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import uk.gov.gchq.palisade.clients.simpleclient.web.DataClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
 import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.runner.BulkTestExample;
 import uk.gov.gchq.palisade.example.runner.RestExample;
-import uk.gov.gchq.palisade.example.web.DataClient;
-import uk.gov.gchq.palisade.example.web.PalisadeClient;
 import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
 
 import static java.util.Objects.requireNonNull;

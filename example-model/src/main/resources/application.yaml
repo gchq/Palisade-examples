@@ -22,6 +22,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+# Since using eureka, let spring autoconfigure a port
+server:
+  port: 0
+
 eureka:
   instance:
     hostname: localhost
