@@ -70,7 +70,7 @@ population:
 
   serialiserProvider: std
   serialisers:
-    - dataFlavour:
+    - flavourMap:
         "employee": avro
       serialiser:
         "uk.gov.gchq.palisade.data.serialise.AvroSerialiser": uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee
