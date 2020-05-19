@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-FILE=rest-example.log
-DIR=../Palisade-services
+FILE=exampleOutput.txt
+DIR=deployment/local-jvm/bash-scripts/
 
 if [ -d $DIR ]; then
   # Important to cd before running the jar - the working directory must be deployment/local-jvm/bash-scripts/
@@ -10,11 +10,11 @@ if [ -d $DIR ]; then
   if [ -f $FILE ]; then
     num=$(wc -l $FILE | awk '{ print $1 }')
 
-    #check the length of the exampleOutput text file and pass if it's 183
-    if [ $num == 183 ]; then
-      echo "Success - Number of lines was 183"
+    #check the length of the exampleOutput text file and pass if it's 944
+    if [ $num == 944 ]; then
+      echo "Success - Number of lines was 944"
     else
-      echo "Number of lines was not 183 but was: $num"
+      echo "Number of lines was not 944 but was: $num"
       exit 1
     fi
 
