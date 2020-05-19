@@ -20,7 +20,7 @@ if [ -d $DIR ]; then
 
   else
     # fail if the example has not been run
-    echo "Cannot find rest-example.log, have you started the services?"
+    echo "Cannot find exampleOutput.txt, have you run the example?"
     exit 1
   fi
 else
