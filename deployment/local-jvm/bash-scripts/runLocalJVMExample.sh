@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 
-FILE=services-manager/target/services-manager-*-exec.jar
-DIR=../Palisade-services/
+FILE=example-model/target/example-model-*-exec.jar
 
 # Run the rest example
-if [ -d $DIR ]; then
-  # Important to cd before running the jar - the working directory must be somewhere under Palisade-services
-  cd $DIR
-  # Start all the services using the service manager from Palisade-services
-  if [ -f $FILE ]; then
-    java -jar -Dspring.profiles.active=rest $FILE --manager.mode=run
-  else
-    echo "Cannot find services-manager-<version>-exec.jar - have you run 'mvn install' in Palisade-services?"
-  fi
+if [ -f $FILE ]; then
+  java -jar $FILE --example.filename="$(pwd)/resources/data" --example.type=rest
 else
-  echo "Cannot find Palisade-services directory - have you run 'git clone'?"
+  echo "Cannot find example-model-<version>-exec.jar - have you run 'mvn install'?"
 fi
