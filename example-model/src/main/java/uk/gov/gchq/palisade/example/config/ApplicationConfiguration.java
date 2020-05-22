@@ -31,7 +31,6 @@ import org.springframework.context.annotation.Primary;
 import uk.gov.gchq.palisade.clients.simpleclient.web.DataClient;
 import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
 import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
-import uk.gov.gchq.palisade.example.configurator.ExampleConfigurator;
 import uk.gov.gchq.palisade.example.runner.BulkTestExample;
 import uk.gov.gchq.palisade.example.runner.RestExample;
 import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
@@ -53,12 +52,6 @@ public class ApplicationConfiguration {
     public RestExample restExample(final ExampleSimpleClient client) {
         LOGGER.debug("Constructed RestExample");
         return new RestExample(client);
-    }
-
-    @Bean("ExampleConfigurator")
-    public ExampleConfigurator exampleConfigurator(final DataClient dataClient, final EurekaClient eurekaClient) {
-        LOGGER.debug("Constructed ExampleConfigurator");
-        return new ExampleConfigurator(dataClient, eurekaClient);
     }
 
     @Bean("ExampleClient")
@@ -111,16 +104,6 @@ public class ApplicationConfiguration {
         LOGGER.info("Constructed RestRunner");
         return args -> {
             restExample.run(filename);
-            System.exit(0);
-        };
-    }
-
-    @ConditionalOnProperty(name = "example.type", havingValue = "configure")
-    @Bean("ConfiguratorRunner")
-    public CommandLineRunner configuratorRunner(final ExampleConfigurator configurator) {
-        LOGGER.info("Constructed ConfiguratorRunner");
-        return args -> {
-            configurator.run();
             System.exit(0);
         };
     }

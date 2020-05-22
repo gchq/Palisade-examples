@@ -17,6 +17,8 @@
 default:
   rootId: ../Palisade-examples/resources/
   connectionDetail: data-service
+  type: uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee
+  format: avro
 
 population:
   userProvider: example
@@ -59,11 +61,17 @@ population:
       rootId: ${default.rootId}
       connectionDetail: ${default.connectionDetail}
       attributes:
-        type: employee
-        serialisedFormat: avro
+        type: ${default.type}
+        serialisedFormat: ${default.format}
     - resourceId: ../Palisade-examples/resources/data/employee_file1.avro
       rootId: ${default.rootId}
       connectionDetail: ${default.connectionDetail}
       attributes:
-        type: employee
-        serialisedFormat: avro
+        type: ${default.type}
+        serialisedFormat: ${default.format}
+
+  serialiserProvider: std
+  serialisers:
+    - flavourFormat: ${default.format}
+      flavourType: ${default.type}
+      serialiserClass: uk.gov.gchq.palisade.data.serialise.AvroSerialiser
