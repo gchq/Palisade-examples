@@ -13,9 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-podTemplate(containers: [
-        containerTemplate(name: 'maven', image: 'maven:3.6.1-jdk-11', ttyEnabled: true, command: 'cat')
-]) {
+podTemplate(yaml: '''
+apiVersion: v1
+kind: Pod
+metadata: 
+    name: dind 
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: palisade-node-name
+            operator: In
+            values: 
+            - node1
+            - node2
+            - node3
+  containers:
+  - name: jnlp
+    image: jenkins/jnlp-slave
+    imagePullPolicy: Always
+    args: 
+    - $(JENKINS_SECRET)
+    - $(JENKINS_NAME)
+    resources:
+      requests:
+        ephemeral-storage: "4Gi"
+      limits:
+        ephemeral-storage: "8Gi"
+
+  - name: docker-cmds
+    image: 779921734503.dkr.ecr.eu-west-1.amazonaws.com/jnlp-did:INFRA
+    imagePullPolicy: IfNotPresent
+    command:
+    - sleep
+    args:
+    - 99d
+    env:
+      - name: DOCKER_HOST
+        value: tcp://localhost:2375
+    resources:
+      requests:
+        ephemeral-storage: "4Gi"
+      limits:
+        ephemeral-storage: "8Gi"            
+''') {
 
     node(POD_LABEL) {
         stage('Bootstrap') {
@@ -32,14 +76,14 @@ podTemplate(containers: [
             } else { //just a normal branch
                 git branch: "${env.BRANCH_NAME}", url: 'https://github.com/gchq/Palisade-examples.git'
             }
-            container('maven') {
+            container('docker-cmds') {
                 configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
                     sh 'mvn -s $MAVEN_SETTINGS install'
                 }
             }
         }
         stage('SonarQube analysis') {
-            container('maven') {
+            container('docker-cmds') {
                 withCredentials([string(credentialsId: '3dc8e0fb-23de-471d-8009-ed1d5890333a', variable: 'SONARQUBE_WEBHOOK'),
                                  string(credentialsId: 'b01b7c11-ccdf-4ac5-b022-28c9b861379a', variable: 'KEYSTORE_PASS'),
                                  file(credentialsId: '91d1a511-491e-4fac-9da5-a61b7933f4f6', variable: 'KEYSTORE')]) {
@@ -62,7 +106,7 @@ podTemplate(containers: [
             } else {
                 git branch: "${env.BRANCH_NAME}", url: 'https://github.com/gchq/Palisade-examples.git'
             }
-            container('maven') {
+            container('docker-cmds') {
                 configFileProvider(
                         [configFile(fileId: '450d38e2-db65-4601-8be0-8621455e93b5', variable: 'MAVEN_SETTINGS')]) {
                     if (("${env.BRANCH_NAME}" == "develop") ||
