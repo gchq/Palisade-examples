@@ -22,6 +22,7 @@ bin/
 .classpath/
 *.pem
 *.DS_Store
+*.flattened-pom.xml
 _book
 node_modules/
 .extract/

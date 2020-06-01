@@ -35,7 +35,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class BulkTestExample {
     private static final Logger LOGGER = LoggerFactory.getLogger(BulkTestExample.class);
 
-    private BulkTestExample() {
+    private RestExample client;
+
+    public BulkTestExample(final RestExample restExample) {
+        this.client = restExample;
     }
 
     /**
@@ -43,52 +46,27 @@ public final class BulkTestExample {
      */
     private static AtomicBoolean hasDestructionOccurred = new AtomicBoolean(false);
 
-    public static void main(final String[] args) throws Exception {
-        if (args.length < 2) {
-            System.out.printf("Usage: %s directory quantity [behaviour]\n", BulkTestExample.class.getTypeName());
-            System.out.println("\ndirectory\tdirectory to create files in (if directory exists, it will be temporarily renamed)");
-            System.out.println("\nquantity\tnumber of Employee data files to create and try to retrieve");
-            System.out.println();
-            System.out.println("OPTIONAL:");
-            System.out.println("behaviour c|d|b\tno file [c]reation at beginning, no file [d]eletion at end, [b]oth no creation and no deletion");
-            System.exit(1);
-        }
-
-        boolean shouldCreate = true;
-        boolean shouldDelete = true;
-        String directory = args[0];
-
-        int numFiles = 0;
-        try {
-            numFiles = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid number entered");
-            System.exit(1);
-        }
-
-        if (args.length > 2) {
-            if (args[2].equalsIgnoreCase("c")) {
-                shouldCreate = false;
-            } else if (args[2].equalsIgnoreCase("d")) {
-                shouldDelete = false;
-            } else if (args[2].equalsIgnoreCase("b")) {
-                shouldCreate = false;
-                shouldDelete = false;
-            } else {
-                throw new IllegalArgumentException(args[2] + " is invalid - must be one of: 'c', 'd', 'b'");
-            }
-        }
+    /**
+     * The runner method to run a test of how many resources/files can be read in a single request
+     *
+     * @param directory the directory to create files in
+     * @param numCopies the number of resources to create
+     * @param shouldCreate true if the directory is empty and therefore the data needs creating
+     * @param shouldDelete true if you want the data to be deleted after the test has run
+     * @throws Exception for any file system error or URI exception
+     */
+    public void run(final String directory, final Integer numCopies,  final boolean shouldCreate, final boolean shouldDelete) throws Exception {
         // Ensure we clean up if a SIGTERM occurs
         configureShutdownHook(shouldDelete, directory);
 
         // Create some bulk data (unless flag set)
         try {
             if (shouldCreate) {
-                createBulkData(directory, numFiles);
+                createBulkData(directory, numCopies);
             }
 
             // Run example
-            RestExample.main(directory);
+            client.run(directory);
 
         } finally {
             if (shouldDelete) {

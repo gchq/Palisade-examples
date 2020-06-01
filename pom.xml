@@ -15,7 +15,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -47,25 +48,27 @@
     </licenses>
 
     <properties>
+        <!-- Versions -->
         <java.version>11</java.version>
-        <encoding>UTF-8</encoding>
-        <!-- Sane default when no revision property is passed in from the command line -->
         <revision>SNAPSHOT</revision>
-        <dependency.plugin.version>3.1.1</dependency.plugin.version>
-        <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-
-        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+
+        <!-- Plugins -->
+        <javadoc.plugin.version>3.2.0</javadoc.plugin.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <checkstyle.phase>verify</checkstyle.phase>
+        <depends.maven.version>3.1.1</depends.maven.version>
+        <depends.phase>validate</depends.phase>
+
+        <!-- Dependencies -->
         <javafaker.version>1.0.1</javafaker.version>
         <spring-cloud-starter-ribbon.version>1.4.7.RELEASE</spring-cloud-starter-ribbon.version>
         <apache.commons.version>1.19</apache.commons.version>
         <slf4j.api.version>1.7.28</slf4j.api.version>
-        <depends.maven.version>3.1.1</depends.maven.version>
-        <depends.phase>validate</depends.phase>
         <protobuf.version>3.5.1</protobuf.version>
         <jetcd.version>0.3.0</jetcd.version>
         <fabric8.version>4.3.0</fabric8.version>
@@ -76,8 +79,19 @@
         <module>example-library</module>
         <module>example-model</module>
         <module>hr-data-generator</module>
-        <module>performance</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>quick</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+                <checkstyle.skip>true</checkstyle.skip>
+                <dockerfile.skip>true</dockerfile.skip>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencyManagement>
         <dependencies>
@@ -117,6 +131,26 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadoc.plugin.version}</version>
+                <configuration>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                    <quiet>true</quiet>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>javadoc</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>javadoc-no-fork</goal>
+                            <goal>aggregate-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>${depends.maven.version}</version>
                 <executions>
@@ -137,6 +171,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.plugin.version}</version>
                 <configuration>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <configLocation>code-style/checkstyle.xml</configLocation>
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
@@ -148,15 +183,6 @@
                     <execution>
                         <id>validate</id>
                         <phase>${checkstyle.phase}</phase>
-                        <configuration>
-                            <configLocation>code-style/checkstyle.xml
-                            </configLocation>
-                            <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                            <headerLocation>code-style/licenseHeader.txt
-                            </headerLocation>
-                        </configuration>
                         <goals>
                             <goal>check</goal>
                         </goals>
