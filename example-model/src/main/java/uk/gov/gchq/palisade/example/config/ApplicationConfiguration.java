@@ -19,7 +19,6 @@ package uk.gov.gchq.palisade.example.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,7 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import uk.gov.gchq.palisade.clients.simpleclient.web.DataClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.DynamicDataClient;
 import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
 import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.runner.BulkTestExample;
@@ -55,7 +54,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean("ExampleClient")
-    public ExampleSimpleClient exampleClient(final PalisadeClient palisadeClient, final DataClient dataClient) {
+    public ExampleSimpleClient exampleClient(final PalisadeClient palisadeClient, final DynamicDataClient dataClient) {
         LOGGER.debug("Constructed ExampleClient");
         return new ExampleSimpleClient(palisadeClient, dataClient);
     }

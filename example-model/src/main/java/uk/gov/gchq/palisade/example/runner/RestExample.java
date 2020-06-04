@@ -37,7 +37,7 @@ public class RestExample {
         this.client = exampleSimpleClient;
     }
 
-    public void run(final String filename) throws IOException, URISyntaxException {
+    public void run(final String filename) throws IOException {
 
         final String alice = "Alice";
         final String bob = "Bob";
