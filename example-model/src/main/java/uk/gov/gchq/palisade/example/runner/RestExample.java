@@ -24,7 +24,6 @@ import uk.gov.gchq.palisade.example.common.Purpose;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.stream.Stream;
 
 public class RestExample {
