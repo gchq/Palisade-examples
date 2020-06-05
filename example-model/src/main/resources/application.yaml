@@ -14,14 +14,6 @@
 #
 
 spring:
-  profiles:
-    include:
-    - eureka
-
----
-
-spring:
-  profiles: eureka
   application:
     name: example-model
   output:
@@ -29,6 +21,15 @@ spring:
       enabled: always
   main:
     allow-bean-definition-overriding: true
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+---
+
+spring:
+  profiles: eureka
 
 # Since using eureka, let spring autoconfigure a port
 server:
