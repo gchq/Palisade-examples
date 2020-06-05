@@ -21,8 +21,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-@EnableFeignClients("uk.gov.gchq.palisade")
-@ComponentScan("uk.gov.gchq.palisade")
+@EnableFeignClients("uk.gov.gchq.palisade.clients")
+@ComponentScan("uk.gov.gchq.palisade.clients")
 @EnableEurekaClient
 @SpringBootApplication
 public class ExampleApplication {

@@ -25,6 +25,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
 import uk.gov.gchq.palisade.clients.simpleclient.web.DynamicDataClient;
@@ -38,6 +39,7 @@ import static java.util.Objects.requireNonNull;
 
 @Configuration
 @EnableConfigurationProperties
+@Import({uk.gov.gchq.palisade.clients.simpleclient.config.ApplicationConfiguration.class})
 public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 

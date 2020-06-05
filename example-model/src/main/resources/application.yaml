@@ -14,6 +14,14 @@
 #
 
 spring:
+  profiles:
+    include:
+    - eureka
+
+---
+
+spring:
+  profiles: eureka
   application:
     name: example-model
   output:
@@ -26,21 +34,26 @@ spring:
 server:
   port: 0
 
+# Eureka config
 eureka:
   instance:
     hostname: localhost
     port: 8083
     preferIpAddress: false
+    lease-renewal-interval-in-seconds: 5
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
   client:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
     enabled: true
-    register-with-eureka: false
+    fetchRegistry: true
+    registry-fetch-interval-seconds: 5
+
 
 web:
   client:
-    data-service: data-service
-    palisade-service: palisade-service
+    palisade-service: ""
 
 ---
 
