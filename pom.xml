@@ -30,6 +30,7 @@
     <artifactId>example</artifactId>
     <version>0.4.0-${revision}</version>
     <description>Example layer for palisade</description>
+    <url>https://github.com/gchq/Palisade-examples</url>
     <packaging>pom</packaging>
 
     <developers>
@@ -62,7 +63,7 @@
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <checkstyle.phase>verify</checkstyle.phase>
         <depends.maven.version>3.1.1</depends.maven.version>
-        <depends.phase>validate</depends.phase>
+        <depends.phase>prepare-package</depends.phase>
 
         <!-- Dependencies -->
         <javafaker.version>1.0.1</javafaker.version>
