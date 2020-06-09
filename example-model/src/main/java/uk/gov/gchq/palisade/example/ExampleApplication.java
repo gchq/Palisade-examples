@@ -17,13 +17,13 @@ package uk.gov.gchq.palisade.example;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 @EnableFeignClients("uk.gov.gchq.palisade.clients")
 @ComponentScan("uk.gov.gchq.palisade.clients")
-@EnableEurekaClient
+@EnableDiscoveryClient
 @SpringBootApplication
 public class ExampleApplication {
 
