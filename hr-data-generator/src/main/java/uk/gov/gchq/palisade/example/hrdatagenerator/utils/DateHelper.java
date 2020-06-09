@@ -16,30 +16,36 @@
 
 package uk.gov.gchq.palisade.example.hrdatagenerator.utils;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
 public final class DateHelper {
-    private static final ThreadLocal<GregorianCalendar> GREGORIAN_CALENDAR = ThreadLocal.withInitial(() -> new GregorianCalendar());
+    private static final ThreadLocal<GregorianCalendar> GREGORIAN_CALENDAR = ThreadLocal.withInitial(GregorianCalendar::new);
+    private static final int MIN_BIRTH_YEAR = 1900;
+    private static final int MAX_BIRTH_YEAR_RANGE = 100;
+    private static final int MIN_HIRE_AGE = 20;
+    private static final int MAX_HIRE_YEAR_RANGE = 40;
 
     private DateHelper() {
     }
 
     public static String generateDateOfBirth(final Random random) {
         GregorianCalendar localCalendar = GREGORIAN_CALENDAR.get();
-        int year = 1800 + random.nextInt(100);
-        localCalendar.set(localCalendar.YEAR, year);
-        int dayOfYear = random.nextInt(localCalendar.getActualMaximum(localCalendar.DAY_OF_YEAR));
-        localCalendar.set(localCalendar.DAY_OF_YEAR, dayOfYear);
-        return localCalendar.get(localCalendar.DAY_OF_MONTH) + "/" + (localCalendar.get(localCalendar.MONTH) + 1) + "/" + year;
+        int year = MIN_BIRTH_YEAR + random.nextInt(MAX_BIRTH_YEAR_RANGE);
+        localCalendar.set(Calendar.YEAR, year);
+        int dayOfYear = random.nextInt(localCalendar.getActualMaximum(Calendar.DAY_OF_YEAR));
+        localCalendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+        GREGORIAN_CALENDAR.remove();
+        return localCalendar.get(Calendar.DAY_OF_MONTH) + "/" + (localCalendar.get(Calendar.MONTH) + 1) + "/" + year;
     }
 
     public static String generateHireDate(final String dateOfBirthStr, final Random random) {
-        String birthYearStr = dateOfBirthStr.substring(dateOfBirthStr.length() - 4);
+        String birthYearStr = dateOfBirthStr.split("\\/")[2];
         String hireDateStr = dateOfBirthStr.substring(0, dateOfBirthStr.length() - 4);
 
-        int birthYear = new Integer(birthYearStr).intValue();
-        int hireYear = birthYear + 20 + random.nextInt(40);
+        int birthYear = Integer.parseInt(birthYearStr);
+        int hireYear = birthYear + MIN_HIRE_AGE + random.nextInt(MAX_HIRE_YEAR_RANGE);
 
         hireDateStr = hireDateStr + hireYear;
 

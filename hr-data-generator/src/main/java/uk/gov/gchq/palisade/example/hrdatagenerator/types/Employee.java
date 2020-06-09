@@ -28,6 +28,11 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class Employee {
+    private static final int MIN_MANAGERS = 2;
+    private static final int MAX_EXTRA_MANAGERS = 3;
+    private static final int MIN_SALARY = 20_000;
+    private static final int MAX_EXTRA_SALARY = 100_000;
+    private static final int MAX_SALARY_BONUS = 10_000;
 
     private UserId uid;
     private String name;
@@ -61,12 +66,12 @@ public class Employee {
         employee.setBankDetails(BankDetails.generate(random));
         employee.setTaxCode(generateTaxCode());
         employee.setNationality(Nationality.generate(random));
-        employee.setManager(Manager.generateMany(random, random.nextInt(3) + 2));
+        employee.setManager(Manager.generateMany(random, MIN_MANAGERS + random.nextInt(MAX_EXTRA_MANAGERS)));
         employee.setHireDate(DateHelper.generateHireDate(employee.dateOfBirth, random));
         employee.setGrade(Grade.generate(random));
         employee.setDepartment(Department.generate(random));
-        employee.setSalaryAmount(20000 + random.nextInt(1000000));
-        employee.setSalaryBonus(random.nextInt(10000));
+        employee.setSalaryAmount(MIN_SALARY + random.nextInt(MAX_EXTRA_SALARY));
+        employee.setSalaryBonus(random.nextInt(MAX_SALARY_BONUS));
         employee.setWorkLocation(WorkLocation.generate(faker, random));
         employee.setSex(Sex.generate(random));
 

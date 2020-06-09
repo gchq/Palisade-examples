@@ -16,6 +16,9 @@
 
 package uk.gov.gchq.palisade.example.hrdatagenerator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
@@ -30,6 +33,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 public final class CreateDataFile implements Callable<Boolean> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateDataFile.class);
 
     private final long numberOfEmployees;
     private final Random random;
@@ -42,42 +46,41 @@ public final class CreateDataFile implements Callable<Boolean> {
     }
 
     public Boolean call() {
-        outputFile.getParentFile().mkdirs();
-        try (OutputStream out = new FileOutputStream(outputFile)) {
-            Stream<Employee> employeeStream;
-            AvroSerialiser<Employee> employeeAvroSerialiser = new AvroSerialiser<>(Employee.class);
-            // Need one Employee whose manager has a UID of Bob (for examples to work)
-            Employee firstEmployee = Employee.generate(random);
-            Manager[] managers = firstEmployee.getManager();
-            UserId lineManagerUid = managers[0].getUid();
-            lineManagerUid.setId("Eve");
-            managers[0].setUid(lineManagerUid);
-            firstEmployee.setManager(managers);
-            Stream<Employee> firstEmployeeStream = Stream.of(firstEmployee);
-            if (numberOfEmployees > 1) {
-                Stream<Employee> moreEmployeesStream = generateStreamOfEmployees();
-                employeeStream = Stream.concat(firstEmployeeStream, moreEmployeesStream);
-            } else {
-                employeeStream = firstEmployeeStream;
-            }
+        boolean mkdirSuccess = outputFile.getParentFile().mkdirs();
+        if (mkdirSuccess) {
+            try (OutputStream out = new FileOutputStream(outputFile)) {
+                AvroSerialiser<Employee> employeeAvroSerialiser = new AvroSerialiser<>(Employee.class);
 
-            employeeAvroSerialiser.serialise(employeeStream, out);
-        } catch (final Exception error) {
-            error.printStackTrace();
+                // Need one Employee whose manager has a UID of Bob (for examples to work)
+                Employee firstEmployee = Employee.generate(random);
+                Manager[] managers = firstEmployee.getManager();
+                UserId lineManagerUid = managers[0].getUid();
+                lineManagerUid.setId("Eve");
+                managers[0].setUid(lineManagerUid);
+                firstEmployee.setManager(managers);
+
+                // Create more employees if needed
+                Stream<Employee> employeeStream = Stream.of(firstEmployee);
+                if (numberOfEmployees > 1) {
+                    employeeStream = Stream.concat(employeeStream, generateStreamOfEmployees());
+                }
+
+                // Serialise stream to output
+                employeeAvroSerialiser.serialise(employeeStream, out);
+                return true;
+            } catch (Exception ex) {
+                LOGGER.error("", ex);
+                return false;
+            }
+        } else {
+            return false;
         }
-        return Boolean.TRUE;
     }
 
     private Stream<Employee> generateStreamOfEmployees() {
-        final AtomicLong counter = new AtomicLong(0);
-        final long countWrite = numberOfEmployees / 10;
-        return Stream.generate(() -> {
-            long count = counter.incrementAndGet();
-            if ((numberOfEmployees > 1_000_000 && countWrite > 0 && count % countWrite == 0) || count % 100_000 == 0) {
-                System.err.printf("Thread %s has written %d records.%n", Thread.currentThread().getName(), count);
-            }
-            return Employee.generate(random);
-        }).limit(numberOfEmployees - 1);
+        LOGGER.debug("Generating stream of {} employees", numberOfEmployees);
+        return Stream.generate(() -> Employee.generate(random))
+                .limit(numberOfEmployees - 1);
     }
 
 }

@@ -19,13 +19,13 @@ package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 import java.util.Random;
 
 public enum WorkLocationName {
-    Amsterdam,
-    London,
-    New_York,
-    Hampton_Hospital;
+    AMSTERDAM,
+    LONDON,
+    NEW_YORK,
+    HAMPTON_HOSPITAL;
 
     public static WorkLocationName generate(final Random random) {
-        return WorkLocationName.values()[random.nextInt(4)];
+        return WorkLocationName.values()[random.nextInt(WorkLocationName.values().length)];
     }
 }
 

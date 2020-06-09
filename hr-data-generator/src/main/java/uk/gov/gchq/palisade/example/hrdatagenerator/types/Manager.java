@@ -25,15 +25,15 @@ import java.util.StringJoiner;
 
 public class Manager {
     private UserId uid;
-    private Manager[] manager;
+    private Manager[] managers;
     private String managerType;
 
     public static Manager[] generateMany(final Random random, final int chain) {
-        Manager[] managers = new Manager[3];
-        managers[0] = Manager.generateRecursive(random, chain, "Line Manager");
-        managers[1] = Manager.generateRecursive(random, chain, "Task Manager");
-        managers[2] = Manager.generateRecursive(random, chain, "Career Manager");
-        return managers;
+        return new Manager[] {
+                generateRecursive(random, chain, "Line Manager"),
+                generateRecursive(random, chain, "Task Manager"),
+                generateRecursive(random, chain, "Career Manager")
+        };
     }
 
 
@@ -72,11 +72,11 @@ public class Manager {
     }
 
     public Manager[] getManager() {
-        return manager;
+        return managers;
     }
 
     public void setManager(final Manager[] manager) {
-        this.manager = manager;
+        this.managers = manager;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Manager {
     public String toString() {
         return new StringJoiner(", ", Manager.class.getSimpleName() + "[", "]")
                 .add("uid=" + uid)
-                .add("manager=" + Arrays.toString(manager))
+                .add("manager=" + Arrays.toString(managers))
                 .add("managerType='" + managerType + "'")
                 .toString();
     }

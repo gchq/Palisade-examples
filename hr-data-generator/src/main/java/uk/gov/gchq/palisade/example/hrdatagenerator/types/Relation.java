@@ -16,10 +16,16 @@
 
 package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 
+import java.util.Random;
+
 public enum Relation {
     GRANDPARENT,
     PARENT,
     SIBLING,
     CHILDREN,
     COUSIN;
+
+    public static Relation generate(final Random random) {
+        return Relation.values()[random.nextInt(Relation.values().length)];
+    }
 }

@@ -22,21 +22,15 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class BankDetails {
+    private static final int SORT_CODE_DIGITS = 6;
+    private static final int ACCOUNT_NUMBER_DIGITS = 8;
     private String sortCode;
     private String accountNumber;
 
     public static BankDetails generate(final Random random) {
         BankDetails bankDetails = new BankDetails();
-        StringBuilder sortCode = new StringBuilder(String.valueOf(random.nextInt(999999)));
-        while (sortCode.length() < 6) {
-            sortCode.insert(0, "0");
-        }
-        StringBuilder accountNumber = new StringBuilder(String.valueOf(random.nextInt(99999999)));
-        while (accountNumber.length() < 8) {
-            accountNumber.insert(0, "0");
-        }
-        bankDetails.setSortCode(sortCode.toString());
-        bankDetails.setAccountNumber(accountNumber.toString());
+        bankDetails.sortCode = String.format("%0" + SORT_CODE_DIGITS + "d", random.nextInt((int) Math.pow(10, SORT_CODE_DIGITS)));
+        bankDetails.accountNumber = String.format("%0" + ACCOUNT_NUMBER_DIGITS + "d", random.nextInt((int) Math.pow(10, ACCOUNT_NUMBER_DIGITS)));
         return bankDetails;
     }
 
@@ -65,4 +59,3 @@ public class BankDetails {
                 .toString();
     }
 }
-
