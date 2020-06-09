@@ -74,7 +74,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
             return record;
         }
 
-        if ((EmployeeUtils.isManager(managers, userId).equals(Boolean.TRUE)) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
+        if (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
             return record;
         }
 
