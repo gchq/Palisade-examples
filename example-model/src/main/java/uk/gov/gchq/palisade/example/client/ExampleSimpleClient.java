@@ -27,7 +27,6 @@ import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -29,7 +29,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Random;
 import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 public final class CreateDataFile implements Callable<Boolean> {
