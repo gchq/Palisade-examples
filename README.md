@@ -1,27 +1,25 @@
-/*
- * Copyright 2020 Crown Copyright
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+<!--
+ Copyright 2020 Crown Copyright
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
 # Examples
 
-The Example module contains all the example specific modules:
+The Examples module contains all the example specific modules:
 
 - [hr-data-generator](hr-data-generator/README.md), which can create a fake sample dataset based around possible data that a company might hold about its employees.
 - example-model, contains all the deployment agnostic example code such as the rules and example configuration, as well as all the example JVM REST based services.
 - deployment, contains all the deployment specific code and scripts
-// - [example-services](example-services/README.md), contains all the example JVM REST based services
-// - [performance](performance/README.md), which provides a performance benchmarking tool
 
 The example demonstrates different users querying an avro file over a REST api.
 
