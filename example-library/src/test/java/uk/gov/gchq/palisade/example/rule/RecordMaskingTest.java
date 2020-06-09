@@ -16,73 +16,74 @@
 
 package uk.gov.gchq.palisade.example.rule;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.UserId;
+import uk.gov.gchq.palisade.example.common.Purpose;
 import uk.gov.gchq.palisade.example.common.Role;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class RecordMaskingTest {
-    private static final Employee TEST_EMPLOYEE = Employee.generate(new Random(1));
-    private static final UserId TEST_USERID = new UserId().id("1");
-    private static final User TEST_USER_1 = new User().userId(TEST_USERID).roles("A Role"); //Not in chain and is not HR or Estates
-    private static final User TEST_USER_2 = new User().userId("1252742854").roles("A Role"); //Start of chain and is not HR or Estates
-    private static final User TEST_USER_3 = new User().userId("1830200592").roles("A Role"); //Middle of chain and is not HR or Estates
-    private static final User TEST_USER_4 = new User().userId("2788683").roles("A Role"); //End of chain and is not HR or Estates
-    private static final User TEST_USER_5 = new User().userId(TEST_USERID).roles(Role.HR.name()); //Not in chain and has HR role
-    private static final User TEST_USER_6 = new User().userId(TEST_USERID).roles(Role.ESTATES.name()); //Not in chain and has Estates role
+
+    private static final User FIRST_MANAGER = new User().userId(new UserId().id("1962720332")).roles("Not HR"); // Start of chain and not in HR or Estates
+    private static final User MIDDLE_MANAGER = new User().userId(new UserId().id("1816031731")).roles("Not HR"); // Middle of chain and not HR or Estates
+    private static final User END_MANAGER = new User().userId(new UserId().id("1501105288")).roles("Not HR"); // End of chain and not HR or Estates
+    private static final User HR_USER = new User().userId(new UserId().id("1")).roles(Role.HR.name()); // Not in chain and has HR role
+    private static final User ESTATES_USER = new User().userId(new UserId().id("1")).roles(Role.HR.name()); // Not in chain and has Estates role
+    private static final User NON_HR_NON_ESTATES_USER = new User().userId(new UserId().id("1")).roles("Not HR"); // Not in chain and not HR or Estates
     private static final Context TEST_CONTEXT = new Context().purpose("A purpose");
     private static final RecordMaskingRule RECORD_MASKING_RULE = new RecordMaskingRule();
 
-    @Test
-    public void redactionForNonManagerUser() {
-        //Given - Employee, Role, Reason
+    private Employee TEST_EMPLOYEE;
 
-        //When
-        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_1, TEST_CONTEXT);
-
-        //Then
-        assertNull(actual);
+    @Before
+    public void setUp() {
+        TEST_EMPLOYEE = Employee.generate(new Random(2));
+        TEST_EMPLOYEE.getManager()[0].setUid(FIRST_MANAGER.getUserId());
+        TEST_EMPLOYEE.getManager()[0].getManager()[0].setUid(MIDDLE_MANAGER.getUserId());
+        TEST_EMPLOYEE.getManager()[0].getManager()[0].getManager()[0].setUid(END_MANAGER.getUserId());
     }
 
-    //@Test
+    @Test
     public void noRedactionForFirstLevelManager() {
         //Given - Employee, Role, Reason
 
         //When
-        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_2, TEST_CONTEXT);
+        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, FIRST_MANAGER, TEST_CONTEXT);
 
         //Then
-        assertEquals(TEST_EMPLOYEE, actual);
+        assertNotNull("Should not redact record for first manager", actual);
     }
 
-    //@Test
+    @Test
     public void noRedactionForMidLevelManager() {
         //Given - Employee, Role, Reason
 
         //When
-        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_3, TEST_CONTEXT);
+        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, MIDDLE_MANAGER, TEST_CONTEXT);
 
         //Then
-        assertEquals(TEST_EMPLOYEE, actual);
+        assertNotNull("Should not redact record for middle manager", actual);
     }
 
-    //@Test
+    @Test
     public void noRedactionForEndLevelManager() {
         //Given - Employee, Role, Reason
 
         //When
-        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_4, TEST_CONTEXT);
+        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, END_MANAGER, TEST_CONTEXT);
 
         //Then
-        assertEquals(TEST_EMPLOYEE, actual);
+        assertNotNull("Should not redact record for end manager", actual);
     }
 
     @Test
@@ -90,10 +91,10 @@ public class RecordMaskingTest {
         //Given - Employee, Role, Reason
 
         //When
-        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_5, TEST_CONTEXT);
+        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, HR_USER, TEST_CONTEXT);
 
         //Then
-        assertEquals(TEST_EMPLOYEE, actual);
+        assertNotNull("Should not redact record for hr role", actual);
     }
 
     @Test
@@ -101,10 +102,20 @@ public class RecordMaskingTest {
         //Given - Employee, Role, Reason
 
         //When
-        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_6, TEST_CONTEXT);
+        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, ESTATES_USER, TEST_CONTEXT);
 
         //Then
-        assertEquals(TEST_EMPLOYEE, actual);
+        assertNotNull("Should not redact record for estates role", actual);
     }
 
+    @Test
+    public void redactionForNonManagerUser() {
+        //Given - Employee, Role, Reason
+
+        //When
+        Employee actual = RECORD_MASKING_RULE.apply(TEST_EMPLOYEE, NON_HR_NON_ESTATES_USER, TEST_CONTEXT);
+
+        //Then
+        assertNull("Should redact record for non-manager, non-hr, non-estates user", actual);
+    }
 }
