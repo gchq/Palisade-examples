@@ -245,6 +245,6 @@ public enum Nationality {
     ZIMBABWEAN;
 
     public static Nationality generate(final Random random) {
-        return Nationality.values()[random.nextInt(Nationality.values().length())];
+        return Nationality.values()[random.nextInt(Nationality.values().length];
     }
 }
