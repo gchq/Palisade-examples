@@ -68,7 +68,7 @@ public class Manager {
     @Generated
     public Manager[] getManager() {
         if (null == managers) {
-            return managers;
+            return null;
         } else {
             return managers.clone();
         }
@@ -77,7 +77,7 @@ public class Manager {
     @Generated
     public void setManager(final Manager[] managers) {
         if (null == managers) {
-            this.managers = managers;
+            this.managers = null;
         } else {
             this.managers = managers.clone();
         }
