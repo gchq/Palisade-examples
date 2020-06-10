@@ -19,6 +19,7 @@ package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.UserId;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.StringJoiner;
@@ -67,12 +68,12 @@ public class Manager {
 
     @Generated
     public Manager[] getManager() {
-        return managers;
+        return managers.clone();
     }
 
     @Generated
     public void setManager(final Manager[] managers) {
-        this.managers = managers;
+        this.managers = managers.clone();
     }
 
     @Generated
