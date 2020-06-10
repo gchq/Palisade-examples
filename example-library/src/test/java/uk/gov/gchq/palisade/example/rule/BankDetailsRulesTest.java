@@ -38,11 +38,11 @@ public class BankDetailsRulesTest {
     private static final Context SALARY_CONTEXT = new Context().purpose(Purpose.SALARY.name());
     private static final Context NOT_SALARY_CONTEXT = new Context().purpose("Not Salary");
 
-    private Employee TEST_EMPLOYEE;
+    private Employee testEmployee;
 
     @Before
     public void setUp() {
-        TEST_EMPLOYEE = Employee.generate(new Random(1));
+        testEmployee = Employee.generate(new Random(1));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class BankDetailsRulesTest {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(TEST_EMPLOYEE, TEST_USER_PAYROLL, SALARY_CONTEXT);
+        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, TEST_USER_PAYROLL, SALARY_CONTEXT);
 
         // Then
         assertNotNull("Bank details should not be redacted with payroll role and salary purpose", actual.getBankDetails());
@@ -61,7 +61,7 @@ public class BankDetailsRulesTest {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(TEST_EMPLOYEE, TEST_USER_PAYROLL, NOT_SALARY_CONTEXT);
+        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, TEST_USER_PAYROLL, NOT_SALARY_CONTEXT);
 
         // Then
         assertNull("Bank details should be redacted without salary purpose", actual.getBankDetails());
@@ -72,7 +72,7 @@ public class BankDetailsRulesTest {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(TEST_EMPLOYEE, TEST_USER_NOT_PAYROLL, SALARY_CONTEXT);
+        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, TEST_USER_NOT_PAYROLL, SALARY_CONTEXT);
 
         // Then
         assertNull("Bank details should be redacted without payroll role", actual.getBankDetails());
@@ -83,7 +83,7 @@ public class BankDetailsRulesTest {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(TEST_EMPLOYEE, TEST_USER_NOT_PAYROLL, NOT_SALARY_CONTEXT);
+        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, TEST_USER_NOT_PAYROLL, NOT_SALARY_CONTEXT);
 
         // Then
         assertNull("Bank details should be redacted without payroll role and without salary purpose", actual.getBankDetails());

@@ -22,7 +22,6 @@ import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ExampleUserTest {
     @Test

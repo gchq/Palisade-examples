@@ -41,20 +41,20 @@ public class ZipCodeMaskingTest {
     private static final ZipCodeMaskingRule ZIP_CODE_MASKING_RULE = new ZipCodeMaskingRule();
     private static final Context STAFF_REPORT_CONTEXT = new Context().purpose(Purpose.STAFF_REPORT.name());
 
-    private Employee TEST_EMPLOYEE;
+    private Employee testEmployee;
 
     @Before
     public void setUp() {
-        TEST_EMPLOYEE = Employee.generate(new Random(1));
+        testEmployee = Employee.generate(new Random(1));
     }
 
     @Test
     public void shouldNotRedactOrMaskForHR() {
         // Given - Employee, Role, Reason
-        String originalZipCode = TEST_EMPLOYEE.getAddress().getZipCode();
+        String originalZipCode = testEmployee.getAddress().getZipCode();
 
         // When
-        Employee actual = ZIP_CODE_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_HR, STAFF_REPORT_CONTEXT);
+        Employee actual = ZIP_CODE_MASKING_RULE.apply(testEmployee, TEST_USER_HR, STAFF_REPORT_CONTEXT);
 
         // Then
         assertNotNull("Should not redact whole address for HR role", actual.getAddress());
@@ -66,10 +66,10 @@ public class ZipCodeMaskingTest {
     @Test
     public void shouldMaskZipCodeForEstates() {
         // Given - Employee, Role, Reason
-        String originalZipCode = TEST_EMPLOYEE.getAddress().getZipCode();
+        String originalZipCode = testEmployee.getAddress().getZipCode();
 
         // When
-        Employee actual = ZIP_CODE_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_ESTATES, STAFF_REPORT_CONTEXT);
+        Employee actual = ZIP_CODE_MASKING_RULE.apply(testEmployee, TEST_USER_ESTATES, STAFF_REPORT_CONTEXT);
         String actualZipCode = actual.getAddress().getZipCode();
 
         // Then
@@ -85,7 +85,7 @@ public class ZipCodeMaskingTest {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = ZIP_CODE_MASKING_RULE.apply(TEST_EMPLOYEE, TEST_USER_NOT_ESTATES_OR_HR, STAFF_REPORT_CONTEXT);
+        Employee actual = ZIP_CODE_MASKING_RULE.apply(testEmployee, TEST_USER_NOT_ESTATES_OR_HR, STAFF_REPORT_CONTEXT);
 
         // Then
         assertNull("", actual.getAddress());

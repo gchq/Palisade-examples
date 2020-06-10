@@ -18,14 +18,11 @@ package uk.gov.gchq.palisade.example.rule;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.example.common.ExampleUser;
 import uk.gov.gchq.palisade.example.common.Purpose;
 import uk.gov.gchq.palisade.example.common.Role;
-import uk.gov.gchq.palisade.example.common.TrainingCourse;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.rule.Rule;
 
-import java.util.EnumSet;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;

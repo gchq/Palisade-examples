@@ -28,7 +28,6 @@ import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -43,14 +42,14 @@ public class DutyOfCareTest {
     private static final Context DUTY_OF_CARE_CONTEXT = new Context().purpose(Purpose.DUTY_OF_CARE.name());
     private static final Context NOT_DUTY_OF_CARE_CONTEXT = new Context().purpose("Not Duty of Care");
 
-    private Employee TEST_EMPLOYEE;
+    private Employee testEmployee;
 
     @Before
     public void setUp() {
-        TEST_EMPLOYEE = Employee.generate(new Random(2));
-        TEST_EMPLOYEE.getManager()[0].setUid(FIRST_MANAGER.getUserId());
-        TEST_EMPLOYEE.getManager()[0].getManager()[0].setUid(MIDDLE_MANAGER.getUserId());
-        TEST_EMPLOYEE.getManager()[0].getManager()[0].getManager()[0].setUid(END_MANAGER.getUserId());
+        testEmployee = Employee.generate(new Random(2));
+        testEmployee.getManager()[0].setUid(FIRST_MANAGER.getUserId());
+        testEmployee.getManager()[0].getManager()[0].setUid(MIDDLE_MANAGER.getUserId());
+        testEmployee.getManager()[0].getManager()[0].getManager()[0].setUid(END_MANAGER.getUserId());
     }
 
     @Test
@@ -58,7 +57,7 @@ public class DutyOfCareTest {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(TEST_EMPLOYEE, FIRST_MANAGER, DUTY_OF_CARE_CONTEXT);
+        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, FIRST_MANAGER, DUTY_OF_CARE_CONTEXT);
 
         // Then
         assertNotNull("Should not redact contact numbers if first manager in chain", actual.getContactNumbers());
@@ -71,7 +70,7 @@ public class DutyOfCareTest {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(TEST_EMPLOYEE, MIDDLE_MANAGER, DUTY_OF_CARE_CONTEXT);
+        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, MIDDLE_MANAGER, DUTY_OF_CARE_CONTEXT);
 
         // Then
         assertNotNull("Should not redact contact numbers if middle manager in chain", actual.getContactNumbers());
@@ -84,7 +83,7 @@ public class DutyOfCareTest {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(TEST_EMPLOYEE, END_MANAGER, DUTY_OF_CARE_CONTEXT);
+        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, END_MANAGER, DUTY_OF_CARE_CONTEXT);
 
         // Then
         assertNotNull("Should not redact contact numbers if end manager in chain", actual.getContactNumbers());
@@ -97,7 +96,7 @@ public class DutyOfCareTest {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(TEST_EMPLOYEE, HR_USER, DUTY_OF_CARE_CONTEXT);
+        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, HR_USER, DUTY_OF_CARE_CONTEXT);
 
         // Then
         assertNotNull("Should not redact contact numbers if hr role with duty of care", actual.getContactNumbers());
@@ -110,7 +109,7 @@ public class DutyOfCareTest {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(TEST_EMPLOYEE, NON_HR_USER, DUTY_OF_CARE_CONTEXT);
+        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, NON_HR_USER, DUTY_OF_CARE_CONTEXT);
 
         // Then
         assertNull("Should redact contact numbers if not manager and not hr", actual.getContactNumbers());
@@ -123,7 +122,7 @@ public class DutyOfCareTest {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(TEST_EMPLOYEE, END_MANAGER, NOT_DUTY_OF_CARE_CONTEXT);
+        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, END_MANAGER, NOT_DUTY_OF_CARE_CONTEXT);
 
         // Then
         assertNull("Should redact contact numbers if end manager in chain without duty of care", actual.getContactNumbers());
@@ -136,7 +135,7 @@ public class DutyOfCareTest {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(TEST_EMPLOYEE, HR_USER, NOT_DUTY_OF_CARE_CONTEXT);
+        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, HR_USER, NOT_DUTY_OF_CARE_CONTEXT);
 
         // Then
         assertNull("Should redact contact numbers if hr role without duty of care", actual.getContactNumbers());
@@ -149,7 +148,7 @@ public class DutyOfCareTest {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(TEST_EMPLOYEE, NON_HR_USER, NOT_DUTY_OF_CARE_CONTEXT);
+        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, NON_HR_USER, NOT_DUTY_OF_CARE_CONTEXT);
 
         // Then
         assertNull("Should redact contact numbers if not manager, not hr role and not duty of care purpose", actual.getContactNumbers());
