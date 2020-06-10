@@ -46,7 +46,7 @@ public final class BulkTestExample {
     /**
      * Set by the destruct method to ensure this doesn't happen via a shutdown thread as well.
      */
-    private static final AtomicBoolean hasDestructionOccurred = new AtomicBoolean(false);
+    private static final AtomicBoolean HAS_DESTRUCTION_OCCURRED = new AtomicBoolean(false);
 
     /**
      * The runner method to run a test of how many resources/files can be read in a single request
@@ -104,7 +104,7 @@ public final class BulkTestExample {
      * @throws IOException for any filesystem errors
      */
     private static void removeBulkData(final String directory) throws IOException {
-        if (hasDestructionOccurred.compareAndSet(false, true)) {
+        if (HAS_DESTRUCTION_OCCURRED.compareAndSet(false, true)) {
             Path dir = Paths.get(directory);
             Path newLocation = generateNewDirectoryName(dir);
 
