@@ -68,12 +68,20 @@ public class Manager {
 
     @Generated
     public Manager[] getManager() {
-        return managers.clone();
+        if (null == managers) {
+            return null;
+        } else {
+            return managers.clone();
+        }
     }
 
     @Generated
     public void setManager(final Manager[] managers) {
-        this.managers = managers.clone();
+        if (null == managers) {
+            this.managers = null;
+        } else {
+            this.managers = managers.clone();
+        }
     }
 
     @Generated

@@ -27,7 +27,7 @@ public class ExampleUserTest {
     @Test
     public void shouldDeserialiseExampleUser() {
         //given
-        User user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("bob").roles(Role.PAYROLL.name(), "something").auths("authorised_person", "whatever");
+        User user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("bob").roles(Role.HR.name(), "another_role").auths("authorised_person", "more_authorisations");
 
         //when
         byte[] bytesSerialised = JSONSerialiser.serialise(user, true);
