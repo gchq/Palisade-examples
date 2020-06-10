@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
-import uk.gov.gchq.palisade.clients.simpleclient.web.DynamicDataClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.DataClientFactory;
 import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
 import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.runner.BulkTestExample;
@@ -56,7 +56,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean("ExampleClient")
-    public ExampleSimpleClient exampleClient(final PalisadeClient palisadeClient, final DynamicDataClient dataClient) {
+    public ExampleSimpleClient exampleClient(final PalisadeClient palisadeClient, final DataClientFactory dataClient) {
         LOGGER.debug("Constructed ExampleClient");
         return new ExampleSimpleClient(palisadeClient, dataClient);
     }

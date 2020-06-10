@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.gov.gchq.palisade.clients.simpleclient.client.SimpleClient;
-import uk.gov.gchq.palisade.clients.simpleclient.web.DynamicDataClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.DataClientFactory;
 import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 public class ExampleSimpleClient extends SimpleClient<Employee> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleSimpleClient.class);
 
-    public ExampleSimpleClient(final PalisadeClient palisadeClient, final DynamicDataClient dataClient) {
+    public ExampleSimpleClient(final PalisadeClient palisadeClient, final DataClientFactory dataClient) {
         super(new AvroSerialiser<>(Employee.class), palisadeClient, dataClient);
     }
 
