@@ -40,18 +40,22 @@ public class BankDetails {
         return bankDetails;
     }
 
+    @Generated
     public String getSortCode() {
         return sortCode;
     }
 
+    @Generated
     public void setSortCode(final String sortCode) {
         this.sortCode = sortCode;
     }
 
+    @Generated
     public String getAccountNumber() {
         return accountNumber;
     }
 
+    @Generated
     public void setAccountNumber(final String accountNumber) {
         this.accountNumber = accountNumber;
     }

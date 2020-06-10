@@ -25,7 +25,7 @@ import java.util.StringJoiner;
 
 public class Manager {
     private UserId uid;
-    private Manager[] manager;
+    private Manager[] managers;
     private String managerType;
 
     public static Manager[] generateMany(final Random random, final int chain) {
@@ -55,28 +55,34 @@ public class Manager {
         return manager;
     }
 
-    public String getManagerType() {
-        return managerType;
-    }
-
-    public void setManagerType(final String managerType) {
-        this.managerType = managerType;
-    }
-
+    @Generated
     public UserId getUid() {
         return uid;
     }
 
+    @Generated
     public void setUid(final UserId uid) {
         this.uid = uid;
     }
 
+    @Generated
     public Manager[] getManager() {
-        return manager;
+        return managers;
     }
 
-    public void setManager(final Manager[] manager) {
-        this.manager = manager;
+    @Generated
+    public void setManager(final Manager[] managers) {
+        this.managers = managers;
+    }
+
+    @Generated
+    public String getManagerType() {
+        return managerType;
+    }
+
+    @Generated
+    public void setManagerType(final String managerType) {
+        this.managerType = managerType;
     }
 
     @Override
@@ -84,7 +90,7 @@ public class Manager {
     public String toString() {
         return new StringJoiner(", ", Manager.class.getSimpleName() + "[", "]")
                 .add("uid=" + uid)
-                .add("manager=" + Arrays.toString(manager))
+                .add("manager=" + Arrays.toString(managers))
                 .add("managerType='" + managerType + "'")
                 .toString();
     }
