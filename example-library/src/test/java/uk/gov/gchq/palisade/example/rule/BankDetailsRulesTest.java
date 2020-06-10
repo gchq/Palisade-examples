@@ -33,9 +33,9 @@ import static org.junit.Assert.assertNull;
 
 public class BankDetailsRulesTest {
 
-    private static final User EXAMPLE_USER_WITHOUT_PAYROLL = new ExampleUser().userId("UserId"); // Role not in Payroll
-    private static final User EXAMPLE_USER_WITH_PAYROLL = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("UserId"); // Role in Payroll
-    private static final User STANDARD_USER = new User().userId("UserId"); // Role not in Payroll
+    private static final User EXAMPLE_USER_WITHOUT_PAYROLL = new ExampleUser().userId("UserId");
+    private static final User EXAMPLE_USER_WITH_PAYROLL = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("UserId");
+    private static final User STANDARD_USER = new User().userId("UserId");
     private static final BankDetailsRule BANK_DETAILS_RULE = new BankDetailsRule();
     private static final Context SALARY_CONTEXT = new Context().purpose(Purpose.SALARY.name());
     private static final Context NOT_SALARY_CONTEXT = new Context().purpose("Not Salary");
