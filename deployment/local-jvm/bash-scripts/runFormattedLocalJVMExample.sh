@@ -2,7 +2,6 @@
 
 FILE=example-model/target/example-model-*-exec.jar
 FORMATTER=deployment/bash-scripts/formatOutput.sh
-
 # Run the formatted rest example
 if [ -f $FILE ]; then
   if [ -f $FORMATTER ]; then
