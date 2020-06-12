@@ -17,7 +17,6 @@
 package uk.gov.gchq.palisade.example.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.discovery.EurekaClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,9 +25,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
-import uk.gov.gchq.palisade.clients.simpleclient.web.DataClient;
+import uk.gov.gchq.palisade.clients.simpleclient.web.DataClientFactory;
 import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
 import uk.gov.gchq.palisade.example.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.runner.BulkTestExample;
@@ -39,6 +39,7 @@ import static java.util.Objects.requireNonNull;
 
 @Configuration
 @EnableConfigurationProperties
+@Import({uk.gov.gchq.palisade.clients.simpleclient.config.ApplicationConfiguration.class})
 public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
@@ -55,9 +56,9 @@ public class ApplicationConfiguration {
     }
 
     @Bean("ExampleClient")
-    public ExampleSimpleClient exampleClient(final PalisadeClient palisadeClient, final DataClient dataClient, final EurekaClient eurekaClient) {
+    public ExampleSimpleClient exampleClient(final PalisadeClient palisadeClient, final DataClientFactory dataClient) {
         LOGGER.debug("Constructed ExampleClient");
-        return new ExampleSimpleClient(palisadeClient, dataClient, eurekaClient);
+        return new ExampleSimpleClient(palisadeClient, dataClient);
     }
 
     @Value("${example.directory:#{null}}")
