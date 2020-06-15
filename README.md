@@ -69,7 +69,7 @@ The bankDetails field should be returned:
 In all other cases the bankDetails field should be redacted.
 
 ### DutyOfCareRule  
-This rule is concerned with the contactNumbers and emergencyContacts as well as the sex fields. These fields should be returned:
+This rule is concerned with the contactNumber, emergencyContacts and sex fields. These fields should be returned:
 - if the user querying the file has the HR role and the purpose of the query is DUTY_OF_CARE
 - if the user querying the file is the line manager of the Employee record being queried and the purpose of the query is DUTY_OF_CARE  
 
