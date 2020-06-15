@@ -28,11 +28,12 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class Employee {
-    private static final int MIN_NESTED_MANGERS = 2;
-    private static final int ADDITIONAL_NESTED_MANAGERS_RANGE = 3;
+    private static final int MIN_MANGERS_TREE_HEIGHT = 2;
+    private static final int EXTRA_MANAGERS_TREE_HEIGHT_RANGE = 3;
     private static final int MIN_SALARY = 20_000;
     private static final int EXTRA_SALARY_RANGE = 100_000;
     private static final int SALARY_BONUS_RANGE = 10_000;
+    private static final String TAX_CODE = "11500L";
 
     private UserId uid;
     private String name;
@@ -66,7 +67,7 @@ public class Employee {
         employee.setBankDetails(BankDetails.generate(random));
         employee.setTaxCode(generateTaxCode());
         employee.setNationality(Nationality.generate(random));
-        employee.setManager(Manager.generateMany(random, MIN_NESTED_MANGERS + random.nextInt(ADDITIONAL_NESTED_MANAGERS_RANGE)));
+        employee.setManager(Manager.generateMany(random, MIN_MANGERS_TREE_HEIGHT + random.nextInt(EXTRA_MANAGERS_TREE_HEIGHT_RANGE)));
         employee.setHireDate(DateHelper.generateHireDate(employee.dateOfBirth, random));
         employee.setGrade(Grade.generate(random));
         employee.setDepartment(Department.generate(random));
@@ -83,7 +84,7 @@ public class Employee {
     }
 
     private static String generateTaxCode() {
-        return "11500L";
+        return TAX_CODE;
     }
 
     @Generated
