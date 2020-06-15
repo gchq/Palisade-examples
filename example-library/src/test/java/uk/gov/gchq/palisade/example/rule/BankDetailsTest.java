@@ -23,6 +23,7 @@ import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.ExampleUser;
 import uk.gov.gchq.palisade.example.common.Purpose;
+import uk.gov.gchq.palisade.example.common.Role;
 import uk.gov.gchq.palisade.example.common.TrainingCourse;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
@@ -33,9 +34,16 @@ import static org.junit.Assert.assertNull;
 
 public class BankDetailsTest {
 
-    private static final User EXAMPLE_USER_WITHOUT_PAYROLL = new ExampleUser().userId("UserId");
-    private static final User EXAMPLE_USER_WITH_PAYROLL = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("UserId");
-    private static final User STANDARD_USER = new User().userId("UserId");
+    private static final User HR_USER_WITHOUT_PAYROLL = new ExampleUser()
+            .roles(Role.HR.name())
+            .userId("UserId");
+    private static final User HR_USER_WITH_PAYROLL = new ExampleUser()
+            .trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE)
+            .roles(Role.HR.name())
+            .userId("UserId");
+    private static final User USER_WITH_PAYROLL = new User()
+            .roles(Role.HR.name())
+            .userId("UserId");
     private static final BankDetailsRule BANK_DETAILS_RULE = new BankDetailsRule();
     private static final Context SALARY_CONTEXT = new Context().purpose(Purpose.SALARY.name());
     private static final Context NOT_SALARY_CONTEXT = new Context().purpose("Not Salary");
@@ -52,54 +60,43 @@ public class BankDetailsTest {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, EXAMPLE_USER_WITH_PAYROLL, SALARY_CONTEXT);
+        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, HR_USER_WITH_PAYROLL, SALARY_CONTEXT);
 
         // Then
-        assertNotNull("Bank details should not be redacted with payroll training course and salary purpose", actual.getBankDetails());
+        assertNotNull("Bank details should not be redacted with HR role, payroll training course and salary purpose", actual.getBankDetails());
     }
 
     @Test
-    public void shouldRedactForPayrollAndNotSalary() {
+    public void shouldRedactIfNotSalaryPurpose() {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, EXAMPLE_USER_WITH_PAYROLL, NOT_SALARY_CONTEXT);
+        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, HR_USER_WITH_PAYROLL, NOT_SALARY_CONTEXT);
 
         // Then
         assertNull("Bank details should be redacted without salary purpose", actual.getBankDetails());
     }
 
     @Test
-    public void shouldRedactForNotPayrollAndSalary() {
+    public void shouldRedactIfNotPayrollTrained() {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, EXAMPLE_USER_WITHOUT_PAYROLL, SALARY_CONTEXT);
+        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, HR_USER_WITHOUT_PAYROLL, SALARY_CONTEXT);
 
         // Then
         assertNull("Bank details should be redacted without payroll training course", actual.getBankDetails());
     }
 
     @Test
-    public void shouldRedactForNotPayrollAndNotSalary() {
+    public void shouldRedactIfNotHRRole() {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, EXAMPLE_USER_WITHOUT_PAYROLL, NOT_SALARY_CONTEXT);
+        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, USER_WITH_PAYROLL, NOT_SALARY_CONTEXT);
 
         // Then
-        assertNull("Bank details should be redacted without payroll role and without salary purpose", actual.getBankDetails());
-    }
-
-    @Test
-    public void shouldRedactForStandardUser() {
-        // Given - Employee, Role, Reason
-
-        // When
-        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, STANDARD_USER, SALARY_CONTEXT);
-
-        // Then
-        assertNull("Bank details should be redacted if the user is not an ExampleUser (no such trainingCourses member var)", actual.getBankDetails());
+        assertNull("Bank details should be redacted without HR role", actual.getBankDetails());
     }
 
 }
