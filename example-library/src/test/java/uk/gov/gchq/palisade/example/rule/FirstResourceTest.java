@@ -46,7 +46,7 @@ public class FirstResourceTest {
         Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals(TEST_RESOURCE, actual);
+        assertEquals("HR should be able to access first resource", TEST_RESOURCE, actual);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class FirstResourceTest {
         Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_NOT_HR, TEST_CONTEXT);
 
         //Then
-        assertNull(actual);
+        assertNull("non-HR should not be able to access first resource", actual);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class FirstResourceTest {
         Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals(TEST_RESOURCE, actual);
+        assertEquals("HR should be able to access second resource", TEST_RESOURCE, actual);
     }
 
     @Test
@@ -82,6 +82,6 @@ public class FirstResourceTest {
         Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_NOT_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals(TEST_RESOURCE, actual);
+        assertEquals("non-HR should be able to access second resource", TEST_RESOURCE, actual);
     }
 }

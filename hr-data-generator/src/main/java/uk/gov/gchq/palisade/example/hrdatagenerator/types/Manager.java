@@ -23,17 +23,19 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.StringJoiner;
 
+import static java.util.Objects.requireNonNull;
+
 public class Manager {
     private UserId uid;
-    private Manager[] manager;
+    private Manager[] managers;
     private String managerType;
 
     public static Manager[] generateMany(final Random random, final int chain) {
-        Manager[] managers = new Manager[3];
-        managers[0] = Manager.generateRecursive(random, chain, "Line Manager");
-        managers[1] = Manager.generateRecursive(random, chain, "Task Manager");
-        managers[2] = Manager.generateRecursive(random, chain, "Career Manager");
-        return managers;
+        return new Manager[]{
+                generateRecursive(random, chain, "Line Manager"),
+                generateRecursive(random, chain, "Task Manager"),
+                generateRecursive(random, chain, "Career Manager")
+        };
     }
 
 
@@ -55,28 +57,44 @@ public class Manager {
         return manager;
     }
 
-    public String getManagerType() {
-        return managerType;
-    }
-
-    public void setManagerType(final String managerType) {
-        this.managerType = managerType;
-    }
-
+    @Generated
     public UserId getUid() {
         return uid;
     }
 
+    @Generated
     public void setUid(final UserId uid) {
+        requireNonNull(uid);
         this.uid = uid;
     }
 
-    public Manager[] getManager() {
-        return manager;
+    @Generated
+    public String getManagerType() {
+        return managerType;
     }
 
-    public void setManager(final Manager[] manager) {
-        this.manager = manager;
+    @Generated
+    public void setManagerType(final String managerType) {
+        requireNonNull(managerType);
+        this.managerType = managerType;
+    }
+
+    @Generated
+    public Manager[] getManager() {
+        if (null == managers) {
+            return null;
+        } else {
+            return managers.clone();
+        }
+    }
+
+    @Generated
+    public void setManager(final Manager[] managers) {
+        if (null == managers) {
+            this.managers = null;
+        } else {
+            this.managers = managers.clone();
+        }
     }
 
     @Override
@@ -84,7 +102,7 @@ public class Manager {
     public String toString() {
         return new StringJoiner(", ", Manager.class.getSimpleName() + "[", "]")
                 .add("uid=" + uid)
-                .add("manager=" + Arrays.toString(manager))
+                .add("manager=" + Arrays.toString(managers))
                 .add("managerType='" + managerType + "'")
                 .toString();
     }

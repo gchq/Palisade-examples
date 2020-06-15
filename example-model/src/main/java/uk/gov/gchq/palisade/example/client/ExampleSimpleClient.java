@@ -24,10 +24,9 @@ import uk.gov.gchq.palisade.clients.simpleclient.web.DataClientFactory;
 import uk.gov.gchq.palisade.clients.simpleclient.web.PalisadeClient;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.util.ExampleFileUtil;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.stream.Stream;
 
 public class ExampleSimpleClient extends SimpleClient<Employee> {
@@ -45,8 +44,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
     }
 
     public Stream<Employee> read(final String filename, final String userId, final String purpose) throws IOException {
-        URI absoluteFileURI = ExampleFileUtil.convertToFileURI(filename);
-        String absoluteFile = absoluteFileURI.toString();
+        String absoluteFile = new File(filename).toURI().toString();
         return super.read(absoluteFile, userId, purpose);
     }
 }

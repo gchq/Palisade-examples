@@ -19,19 +19,17 @@ package uk.gov.gchq.palisade.example.hrdatagenerator.types;
 import java.util.Random;
 
 public enum Department {
-    Clinical_Trials,
+    CLINICAL_TRIALS,
     IT,
-    Chief_Data_Office,
-    Accounts,
-    Finance,
-    Amsterdam_Lab,
-    London_Lab,
-    New_York_Lab,
-    Founders;
+    CHIEF_DATA_OFFICE,
+    ACCOUNTS,
+    FINANCE,
+    AMSTERDAM_LAB,
+    LONDON_LAB,
+    NEW_YORK_LAB,
+    FOUNDERS;
 
     public static Department generate(final Random random) {
-        return Department.values()[random.nextInt(9)];
+        return Department.values()[random.nextInt(Department.values().length)];
     }
 }
-
-

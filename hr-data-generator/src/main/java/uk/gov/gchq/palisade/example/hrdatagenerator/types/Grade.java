@@ -30,7 +30,7 @@ public enum Grade {
     Grade9;
 
     public static Grade generate(final Random random) {
-        return Grade.values()[random.nextInt(9)];
+        return Grade.values()[random.nextInt(Grade.values().length)];
     }
 }
 
