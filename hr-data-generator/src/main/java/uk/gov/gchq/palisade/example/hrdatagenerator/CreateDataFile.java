@@ -26,13 +26,17 @@ import uk.gov.gchq.palisade.example.hrdatagenerator.types.Manager;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random;
 import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 public final class CreateDataFile implements Callable<Boolean> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateDataFile.class);
+    // When a large number of employees are requested, print the progress as feedback that the process has not frozen
+    private static final long PRINT_EVERY = 100_000L;
 
     private final long numberOfEmployees;
     private final Random random;
@@ -50,7 +54,7 @@ public final class CreateDataFile implements Callable<Boolean> {
             try (OutputStream out = new FileOutputStream(outputFile)) {
                 AvroSerialiser<Employee> employeeAvroSerialiser = new AvroSerialiser<>(Employee.class);
 
-                // Need one Employee whose manager has a UID of Bob (for examples to work)
+                // Need at least one Employee
                 Employee firstEmployee = Employee.generate(random);
                 Manager[] managers = firstEmployee.getManager();
                 UserId lineManagerUid = managers[0].getUid();
@@ -67,8 +71,8 @@ public final class CreateDataFile implements Callable<Boolean> {
                 // Serialise stream to output
                 employeeAvroSerialiser.serialise(employeeStream, out);
                 return true;
-            } catch (Exception ex) {
-                LOGGER.error("", ex);
+            } catch (IOException ex) {
+                LOGGER.error("IOException when serialising Employee to Avro", ex);
                 return false;
             }
         } else {
@@ -77,9 +81,15 @@ public final class CreateDataFile implements Callable<Boolean> {
     }
 
     private Stream<Employee> generateStreamOfEmployees() {
-        LOGGER.debug("Generating stream of {} employees", numberOfEmployees);
-        return Stream.generate(() -> Employee.generate(random))
-                .limit(numberOfEmployees - 1);
+        LOGGER.info("Generating {} employees", numberOfEmployees);
+        final AtomicLong counter = new AtomicLong(0);
+        Stream<Employee> employeeStream = Stream.generate(() -> {
+            if (counter.incrementAndGet() % PRINT_EVERY == 0) {
+                LOGGER.info("Processing {} of {}", counter.get(), numberOfEmployees);
+            }
+            return Employee.generate(random);
+        });
+        // Excluding the one employee we had to generate above
+        return employeeStream.limit(numberOfEmployees - 1);
     }
-
 }
