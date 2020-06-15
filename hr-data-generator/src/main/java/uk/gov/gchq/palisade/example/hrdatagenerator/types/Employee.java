@@ -28,11 +28,11 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class Employee {
-    private static final int MIN_MANAGERS = 2;
-    private static final int MAX_EXTRA_MANAGERS = 3;
+    private static final int MIN_NESTED_MANGERS = 2;
+    private static final int ADDITIONAL_NESTED_MANAGERS_RANGE = 3;
     private static final int MIN_SALARY = 20_000;
-    private static final int MAX_EXTRA_SALARY = 100_000;
-    private static final int MAX_SALARY_BONUS = 10_000;
+    private static final int EXTRA_SALARY_RANGE = 100_000;
+    private static final int SALARY_BONUS_RANGE = 10_000;
 
     private UserId uid;
     private String name;
@@ -66,12 +66,12 @@ public class Employee {
         employee.setBankDetails(BankDetails.generate(random));
         employee.setTaxCode(generateTaxCode());
         employee.setNationality(Nationality.generate(random));
-        employee.setManager(Manager.generateMany(random, MIN_MANAGERS + random.nextInt(MAX_EXTRA_MANAGERS)));
+        employee.setManager(Manager.generateMany(random, MIN_NESTED_MANGERS + random.nextInt(ADDITIONAL_NESTED_MANAGERS_RANGE)));
         employee.setHireDate(DateHelper.generateHireDate(employee.dateOfBirth, random));
         employee.setGrade(Grade.generate(random));
         employee.setDepartment(Department.generate(random));
-        employee.setSalaryAmount(MIN_SALARY + random.nextInt(MAX_EXTRA_SALARY));
-        employee.setSalaryBonus(random.nextInt(MAX_SALARY_BONUS));
+        employee.setSalaryAmount(MIN_SALARY + random.nextInt(EXTRA_SALARY_RANGE));
+        employee.setSalaryBonus(random.nextInt(SALARY_BONUS_RANGE));
         employee.setWorkLocation(WorkLocation.generate(faker, random));
         employee.setSex(Sex.generate(random));
 

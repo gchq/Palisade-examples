@@ -23,16 +23,16 @@ import java.util.Random;
 public final class DateHelper {
     private static final ThreadLocal<GregorianCalendar> GREGORIAN_CALENDAR = ThreadLocal.withInitial(GregorianCalendar::new);
     private static final int MIN_BIRTH_YEAR = 1900;
-    private static final int MAX_BIRTH_YEAR_RANGE = 100;
+    private static final int BIRTH_YEAR_RANGE = 100;
     private static final int MIN_HIRE_AGE = 20;
-    private static final int MAX_HIRE_YEAR_RANGE = 40;
+    private static final int HIRE_YEAR_RANGE = 40;
 
     private DateHelper() {
     }
 
     public static String generateDateOfBirth(final Random random) {
         GregorianCalendar localCalendar = GREGORIAN_CALENDAR.get();
-        int year = MIN_BIRTH_YEAR + random.nextInt(MAX_BIRTH_YEAR_RANGE);
+        int year = MIN_BIRTH_YEAR + random.nextInt(BIRTH_YEAR_RANGE);
         localCalendar.set(Calendar.YEAR, year);
         int dayOfYear = random.nextInt(localCalendar.getActualMaximum(Calendar.DAY_OF_YEAR));
         localCalendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
@@ -45,7 +45,7 @@ public final class DateHelper {
         String hireDateStr = dateOfBirthStr.substring(0, dateOfBirthStr.length() - 4);
 
         int birthYear = Integer.parseInt(birthYearStr);
-        int hireYear = birthYear + MIN_HIRE_AGE + random.nextInt(MAX_HIRE_YEAR_RANGE);
+        int hireYear = birthYear + MIN_HIRE_AGE + random.nextInt(HIRE_YEAR_RANGE);
 
         hireDateStr = hireDateStr + hireYear;
 

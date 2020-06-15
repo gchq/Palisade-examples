@@ -29,7 +29,7 @@ public class Manager {
     private String managerType;
 
     public static Manager[] generateMany(final Random random, final int chain) {
-        return new Manager[] {
+        return new Manager[]{
                 generateRecursive(random, chain, "Line Manager"),
                 generateRecursive(random, chain, "Task Manager"),
                 generateRecursive(random, chain, "Career Manager")
@@ -71,12 +71,22 @@ public class Manager {
         this.uid = uid;
     }
 
+    @Generated
     public Manager[] getManager() {
-        return managers;
+        if (null == managers) {
+            return null;
+        } else {
+            return managers.clone();
+        }
     }
 
-    public void setManager(final Manager[] manager) {
-        this.managers = manager;
+    @Generated
+    public void setManager(final Manager[] managers) {
+        if (null == managers) {
+            this.managers = null;
+        } else {
+            this.managers = managers.clone();
+        }
     }
 
     @Override
