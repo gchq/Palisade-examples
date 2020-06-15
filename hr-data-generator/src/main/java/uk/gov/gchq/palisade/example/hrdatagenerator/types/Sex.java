@@ -22,13 +22,13 @@ import java.util.Random;
  * Taken from https://www.datadictionary.nhs.uk/data_dictionary/attributes/p/person/person_gender_code_de.asp
  */
 public enum Sex {
-    Not_Known,
-    Male,
-    Female,
-    Not_Specified;
+    NOT_KNOWN,
+    MALE,
+    FEMALE,
+    NOT_SPECIFIED;
 
     public static Sex generate(final Random random) {
-        return Sex.values()[random.nextInt(4)];
+        return Sex.values()[random.nextInt(Sex.values().length)];
     }
 }
 

@@ -30,20 +30,29 @@ import java.util.concurrent.Future;
 
 public final class CreateData {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateData.class);
+    // Varargs indices
+    private static final int MINIMUM_ARGS = 3;
+    private static final int OUT_PATH_ARG = 0;
+    private static final int NUM_EMPLOYEES_ARG = 1;
+    private static final int NUM_FILES_ARG = 2;
+    private static final int NUM_THREADS_ARG = 3;
 
     private CreateData() {
     }
 
     public static void main(final String... args) {
-        if (args.length < 3) {
+        if (args.length < MINIMUM_ARGS) {
             LOGGER.warn("This method needs at least three arguments. The directory path to save the files in, the number of employee's to generate and the number of files to split those employees between. An optional 4th argument is the number of threads to use which will default to 1.");
         } else {
-            String outputFilePath = args[0];
-            long numberOfEmployees = Long.parseLong(args[1]);
-            int numberOfFiles = Integer.parseInt(args[2]);
+            String outputFilePath = args[OUT_PATH_ARG];
+            // Required minimal arguments
+            long numberOfEmployees = Long.parseLong(args[NUM_EMPLOYEES_ARG]);
+            int numberOfFiles = Integer.parseInt(args[NUM_FILES_ARG]);
+            // Default values
             int numberOfThreads = numberOfFiles;
-            if (args.length > 3) {
-                numberOfThreads = Integer.parseInt(args[3]);
+            // Optional additional arguments overriding default values
+            if (args.length > MINIMUM_ARGS) {
+                numberOfThreads = Integer.parseInt(args[NUM_THREADS_ARG]);
             }
             long startTime = System.currentTimeMillis();
             ExecutorService executors = Executors.newFixedThreadPool(numberOfThreads, Util.createDaemonThreadFactory());
@@ -61,7 +70,7 @@ public final class CreateData {
                 LOGGER.error(e.getLocalizedMessage());
             }
             long endTime = System.currentTimeMillis();
-            LOGGER.info("Took " + (endTime - startTime) + "ms to create " + numberOfEmployees + " employees");
+            LOGGER.info("Took {}ms to create {} employees", (endTime - startTime), numberOfEmployees);
         }
     }
 }

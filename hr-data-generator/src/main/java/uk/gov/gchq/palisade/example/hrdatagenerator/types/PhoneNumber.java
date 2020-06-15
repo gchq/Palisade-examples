@@ -22,13 +22,16 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class PhoneNumber {
+    private static final int MAX_EXTRA_CONTACTS = 3;
+    private static final int PHONE_NUMBER_LENGTH = 10; // excluding leading zero
+
     private String type; // is this a home number, work number, mobile number ...
-    private String phoneNumber;
+    private String number;
     private static final String[] DEFAULT_TYPES = new String[]{"Mobile"};
     private static final String[] POSSIBLE_TYPES = new String[]{"Home", "Work", "Work Mobile"};
 
     public static PhoneNumber[] generateMany(final Random random) {
-        int numberOfExtraContacts = random.nextInt(3);
+        int numberOfExtraContacts = random.nextInt(MAX_EXTRA_CONTACTS);
         PhoneNumber[] phoneNumbers = new PhoneNumber[numberOfExtraContacts + 1];
         phoneNumbers[0] = PhoneNumber.generate(random, DEFAULT_TYPES);
         for (int i = 1; i <= numberOfExtraContacts; i++) {
@@ -43,16 +46,8 @@ public class PhoneNumber {
 
     private static PhoneNumber generate(final Random random, final String[] possibleTypes) {
         PhoneNumber phoneNumber = new PhoneNumber();
-        if (possibleTypes.length == 0) {
-            phoneNumber.setType(possibleTypes[0]);
-        } else {
-            phoneNumber.setType(possibleTypes[random.nextInt(possibleTypes.length)]);
-        }
-        StringBuilder randomNumber = new StringBuilder("0" + random.nextInt(Integer.MAX_VALUE));
-        while (randomNumber.length() < 11) {
-            randomNumber.insert(0, "0");
-        }
-        phoneNumber.setPhoneNumber(randomNumber.toString());
+        phoneNumber.type = possibleTypes[random.nextInt(possibleTypes.length)];
+        phoneNumber.number = String.format("0%0" + PHONE_NUMBER_LENGTH + "d", random.nextInt((int) Math.pow(10, PHONE_NUMBER_LENGTH)));
         return phoneNumber;
     }
 
@@ -68,12 +63,12 @@ public class PhoneNumber {
 
     @Generated
     public String getPhoneNumber() {
-        return phoneNumber;
+        return number;
     }
 
     @Generated
     public void setPhoneNumber(final String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.number = phoneNumber;
     }
 
     @Override
@@ -81,7 +76,7 @@ public class PhoneNumber {
     public String toString() {
         return new StringJoiner(", ", PhoneNumber.class.getSimpleName() + "[", "]")
                 .add("type='" + type + "'")
-                .add("phoneNumber='" + phoneNumber + "'")
+                .add("phoneNumber='" + number + "'")
                 .toString();
     }
 }

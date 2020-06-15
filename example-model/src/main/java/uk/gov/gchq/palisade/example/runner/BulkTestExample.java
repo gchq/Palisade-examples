@@ -34,8 +34,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class BulkTestExample {
     private static final Logger LOGGER = LoggerFactory.getLogger(BulkTestExample.class);
+    private static final Integer NUMBER_OF_EMPLOYEES = 10;
+    private static final Integer NUMBER_OF_FILES = 1;
 
-    private RestExample client;
+    private final RestExample client;
 
     public BulkTestExample(final RestExample restExample) {
         this.client = restExample;
@@ -44,7 +46,7 @@ public final class BulkTestExample {
     /**
      * Set by the destruct method to ensure this doesn't happen via a shutdown thread as well.
      */
-    private static AtomicBoolean hasDestructionOccurred = new AtomicBoolean(false);
+    private static final AtomicBoolean HAS_DESTRUCTION_OCCURRED = new AtomicBoolean(false);
 
     /**
      * The runner method to run a test of how many resources/files can be read in a single request
@@ -102,7 +104,7 @@ public final class BulkTestExample {
      * @throws IOException for any filesystem errors
      */
     private static void removeBulkData(final String directory) throws IOException {
-        if (hasDestructionOccurred.compareAndSet(false, true)) {
+        if (HAS_DESTRUCTION_OCCURRED.compareAndSet(false, true)) {
             Path dir = Paths.get(directory);
             Path newLocation = generateNewDirectoryName(dir);
 
@@ -144,7 +146,7 @@ public final class BulkTestExample {
         moveDataDir(dir, newLocation);
 
         //call the HR Data generator
-        CreateData.main(directory, "10", "1");
+        CreateData.main(directory, NUMBER_OF_EMPLOYEES.toString(), NUMBER_OF_FILES.toString());
 
         //check for existence of the file we need
         Path startFile = dir.resolve("employee_file0.avro");

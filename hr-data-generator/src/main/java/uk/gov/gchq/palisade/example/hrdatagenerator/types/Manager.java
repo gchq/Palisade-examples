@@ -23,17 +23,19 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.StringJoiner;
 
+import static java.util.Objects.requireNonNull;
+
 public class Manager {
     private UserId uid;
     private Manager[] managers;
     private String managerType;
 
     public static Manager[] generateMany(final Random random, final int chain) {
-        Manager[] managers = new Manager[3];
-        managers[0] = Manager.generateRecursive(random, chain, "Line Manager");
-        managers[1] = Manager.generateRecursive(random, chain, "Task Manager");
-        managers[2] = Manager.generateRecursive(random, chain, "Career Manager");
-        return managers;
+        return new Manager[]{
+                generateRecursive(random, chain, "Line Manager"),
+                generateRecursive(random, chain, "Task Manager"),
+                generateRecursive(random, chain, "Career Manager")
+        };
     }
 
 
@@ -62,7 +64,19 @@ public class Manager {
 
     @Generated
     public void setUid(final UserId uid) {
+        requireNonNull(uid);
         this.uid = uid;
+    }
+
+    @Generated
+    public String getManagerType() {
+        return managerType;
+    }
+
+    @Generated
+    public void setManagerType(final String managerType) {
+        requireNonNull(managerType);
+        this.managerType = managerType;
     }
 
     @Generated
@@ -81,16 +95,6 @@ public class Manager {
         } else {
             this.managers = managers.clone();
         }
-    }
-
-    @Generated
-    public String getManagerType() {
-        return managerType;
-    }
-
-    @Generated
-    public void setManagerType(final String managerType) {
-        this.managerType = managerType;
     }
 
     @Override
