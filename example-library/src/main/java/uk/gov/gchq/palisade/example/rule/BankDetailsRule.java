@@ -20,11 +20,13 @@ import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.common.ExampleUser;
 import uk.gov.gchq.palisade.example.common.Purpose;
+import uk.gov.gchq.palisade.example.common.Role;
 import uk.gov.gchq.palisade.example.common.TrainingCourse;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.rule.Rule;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
@@ -46,12 +48,16 @@ public class BankDetailsRule implements Rule<Employee> {
         }
         requireNonNull(user);
         requireNonNull(context);
-        String purpose = context.getPurpose();
 
         if (user instanceof ExampleUser) {
             ExampleUser exampleUser = (ExampleUser) user;
             EnumSet<TrainingCourse> trainingCompleted = exampleUser.getTrainingCompleted();
-            if (trainingCompleted.contains(TrainingCourse.PAYROLL_TRAINING_COURSE) & purpose.equals(Purpose.SALARY.name())) {
+            Set<String> roles = exampleUser.getRoles();
+            String purpose = context.getPurpose();
+
+            if (trainingCompleted.contains(TrainingCourse.PAYROLL_TRAINING_COURSE) &&
+                    purpose.equals(Purpose.SALARY.name()) &&
+                    roles.contains(Role.HR.name())) {
                 return record;
             }
         }

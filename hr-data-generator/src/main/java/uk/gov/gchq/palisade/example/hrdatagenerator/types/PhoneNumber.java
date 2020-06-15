@@ -51,18 +51,22 @@ public class PhoneNumber {
         return phoneNumber;
     }
 
+    @Generated
     public String getType() {
         return type;
     }
 
+    @Generated
     public void setType(final String type) {
         this.type = type;
     }
 
+    @Generated
     public String getPhoneNumber() {
         return number;
     }
 
+    @Generated
     public void setPhoneNumber(final String phoneNumber) {
         this.number = phoneNumber;
     }

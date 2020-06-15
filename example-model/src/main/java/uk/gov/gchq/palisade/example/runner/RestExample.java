@@ -24,7 +24,6 @@ import uk.gov.gchq.palisade.example.common.Purpose;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.stream.Stream;
 
 public class RestExample {
@@ -37,7 +36,7 @@ public class RestExample {
         this.client = exampleSimpleClient;
     }
 
-    public void run(final String filename) throws IOException, URISyntaxException {
+    public void run(final String filename) throws IOException {
 
         final String alice = "Alice";
         final String bob = "Bob";

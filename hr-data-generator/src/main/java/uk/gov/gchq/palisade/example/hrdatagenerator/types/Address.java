@@ -42,42 +42,52 @@ public class Address {
         return address;
     }
 
+    @Generated
     public String getStreetAddressNumber() {
         return streetAddressNumber;
     }
 
+    @Generated
     public void setStreetAddressNumber(final String streetAddressNumber) {
         this.streetAddressNumber = streetAddressNumber;
     }
 
+    @Generated
     public String getStreetName() {
         return streetName;
     }
 
+    @Generated
     public void setStreetName(final String streetName) {
         this.streetName = streetName;
     }
 
+    @Generated
     public String getCity() {
         return city;
     }
 
+    @Generated
     public void setCity(final String city) {
         this.city = city;
     }
 
+    @Generated
     public String getState() {
         return state;
     }
 
+    @Generated
     public void setState(final String state) {
         this.state = state;
     }
 
+    @Generated
     public String getZipCode() {
         return zipCode;
     }
 
+    @Generated
     public void setZipCode(final String zipCode) {
         this.zipCode = zipCode;
     }

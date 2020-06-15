@@ -86,134 +86,172 @@ public class Employee {
         return "11500L";
     }
 
+    @Generated
     public UserId getUid() {
         return uid;
     }
 
+    @Generated
     public void setUid(final UserId uid) {
         this.uid = uid;
     }
 
+    @Generated
     public String getName() {
         return name;
     }
 
+    @Generated
     public void setName(final String name) {
         this.name = name;
     }
 
+    @Generated
     public String getDateOfBirth() {
         return dateOfBirth;
     }
 
+    @Generated
     public void setDateOfBirth(final String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    @Generated
     public PhoneNumber[] getContactNumbers() {
         return contactNumbers;
     }
 
+    @Generated
     public void setContactNumbers(final PhoneNumber[] contactNumbers) {
         this.contactNumbers = contactNumbers;
     }
 
+    @Generated
     public EmergencyContact[] getEmergencyContacts() {
         return emergencyContacts;
     }
 
+    @Generated
     public void setEmergencyContacts(final EmergencyContact[] emergencyContacts) {
         this.emergencyContacts = emergencyContacts;
     }
 
+    @Generated
     public Address getAddress() {
         return address;
     }
 
+    @Generated
     public void setAddress(final Address address) {
         this.address = address;
     }
 
+    @Generated
     public BankDetails getBankDetails() {
         return bankDetails;
     }
 
+    @Generated
     public void setBankDetails(final BankDetails bankDetails) {
         this.bankDetails = bankDetails;
     }
 
+    @Generated
     public String getTaxCode() {
         return taxCode;
     }
 
+    @Generated
     public void setTaxCode(final String taxCode) {
         this.taxCode = taxCode;
     }
 
+    @Generated
     public Nationality getNationality() {
         return nationality;
     }
 
+    @Generated
     public void setNationality(final Nationality nationality) {
         this.nationality = nationality;
     }
 
+    @Generated
     public Manager[] getManager() {
         return manager;
     }
 
+    @Generated
     public void setManager(final Manager[] manager) {
         this.manager = manager;
     }
 
+    @Generated
     public String getHireDate() {
         return hireDate;
     }
 
+    @Generated
     public void setHireDate(final String hireDate) {
         this.hireDate = hireDate;
     }
 
+    @Generated
     public Grade getGrade() {
         return grade;
     }
 
+    @Generated
     public void setGrade(final Grade grade) {
         this.grade = grade;
     }
 
-    public int getSalaryAmount() {
-        return salaryAmount;
+    @Generated
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setSalaryAmount(final int salaryAmount) {
-        this.salaryAmount = salaryAmount;
-    }
-
-    public int getSalaryBonus() {
-        return salaryBonus;
-    }
-
-    public void setSalaryBonus(final int salaryBonus) {
-        this.salaryBonus = salaryBonus;
-    }
-
+    @Generated
     public void setDepartment(final Department department) {
         this.department = department;
     }
 
+    @Generated
+    public int getSalaryAmount() {
+        return salaryAmount;
+    }
+
+    @Generated
+    public void setSalaryAmount(final int salaryAmount) {
+        this.salaryAmount = salaryAmount;
+    }
+
+    @Generated
+    public int getSalaryBonus() {
+        return salaryBonus;
+    }
+
+    @Generated
+    public void setSalaryBonus(final int salaryBonus) {
+        this.salaryBonus = salaryBonus;
+    }
+
+    @Generated
     public WorkLocation getWorkLocation() {
         return workLocation;
     }
 
+    @Generated
     public void setWorkLocation(final WorkLocation workLocation) {
         this.workLocation = workLocation;
     }
 
+    @Generated
     public Sex getSex() {
         return sex;
     }
 
+    @Generated
     public void setSex(final Sex sex) {
         this.sex = sex;
     }
