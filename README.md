@@ -64,7 +64,7 @@ In particular, the example deals with the following users:
 
 ### BankDetailsRule  
 The bankDetails field should be returned:
-- if the user querying the file has completed the PAYROLL_TRAINING_COURSE and the purpose of the query is SALARY
+- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE and the purpose of the query is SALARY
 
 In all other cases the bankDetails field should be redacted.
 

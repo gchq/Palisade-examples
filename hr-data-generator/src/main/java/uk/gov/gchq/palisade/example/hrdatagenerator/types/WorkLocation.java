@@ -27,27 +27,31 @@ public class WorkLocation {
     private WorkLocationName workLocationName;
     private Address address;
 
-    public  WorkLocationName getWorkLocationName() {
-        return workLocationName;
-    }
-
-    public void setWorkLocationName(final WorkLocationName workLocationName) {
-        this.workLocationName = workLocationName;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(final Address address) {
-        this.address = address;
-    }
-
     public static WorkLocation generate(final Faker faker, final Random random) {
         WorkLocation workLocation = new WorkLocation();
         workLocation.setAddress(Address.generate(faker, random));
         workLocation.setWorkLocationName(WorkLocationName.generate(random));
         return workLocation;
+    }
+
+    @Generated
+    public WorkLocationName getWorkLocationName() {
+        return workLocationName;
+    }
+
+    @Generated
+    public void setWorkLocationName(final WorkLocationName workLocationName) {
+        this.workLocationName = workLocationName;
+    }
+
+    @Generated
+    public Address getAddress() {
+        return address;
+    }
+
+    @Generated
+    public void setAddress(final Address address) {
+        this.address = address;
     }
 
     @Override

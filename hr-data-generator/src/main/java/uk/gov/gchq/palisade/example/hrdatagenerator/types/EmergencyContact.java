@@ -49,27 +49,32 @@ public class EmergencyContact {
         return emergencyContacts;
     }
 
+    @Generated
     public String getContactName() {
-
         return contactName;
     }
 
+    @Generated
     public void setContactName(final String contactName) {
         this.contactName = contactName;
     }
 
+    @Generated
     public Relation getRelation() {
         return relation;
     }
 
+    @Generated
     public void setRelation(final Relation relation) {
         this.relation = relation;
     }
 
+    @Generated
     public PhoneNumber[] getContactNumbers() {
         return contactNumbers;
     }
 
+    @Generated
     public void setContactNumbers(final PhoneNumber[] contactNumbers) {
         this.contactNumbers = contactNumbers;
     }
