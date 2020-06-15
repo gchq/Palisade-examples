@@ -54,7 +54,7 @@ public final class CreateDataFile implements Callable<Boolean> {
             try (OutputStream out = new FileOutputStream(outputFile)) {
                 AvroSerialiser<Employee> employeeAvroSerialiser = new AvroSerialiser<>(Employee.class);
 
-                // Need at least one Employee
+                // Need at least one E:qamployee
                 Employee firstEmployee = Employee.generate(random);
                 Manager[] managers = firstEmployee.getManager();
                 UserId lineManagerUid = managers[0].getUid();
