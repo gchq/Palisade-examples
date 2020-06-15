@@ -88,6 +88,6 @@ public class ZipCodeMaskingTest {
         Employee actual = ZIP_CODE_MASKING_RULE.apply(testEmployee, TEST_USER_NOT_ESTATES_OR_HR, STAFF_REPORT_CONTEXT);
 
         // Then
-        assertNull("", actual.getAddress());
+        assertNull("Should redact zip code for not Estates and not HR", actual.getAddress());
     }
 }

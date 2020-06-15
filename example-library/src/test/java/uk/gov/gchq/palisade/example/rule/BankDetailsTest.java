@@ -31,7 +31,7 @@ import java.util.Random;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class BankDetailsRulesTest {
+public class BankDetailsTest {
 
     private static final User EXAMPLE_USER_WITHOUT_PAYROLL = new ExampleUser().userId("UserId");
     private static final User EXAMPLE_USER_WITH_PAYROLL = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("UserId");
