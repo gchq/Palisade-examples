@@ -27,7 +27,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <!--  *********** Aritfact ID ***********    -->
     <artifactId>hr-data-generator</artifactId>
+    <url>https://github.com/gchq/Palisade-examples/tree/develop/hr-data-generator</url>
+    <!--  *********** Aritfact ID ***********    -->
 
     <dependencies>
         <dependency>
@@ -101,6 +104,7 @@
                 <version>1.1.0</version>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
+                    <flattenMode>ossrh</flattenMode>
                 </configuration>
                 <executions>
                     <execution>
