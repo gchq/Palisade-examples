@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.StringJoiner;
 
+import static java.util.Objects.requireNonNull;
+
 public class Manager {
     private UserId uid;
     private Manager[] managers;
@@ -55,20 +57,26 @@ public class Manager {
         return manager;
     }
 
-    public String getManagerType() {
-        return managerType;
-    }
-
-    public void setManagerType(final String managerType) {
-        this.managerType = managerType;
-    }
-
+    @Generated
     public UserId getUid() {
         return uid;
     }
 
+    @Generated
     public void setUid(final UserId uid) {
+        requireNonNull(uid);
         this.uid = uid;
+    }
+
+    @Generated
+    public String getManagerType() {
+        return managerType;
+    }
+
+    @Generated
+    public void setManagerType(final String managerType) {
+        requireNonNull(managerType);
+        this.managerType = managerType;
     }
 
     @Generated
