@@ -36,7 +36,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
     public ZipCodeMaskingRule() {
     }
 
-    private Employee maskRecord(final Employee maskedRecord) {
+    private Employee maskAddress(final Employee maskedRecord) {
         Address address = maskedRecord.getAddress();
         WorkLocation location = maskedRecord.getWorkLocation();
         Address workAddress = location.getAddress();
@@ -54,7 +54,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         return maskedRecord;
     }
 
-    private Employee maskWholeAddress(final Employee maskedRecord) {
+    private Employee redactAddress(final Employee maskedRecord) {
         maskedRecord.setAddress(null);
         return maskedRecord;
     }
@@ -74,14 +74,14 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
             return record;
         }
 
-        if ((EmployeeUtils.isManager(managers, userId).equals(Boolean.TRUE)) & purpose.equals(Purpose.DUTY_OF_CARE.name())) {
+        if (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
             return record;
         }
 
         if (roles.contains(Role.ESTATES.name())) {
-            return maskRecord(record);
+            return maskAddress(record);
         } else {
-            return maskWholeAddress(record);
+            return redactAddress(record);
         }
     }
 }
