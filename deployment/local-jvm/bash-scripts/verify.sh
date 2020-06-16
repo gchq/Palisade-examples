@@ -14,7 +14,15 @@ if [ -d $DIR ]; then
     if [ $num == 781 ]; then
       echo "Success - Number of lines was 781"
     else
-      echo "Number of lines was not 781 but was: $num"
+      echo "ERROR - Number of lines was not 781 but was: $num"
+      cat ../Palisade-services/audit-service-example.log
+      cat ../Palisade-services/data-service-example.log
+      cat ../Palisade-services/discovery-service.log
+      cat ../Palisade-services/palisade-service-example.log
+      cat ../Palisade-services/policy-service-example.log
+      cat ../Palisade-services/resource-service-example.log
+      cat ../Palisade-services/user-service-example.log
+
       exit 1
     fi
 
