@@ -2,6 +2,7 @@
 
 FILE=exampleOutput.txt
 DIR=deployment/local-jvm/bash-scripts/
+DIRDIM=../Palisade-services/
 
 if [ -d $DIR ]; then
   # Important to cd before running the jar - the working directory must be deployment/local-jvm/bash-scripts/
@@ -15,17 +16,23 @@ if [ -d $DIR ]; then
       echo "Success - Number of lines was 781"
     else
       echo "ERROR - Number of lines was not 781 but was: $num"
-      cat ../Palisade-services/audit-service-example.log
-      cat ../Palisade-services/data-service-example.log
-      cat ../Palisade-services/discovery-service.log
-      cat ../Palisade-services/palisade-service-example.log
-      cat ../Palisade-services/policy-service-example.log
-      cat ../Palisade-services/resource-service-example.log
-      cat ../Palisade-services/user-service-example.log
+      if [ -d DIRDIM ]; then
+          cd $DIRDIM
 
+          cat audit-service-example.log
+          cat data-service-example.log
+          cat discovery-service.log
+          cat palisade-service-example.log
+          cat policy-service-example.log
+          cat resource-service-example.log
+          cat user-service-example.log
+        else
+          # fail if it can't find the services
+          echo "Cannot find Palisade-Services"
+          exit 1
+        fi
       exit 1
     fi
-
   else
     # fail if the example has not been run
     echo "Cannot find exampleOutput.txt, have you run the example?"
