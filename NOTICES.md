@@ -8,10 +8,10 @@ List of third-party dependencies grouped by their license type
 * Spring Cloud Netflix Eureka Client ([org.springframework.cloud:spring-cloud-netflix-eureka-client:2.2.0.RELEASE](https://spring.io/spring-cloud/spring-cloud-netflix/spring-cloud-netflix-eureka-client))
 * Spring Cloud Starter Netflix Eureka Client ([org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.0.RELEASE](https://projects.spring.io/spring-cloud))
 * Spring Cloud Starter OpenFeign ([org.springframework.cloud:spring-cloud-starter-openfeign:2.2.0.RELEASE](https://projects.spring.io/spring-cloud))
-* clients-simple ([uk.gov.gchq.palisade:clients-simple:0.4.0-20200610.163556-44](https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/clients/clients-simple))
+* clients-simple ([uk.gov.gchq.palisade:clients-simple:0.4.0-SNAPSHOT](https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/clients/clients-simple))
 * common ([uk.gov.gchq.palisade:common:0.4.0-SNAPSHOT](no url defined))
-* example-library ([uk.gov.gchq.palisade:example-library:0.4.0-20200615.163811-25](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
-* hr-data-generator ([uk.gov.gchq.palisade:hr-data-generator:0.4.0-20200615.163809-25](https://github.com/gchq/Palisade-examples/tree/develop/hr-data-generator))
+* example-library ([uk.gov.gchq.palisade:example-library:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
+* hr-data-generator ([uk.gov.gchq.palisade:hr-data-generator:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/hr-data-generator))
 * readers-common ([uk.gov.gchq.palisade:readers-common:0.4.0-SNAPSHOT](no url defined))
 
 ### [Eclipse Public License 1.0](./licenses/eclipse_public_license_1.0.html):
