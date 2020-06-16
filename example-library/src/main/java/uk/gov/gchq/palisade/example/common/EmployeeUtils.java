@@ -24,7 +24,7 @@ public final class EmployeeUtils {
     private EmployeeUtils() {
     }
 
-    public static Boolean isManager(final Manager[] managers, final UserId userId) {
+    public static boolean isManager(final Manager[] managers, final UserId userId) {
         if (managers == null) {
             return false;
         }

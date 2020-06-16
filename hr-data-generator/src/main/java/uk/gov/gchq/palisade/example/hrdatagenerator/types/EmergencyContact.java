@@ -26,6 +26,7 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class EmergencyContact {
+    private static final int MAX_EXTRA_CONTACTS = 4;
     private String contactName;
     private Relation relation;
     private PhoneNumber[] contactNumbers;
@@ -34,13 +35,13 @@ public class EmergencyContact {
         EmergencyContact contact = new EmergencyContact();
         Name tempName = faker.name();
         contact.setContactName(tempName.firstName() + " " + tempName.lastName());
-        contact.setRelation(Relation.values()[random.nextInt(Relation.values().length)]);
+        contact.setRelation(Relation.generate(random));
         contact.setContactNumbers(PhoneNumber.generateMany(random));
         return contact;
     }
 
     public static EmergencyContact[] generateMany(final Faker faker, final Random random) {
-        int numberOfExtraContacts = random.nextInt(4);
+        int numberOfExtraContacts = random.nextInt(MAX_EXTRA_CONTACTS);
         EmergencyContact[] emergencyContacts = new EmergencyContact[numberOfExtraContacts + 1];
         emergencyContacts[0] = EmergencyContact.generate(faker, random);
         for (int i = 1; i <= numberOfExtraContacts; i++) {
@@ -49,27 +50,32 @@ public class EmergencyContact {
         return emergencyContacts;
     }
 
+    @Generated
     public String getContactName() {
-
         return contactName;
     }
 
+    @Generated
     public void setContactName(final String contactName) {
         this.contactName = contactName;
     }
 
+    @Generated
     public Relation getRelation() {
         return relation;
     }
 
+    @Generated
     public void setRelation(final Relation relation) {
         this.relation = relation;
     }
 
+    @Generated
     public PhoneNumber[] getContactNumbers() {
         return contactNumbers;
     }
 
+    @Generated
     public void setContactNumbers(final PhoneNumber[] contactNumbers) {
         this.contactNumbers = contactNumbers;
     }
