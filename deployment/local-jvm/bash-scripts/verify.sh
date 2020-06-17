@@ -16,9 +16,7 @@ if [ -d $DIR ]; then
       echo "Success - Number of lines was 781"
     else
       echo "ERROR - Number of lines was not 781 but was: $num"
-      if [ -d DIRCHANGE ]; then
           cd DIRCHANGE
-
           cat audit-service-example.log
           cat data-service-example.log
           cat discovery-service.log
@@ -26,21 +24,6 @@ if [ -d $DIR ]; then
           cat policy-service-example.log
           cat resource-service-example.log
           cat user-service-example.log
-        else
-          # fail if it can't find the services
-          echo "Cannot find Palisade-Services"
-          pwd
-          ls ..
-          echo "up"
-          ls ../..
-          echo "up"
-          ls ../../..
-          echo "up"
-          ls ../../../..
-          echo "services"
-          ls ../../../../Palisade-services
-          exit 1
-        fi
       exit 1
     fi
   else
