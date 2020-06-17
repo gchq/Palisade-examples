@@ -18,10 +18,13 @@ if [ -d $DIR ]; then
       echo "ERROR - Number of lines was not 781 but was: $num"
       pwd
       cd ..
+      pwd
       ls
       cd ..
+      pwd
       ls
       cd ..
+      pwd
       ls
       if [ -d DIRDIM ]; then
           cd $DIRDIM
