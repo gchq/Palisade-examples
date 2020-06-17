@@ -26,6 +26,9 @@ if [ -d $DIR ]; then
       cd ..
       pwd
       ls
+      cd ..
+      pwd
+      ls
       if [ -d DIRDIM ]; then
           cd $DIRDIM
 
