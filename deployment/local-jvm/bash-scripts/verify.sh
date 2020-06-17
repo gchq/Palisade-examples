@@ -16,13 +16,22 @@ if [ -d $DIR ]; then
       echo "Success - Number of lines was 781"
     else
       echo "ERROR - Number of lines was not 781 but was: $num"
+          echo "*** exampleOutput.txt"
+          cat $FILE
           cd $DIRCHANGE
+          echo "*** audit-service-example.log"
           cat audit-service-example.log
+          echo "*** data-service-example.log"
           cat data-service-example.log
+          echo "*** discovery-service.log"
           cat discovery-service.log
+          echo "*** palisade-service-example.log"
           cat palisade-service-example.log
+          echo "*** policy-service-example.log"
           cat policy-service-example.log
+          echo "*** resource-service-example.log"
           cat resource-service-example.log
+          echo "*** user-service-example.log"
           cat user-service-example.log
       exit 1
     fi
