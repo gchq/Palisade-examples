@@ -2,7 +2,7 @@
 
 FILE=exampleOutput.txt
 DIR=deployment/local-jvm/bash-scripts/
-DIRDIM=../../../Palisade-services/
+DIRDIM=./Palisade-services/
 
 if [ -d $DIR ]; then
   # Important to cd before running the jar - the working directory must be deployment/local-jvm/bash-scripts/
@@ -16,6 +16,13 @@ if [ -d $DIR ]; then
       echo "Success - Number of lines was 781"
     else
       echo "ERROR - Number of lines was not 781 but was: $num"
+      pwd
+      cd ..
+      ls
+      cd ..
+      ls
+      cd ..
+      ls
       if [ -d DIRDIM ]; then
           cd $DIRDIM
 
