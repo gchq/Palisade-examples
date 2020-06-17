@@ -50,32 +50,31 @@ public final class CreateDataFile implements Callable<Boolean> {
 
     public Boolean call() {
         boolean mkdirSuccess = outputFile.getParentFile().mkdirs();
-        if (mkdirSuccess) {
-            try (OutputStream out = new FileOutputStream(outputFile)) {
-                AvroSerialiser<Employee> employeeAvroSerialiser = new AvroSerialiser<>(Employee.class);
+        if (!mkdirSuccess) {
+            LOGGER.warn("Failed to create parent directory");
+        }
+        try (OutputStream out = new FileOutputStream(outputFile)) {
+            AvroSerialiser<Employee> employeeAvroSerialiser = new AvroSerialiser<>(Employee.class);
 
-                // Need at least one Employee
-                Employee firstEmployee = Employee.generate(random);
-                Manager[] managers = firstEmployee.getManager();
-                UserId lineManagerUid = managers[0].getUid();
-                lineManagerUid.setId("Eve");
-                managers[0].setUid(lineManagerUid);
-                firstEmployee.setManager(managers);
+            // Need at least one Employee
+            Employee firstEmployee = Employee.generate(random);
+            Manager[] managers = firstEmployee.getManager();
+            UserId lineManagerUid = managers[0].getUid();
+            lineManagerUid.setId("Bob");
+            managers[0].setUid(lineManagerUid);
+            firstEmployee.setManager(managers);
 
-                // Create more employees if needed
-                Stream<Employee> employeeStream = Stream.of(firstEmployee);
-                if (numberOfEmployees > 1) {
-                    employeeStream = Stream.concat(employeeStream, generateStreamOfEmployees());
-                }
-
-                // Serialise stream to output
-                employeeAvroSerialiser.serialise(employeeStream, out);
-                return true;
-            } catch (IOException ex) {
-                LOGGER.error("IOException when serialising Employee to Avro", ex);
-                return false;
+            // Create more employees if needed
+            Stream<Employee> employeeStream = Stream.of(firstEmployee);
+            if (numberOfEmployees > 1) {
+                employeeStream = Stream.concat(employeeStream, generateStreamOfEmployees());
             }
-        } else {
+
+            // Serialise stream to output
+            employeeAvroSerialiser.serialise(employeeStream, out);
+            return true;
+        } catch (IOException ex) {
+            LOGGER.error("IOException when serialising Employee to Avro", ex);
             return false;
         }
     }
