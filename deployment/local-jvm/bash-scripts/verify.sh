@@ -16,7 +16,7 @@ if [ -d $DIR ]; then
       echo "Success - Number of lines was 781"
     else
       echo "ERROR - Number of lines was not 781 but was: $num"
-          cd DIRCHANGE
+          cd $DIRCHANGE
           cat audit-service-example.log
           cat data-service-example.log
           cat discovery-service.log
