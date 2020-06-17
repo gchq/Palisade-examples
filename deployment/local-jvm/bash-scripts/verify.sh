@@ -2,7 +2,7 @@
 
 FILE=exampleOutput.txt
 DIR=deployment/local-jvm/bash-scripts/
-DIRDIM=./Palisade-services/
+DIRDIM=Palisade-services/
 
 if [ -d $DIR ]; then
   # Important to cd before running the jar - the working directory must be deployment/local-jvm/bash-scripts/
