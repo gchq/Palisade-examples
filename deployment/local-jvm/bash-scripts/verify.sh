@@ -2,7 +2,7 @@
 
 FILE=exampleOutput.txt
 DIR=deployment/local-jvm/bash-scripts/
-DIRDIM=Palisade-services/
+DIRCHANGE=../../../../Palisade-services
 
 if [ -d $DIR ]; then
   # Important to cd before running the jar - the working directory must be deployment/local-jvm/bash-scripts/
@@ -16,21 +16,8 @@ if [ -d $DIR ]; then
       echo "Success - Number of lines was 781"
     else
       echo "ERROR - Number of lines was not 781 but was: $num"
-      pwd
-      cd ..
-      pwd
-      ls
-      cd ..
-      pwd
-      ls
-      cd ..
-      pwd
-      ls
-      cd ..
-      pwd
-      ls
-      if [ -d DIRDIM ]; then
-          cd $DIRDIM
+      if [ -d DIRCHANGE ]; then
+          cd DIRCHANGE
 
           cat audit-service-example.log
           cat data-service-example.log
@@ -42,6 +29,16 @@ if [ -d $DIR ]; then
         else
           # fail if it can't find the services
           echo "Cannot find Palisade-Services"
+          pwd
+          ls ..
+          echo "up"
+          ls ../..
+          echo "up"
+          ls ../../..
+          echo "up"
+          ls ../../../..
+          echo "services"
+          ls ../../../../Palisade-services
           exit 1
         fi
       exit 1
