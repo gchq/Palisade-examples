@@ -36,7 +36,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
         super(new AvroSerialiser<>(Employee.class), palisadeClient, dataClient);
     }
 
-    public void run(final String userId, final String filename, final String purpose) throws IOException {
+    public void run(final String filename, final String userId, final String purpose) throws IOException {
         LOGGER.info("{} is reading the Employee file {} with a purpose of {}", userId, filename, purpose);
         final Stream<Employee> results = read(filename, userId, purpose);
         LOGGER.info("{} got back:", userId);

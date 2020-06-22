@@ -88,12 +88,12 @@ public class ApplicationConfiguration {
     @ConditionalOnProperty(name = "example.type", havingValue = "client", matchIfMissing = true)
     @Bean("ClientRunner")
     public CommandLineRunner clientRunner(final ExampleSimpleClient exampleClient) {
-        requireNonNull(userId, "--example.userid=... must be provided");
         requireNonNull(filename, "--example.filename=... must be provided");
+        requireNonNull(userId, "--example.userid=... must be provided");
         requireNonNull(purpose, "--example.purpose=... must be provided");
         LOGGER.info("Constructed ClientRunner");
         return args -> {
-            exampleClient.run(userId, filename, purpose);
+            exampleClient.run(filename, userId, purpose);
             System.exit(0);
         };
     }
