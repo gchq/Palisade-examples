@@ -21,12 +21,11 @@ import org.springframework.stereotype.Component;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
@@ -53,9 +52,8 @@ public class ReadLargeNativeTrial extends PerfTrial {
         Serialiser<Employee> serialiser = new AvroSerialiser<>(Employee.class);
 
         //get file URI
-        Path fileToRead = Paths.get(fileSet.largeFile.getId());
         //read from file
-        try (InputStream bis = Files.newInputStream(fileToRead);
+        try (InputStream bis = Files.newInputStream(fileSet.largeFile);
              Stream<Employee> dataStream = serialiser.deserialise(bis)) {
 
             //now read everything in the file

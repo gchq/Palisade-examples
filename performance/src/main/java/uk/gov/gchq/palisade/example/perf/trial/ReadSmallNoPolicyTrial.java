@@ -19,6 +19,7 @@ package uk.gov.gchq.palisade.example.perf.trial;
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
 import java.util.function.Function;
 import java.util.stream.Stream;

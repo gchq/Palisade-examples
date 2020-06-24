@@ -19,14 +19,13 @@ package uk.gov.gchq.palisade.example.perf.actions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.gov.gchq.palisade.example.perf.trial.PerfCollector;
-import uk.gov.gchq.palisade.example.perf.trial.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.analysis.PerfCollector;
+import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.analysis.TrialType;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
-import uk.gov.gchq.palisade.example.perf.trial.TrialType;
 import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
-import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
-import uk.gov.gchq.palisade.util.ResourceBuilder;
 
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,31 +40,69 @@ import static java.util.Objects.requireNonNull;
  * Runs a series of performance tests under various circumstances and then reports the metrics to a collector.
  */
 public class RunAction implements IntSupplier {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RunAction.class);
-
     /**
      * Amount of time to wait between each trial.
      */
     public static final Duration TEST_DELAY = Duration.ofMillis(250);
-
-    private final String filename;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RunAction.class);
+    private final String directoryName;
     private final int dryRuns;
     private final int liveRuns;
     private final Map<String, PerfTrial> testsToRun;
     private Set<String> skipTests;
 
-    public RunAction(final String filename, final int dryRuns, final int liveRuns, final Map<String, PerfTrial> testsToRun, final Set<String> skipTests) {
-        this.filename = filename;
+    public RunAction(final String directoryName, final int dryRuns, final int liveRuns, final Map<String, PerfTrial> testsToRun, final Set<String> skipTests) {
+        this.directoryName = directoryName;
         this.dryRuns = dryRuns;
         this.liveRuns = liveRuns;
         this.testsToRun = testsToRun;
         this.skipTests = skipTests;
     }
 
-    public int getAsInt() {
-        DirectoryResource directory = (DirectoryResource) ResourceBuilder.create(filename);
+    /**
+     * Perform a single run of a single trial.
+     *
+     * @param trial       the trial to run
+     * @param fileSet     the file set for tests
+     * @param noPolicySet the file set for tests with no policy
+     * @param collector   the output collector
+     * @param type        test type being run
+     */
+    public static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
+        requireNonNull(trial, "trial");
+        requireNonNull(collector, "collector");
 
-        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
+        // perform trial
+        try {
+            trial.setup(fileSet, noPolicySet);
+            long time = System.nanoTime();
+            trial.accept(fileSet, noPolicySet);
+            time = System.nanoTime() - time;
+            trial.tearDown(fileSet, noPolicySet);
+            // if this is a live trial then log it
+            if (type == TrialType.LIVE) {
+                collector.logTime(trial.name(), time);
+            }
+        } catch (Exception e) {
+            LOGGER.warn("Performance test \"{}\" failed because {}", trial.name(), e.getMessage());
+        }
+    }
+
+    /**
+     * Sleep method for separating runs.
+     *
+     * @param ms time to wait in milliseconds
+     */
+    private static void delay(final long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public int getAsInt() {
+        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(Path.of(directoryName));
 
         // create the output collector
         PerfCollector collector = new PerfCollector();
@@ -156,47 +193,5 @@ public class RunAction implements IntSupplier {
         }
 
         LOGGER.info(".. done");
-    }
-
-    /**
-     * Perform a single run of a single trial.
-     *
-     * @param trial       the trial to run
-     * @param fileSet     the file set for tests
-     * @param noPolicySet the file set for tests with no policy
-     * @param collector   the output collector
-     * @param type        test type being run
-     */
-    public static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
-        requireNonNull(trial, "trial");
-        requireNonNull(collector, "collector");
-
-        // perform trial
-        try {
-            trial.setup(fileSet, noPolicySet);
-            long time = System.nanoTime();
-            trial.accept(fileSet, noPolicySet);
-            time = System.nanoTime() - time;
-            trial.tearDown(fileSet, noPolicySet);
-            // if this is a live trial then log it
-            if (type == TrialType.LIVE) {
-                collector.logTime(trial.name(), time);
-            }
-        } catch (Exception e) {
-            LOGGER.warn("Performance test \"{}\" failed because {}", trial.name(), e.getMessage());
-        }
-    }
-
-    /**
-     * Sleep method for separating runs.
-     *
-     * @param ms time to wait in milliseconds
-     */
-    private static void delay(final long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
-        }
     }
 }

@@ -32,7 +32,7 @@ public class ActionRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(final String... args) {
         // call the action and exit with that return code
         try {
             int exitCode = action.getAsInt();

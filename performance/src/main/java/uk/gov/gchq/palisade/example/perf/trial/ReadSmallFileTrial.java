@@ -19,6 +19,7 @@ package uk.gov.gchq.palisade.example.perf.trial;
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -35,11 +36,8 @@ public class ReadSmallFileTrial extends PalisadeTrial {
      */
     private static final int REQUESTS = 1;
 
-    public ReadSmallFileTrial(final Function<String, Stream<Employee>> client, final int requests) {
+    public ReadSmallFileTrial(final Function<String, Stream<Employee>> client) {
         super(client);
-        if (requests < 1) {
-            throw new IllegalArgumentException("requests less than 1");
-        }
     }
 
     public String name() {

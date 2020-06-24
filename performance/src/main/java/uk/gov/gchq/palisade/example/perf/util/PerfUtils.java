@@ -16,12 +16,9 @@
 
 package uk.gov.gchq.palisade.example.perf.util;
 
-import uk.gov.gchq.palisade.example.perf.trial.PerfFileSet;
-import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
-import uk.gov.gchq.palisade.resource.impl.FileResource;
-import uk.gov.gchq.palisade.util.ResourceBuilder;
+import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
-import java.net.URI;
+import java.nio.file.Path;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 
@@ -38,25 +35,25 @@ public class PerfUtils {
     private PerfUtils() {
     }
 
-    public static FileResource getSmallFile(final DirectoryResource directoryResource) {
-        return (FileResource) ResourceBuilder.create(URI.create(directoryResource.getId()).resolve(WITH_POLICY_DIR).resolve(SMALL_FILE_NAME));
+    public static Path getSmallFilePath(final Path directoryName) {
+        return directoryName.resolve(WITH_POLICY_DIR).resolve(SMALL_FILE_NAME);
     }
 
-    public static FileResource getLargeFile(final DirectoryResource directoryResource) {
-        return (FileResource) ResourceBuilder.create(URI.create(directoryResource.getId()).resolve(WITH_POLICY_DIR).resolve(LARGE_FILE_NAME));
+    public static Path getLargeFilePath(final Path directoryName) {
+        return directoryName.resolve(WITH_POLICY_DIR).resolve(LARGE_FILE_NAME);
     }
 
-    public static FileResource getNoPolicyName(final FileResource fileResource) {
-        return (FileResource) ResourceBuilder.create(fileResource.getId().replace(WITH_POLICY_DIR, NO_POLICY_DIR));
+    public static Path getNoPolicyPath(final Path fileName) {
+        return fileName.getParent().resolveSibling(NO_POLICY_DIR).resolve(fileName.getFileName());
     }
 
-    public static Map.Entry<PerfFileSet, PerfFileSet> getFileSet(DirectoryResource directoryResource) {
+    public static Map.Entry<PerfFileSet, PerfFileSet> getFileSet(final Path directoryName) {
         return new SimpleImmutableEntry<>(new PerfFileSet(
-                getSmallFile(directoryResource),
-                getLargeFile(directoryResource)
+                getSmallFilePath(directoryName),
+                getLargeFilePath(directoryName)
         ), new PerfFileSet(
-                getNoPolicyName(getSmallFile(directoryResource)),
-                getNoPolicyName(getLargeFile(directoryResource))
+                getNoPolicyPath(getSmallFilePath(directoryName)),
+                getNoPolicyPath(getLargeFilePath(directoryName))
         ));
     }
 }

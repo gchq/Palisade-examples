@@ -26,6 +26,10 @@ spring:
       ribbon:
         enabled: false
 
+web:
+  client:
+    palisade-service: "http://localhost:8084"
+
 ---
 
 spring:
@@ -50,7 +54,6 @@ eureka:
     enabled: true
     fetchRegistry: true
     registry-fetch-interval-seconds: 5
-
 
 web:
   client:

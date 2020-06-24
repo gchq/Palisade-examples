@@ -51,7 +51,7 @@ public final class CreateDataFile implements Callable<Boolean> {
     public Boolean call() {
         boolean mkdirSuccess = outputFile.getParentFile().mkdirs();
         if (!mkdirSuccess) {
-            LOGGER.warn("Failed to create parent directory");
+            LOGGER.warn("Failed to create parent directory {}", outputFile.getParent());
         }
         try (OutputStream out = new FileOutputStream(outputFile)) {
             AvroSerialiser<Employee> employeeAvroSerialiser = new AvroSerialiser<>(Employee.class);

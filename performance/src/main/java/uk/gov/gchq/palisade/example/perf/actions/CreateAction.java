@@ -21,14 +21,12 @@ import org.slf4j.LoggerFactory;
 
 import uk.gov.gchq.palisade.Util;
 import uk.gov.gchq.palisade.example.hrdatagenerator.CreateDataFile;
-import uk.gov.gchq.palisade.example.perf.trial.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
-import uk.gov.gchq.palisade.resource.impl.DirectoryResource;
-import uk.gov.gchq.palisade.util.ResourceBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -43,24 +41,31 @@ import java.util.function.IntSupplier;
 public class CreateAction implements IntSupplier {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateAction.class);
 
+    private final String directoryName;
     private final int small;
     private final int large;
-    private final String filename;
 
-    public CreateAction(final String filename, final int small, final int large) {
-        this.filename = filename;
+    public CreateAction(final String directoryName, final int small, final int large) {
+        this.directoryName = directoryName;
         this.small = small;
         this.large = large;
     }
 
     public int getAsInt() {
         // get the sizes and paths
-        DirectoryResource directory = (DirectoryResource) ResourceBuilder.create(filename);
+        Path directory = Path.of(directoryName);
         ExecutorService tasks = Executors.newFixedThreadPool(2, Util.createDaemonThreadFactory());
 
+        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
+
+        Path smallFile = fileSet.getKey().smallFile;
+        Path smallFileNoPolicy = fileSet.getValue().smallFile;
+        Path largeFile = fileSet.getKey().largeFile;
+        Path largeFileNoPolicy = fileSet.getValue().largeFile;
+
         // make a result writers
-        CreateDataFile smallWriter = new CreateDataFile(small, 0, new File(PerfUtils.getSmallFile(directory).getId()));
-        CreateDataFile largeWriter = new CreateDataFile(large, 1, new File(PerfUtils.getLargeFile(directory).getId()));
+        CreateDataFile smallWriter = new CreateDataFile(small, 0, smallFile.toFile());
+        CreateDataFile largeWriter = new CreateDataFile(large, 1, largeFile.toFile());
 
         // submit tasks
         LOGGER.info("Going to create {} records in file {} and {} records in file {} in sub-directory", small, PerfUtils.SMALL_FILE_NAME, large, PerfUtils.LARGE_FILE_NAME);
@@ -68,24 +73,27 @@ public class CreateAction implements IntSupplier {
         Future<Boolean> largeFuture = tasks.submit(largeWriter);
         LOGGER.info("Creation tasks submitted...");
 
-        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
-
         // wait for completion
         try {
             boolean smallComplete = smallFuture.get();
             LOGGER.info("Small file written successfully: {}", smallComplete);
-            File smallFile = new File(fileSet.getKey().smallFile.getId());
-            File smallFileNoPolicy = new File(fileSet.getValue().smallFile.getId());
             boolean largeComplete = largeFuture.get();
             LOGGER.info("Large file written successfully: {}", largeComplete);
-            File largeFile = new File(fileSet.getKey().largeFile.getId());
-            File largeFileNoPolicy = new File(fileSet.getValue().largeFile.getId());
+
+            boolean smallParentCreated = smallFileNoPolicy.toFile().mkdirs();
+            if (!smallParentCreated) {
+                LOGGER.warn("Failed to create parent directory {}", smallFileNoPolicy);
+            }
+            boolean largeParentCreated = largeFileNoPolicy.toFile().mkdirs();
+            if (!largeParentCreated) {
+                LOGGER.warn("Failed to create parent directory {}", largeFileNoPolicy);
+            }
 
             // copy the files to no policy variants
             LOGGER.info("Copying small file");
-            Files.copy(smallFile.toPath(), smallFileNoPolicy.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(smallFile, smallFileNoPolicy, StandardCopyOption.REPLACE_EXISTING);
             LOGGER.info("Copying large file");
-            Files.copy(largeFile.toPath(), largeFileNoPolicy.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(largeFile, largeFileNoPolicy, StandardCopyOption.REPLACE_EXISTING);
 
             // indicate success in exit code
             return (smallComplete && largeComplete) ? 0 : 1;

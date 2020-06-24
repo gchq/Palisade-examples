@@ -16,6 +16,8 @@
 
 package uk.gov.gchq.palisade.example.perf.trial;
 
+import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
@@ -29,7 +31,7 @@ public abstract class PerfTrial implements BiConsumer<PerfFileSet, PerfFileSet> 
     /**
      * Normal trial name.
      */
-    protected Optional<String> normal = Optional.of(new ReadLargeNativeTrial().name());
+    protected Optional<String> normal = Optional.empty();
 
     /**
      * Returns the name for this performance test.
@@ -77,7 +79,7 @@ public abstract class PerfTrial implements BiConsumer<PerfFileSet, PerfFileSet> 
         return this.setNameForNormalisation(Optional.of(trial.name()));
     }
 
-    public void sink(Stream<?> stream) {
+    public void sink(final Stream<?> stream) {
         stream.forEach(ignore -> {
         });
     }

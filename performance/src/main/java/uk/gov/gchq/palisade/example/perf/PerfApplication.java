@@ -16,18 +16,21 @@
 
 package uk.gov.gchq.palisade.example.perf;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-
-import uk.gov.gchq.palisade.example.ExampleApplication;
-
-import static java.util.Objects.requireNonNull;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * Main class for the performance testing tool.
  */
+
 @SpringBootApplication
+@EnableDiscoveryClient
 public class PerfApplication {
+    @Autowired
+    CommandLineRunner runner;
 
     public static void main(final String[] args) {
         new SpringApplicationBuilder(PerfApplication.class).run(args);
