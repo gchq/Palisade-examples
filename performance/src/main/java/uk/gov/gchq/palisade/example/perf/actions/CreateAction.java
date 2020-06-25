@@ -117,7 +117,7 @@ public class CreateAction implements IntSupplier {
             LOGGER.info("Copying large file");
             Files.copy(largeFile, largeFileNoPolicy, StandardCopyOption.REPLACE_EXISTING);
             LOGGER.info("Copying many files dir");
-            try(Stream<Path> files = Files.walk(manyDir)) {
+            try (Stream<Path> files = Files.walk(manyDir)) {
                 files.forEach(file -> {
                     try {
                         Files.copy(file, manyDirNoPolicy.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
