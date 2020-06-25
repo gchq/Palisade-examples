@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Crown Copyright
+ * Copyright 2020 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,49 +14,46 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.perf.trial;
+package uk.gov.gchq.palisade.example.perf.trial.small;
 
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * Reads the small file a repeated number of times. This measures the entire interaction with Palisade.
+ * Sets up a data request through Palisade, but doesn't read any data back.
  */
 @Component
-public class ReadSmallFileTrial extends PalisadeTrial {
+public class RequestSmallWithPolicyTrial extends PalisadeTrial {
+    static final String NAME = "request_small_with_policy";
     /**
      * Number of requests to make.
      */
     private static final int REQUESTS = 1;
 
-    public ReadSmallFileTrial(final Function<String, Stream<Employee>> client) {
+    public RequestSmallWithPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
+        normal = Optional.of(RequestSmallNoPolicyTrial.NAME);
     }
 
     public String name() {
-        return "read_small_with_policy";
+        return NAME;
     }
 
     public String description() {
-        return String.format("reads the small file %d times", REQUESTS);
+        return String.format("makes %d requests for the small file without reading data", REQUESTS);
     }
 
     public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        requireNonNull(fileSet, "fileSet");
-        requireNonNull(noPolicySet, "noPolicySet");
-
-        //make multiple requests
         for (int i = 0; i < REQUESTS; i++) {
-            //setup a request and read data
-            try (Stream<Employee> data = getDataStream(fileSet.smallFile)) {
-                sink(data);
+            try (Stream<Employee> ignored = getDataStream(fileSet.smallFile)) {
+                //do nothing
             }
         }
     }

@@ -46,39 +46,16 @@ population:
       "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.library.rule.FirstResourceRule
   - resource: ../Palisade-examples/resources/data/no-policy/
     owner: Alice
-    recordRules:
+    resourceRules:
       "1-Pass through rule for no-policy directory": uk.gov.gchq.palisade.example.library.rule.PassThroughRule
-    resourceRules: {}
-
-  resourceProvider: std
-  resources:
-  - resourceId: ../Palisade-examples/resources/data/with-policy/employee_small.avro
-    rootId: ${default.rootId}
-    connectionDetail: ${default.connectionDetail}
-    attributes:
-      type: ${default.type}
-      serialisedFormat: ${default.format}
-  - resourceId: ../Palisade-examples/resources/data/with-policy/employee_large.avro
-    rootId: ${default.rootId}
-    connectionDetail: ${default.connectionDetail}
-    attributes:
-      type: ${default.type}
-      serialisedFormat: ${default.format}
-  - resourceId: ../Palisade-examples/resources/data/no-policy/employee_small.avro
-    rootId: ${default.rootId}
-    connectionDetail: ${default.connectionDetail}
-    attributes:
-      type: ${default.type}
-      serialisedFormat: ${default.format}
-  - resourceId: ../Palisade-examples/resources/data/no-policy/employee_large.avro
-    rootId: ${default.rootId}
-    connectionDetail: ${default.connectionDetail}
-    attributes:
-      type: ${default.type}
-      serialisedFormat: ${default.format}
+    recordRules: {}
 
   serialiserProvider: std
   serialisers:
   - flavourFormat: ${default.format}
     flavourType: ${default.type}
     serialiserClass: uk.gov.gchq.palisade.data.serialise.AvroSerialiser
+
+# Used by the resource-service to infer the types of the (many thousands of) resources created for the performance test
+resource:
+  defaultType: ${default.type}

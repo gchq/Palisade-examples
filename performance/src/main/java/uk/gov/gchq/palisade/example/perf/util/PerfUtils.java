@@ -31,29 +31,22 @@ public class PerfUtils {
     public static final String NO_POLICY_DIR = "no-policy";
     public static final String SMALL_FILE_NAME = "employee_small.avro";
     public static final String LARGE_FILE_NAME = "employee_large.avro";
+    public static final String MANY_FILE_DIR = "many-employees";
+    public static final String MANY_FILE_FORMAT = "employee_%05d.avro";
 
     private PerfUtils() {
     }
 
-    public static Path getSmallFilePath(final Path directoryName) {
-        return directoryName.resolve(WITH_POLICY_DIR).resolve(SMALL_FILE_NAME);
-    }
-
-    public static Path getLargeFilePath(final Path directoryName) {
-        return directoryName.resolve(WITH_POLICY_DIR).resolve(LARGE_FILE_NAME);
-    }
-
-    public static Path getNoPolicyPath(final Path fileName) {
-        return fileName.getParent().resolveSibling(NO_POLICY_DIR).resolve(fileName.getFileName());
-    }
-
     public static Map.Entry<PerfFileSet, PerfFileSet> getFileSet(final Path directoryName) {
-        return new SimpleImmutableEntry<>(new PerfFileSet(
-                getSmallFilePath(directoryName),
-                getLargeFilePath(directoryName)
-        ), new PerfFileSet(
-                getNoPolicyPath(getSmallFilePath(directoryName)),
-                getNoPolicyPath(getLargeFilePath(directoryName))
-        ));
+        return new SimpleImmutableEntry<>(
+                new PerfFileSet(
+                        directoryName.resolve(WITH_POLICY_DIR).resolve(SMALL_FILE_NAME),
+                        directoryName.resolve(WITH_POLICY_DIR).resolve(LARGE_FILE_NAME),
+                        directoryName.resolve(WITH_POLICY_DIR).resolve(MANY_FILE_DIR)),
+                new PerfFileSet(
+                        directoryName.resolve(NO_POLICY_DIR).resolve(SMALL_FILE_NAME),
+                        directoryName.resolve(NO_POLICY_DIR).resolve(LARGE_FILE_NAME),
+                        directoryName.resolve(NO_POLICY_DIR).resolve(MANY_FILE_DIR))
+                );
     }
 }

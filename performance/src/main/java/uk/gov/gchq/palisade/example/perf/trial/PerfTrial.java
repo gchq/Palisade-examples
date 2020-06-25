@@ -38,7 +38,9 @@ public abstract class PerfTrial implements BiConsumer<PerfFileSet, PerfFileSet> 
      *
      * @return test name
      */
-    public abstract String name();
+    public String name() {
+        return null;
+    }
 
     /**
      * Provides a one line description of this performance test.
@@ -62,7 +64,7 @@ public abstract class PerfTrial implements BiConsumer<PerfFileSet, PerfFileSet> 
      * @param normalTrialName the trial name to normalise against
      * @return this object
      */
-    PerfTrial setNameForNormalisation(final Optional<String> normalTrialName) {
+    public PerfTrial setNameForNormalisation(final Optional<String> normalTrialName) {
         requireNonNull(normalTrialName, "normalTrialName");
         this.normal = normalTrialName;
         return this;

@@ -18,13 +18,13 @@ package uk.gov.gchq.palisade.example.library.rule;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.rule.Rule;
 
 import java.io.Serializable;
 
-public class PassThroughRule implements Serializable, Rule<Employee> {
-    public Employee apply(final Employee record, final User user, final Context context) {
-        return record;
+public class PassThroughRule implements Serializable, Rule<Resource> {
+    public Resource apply(final Resource resource, final User user, final Context context) {
+        return resource;
     }
 }

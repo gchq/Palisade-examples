@@ -27,6 +27,7 @@ public class PerformanceConfiguration {
     private String directory;
     private int small;
     private int large;
+    private int many;
     private int dryRuns;
     private int liveRuns;
     private List<String> skipTests;
@@ -75,6 +76,17 @@ public class PerformanceConfiguration {
     public void setLarge(final int large) {
         requireNonNull(large);
         this.large = large;
+    }
+
+    @Generated
+    public int getMany() {
+        return many;
+    }
+
+    @Generated
+    public void setMany(final int many) {
+        requireNonNull(many);
+        this.many = many;
     }
 
     @Generated

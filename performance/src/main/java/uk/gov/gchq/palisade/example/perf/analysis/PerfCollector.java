@@ -177,7 +177,7 @@ public class PerfCollector {
         requireNonNull(logger, "out");
         requireNonNull(normalMap, "normalMap");
 
-        logger.info("All times in seconds.\n");
+        logger.info("All times in seconds");
         //build format strings
         StringBuilder header = new StringBuilder("%-30s");
         StringBuilder rows = new StringBuilder("%-30s");
@@ -187,8 +187,6 @@ public class PerfCollector {
                     header.append("%12s");
                     rows.append("%12.3f");
                 });
-        header.append("%n");
-        rows.append("%n");
 
         logger.info(String.format(header.toString(), COLUMN_HEADERS));
 

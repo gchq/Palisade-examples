@@ -32,11 +32,17 @@ public class PerfFileSet {
      * Large file of data.
      */
     public final Path largeFile;
+    /**
+     * Directory containing many small files of data
+     */
+    public final Path manyDir;
 
-    public PerfFileSet(final Path smallFile, final Path largeFile) {
+    public PerfFileSet(final Path smallFile, final Path largeFile, final Path manyDir) {
         requireNonNull(smallFile, "smallFile");
         requireNonNull(largeFile, "largeFile");
+        requireNonNull(manyDir, "manyDir");
         this.smallFile = smallFile;
         this.largeFile = largeFile;
+        this.manyDir = manyDir;
     }
 }

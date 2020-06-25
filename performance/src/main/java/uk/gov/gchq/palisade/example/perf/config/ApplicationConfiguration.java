@@ -31,7 +31,6 @@ import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
-import uk.gov.gchq.palisade.example.perf.trial.ReadLargeNativeTrial;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -68,8 +67,7 @@ public class ApplicationConfiguration {
     @ConditionalOnProperty(name = "performance.action", havingValue = "run")
     public CommandLineRunner runAction(final PerformanceConfiguration conf, final Set<PerfTrial> perfTrialSet) {
         Map<String, PerfTrial> testsToRun = perfTrialSet.stream()
-                .map(trial -> trial.setNameForNormalisation(new ReadLargeNativeTrial()))
-                .collect(Collectors.toMap(PerfTrial::name, Function.identity()));
+                .collect(Collectors.toMap(trial -> trial.name(), Function.identity()));
         LOGGER.info("Created RunAction with conf {} and tests {}", conf, testsToRun);
         return new ActionRunner(new RunAction(conf.getDirectory(), conf.getDryRuns(), conf.getLiveRuns(), testsToRun, new HashSet<>(conf.getSkipTests())));
     }
@@ -78,6 +76,6 @@ public class ApplicationConfiguration {
     @ConditionalOnProperty(name = "performance.action", havingValue = "create")
     public CommandLineRunner createAction(final PerformanceConfiguration conf) {
         LOGGER.info("Created CreateAction with conf {}", conf);
-        return new ActionRunner(new CreateAction(conf.getDirectory(), conf.getSmall(), conf.getLarge()));
+        return new ActionRunner(new CreateAction(conf.getDirectory(), conf.getSmall(), conf.getLarge(), conf.getMany()));
     }
 }

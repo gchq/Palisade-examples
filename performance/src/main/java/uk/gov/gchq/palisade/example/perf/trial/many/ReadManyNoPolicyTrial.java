@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Crown Copyright
+ * Copyright 2020 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,41 +14,41 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.perf.trial;
+package uk.gov.gchq.palisade.example.perf.trial.many;
 
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * Test that reads the small data file from Palisade with no policy and times entire Palisade interaction.
+ * Test that reads many data files from Palisade with no policy and times entire Palisade interaction.
  */
 @Component
-public class ReadSmallNoPolicyTrial extends PalisadeTrial {
-    public ReadSmallNoPolicyTrial(final Function<String, Stream<Employee>> client) {
+public class ReadManyNoPolicyTrial extends PalisadeTrial {
+    static final String NAME = "read_many_no_policy";
+
+    public ReadManyNoPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
+        normal = Optional.of(ReadManyNativeTrial.NAME);
     }
 
     public String name() {
-        return "read_small_no_policy";
+        return NAME;
     }
 
     public String description() {
-        return "reads the small data file with no policy set";
+        return "reads many data files with no policy set";
     }
 
     public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        requireNonNull(fileSet, "fileSet");
-        requireNonNull(noPolicySet, "noPolicySet");
-
         //setup a request and read data
-        try (Stream<Employee> data = getDataStream(noPolicySet.smallFile)) {
+        try (Stream<Employee> data = getDataStream(noPolicySet.manyDir)) {
             sink(data);
         }
     }
