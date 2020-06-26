@@ -26,6 +26,10 @@ spring:
       ribbon:
         enabled: false
 
+# let spring autoconfigure a port, this is never running as a 'server'
+server:
+  port: 0
+
 eureka:
   client:
     enabled: false
