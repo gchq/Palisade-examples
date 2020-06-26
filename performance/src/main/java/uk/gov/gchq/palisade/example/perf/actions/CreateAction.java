@@ -58,7 +58,7 @@ public class CreateAction implements IntSupplier {
     public int getAsInt() {
         // get the sizes and paths
         Path directory = Path.of(directoryName);
-        ExecutorService tasks = Executors.newFixedThreadPool(2, Util.createDaemonThreadFactory());
+        ExecutorService tasks = Executors.newFixedThreadPool(3, Util.createDaemonThreadFactory());
 
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
 
@@ -107,7 +107,7 @@ public class CreateAction implements IntSupplier {
                 LOGGER.warn("Failed to create parent directory {}", largeFileNoPolicy);
             }
             boolean manyParentCreated = manyDirNoPolicy.toFile().mkdirs();
-            if (!manyParentCreated && !manyDirNoPolicy.getParent().toFile().exists()) {
+            if (!manyParentCreated && !manyDirNoPolicy.toFile().exists()) {
                 LOGGER.warn("Failed to create parent directory {}", manyDirNoPolicy);
             }
 
