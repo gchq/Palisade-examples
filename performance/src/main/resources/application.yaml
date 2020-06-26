@@ -43,7 +43,7 @@ performance:
   # number of employees in single resource "employee_large.avro"
   large: 10000
   # number of resources, each of a single employee, in "many-employees/employee_n.avro"
-  many: 1000
+  many: 100
   # number of dry-runs, does not count towards output results
   dryRuns: 3
   # number of live-runs, does count towards output results
