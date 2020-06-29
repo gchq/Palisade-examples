@@ -44,28 +44,26 @@ All above values and more can be tweaked through the [config yaml](https://githu
 ### Automated
 For an automated way to perform these tests, see the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
 
-From the Palisade-services directory:
-```bash
-java -jar -Dspring.profiles.active=discovery services-maanger/target/services-manager-*-exec.jar
-java -jar -Dspring.profiles.active=exampleperf services-manager/target/services-manager-*-exec.jar
-```
+From the Palisade-services directory, start the discovery-service:  
+`java -jar -Dspring.profiles.active=discovery services-manager/target/services-manager-*-exec.jar`
+
+Create some test data for the performance-test, start the palisade-services and run the performance-test:  
+`java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task`
  * Services will start up with their cache/persistence-store prepopulated with example data
  * The performance-test will run once all services have started
  * Check `performance-test.log` for output data
- 
-The data used in this example contains numerous large files, as a result they do not come checked-in with the repo.
-Instead, they must be generated before running the performance tests.
-Either enable generation of performance test data as part of the services-manager `exampleperf` configuration:
- * Change the above command to include the (previously unused) `performance-create-task`:
-```bash
-java -jar -Dspring.profiles.active=exampleperf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task
-```
-Or manually generate the data as described below.
+
+Once the create-perf-data task has been run once, it does not need to be re-run:
+ * If running the performance tests repeatedly, the above command can be sped up to the default configuration of:  
+   `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar`  
+ * If the palisade services are also still running, the caobe command can be sped up again to exclude starting the already-running services:  
+   `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-test-task`  
+   Or run just the performance-test manually as below...
+
 
 ### Manual
 
 #### Creation of test data
-Create a collection of Employee records in the [resources directory](/resources/data)
 Create a collection of Employee records in the [resources directory](/resources/data)
 ```bash
 java -jar performance/target/performance-*-exec.jar --performance.action=create

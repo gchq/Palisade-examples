@@ -43,8 +43,8 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
         results.map(Object::toString).forEach(LOGGER::info);
     }
 
-    public Stream<Employee> read(final String filename, final String userId, final String purpose) throws IOException {
-        String absoluteFile = new File(filename).toURI().toString();
+    public Stream<Employee> read(final String resourceId, final String userId, final String purpose) throws IOException {
+        String absoluteFile = new File(resourceId).toURI().toString();
         return super.read(absoluteFile, userId, purpose);
     }
 }
