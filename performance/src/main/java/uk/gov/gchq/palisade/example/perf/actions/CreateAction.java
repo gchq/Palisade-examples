@@ -76,7 +76,7 @@ public class CreateAction implements IntSupplier {
                 .mapToObj(i -> new CreateDataFile(1, 2L + i, manyDir.resolve(String.format(PerfUtils.MANY_FILE_FORMAT, i)).toFile()));
 
         // submit tasks
-        LOGGER.info("Going to create {} records in file {} and {} records in file {} in sub-directory", small, PerfUtils.SMALL_FILE_NAME, large, PerfUtils.LARGE_FILE_NAME);
+        LOGGER.info("Going to create {} records in file {}, {} records in file {} and {} resources in {}", small, PerfUtils.SMALL_FILE_NAME, large, PerfUtils.LARGE_FILE_NAME, many, PerfUtils.MANY_FILE_DIR);
         Future<Boolean> smallFuture = tasks.submit(smallWriter);
         Future<Boolean> largeFuture = tasks.submit(largeWriter);
         Stream<Future<Boolean>> manyFutures = manyWriters.map(tasks::submit);
