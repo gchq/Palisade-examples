@@ -40,23 +40,51 @@ All above values and more can be tweaked through the [config yaml](https://githu
 
 
 ## Usage
-For an automated way to perform these tests, see the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md).
 
-### Creation of test data
+### Automated
+For an automated way to perform these tests, see the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
+
+From the Palisade-services directory:
+```bash
+java -jar -Dspring.profiles.active=discovery services-maanger/target/services-manager-*-exec.jar
+java -jar -Dspring.profiles.active=exampleperf services-manager/target/services-manager-*-exec.jar
+```
+ * Services will start up with their cache/persistence-store prepopulated with example data
+ * The performance-test will run once all services have started
+ * Check `performance-test.log` for output data
+ 
+The data used in this example contains numerous large files, as a result they do not come checked-in with the repo.
+Instead, they must be generated before running the performance tests.
+Either enable generation of performance test data as part of the services-manager `exampleperf` configuration:
+ * Change the above command to include the (previously unused) `performance-create-task`:
+```bash
+java -jar -Dspring.profiles.active=exampleperf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task
+```
+Or manually generate the data as described below.
+
+### Manual
+
+#### Creation of test data
+Create a collection of Employee records in the [resources directory](/resources/data)
+Create a collection of Employee records in the [resources directory](/resources/data)
 ```bash
 java -jar performance/target/performance-*-exec.jar --performance.action=create
 # or similarly
 java -Dspring.profiles.active=create -jar performance/target/performance-*-exec.jar
 ```
+This may take a long time to run, depending upon the requested sizes of the test data (up to 5 minutes).
 
-### Running performance tests
-Ensure first that the Palisade services are running.
-A profile for prepopulating the services can be found [here](https://github.com/gchq/Palisade-examples/blob/develop/example-library/src/main/resources/application-exampleperf.yaml).
+#### Running performance tests
+Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data.
+The profile for prepopulating the services can be found [here](https://github.com/gchq/Palisade-examples/blob/develop/example-library/src/main/resources/application-exampleperf.yaml).
 
 Once all services have started, run the following:
 ```bash
 java -jar performance/target/performance-*-exec.jar
 ```
+
+Again, this may take some time, depending upon test data size.
+Be aware of any running antivirus software that may scan files in real time - eg. McAfee will contribute a factor of ~5x slow-down to bulk file tests.
 
 
 ### Analysis of results
