@@ -69,7 +69,7 @@ public class CreateAction implements IntSupplier {
      * @param fileSet parameters for file and directory names
      * @return whether the operations completed successfully
      */
-    private boolean createWithPolicyDataset(Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
+    private boolean createWithPolicyDataset(final Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
         ExecutorService tasks = Executors.newFixedThreadPool(3, Util.createDaemonThreadFactory());
 
         Path smallFile = fileSet.getKey().smallFile;
@@ -123,7 +123,7 @@ public class CreateAction implements IntSupplier {
      * @param fileSet parameters for file and directory names
      * @return whether the operations completed successfully
      */
-    private boolean copyNoPolicyDataset(Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
+    private boolean copyNoPolicyDataset(final Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
         Path smallFile = fileSet.getKey().smallFile;
         Path largeFile = fileSet.getKey().largeFile;
         Path manyDir = fileSet.getKey().manyDir;
