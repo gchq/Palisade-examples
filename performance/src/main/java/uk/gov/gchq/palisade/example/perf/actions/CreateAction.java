@@ -123,7 +123,7 @@ public class CreateAction implements IntSupplier {
      * @param fileSet parameters for file and directory names
      * @return whether the operations completed successfully
      */
-    private boolean copyNoPolicyDataset(final Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
+    private static boolean copyNoPolicyDataset(final Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
         Path smallFile = fileSet.getKey().smallFile;
         Path largeFile = fileSet.getKey().largeFile;
         Path manyDir = fileSet.getKey().manyDir;
@@ -187,6 +187,10 @@ public class CreateAction implements IntSupplier {
             copySuccess = copyNoPolicyDataset(fileSet);
         }
 
-        return createSuccess && copySuccess ? 0 : 1;
+        if (createSuccess && copySuccess) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }

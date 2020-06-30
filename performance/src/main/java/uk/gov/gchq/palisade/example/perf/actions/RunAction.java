@@ -161,7 +161,7 @@ public class RunAction implements IntSupplier {
      * @param type        the type of test being run
      * @throws IllegalArgumentException {@code trialCount} is less than 1
      */
-    private void performSingleTrial(final int trialCount, final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
+    private static void performSingleTrial(final int trialCount, final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
         requireNonNull(trial, "trial");
         requireNonNull(collector, "collector");
         if (trialCount < 1) {
