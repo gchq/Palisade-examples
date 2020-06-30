@@ -56,7 +56,7 @@ spec:
     - 99d
     env:
       - name: DOCKER_HOST
-        value: tcp://localhost:2375
+        value: tcp://localhost:2376
     resources:
       requests:
         ephemeral-storage: "4Gi"
