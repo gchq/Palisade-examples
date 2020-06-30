@@ -14,10 +14,11 @@
 # limitations under the License.
 #
 FROM openjdk:11@sha256:736dd07fc5cb53060a49d38c86b9e673974510c5a18afc40b1c936475f59aee7
+VOLUME /tmp
 
 ARG JAR_FILE
 
-# COPY $JAR_FILE /usr/share/example-client/example-model.jar
+COPY $JAR_FILE /usr/share/example-client/example-model.jar
 
 LABEL service="example" project="palisade"
 
