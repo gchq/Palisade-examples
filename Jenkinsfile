@@ -61,7 +61,20 @@ spec:
       requests:
         ephemeral-storage: "4Gi"
       limits:
-        ephemeral-storage: "8Gi"            
+        ephemeral-storage: "8Gi"
+
+  - name: hadolint
+    image: hadolint/hadolint:latest-debian@sha256:15016b18964c5e623bd2677661a0be3c00ffa85ef3129b11acf814000872861e
+    imagePullPolicy: IfNotPresent
+    command:
+        - cat
+    tty: true
+    resources:
+      requests:
+        ephemeral-storage: "1Gi"
+      limits:
+        ephemeral-storage: "2Gi"
+
 ''') {
     node(POD_LABEL) {
         def GIT_BRANCH_NAME
@@ -105,12 +118,18 @@ spec:
                 sh "git checkout ${GIT_BRANCH_NAME}"
                 container('docker-cmds') {
                     configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn -s $MAVEN_SETTINGS install'
+                        sh 'mvn -s $MAVEN_SETTINGS install -P quick'
                     }
                 }
             }
         }
-
+        stage('Hadolinting') {
+            dir('Palisade-examples') {
+                container('hadolint') {
+                    sh 'hadolint */Dockerfile'
+                }
+            }
+        }
         stage('SonarQube analysis') {
             dir ('Palisade-examples') {
                 container('docker-cmds') {
