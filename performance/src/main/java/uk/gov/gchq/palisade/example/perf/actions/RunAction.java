@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Crown Copyright
+ * Copyright 2020 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,56 +51,28 @@ public class RunAction implements IntSupplier {
     private final Map<String, PerfTrial> testsToRun;
     private Set<String> skipTests;
 
-    public RunAction(final String directoryName, final int dryRuns, final int liveRuns, final Map<String, PerfTrial> testsToRun, final Set<String> skipTests) {
+    /**
+     * Runner for executing a number of performance trials and collating statistical data on run-times
+     *
+     * @param directoryName top-level directory containing all further performance data to be requested frm palisade
+     * @param dryRuns       number of dry-runs to perform, these are *not* counted in the final report
+     * @param liveRuns      number of live-runs to perform, these are counted in the final report
+     * @param trialsToRun   collection of different named trials to test
+     * @param skipTests     names of trials to skip from the above collection
+     */
+    public RunAction(final String directoryName, final int dryRuns, final int liveRuns, final Map<String, PerfTrial> trialsToRun, final Set<String> skipTests) {
         this.directoryName = directoryName;
         this.dryRuns = dryRuns;
         this.liveRuns = liveRuns;
-        this.testsToRun = testsToRun;
+        this.testsToRun = trialsToRun;
         this.skipTests = skipTests;
     }
 
     /**
-     * Perform a single run of a single trial.
+     * Run this action and return a success/error code
      *
-     * @param trial       the trial to run
-     * @param fileSet     the file set for tests
-     * @param noPolicySet the file set for tests with no policy
-     * @param collector   the output collector
-     * @param type        test type being run
+     * @return 0 if success, error code otherwise
      */
-    public static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
-        requireNonNull(trial, "trial");
-        requireNonNull(collector, "collector");
-
-        // perform trial
-        try {
-            trial.setup(fileSet, noPolicySet);
-            long time = System.nanoTime();
-            trial.accept(fileSet, noPolicySet);
-            time = System.nanoTime() - time;
-            trial.tearDown(fileSet, noPolicySet);
-            // if this is a live trial then log it
-            if (type == TrialType.LIVE) {
-                collector.logTime(trial.name(), time);
-            }
-        } catch (Exception e) {
-            LOGGER.warn("Performance test \"{}\" failed because {}", trial.name(), e.getMessage());
-        }
-    }
-
-    /**
-     * Sleep method for separating runs.
-     *
-     * @param ms time to wait in milliseconds
-     */
-    private static void delay(final long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
     public int getAsInt() {
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(Path.of(directoryName));
 
@@ -121,6 +93,19 @@ public class RunAction implements IntSupplier {
         collector.outputTo(LOGGER, buildNormalMap());
 
         return 0;
+    }
+
+    /**
+     * Sleep method for separating runs.
+     *
+     * @param ms time to wait in milliseconds
+     */
+    private static void delay(final long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -145,7 +130,7 @@ public class RunAction implements IntSupplier {
      * @throws IllegalArgumentException if any of {@code testsToSkip} are invalid
      * @throws IllegalArgumentException {@code trialCount} is less than 1
      */
-    public void performTrialBatch(final int trialCount, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type, final Set<String> testsToSkip) {
+    private void performTrialBatch(final int trialCount, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type, final Set<String> testsToSkip) {
         requireNonNull(collector, "collector");
         requireNonNull(testsToSkip, "testsToSkip");
         if (trialCount < 1) {
@@ -176,7 +161,7 @@ public class RunAction implements IntSupplier {
      * @param type        the type of test being run
      * @throws IllegalArgumentException {@code trialCount} is less than 1
      */
-    public void performSingleTrial(final int trialCount, final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
+    private void performSingleTrial(final int trialCount, final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
         requireNonNull(trial, "trial");
         requireNonNull(collector, "collector");
         if (trialCount < 1) {
@@ -193,5 +178,34 @@ public class RunAction implements IntSupplier {
         }
 
         LOGGER.info(".. done");
+    }
+
+    /**
+     * Perform a single run of a single trial.
+     *
+     * @param trial       the trial to run
+     * @param fileSet     the file set for tests
+     * @param noPolicySet the file set for tests with no policy
+     * @param collector   the output collector
+     * @param type        test type being run
+     */
+    public static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
+        requireNonNull(trial, "trial");
+        requireNonNull(collector, "collector");
+
+        // perform trial
+        try {
+            trial.setup(fileSet, noPolicySet);
+            long time = System.nanoTime();
+            trial.accept(fileSet, noPolicySet);
+            time = System.nanoTime() - time;
+            trial.tearDown(fileSet, noPolicySet);
+            // if this is a live trial then log it
+            if (type == TrialType.LIVE) {
+                collector.logTime(trial.name(), time);
+            }
+        } catch (Exception e) {
+            LOGGER.warn("Performance test \"{}\" failed because {}", trial.name(), e.getMessage());
+        }
     }
 }

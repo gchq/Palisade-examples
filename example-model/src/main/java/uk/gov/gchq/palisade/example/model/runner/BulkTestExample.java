@@ -42,6 +42,10 @@ public final class BulkTestExample {
     private static final AtomicBoolean HAS_DESTRUCTION_OCCURRED = new AtomicBoolean(false);
     private final RestExample client;
 
+    /**
+     * Default constructor wrapping a RestExample object
+     * @param restExample the existing rest client and configuration to wrap for bulk-testing
+     */
     public BulkTestExample(final RestExample restExample) {
         this.client = restExample;
     }

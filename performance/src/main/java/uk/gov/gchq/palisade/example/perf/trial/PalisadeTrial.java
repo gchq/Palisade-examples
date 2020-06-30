@@ -27,6 +27,11 @@ import static java.util.Objects.requireNonNull;
 public abstract class PalisadeTrial extends PerfTrial {
     private Function<String, Stream<Employee>> client;
 
+    /**
+     * Default constructor
+     *
+     * @param client a pre-configured client (eg. userId Alice and purpose SALARY for Employee Avro files)
+     */
     public PalisadeTrial(final Function<String, Stream<Employee>> client) {
         this.client = client;
     }

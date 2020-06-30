@@ -40,11 +40,23 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Bean configuration and dependency injection graph
+ */
 @Configuration
 @EnableConfigurationProperties
 public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
+    /**
+     * Bean for a configured ExampleSimpleClient - that is, a client prepopulated with a user and purpose to use for each request
+     *
+     * @param client ExampleSimpleClient to wrap with some default configuration
+     * @param conf a configuration with a default {@link uk.gov.gchq.palisade.UserId} and
+     *             {@link uk.gov.gchq.palisade.example.library.common.Purpose} (or String) purpose to use for the client
+     * @return a function mapping from a resourceId String to Stream of {@link Employee}s from a data-service
+     * @throws RuntimeException if there was an IOException deserialising returned data
+     */
     @Bean
     public Function<String, Stream<Employee>> configuredSimpleClient(final ExampleSimpleClient client, final PerformanceConfiguration conf) {
         LOGGER.info("Configured ExampleSimpleClient with config {}", conf);
@@ -57,25 +69,43 @@ public class ApplicationConfiguration {
         };
     }
 
+    /**
+     * Bean for PerformanceConfiguration containing a number of options for the performance tests
+     * @return the configuration, populated from yaml 'performance.*' field
+     */
     @Bean
     @ConfigurationProperties(prefix = "performance")
     public PerformanceConfiguration runConfiguration() {
         return new PerformanceConfiguration();
     }
 
+    /**
+     * Bean for a CommandLineRunner to use as the entrypoint for this application, configured to run a performance test
+     *
+     * @param conf         configuration for the conditions of the test - number of runs, data set size, directory locations etc.
+     * @param perfTrialSet the set of trials to perform - these may be further overridden by the configuration's skipTests field
+     * @return a SpringBootApplication CommandLineRunner that will run the trial set with the given configuration
+     */
     @Bean
     @ConditionalOnProperty(name = "performance.action", havingValue = "run")
     public CommandLineRunner runAction(final PerformanceConfiguration conf, final Set<PerfTrial> perfTrialSet) {
         Map<String, PerfTrial> testsToRun = perfTrialSet.stream()
                 .collect(Collectors.toMap(trial -> trial.name(), Function.identity()));
-        LOGGER.info("Created RunAction with conf {} and tests {}", conf, testsToRun);
+        LOGGER.debug("Created RunAction with conf {} and tests {}", conf, testsToRun);
         return new ActionRunner(new RunAction(conf.getDirectory(), conf.getDryRuns(), conf.getLiveRuns(), testsToRun, new HashSet<>(conf.getSkipTests())));
     }
 
+    /**
+     * Bean for a CommandLineRunner to use as the entrypoint for this application, configured to create a set of test data before
+     * performance tests can be run
+     *
+     * @param conf configuration for the conditions of the data set - size and directory location
+     * @return a SpringBootApplication CommandLineRunner that will create the data set with the given configuration
+     */
     @Bean
     @ConditionalOnProperty(name = "performance.action", havingValue = "create")
     public CommandLineRunner createAction(final PerformanceConfiguration conf) {
-        LOGGER.info("Created CreateAction with conf {}", conf);
+        LOGGER.debug("Created CreateAction with conf {}", conf);
         return new ActionRunner(new CreateAction(conf.getDirectory(), conf.getSmall(), conf.getLarge(), conf.getMany()));
     }
 }

@@ -81,6 +81,14 @@ public abstract class PerfTrial implements BiConsumer<PerfFileSet, PerfFileSet> 
         return this.setNameForNormalisation(Optional.of(trial.name()));
     }
 
+    /**
+     * Force evaluation of a stream, ie. make the data-service read-deserialise-applyRules-serialise-send
+     * all data we have requested.
+     * Sinks all data, does not return any (we don't make any checks that the services return the 'correct' data)
+     * Without sinking, we have only performed a request to the data-service without reading any records back.
+     *
+     * @param stream the stream to sink
+     */
     public void sink(final Stream<?> stream) {
         stream.forEach(ignore -> {
         });

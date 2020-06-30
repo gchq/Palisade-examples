@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Crown Copyright
+ * Copyright 2020 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,14 @@ public class CreateAction implements IntSupplier {
     private final int large;
     private final int many;
 
+    /**
+     * Runner for creating a fake data-set for performance trials
+     *
+     * @param directoryName directory to store created data files
+     * @param small         number of records in the 'small' file
+     * @param large         number of records in the 'large' file
+     * @param many          number of files in the 'many' directory (each file contains a single record)
+     */
     public CreateAction(final String directoryName, final int small, final int large, final int many) {
         this.directoryName = directoryName;
         this.small = small;
@@ -55,19 +63,18 @@ public class CreateAction implements IntSupplier {
         this.many = many;
     }
 
-    public int getAsInt() {
-        // get the sizes and paths
-        Path directory = Path.of(directoryName);
+    /**
+     * Create a number of employee avro files in the with-policy directory
+     *
+     * @param fileSet parameters for file and directory names
+     * @return whether the operations completed successfully
+     */
+    private boolean createWithPolicyDataset(Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
         ExecutorService tasks = Executors.newFixedThreadPool(3, Util.createDaemonThreadFactory());
 
-        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
-
         Path smallFile = fileSet.getKey().smallFile;
-        Path smallFileNoPolicy = fileSet.getValue().smallFile;
         Path largeFile = fileSet.getKey().largeFile;
-        Path largeFileNoPolicy = fileSet.getValue().largeFile;
         Path manyDir = fileSet.getKey().manyDir;
-        Path manyDirNoPolicy = fileSet.getValue().manyDir;
 
         // make a result writers
         CreateDataFile smallWriter = new CreateDataFile(small, 0, smallFile.toFile());
@@ -97,7 +104,35 @@ public class CreateAction implements IntSupplier {
                 }
             });
             LOGGER.info("Many files written successfully: {}", manyComplete);
+            return true;
+        } catch (ExecutionException e) {
+            LOGGER.error("Exception occurred while creating with-policy data", e);
+            return false;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+        } finally {
+            // ensure executor shutdown
+            tasks.shutdownNow();
+        }
+    }
 
+    /**
+     * Copy a number of employee avro files in the with-policy directory to the no-policy directory
+     *
+     * @param fileSet parameters for file and directory names
+     * @return whether the operations completed successfully
+     */
+    private boolean copyNoPolicyDataset(Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
+        Path smallFile = fileSet.getKey().smallFile;
+        Path largeFile = fileSet.getKey().largeFile;
+        Path manyDir = fileSet.getKey().manyDir;
+
+        Path smallFileNoPolicy = fileSet.getValue().smallFile;
+        Path largeFileNoPolicy = fileSet.getValue().largeFile;
+        Path manyDirNoPolicy = fileSet.getValue().manyDir;
+
+        try {
             boolean smallParentCreated = smallFileNoPolicy.toFile().mkdirs();
             if (!smallParentCreated && !smallFileNoPolicy.getParent().toFile().exists()) {
                 LOGGER.warn("Failed to create parent directory {}", smallFileNoPolicy);
@@ -128,19 +163,30 @@ public class CreateAction implements IntSupplier {
                     }
                 });
             }
-
-            // indicate success in exit code
-            return (smallComplete && largeComplete && manyComplete) ? 0 : 1;
-        } catch (ExecutionException | IOException e) {
-            LOGGER.error("Exception occurred while running {}", CreateAction.class);
-            LOGGER.error("Exception was: ", e);
-            return 1;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException(e);
-        } finally {
-            // ensure executor shutdown
-            tasks.shutdownNow();
+            return true;
+        } catch (IOException e) {
+            LOGGER.error("Exception occurred while copying no-policy data", e);
+            return false;
         }
+    }
+
+    /**
+     * Run this action and return a error/success code
+     * First creates a dataset in the with-policy directory, then copies it to the no-policy directory
+     *
+     * @return 0 if completed successfully, error code otherwise
+     */
+    public int getAsInt() {
+        // get the sizes and paths
+        Path directory = Path.of(directoryName);
+        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
+
+        boolean createSuccess = createWithPolicyDataset(fileSet);
+        boolean copySuccess = false;
+        if (createSuccess) {
+            copySuccess = copyNoPolicyDataset(fileSet);
+        }
+
+        return createSuccess && copySuccess ? 0 : 1;
     }
 }

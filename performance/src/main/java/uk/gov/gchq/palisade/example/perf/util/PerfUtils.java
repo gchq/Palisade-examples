@@ -26,7 +26,6 @@ import java.util.Map;
  * Utility methods for the performance tests.
  */
 public class PerfUtils {
-
     public static final String WITH_POLICY_DIR = "with-policy";
     public static final String NO_POLICY_DIR = "no-policy";
     public static final String SMALL_FILE_NAME = "employee_small.avro";
@@ -34,9 +33,19 @@ public class PerfUtils {
     public static final String MANY_FILE_DIR = "many-employees";
     public static final String MANY_FILE_FORMAT = "employee_%05d.avro";
 
+    /**
+     * Hide constructor, this is a static class only
+     */
     private PerfUtils() {
     }
 
+    /**
+     * For a given directory, get a pair of {@link PerfFileSet}s, the first for with-policy, second for no-policy
+     * Each PerfFileSet is itself a triple of {@link Path}s, for the small-file, the large-file, then the many-directory
+     *
+     * @param directoryName the top-level directory for the performance-test dataset
+     * @return a {@link Map.Entry} pair of {@link PerfFileSet} triples of {@link Path}s
+     */
     public static Map.Entry<PerfFileSet, PerfFileSet> getFileSet(final Path directoryName) {
         return new SimpleImmutableEntry<>(
                 new PerfFileSet(

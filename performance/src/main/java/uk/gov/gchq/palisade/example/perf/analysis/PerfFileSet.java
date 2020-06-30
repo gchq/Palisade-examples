@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Simple class that contains details on the files being manipulated.
+ * A triple of {@link Path}s
  */
 public class PerfFileSet {
     /**
@@ -37,6 +38,13 @@ public class PerfFileSet {
      */
     public final Path manyDir;
 
+    /**
+     * Default constructor
+     *
+     * @param smallFile location of the 'small' file
+     * @param largeFile location of the 'large' file
+     * @param manyDir   location of the 'many' directory
+     */
     public PerfFileSet(final Path smallFile, final Path largeFile, final Path manyDir) {
         requireNonNull(smallFile, "smallFile");
         requireNonNull(largeFile, "largeFile");
