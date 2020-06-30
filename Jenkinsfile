@@ -118,7 +118,7 @@ spec:
                 sh "git checkout ${GIT_BRANCH_NAME}"
                 container('docker-cmds') {
                     configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn -s $MAVEN_SETTINGS install -P quick'
+                        sh 'mvn -s $MAVEN_SETTINGS install'
                     }
                 }
             }
