@@ -84,7 +84,7 @@ public final class BulkTestExample {
 
             //remove existing files
             try (Stream<Path> paths = Files.list(dir)) {
-                paths.forEach(path -> {
+                paths.forEach((Path path) -> {
                     try {
                         Files.delete(path);
                     } catch (IOException e) {

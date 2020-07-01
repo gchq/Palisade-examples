@@ -104,7 +104,7 @@ public class CreateAction implements Runnable {
             Files.copy(largeFile, largeFileNoPolicy, StandardCopyOption.REPLACE_EXISTING);
             LOGGER.info("Copying many files dir");
             try (Stream<Path> files = Files.walk(manyDir)) {
-                files.forEach(file -> {
+                files.forEach((Path file) -> {
                     try {
                         Files.copy(
                                 file,
@@ -143,7 +143,7 @@ public class CreateAction implements Runnable {
         CreateDataFile smallWriter = new CreateDataFile(small, 0, smallFile.toFile());
         CreateDataFile largeWriter = new CreateDataFile(large, 1, largeFile.toFile());
         Stream<CreateDataFile> manyWriters = IntStream.range(0, manyUnique)
-                .mapToObj(i -> new CreateDataFile(
+                .mapToObj((int i) -> new CreateDataFile(
                         1,
                         2L + i,
                         masterCopy
@@ -164,7 +164,7 @@ public class CreateAction implements Runnable {
             LOGGER.info("Small file written successfully: {}", smallComplete);
             boolean largeComplete = largeFuture.get();
             LOGGER.info("Large file written successfully: {}", largeComplete);
-            boolean manyComplete = manyFutures.allMatch(future -> {
+            boolean manyComplete = manyFutures.allMatch((Future<Boolean> future) -> {
                 try {
                     return future.get();
                 } catch (ExecutionException | InterruptedException ex) {
@@ -176,7 +176,7 @@ public class CreateAction implements Runnable {
 
             LOGGER.info("Duplicating many files");
             IntStream.range(0, manyDuplicates)
-                    .forEach(i -> {
+                    .forEach((int i) -> {
                         try {
                             Files.copy(
                                     masterCopy,
@@ -184,7 +184,7 @@ public class CreateAction implements Runnable {
                                     StandardCopyOption.REPLACE_EXISTING
                             );
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            throw new RuntimeException(e);
                         }
                     });
             return true;
