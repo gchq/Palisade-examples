@@ -40,7 +40,8 @@ public class ActionRunner implements CommandLineRunner {
 
     /**
      * Run the configured action and exit with the appropriate error code
-     * @param args
+     *
+     * @param args Command-line arguments
      */
     @Override
     public void run(final String... args) {
