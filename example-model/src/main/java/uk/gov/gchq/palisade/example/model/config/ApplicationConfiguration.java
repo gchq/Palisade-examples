@@ -50,7 +50,7 @@ public class ApplicationConfiguration {
     @Bean("BulkExample")
     public BulkTestExample bulkExample(final RestExample client) {
         LOGGER.debug("Constructed BulkExample");
-        return new BulkTestExample(client);
+        return new BulkTestExample(client, true, true);
     }
 
     @Bean("RestExample")
@@ -66,7 +66,7 @@ public class ApplicationConfiguration {
         requireNonNull(quantity, "--example.quantity=... must be provided");
         LOGGER.info("Constructed BulkRunner");
         return args -> {
-            bulkTestExample.run(directory, quantity, true, true);
+            bulkTestExample.run(directory, quantity);
             System.exit(0);
         };
     }

@@ -42,13 +42,20 @@ public final class BulkTestExample {
      */
     private static final AtomicBoolean HAS_DESTRUCTION_OCCURRED = new AtomicBoolean(false);
     private final RestExample client;
+    private final boolean shouldCreate;
+    private final boolean shouldDelete;
 
     /**
      * Default constructor wrapping a RestExample object
+     *
      * @param restExample the existing rest client and configuration to wrap for bulk-testing
+     * @param shouldCreate true if the directory is empty and therefore the data needs creating
+     * @param shouldDelete true if you want the data to be deleted after the test has run
      */
-    public BulkTestExample(final RestExample restExample) {
+    public BulkTestExample(final RestExample restExample, final boolean shouldCreate, final boolean shouldDelete) {
         this.client = restExample;
+        this.shouldCreate = shouldCreate;
+        this.shouldDelete = shouldDelete;
     }
 
     /**
@@ -190,11 +197,9 @@ public final class BulkTestExample {
      *
      * @param directory    the directory to create files in
      * @param numCopies    the number of resources to create
-     * @param shouldCreate true if the directory is empty and therefore the data needs creating
-     * @param shouldDelete true if you want the data to be deleted after the test has run
      * @throws IOException for any file system error
      */
-    public void run(final String directory, final Integer numCopies, final boolean shouldCreate, final boolean shouldDelete) throws IOException {
+    public void run(final String directory, final Integer numCopies) throws IOException {
         // Ensure we clean up if a SIGTERM occurs
         configureShutdownHook(shouldDelete, directory);
 
