@@ -74,6 +74,46 @@ spec:
         ephemeral-storage: "1Gi"
       limits:
         ephemeral-storage: "2Gi"
+
+  - name: dind-daemon
+    image: docker:1.12.6-dind
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 20m
+        memory: 512Mi
+    securityContext:
+      privileged: true
+    volumeMounts:
+      - name: docker-graph-storage
+        mountPath: /var/lib/docker
+    resources:
+      requests:
+        ephemeral-storage: "1Gi"
+      limits:
+        ephemeral-storage: "2Gi"
+
+  - name: maven
+    image: 779921734503.dkr.ecr.eu-west-1.amazonaws.com/jnlp-dood-new-infra:200608
+    imagePullPolicy: IfNotPresent
+    command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
+    tty: true
+    volumeMounts:
+      - mountPath: /var/run
+        name: docker-sock
+    resources:
+      requests:
+        ephemeral-storage: "4Gi"
+      limits:
+        ephemeral-storage: "8Gi"
+
+  volumes:
+    - name: docker-graph-storage
+      emptyDir: {}
+    - name: docker-sock
+      hostPath:
+         path: /var/run
+
 ''') {
     node(POD_LABEL) {
         def GIT_BRANCH_NAME
