@@ -1,1 +1,0 @@
-uk.gov.gchq.palisade:example-client:jar:0.4.0-SNAPSHOT

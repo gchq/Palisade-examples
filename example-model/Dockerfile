@@ -22,7 +22,4 @@ COPY $JAR_FILE /usr/share/example-client/example-model.jar
 
 LABEL service="example" project="palisade"
 
-ENTRYPOINT ["java", "-jar", "/usr/share/example-client/example-model.jar"]
-
-RUN javac RestExample.java
-CMD RestExample.java
+ENTRYPOINT ["java", "-jar", "/usr/share/example-model/example-model.jar"]

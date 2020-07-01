@@ -163,11 +163,43 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${project.basedir}/../charts/example-client/values.yaml</file>
+                                <file>${project.basedir}/../charts/example-model/values.yaml</file>
                             </files>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <id>cache</id>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <phase>deploy</phase>
+                        <id>ar</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>${image.repository}example-client</repository>
+                    <dockerfile>Dockerfile</dockerfile>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <tag>${image.tag}</tag>
+                    <finalName>example-client</finalName>
+                        <buildArgs>
+                            <JAR_FILE>target/${project.build.finalName}-exec.jar</JAR_FILE>
+                        </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>

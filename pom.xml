@@ -77,7 +77,6 @@
 
     <modules>
         <module>deployment</module>
-        <module>example-client</module>
         <module>example-library</module>
         <module>example-model</module>
         <module>hr-data-generator</module>
