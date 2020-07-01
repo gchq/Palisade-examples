@@ -144,11 +144,11 @@ public class CreateAction implements Runnable {
         CreateDataFile smallWriter = new CreateDataFile(small, 0, smallFile.toFile());
         CreateDataFile largeWriter = new CreateDataFile(large, 1, largeFile.toFile());
         // stream of writers for many files
-        final long seedFrom = 2L;
+        final long SEED_FROM = 2L;
         Stream<CreateDataFile> manyWriters = LongStream.range(0, manyUnique)
                 .mapToObj((long i) -> new CreateDataFile(
                         1,
-                        seedFrom + i,
+                        SEED_FROM + i,
                         masterCopy
                                 .resolve(String.format(PerfUtils.MANY_FILE_FORMAT, i)).toFile()
                 ));
