@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import uk.gov.gchq.palisade.Util;
 import uk.gov.gchq.palisade.example.hrdatagenerator.CreateDataFile;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.util.PerfException;
 import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
@@ -43,7 +44,7 @@ public class CreateAction implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateAction.class);
 
     private final String directoryName;
-    private final int small;
+    private final long small;
     private final int large;
     private final int manyUnique;
     private final int manyDuplicates;
@@ -114,7 +115,7 @@ public class CreateAction implements Runnable {
                     } catch (IOException e) {
                         LOGGER.error("Exception occurred while copying file {}", file);
                         LOGGER.error("Exception was: ", e);
-                        throw new RuntimeException(e);
+                        throw new PerfException(e);
                     }
                 });
                 return true;
@@ -139,13 +140,15 @@ public class CreateAction implements Runnable {
         Path manyDir = fileSet.getKey().manyDir;
         Path masterCopy = manyDir.resolve(String.format(PerfUtils.MANY_DUP_DIR_FORMAT, 0));
 
-        // make a result writers
+        // make result writers
         CreateDataFile smallWriter = new CreateDataFile(small, 0, smallFile.toFile());
         CreateDataFile largeWriter = new CreateDataFile(large, 1, largeFile.toFile());
-        Stream<CreateDataFile> manyWriters = IntStream.range(0, manyUnique)
-                .mapToObj((int i) -> new CreateDataFile(
+        // stream of writers for many files
+        final long seedFrom = 2L;
+        Stream<CreateDataFile> manyWriters = LongStream.range(0, manyUnique)
+                .mapToObj((long i) -> new CreateDataFile(
                         1,
-                        2L + i,
+                        seedFrom + i,
                         masterCopy
                                 .resolve(String.format(PerfUtils.MANY_FILE_FORMAT, i)).toFile()
                 ));
@@ -175,8 +178,8 @@ public class CreateAction implements Runnable {
             LOGGER.info("Many files written successfully: {}", manyComplete);
 
             LOGGER.info("Duplicating many files");
-            IntStream.range(0, manyDuplicates)
-                    .forEach((int i) -> {
+            LongStream.range(0, manyDuplicates)
+                    .forEach((long i) -> {
                         try {
                             Files.copy(
                                     masterCopy,
@@ -184,7 +187,7 @@ public class CreateAction implements Runnable {
                                     StandardCopyOption.REPLACE_EXISTING
                             );
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            throw new PerfException(e);
                         }
                     });
             return true;
@@ -193,7 +196,7 @@ public class CreateAction implements Runnable {
             return false;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new RuntimeException(e);
+            throw new PerfException(e);
         } finally {
             // ensure executor shutdown
             tasks.shutdownNow();
@@ -204,7 +207,7 @@ public class CreateAction implements Runnable {
      * Run this action, throw a runtime exception if there were errors
      * First creates a dataset in the with-policy directory, then copies it to the no-policy directory
      *
-     * @throws RuntimeException if an error occurred
+     * @throws PerfException if an error occurred
      */
     public void run() {
         // get the sizes and paths
@@ -214,13 +217,13 @@ public class CreateAction implements Runnable {
         if (createWithPolicyDataset(fileSet)) {
             LOGGER.info("Successfully created with-policy dataset, copying to no-policy");
         } else {
-            throw new RuntimeException(new IOException("Failed to create with-policy dataset"));
+            throw new PerfException(new IOException("Failed to create with-policy dataset"));
         }
 
         if (copyNoPolicyDataset(fileSet)) {
             LOGGER.info("Successfully copied no-policy dataset");
         } else {
-            throw new RuntimeException(new IOException("Failed to copy no-policy dataset"));
+            throw new PerfException(new IOException("Failed to copy no-policy dataset"));
         }
     }
 }
