@@ -32,10 +32,6 @@ import java.util.stream.Stream;
 @Component
 public class RequestManyNoPolicyTrial extends PalisadeTrial {
     static final String NAME = "request_many_no_policy";
-    /**
-     * Number of requests to make.
-     */
-    private static final int REQUESTS = 1;
 
     public RequestManyNoPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
@@ -47,14 +43,12 @@ public class RequestManyNoPolicyTrial extends PalisadeTrial {
     }
 
     public String description() {
-        return String.format("makes %d requests for many files with no policy set without reading data", REQUESTS);
+        return "makes a request for many files with no policy set without reading data";
     }
 
     public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        for (int i = 0; i < REQUESTS; i++) {
-            try (Stream<Employee> ignored = getDataStream(noPolicySet.manyDir)) {
-                //do nothing
-            }
+        try (Stream<Employee> ignored = getDataStream(noPolicySet.manyDir)) {
+            //do nothing
         }
     }
 }

@@ -17,10 +17,10 @@
 # Example Model
 
 ### Rest Example
-The example runs the [uk.gov.gchq.palisade.example.runner.RestExample class](/example-model/src/main/java/uk/gov/gchq/palisade/example/runner/RestExample.java) which executes several different queries by the different users, with different purposes.
+The example runs the [uk.gov.gchq.palisade.example.model.runner.RestExample class](/example-model/src/main/java/uk/gov/gchq/palisade/example/model/runner/RestExample.java) which executes several different queries by the different users, with different purposes.
 When you run the example you will see the data has been redacted in line with the policy set out in the rules above.
 
-For deployment specific instructions on how to run the example see:  
+For deployment specific instructions on how to run the example see the [deployment module](/deployment), in particular:  
 - [Local JVM](/deployment/local-jvm/README.md) - Runs the example in separate JVMs on the local machine 
 - [Local Kubernetes](/deployment/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
 

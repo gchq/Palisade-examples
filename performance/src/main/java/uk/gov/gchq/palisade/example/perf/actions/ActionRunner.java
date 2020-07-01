@@ -27,10 +27,21 @@ public class ActionRunner implements CommandLineRunner {
 
     private final IntSupplier action;
 
+    /**
+     * Default constructor.
+     * Runs an action (an IntSupplier) and returns an int error code (0 if successful).
+     * This allows the INtSupplier to be used as a Spring CommandLineRunner
+     *
+     * @param action the action to run
+     */
     public ActionRunner(final IntSupplier action) {
         this.action = action;
     }
 
+    /**
+     * Run the configured action and exit with the appropriate error code
+     * @param args
+     */
     @Override
     public void run(final String... args) {
         // call the action and exit with that return code

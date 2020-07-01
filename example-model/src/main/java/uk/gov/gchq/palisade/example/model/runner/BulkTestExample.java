@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 
 /**
  * A class to test if the Palisade data path can handle retrieving many thousands of resources in a single request. This class
@@ -82,14 +83,15 @@ public final class BulkTestExample {
             Path newLocation = generateNewDirectoryName(dir);
 
             //remove existing files
-            Files.list(dir)
-                    .forEach(path -> {
-                        try {
-                            Files.delete(path);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+            try (Stream<Path> paths = Files.list(dir)) {
+                paths.forEach(path -> {
+                    try {
+                        Files.delete(path);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
 
             //remove original
             Files.deleteIfExists(dir);
@@ -190,9 +192,9 @@ public final class BulkTestExample {
      * @param numCopies    the number of resources to create
      * @param shouldCreate true if the directory is empty and therefore the data needs creating
      * @param shouldDelete true if you want the data to be deleted after the test has run
-     * @throws Exception for any file system error or URI exception
+     * @throws IOException for any file system error
      */
-    public void run(final String directory, final Integer numCopies, final boolean shouldCreate, final boolean shouldDelete) throws Exception {
+    public void run(final String directory, final Integer numCopies, final boolean shouldCreate, final boolean shouldDelete) throws IOException {
         // Ensure we clean up if a SIGTERM occurs
         configureShutdownHook(shouldDelete, directory);
 

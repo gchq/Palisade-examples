@@ -35,7 +35,7 @@ The following trials are tested for each size and variant of data-set:
 
 The general naming scheme is "trial_size_variant".
 
-All above values and more can be tweaked through the [config yaml](https://github.com/gchq/Palisade-examples/blob/develop/performance/src/main/resources/application.yaml).
+All above values and more can be tweaked through the [config yaml](src/main/resources/application.yaml).
 
 
 
@@ -74,7 +74,7 @@ This may take a long time to run, depending upon the requested sizes of the test
 
 #### Running performance tests
 Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data.
-The profile for prepopulating the services can be found [here](https://github.com/gchq/Palisade-examples/blob/develop/example-library/src/main/resources/application-exampleperf.yaml).
+The profile for prepopulating the services can be found [here](../example-library/src/main/resources/application-example-perf.yaml).
 
 Once all services have started, run the following:
 ```bash

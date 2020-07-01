@@ -171,12 +171,21 @@ public class CreateAction implements IntSupplier {
     }
 
     /**
+     * Run this IntSupplier and return an int
+     *
+     * @return 0 if success, error code otherwise
+     */
+    public int getAsInt() {
+        return run();
+    }
+
+    /**
      * Run this action and return a error/success code
      * First creates a dataset in the with-policy directory, then copies it to the no-policy directory
      *
      * @return 0 if completed successfully, error code otherwise
      */
-    public int getAsInt() {
+    private int run() {
         // get the sizes and paths
         Path directory = Path.of(directoryName);
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);

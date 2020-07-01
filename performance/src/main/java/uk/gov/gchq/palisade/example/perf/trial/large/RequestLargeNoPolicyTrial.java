@@ -32,10 +32,6 @@ import java.util.stream.Stream;
 @Component
 public class RequestLargeNoPolicyTrial extends PalisadeTrial {
     static final String NAME = "request_large_no_policy";
-    /**
-     * Number of requests to make.
-     */
-    private static final int REQUESTS = 1;
 
     public RequestLargeNoPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
@@ -47,14 +43,12 @@ public class RequestLargeNoPolicyTrial extends PalisadeTrial {
     }
 
     public String description() {
-        return String.format("makes %d requests for the large file with no policy set without reading data", REQUESTS);
+        return "makes a request for the large file with no policy set without reading data";
     }
 
     public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        for (int i = 0; i < REQUESTS; i++) {
-            try (Stream<Employee> ignored = getDataStream(noPolicySet.smallFile)) {
-                //do nothing
-            }
+        try (Stream<Employee> ignored = getDataStream(noPolicySet.smallFile)) {
+            //do nothing
         }
     }
 }

@@ -32,10 +32,6 @@ import java.util.stream.Stream;
 @Component
 public class ReadSmallWithPolicyTrial extends PalisadeTrial {
     static final String NAME = "read_small_with_policy";
-    /**
-     * Number of requests to make.
-     */
-    private static final int REQUESTS = 1;
 
     public ReadSmallWithPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
@@ -47,16 +43,13 @@ public class ReadSmallWithPolicyTrial extends PalisadeTrial {
     }
 
     public String description() {
-        return String.format("reads the small file %d times", REQUESTS);
+        return "reads the small file with an example policy set";
     }
 
     public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        //make multiple requests
-        for (int i = 0; i < REQUESTS; i++) {
-            //setup a request and read data
-            try (Stream<Employee> data = getDataStream(fileSet.smallFile)) {
-                sink(data);
-            }
+        //setup a request and read data
+        try (Stream<Employee> data = getDataStream(fileSet.smallFile)) {
+            sink(data);
         }
     }
 }

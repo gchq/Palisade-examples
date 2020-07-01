@@ -69,11 +69,20 @@ public class RunAction implements IntSupplier {
     }
 
     /**
-     * Run this action and return a success/error code
+     * Run this IntSupplier and return an int
      *
      * @return 0 if success, error code otherwise
      */
     public int getAsInt() {
+        return run();
+    }
+
+    /**
+     * Run this action and return a success/error code
+     *
+     * @return 0 if success, error code otherwise
+     */
+     private int run() {
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(Path.of(directoryName));
 
         // create the output collector
