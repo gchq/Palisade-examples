@@ -38,6 +38,7 @@ public class ReadManyNoPolicyTrial extends PalisadeTrial {
         normal = Optional.of(ReadManyNativeTrial.NAME);
     }
 
+    @Override
     public String name() {
         return NAME;
     }

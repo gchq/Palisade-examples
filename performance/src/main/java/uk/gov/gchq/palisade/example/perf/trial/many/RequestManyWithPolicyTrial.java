@@ -38,6 +38,7 @@ public class RequestManyWithPolicyTrial extends PalisadeTrial {
         normal = Optional.of(RequestManyNoPolicyTrial.NAME);
     }
 
+    @Override
     public String name() {
         return NAME;
     }

@@ -33,88 +33,39 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.function.IntSupplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
  * Creates the files needed by other parts of the performance testing application.
  */
-public class CreateAction implements IntSupplier {
+public class CreateAction implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateAction.class);
 
     private final String directoryName;
     private final int small;
     private final int large;
-    private final int many;
+    private final int manyUnique;
+    private final int manyDuplicates;
 
     /**
      * Runner for creating a fake data-set for performance trials
      *
-     * @param directoryName directory to store created data files
-     * @param small         number of records in the 'small' file
-     * @param large         number of records in the 'large' file
-     * @param many          number of files in the 'many' directory (each file contains a single record)
+     * @param directoryName  directory to store created data files
+     * @param small          number of records in the 'small' file
+     * @param large          number of records in the 'large' file
+     * @param manyUnique     number of unique files in the 'many' directory (each file contains a single record)
+     * @param manyDuplicates number of duplicates to make of the unique dataset (for performance reasons)
      */
-    public CreateAction(final String directoryName, final int small, final int large, final int many) {
+    public CreateAction(final String directoryName, final int small, final int large, final int manyUnique, final int manyDuplicates) {
+        if (manyUnique < 1 || manyDuplicates < 1) {
+            throw new IllegalArgumentException("Number of created 'many' resources must be strictly positive");
+        }
         this.directoryName = directoryName;
         this.small = small;
         this.large = large;
-        this.many = many;
-    }
-
-    /**
-     * Create a number of employee avro files in the with-policy directory
-     *
-     * @param fileSet parameters for file and directory names
-     * @return whether the operations completed successfully
-     */
-    private boolean createWithPolicyDataset(final Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
-        ExecutorService tasks = Executors.newFixedThreadPool(3, Util.createDaemonThreadFactory());
-
-        Path smallFile = fileSet.getKey().smallFile;
-        Path largeFile = fileSet.getKey().largeFile;
-        Path manyDir = fileSet.getKey().manyDir;
-
-        // make a result writers
-        CreateDataFile smallWriter = new CreateDataFile(small, 0, smallFile.toFile());
-        CreateDataFile largeWriter = new CreateDataFile(large, 1, largeFile.toFile());
-        Stream<CreateDataFile> manyWriters = IntStream.range(0, many)
-                .mapToObj(i -> new CreateDataFile(1, 2L + i, manyDir.resolve(String.format(PerfUtils.MANY_FILE_FORMAT, i)).toFile()));
-
-        // submit tasks
-        LOGGER.info("Going to create {} records in file {}, {} records in file {} and {} resources in {}", small, PerfUtils.SMALL_FILE_NAME, large, PerfUtils.LARGE_FILE_NAME, many, PerfUtils.MANY_FILE_DIR);
-        Future<Boolean> smallFuture = tasks.submit(smallWriter);
-        Future<Boolean> largeFuture = tasks.submit(largeWriter);
-        Stream<Future<Boolean>> manyFutures = manyWriters.map(tasks::submit);
-        LOGGER.info("Creation tasks submitted...");
-
-        // wait for completion
-        try {
-            boolean smallComplete = smallFuture.get();
-            LOGGER.info("Small file written successfully: {}", smallComplete);
-            boolean largeComplete = largeFuture.get();
-            LOGGER.info("Large file written successfully: {}", largeComplete);
-            boolean manyComplete = manyFutures.allMatch(future -> {
-                try {
-                    return future.get();
-                } catch (ExecutionException | InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                    return false;
-                }
-            });
-            LOGGER.info("Many files written successfully: {}", manyComplete);
-            return true;
-        } catch (ExecutionException e) {
-            LOGGER.error("Exception occurred while creating with-policy data", e);
-            return false;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException(e);
-        } finally {
-            // ensure executor shutdown
-            tasks.shutdownNow();
-        }
+        this.manyUnique = manyUnique;
+        this.manyDuplicates = manyDuplicates;
     }
 
     /**
@@ -155,15 +106,19 @@ public class CreateAction implements IntSupplier {
             try (Stream<Path> files = Files.walk(manyDir)) {
                 files.forEach(file -> {
                     try {
-                        Files.copy(file, manyDirNoPolicy.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(
+                                file,
+                                manyDirNoPolicy.resolve(file.getFileName()),
+                                StandardCopyOption.REPLACE_EXISTING
+                        );
                     } catch (IOException e) {
                         LOGGER.error("Exception occurred while copying file {}", file);
                         LOGGER.error("Exception was: ", e);
                         throw new RuntimeException(e);
                     }
                 });
+                return true;
             }
-            return true;
         } catch (IOException e) {
             LOGGER.error("Exception occurred while copying no-policy data", e);
             return false;
@@ -171,35 +126,101 @@ public class CreateAction implements IntSupplier {
     }
 
     /**
-     * Run this IntSupplier and return an int
+     * Create a number of employee avro files in the with-policy directory
      *
-     * @return 0 if success, error code otherwise
+     * @param fileSet parameters for file and directory names
+     * @return whether the operations completed successfully
      */
-    public int getAsInt() {
-        return run();
+    private boolean createWithPolicyDataset(final Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
+        ExecutorService tasks = Executors.newFixedThreadPool(3, Util.createDaemonThreadFactory());
+
+        Path smallFile = fileSet.getKey().smallFile;
+        Path largeFile = fileSet.getKey().largeFile;
+        Path manyDir = fileSet.getKey().manyDir;
+        Path masterCopy = manyDir.resolve(String.format(PerfUtils.MANY_DUP_DIR_FORMAT, 0));
+
+        // make a result writers
+        CreateDataFile smallWriter = new CreateDataFile(small, 0, smallFile.toFile());
+        CreateDataFile largeWriter = new CreateDataFile(large, 1, largeFile.toFile());
+        Stream<CreateDataFile> manyWriters = IntStream.range(0, manyUnique)
+                .mapToObj(i -> new CreateDataFile(
+                        1,
+                        2L + i,
+                        masterCopy
+                                .resolve(String.format(PerfUtils.MANY_FILE_FORMAT, i)).toFile()
+                ));
+
+        // submit tasks
+        LOGGER.info("Going to create {} records in file {}, {} records in file {}", small, PerfUtils.SMALL_FILE_NAME, large, PerfUtils.LARGE_FILE_NAME);
+        LOGGER.info("Going to create {} records in directory {}, then duplicate {} times", manyUnique, masterCopy, manyDuplicates);
+        Future<Boolean> smallFuture = tasks.submit(smallWriter);
+        Future<Boolean> largeFuture = tasks.submit(largeWriter);
+        Stream<Future<Boolean>> manyFutures = manyWriters.map(tasks::submit);
+        LOGGER.info("Creation tasks submitted...");
+
+        // wait for completion
+        try {
+            boolean smallComplete = smallFuture.get();
+            LOGGER.info("Small file written successfully: {}", smallComplete);
+            boolean largeComplete = largeFuture.get();
+            LOGGER.info("Large file written successfully: {}", largeComplete);
+            boolean manyComplete = manyFutures.allMatch(future -> {
+                try {
+                    return future.get();
+                } catch (ExecutionException | InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                    return false;
+                }
+            });
+            LOGGER.info("Many files written successfully: {}", manyComplete);
+
+            LOGGER.info("Duplicating many files");
+            IntStream.range(0, manyDuplicates)
+                    .forEach(i -> {
+                        try {
+                            Files.copy(
+                                    masterCopy,
+                                    masterCopy.resolveSibling(String.format(PerfUtils.MANY_DUP_DIR_FORMAT, i)),
+                                    StandardCopyOption.REPLACE_EXISTING
+                            );
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+            return true;
+        } catch (ExecutionException e) {
+            LOGGER.error("Exception occurred while creating with-policy data", e);
+            return false;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+        } finally {
+            // ensure executor shutdown
+            tasks.shutdownNow();
+        }
     }
 
     /**
-     * Run this action and return a error/success code
+     * Run this action, throw a runtime exception if there were errors
      * First creates a dataset in the with-policy directory, then copies it to the no-policy directory
      *
-     * @return 0 if completed successfully, error code otherwise
+     * @throws RuntimeException if an error occurred
      */
-    private int run() {
+    public void run() {
         // get the sizes and paths
         Path directory = Path.of(directoryName);
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
 
-        boolean createSuccess = createWithPolicyDataset(fileSet);
-        boolean copySuccess = false;
-        if (createSuccess) {
-            copySuccess = copyNoPolicyDataset(fileSet);
+        if (createWithPolicyDataset(fileSet)) {
+            LOGGER.info("Successfully created with-policy dataset, copying to no-policy");
+        } else {
+            throw new RuntimeException(new IOException("Failed to create with-policy dataset"));
         }
 
-        if (createSuccess && copySuccess) {
-            return 0;
+        if (copyNoPolicyDataset(fileSet)) {
+            LOGGER.info("Successfully copied no-policy dataset");
         } else {
-            return 1;
+            throw new RuntimeException(new IOException("Failed to copy no-policy dataset"));
         }
     }
 }

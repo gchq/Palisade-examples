@@ -52,8 +52,8 @@ public class ApplicationConfiguration {
      * Bean for a configured ExampleSimpleClient - that is, a client prepopulated with a user and purpose to use for each request
      *
      * @param client ExampleSimpleClient to wrap with some default configuration
-     * @param conf a configuration with a default {@link uk.gov.gchq.palisade.UserId} and
-     *             {@link uk.gov.gchq.palisade.example.library.common.Purpose} (or String) purpose to use for the client
+     * @param conf   a configuration with a default {@link uk.gov.gchq.palisade.UserId} and
+     *               {@link uk.gov.gchq.palisade.example.library.common.Purpose} (or String) purpose to use for the client
      * @return a function mapping from a resourceId String to Stream of {@link Employee}s from a data-service
      * @throws RuntimeException if there was an IOException deserialising returned data
      */
@@ -71,6 +71,7 @@ public class ApplicationConfiguration {
 
     /**
      * Bean for PerformanceConfiguration containing a number of options for the performance tests
+     *
      * @return the configuration, populated from yaml 'performance.*' field
      */
     @Bean
@@ -90,7 +91,7 @@ public class ApplicationConfiguration {
     @ConditionalOnProperty(name = "performance.action", havingValue = "run")
     public CommandLineRunner runAction(final PerformanceConfiguration conf, final Set<PerfTrial> perfTrialSet) {
         Map<String, PerfTrial> testsToRun = perfTrialSet.stream()
-                .collect(Collectors.toMap(trial -> trial.name(), Function.identity()));
+                .collect(Collectors.toMap(PerfTrial::name, Function.identity()));
         LOGGER.debug("Created RunAction with conf {} and tests {}", conf, testsToRun);
         return new ActionRunner(new RunAction(conf.getDirectory(), conf.getDryRuns(), conf.getLiveRuns(), testsToRun, new HashSet<>(conf.getSkipTests())));
     }
@@ -106,6 +107,6 @@ public class ApplicationConfiguration {
     @ConditionalOnProperty(name = "performance.action", havingValue = "create")
     public CommandLineRunner createAction(final PerformanceConfiguration conf) {
         LOGGER.debug("Created CreateAction with conf {}", conf);
-        return new ActionRunner(new CreateAction(conf.getDirectory(), conf.getSmall(), conf.getLarge(), conf.getMany()));
+        return new ActionRunner(new CreateAction(conf.getDirectory(), conf.getSmall(), conf.getLarge(), conf.getManyUnique(), conf.getManyDuplicates()));
     }
 }

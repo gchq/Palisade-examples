@@ -45,6 +45,7 @@ public class ReadManyNativeTrial extends PerfTrial {
         normal = Optional.of(NAME);
     }
 
+    @Override
     public String name() {
         return NAME;
     }

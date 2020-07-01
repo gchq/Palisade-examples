@@ -38,6 +38,7 @@ public class RequestLargeNoPolicyTrial extends PalisadeTrial {
         normal = Optional.of(NAME);
     }
 
+    @Override
     public String name() {
         return NAME;
     }

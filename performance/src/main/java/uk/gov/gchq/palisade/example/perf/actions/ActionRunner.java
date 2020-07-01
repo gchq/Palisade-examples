@@ -20,21 +20,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 
-import java.util.function.IntSupplier;
-
 public class ActionRunner implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ActionRunner.class);
 
-    private final IntSupplier action;
+    private final Runnable action;
 
     /**
      * Default constructor.
-     * Runs an action (an IntSupplier) and returns an int error code (0 if successful).
-     * This allows the INtSupplier to be used as a Spring CommandLineRunner
      *
      * @param action the action to run
      */
-    public ActionRunner(final IntSupplier action) {
+    public ActionRunner(final Runnable action) {
         this.action = action;
     }
 
@@ -45,10 +41,10 @@ public class ActionRunner implements CommandLineRunner {
      */
     @Override
     public void run(final String... args) {
-        // call the action and exit with that return code
+        // call the action and exit with some return code
         try {
-            int exitCode = action.getAsInt();
-            System.exit(exitCode);
+            action.run();
+            System.exit(0);
 
         } catch (RuntimeException e) {
             LOGGER.error("Executing \"{}\" failed:", action, e);

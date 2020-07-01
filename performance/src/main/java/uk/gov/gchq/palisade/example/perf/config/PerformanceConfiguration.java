@@ -27,7 +27,8 @@ public class PerformanceConfiguration {
     private String directory;
     private int small;
     private int large;
-    private int many;
+    private int manyUnique;
+    private int manyDuplicates;
     private int dryRuns;
     private int liveRuns;
     private List<String> skipTests;
@@ -79,14 +80,25 @@ public class PerformanceConfiguration {
     }
 
     @Generated
-    public int getMany() {
-        return many;
+    public int getManyUnique() {
+        return manyUnique;
     }
 
     @Generated
-    public void setMany(final int many) {
-        requireNonNull(many);
-        this.many = many;
+    public void setManyUnique(final int manyUnique) {
+        requireNonNull(manyUnique);
+        this.manyUnique = manyUnique;
+    }
+
+    @Generated
+    public int getManyDuplicates() {
+        return manyDuplicates;
+    }
+
+    @Generated
+    public void setManyDuplicates(final int manyDuplicates) {
+        requireNonNull(manyDuplicates);
+        this.manyDuplicates = manyDuplicates;
     }
 
     @Generated

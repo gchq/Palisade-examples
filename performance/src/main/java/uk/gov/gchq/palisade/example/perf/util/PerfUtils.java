@@ -31,7 +31,8 @@ public class PerfUtils {
     public static final String SMALL_FILE_NAME = "employee_small.avro";
     public static final String LARGE_FILE_NAME = "employee_large.avro";
     public static final String MANY_FILE_DIR = "many-employees";
-    public static final String MANY_FILE_FORMAT = "employee_%05d.avro";
+    public static final String MANY_DUP_DIR_FORMAT = "duplicate_%06d";
+    public static final String MANY_FILE_FORMAT = "employee_%06d.avro";
 
     /**
      * Hide constructor, this is a static class only
@@ -56,6 +57,6 @@ public class PerfUtils {
                         directoryName.resolve(NO_POLICY_DIR).resolve(SMALL_FILE_NAME),
                         directoryName.resolve(NO_POLICY_DIR).resolve(LARGE_FILE_NAME),
                         directoryName.resolve(NO_POLICY_DIR).resolve(MANY_FILE_DIR))
-                );
+        );
     }
 }

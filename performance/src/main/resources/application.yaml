@@ -44,8 +44,14 @@ performance:
   small: 1000
   # number of employees in single resource "employee_large.avro"
   large: 10000
-  # number of resources, each of a single employee, in "many-employees/employee_n.avro"
-  many: 100
+  # due to a tradeoff in randomisation and uniqueness of data vs creation and processing time, a number of unique resources are generated, then duplicated
+  # manyUnique larger     -> larger unique dataset, slower creation time
+  # manyDuplicates larger -> larger (no-longer unique) dataset, faster creation time
+  # the total number of many resources is the product manyUnique * manyDuplicates
+  # number of resources, each of a single employee, size of n for "many-employees/m/employee_n.avro", must be at least 1
+  manyUnique: 100
+  # number of resources, each of a single employee, size of m for "many-employees/m/employee_n.avro", must be at least 1
+  manyDuplicates: 1
   # number of dry-runs, does not count towards output results
   dryRuns: 3
   # number of live-runs, does count towards output results
