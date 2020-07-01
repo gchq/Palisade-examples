@@ -18,8 +18,11 @@ VOLUME /tmp
 
 ARG JAR_FILE
 
-COPY $JAR_FILE /usr/share/example-client/example-client.jar
+COPY $JAR_FILE /usr/share/example-client/example-model.jar
 
 LABEL service="example" project="palisade"
 
-ENTRYPOINT ["java", "-jar", "/usr/share/example-client/example-client.jar"]
+ENTRYPOINT ["java", "-jar", "/usr/share/example-client/example-model.jar"]
+
+RUN javac RestExample.java
+CMD RestExample.java
