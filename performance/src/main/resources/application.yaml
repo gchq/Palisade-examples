@@ -52,7 +52,7 @@ performance:
   manyUnique: 100
   # number of resources, each of a single employee, size of m for "many-employees/m/employee_n.avro", must be at least 1
   manyDuplicates: 1
-  # number of dry-runs, does not count towards output results
+  # number of dry-runs, does not count towards output results, used to remove impact of system level caching on performance
   dryRuns: 3
   # number of live-runs, does count towards output results
   liveRuns: 5
