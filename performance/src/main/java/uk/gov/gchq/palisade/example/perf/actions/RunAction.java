@@ -78,7 +78,7 @@ public class RunAction implements Runnable {
         // create the output collector
         PerfCollector collector = new PerfCollector();
 
-        performTrialBatch(liveRuns, fileSet.getKey(), fileSet.getValue(), collector, skipTests);
+        performTrialBatch(fileSet.getKey(), fileSet.getValue(), collector, skipTests);
 
         // write the performance test outputs
         collector.outputTo(LOGGER, buildNormalMap());
@@ -100,7 +100,6 @@ public class RunAction implements Runnable {
     /**
      * Perform a single batch of tests. This runs all tests the given number of times.
      *
-     * @param trialCount  the number of trials of each test to run
      * @param fileSet     the file set for tests
      * @param noPolicySet the file set for tests with no policy
      * @param collector   the output collector
@@ -108,12 +107,9 @@ public class RunAction implements Runnable {
      * @throws IllegalArgumentException if any of {@code testsToSkip} are invalid
      * @throws IllegalArgumentException {@code trialCount} is less than 1
      */
-    private void performTrialBatch(final int trialCount, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final Set<String> testsToSkip) {
+    private void performTrialBatch(final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final Set<String> testsToSkip) {
         requireNonNull(collector, "collector");
         requireNonNull(testsToSkip, "testsToSkip");
-        if (trialCount < 1) {
-            throw new IllegalArgumentException("live trials cannot be less than 1");
-        }
 
         // iterate over each test to run and execute the given number of trials
         for (Map.Entry<String, PerfTrial> e : testsToRun.entrySet()) {
@@ -124,10 +120,11 @@ public class RunAction implements Runnable {
             }
 
             // perform a number of dry and live runs of the trial
-            for (TrialType type : new TrialType[]{TrialType.DRY_RUN, TrialType.LIVE}) {
-                LOGGER.info("Starting trial type {}", type);
-                performSingleTrial(trialCount, e.getValue(), fileSet, noPolicySet, collector, type);
-            }
+            LOGGER.info("Starting trial type {}", TrialType.DRY_RUN);
+            performSingleTrial(dryRuns, e.getValue(), fileSet, noPolicySet, collector, TrialType.DRY_RUN);
+
+            LOGGER.info("Starting trial type {}", TrialType.LIVE);
+            performSingleTrial(liveRuns, e.getValue(), fileSet, noPolicySet, collector, TrialType.LIVE);
         }
     }
 
