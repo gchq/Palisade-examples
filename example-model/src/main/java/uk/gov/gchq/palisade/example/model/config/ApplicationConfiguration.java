@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,6 +52,7 @@ public class ApplicationConfiguration {
     @Value("${example.purpose:#{null}}")
     private String purpose;
 
+    @ConditionalOnProperty(name = "example.type", havingValue = "bulk")
     @Bean("BulkExample")
     public BulkTestExample bulkExample(final RestExample client) {
         LOGGER.debug("Constructed BulkExample");
@@ -63,7 +65,7 @@ public class ApplicationConfiguration {
         return new RestExample(client);
     }
 
-    @ConditionalOnProperty(name = "example.type", havingValue = "bulk")
+    @ConditionalOnBean(value = BulkTestExample.class)
     @Bean("BulkRunner")
     public CommandLineRunner bulkRunner(final BulkTestExample bulkTestExample) {
         requireNonNull(directory, "--example.directory=... must be provided");
