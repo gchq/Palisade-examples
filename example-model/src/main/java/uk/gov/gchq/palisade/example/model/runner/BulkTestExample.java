@@ -29,6 +29,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * A class to test if the Palisade data path can handle retrieving many thousands of resources in a single request. This class
  * will create the given number of resources in the examples/resources/data directory and then try to retrieve them.
@@ -52,10 +54,10 @@ public final class BulkTestExample {
      * @param shouldCreate true if the directory is empty and therefore the data needs creating
      * @param shouldDelete true if you want the data to be deleted after the test has run
      */
-    public BulkTestExample(final RestExample restExample, final boolean shouldCreate, final boolean shouldDelete) {
+    public BulkTestExample(final RestExample restExample, final Boolean shouldCreate, final Boolean shouldDelete) {
         this.client = restExample;
-        this.shouldCreate = shouldCreate;
-        this.shouldDelete = shouldDelete;
+        this.shouldCreate = requireNonNull(shouldCreate);
+        this.shouldDelete = requireNonNull(shouldDelete);
     }
 
     /**

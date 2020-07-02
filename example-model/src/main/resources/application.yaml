@@ -67,6 +67,8 @@ spring:
 example:
   type: bulk
   directory: "../Palisade-examples/resources/data/"
+  shouldCreate: true
+  shouldDelete: true
 
 ---
 

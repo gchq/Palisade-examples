@@ -38,6 +38,10 @@ public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
     @Value("${example.directory:#{null}}")
     private String directory;
+    @Value("${example.shouldCreate:#{null}}")
+    private Boolean shouldCreate;
+    @Value("${example.shouldDelete:#{null}}")
+    private Boolean shouldDelete;
     @Value("${example.quantity:#{null}}")
     private Integer quantity;
     @Value("${example.userid:#{null}}")
@@ -50,7 +54,7 @@ public class ApplicationConfiguration {
     @Bean("BulkExample")
     public BulkTestExample bulkExample(final RestExample client) {
         LOGGER.debug("Constructed BulkExample");
-        return new BulkTestExample(client, true, true);
+        return new BulkTestExample(client, shouldCreate, shouldDelete);
     }
 
     @Bean("RestExample")
