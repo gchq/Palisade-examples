@@ -50,13 +50,21 @@ public class PerfUtils {
     public static Map.Entry<PerfFileSet, PerfFileSet> getFileSet(final Path directoryName) {
         return new SimpleImmutableEntry<>(
                 new PerfFileSet(
-                        directoryName.resolve(WITH_POLICY_DIR).resolve(SMALL_FILE_NAME),
-                        directoryName.resolve(WITH_POLICY_DIR).resolve(LARGE_FILE_NAME),
-                        directoryName.resolve(WITH_POLICY_DIR).resolve(MANY_FILE_DIR)),
+                        getWithPolicyDir(directoryName).resolve(SMALL_FILE_NAME),
+                        getWithPolicyDir(directoryName).resolve(LARGE_FILE_NAME),
+                        getWithPolicyDir(directoryName).resolve(MANY_FILE_DIR)),
                 new PerfFileSet(
-                        directoryName.resolve(NO_POLICY_DIR).resolve(SMALL_FILE_NAME),
-                        directoryName.resolve(NO_POLICY_DIR).resolve(LARGE_FILE_NAME),
-                        directoryName.resolve(NO_POLICY_DIR).resolve(MANY_FILE_DIR))
+                        getNoPolicyDir(directoryName).resolve(SMALL_FILE_NAME),
+                        getNoPolicyDir(directoryName).resolve(LARGE_FILE_NAME),
+                        getNoPolicyDir(directoryName).resolve(MANY_FILE_DIR))
         );
+    }
+
+    public static Path getWithPolicyDir(final Path directoryName) {
+        return directoryName.resolve(WITH_POLICY_DIR);
+    }
+
+    public static Path getNoPolicyDir(final Path directoryName) {
+        return directoryName.resolve(NO_POLICY_DIR);
     }
 }

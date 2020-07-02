@@ -69,60 +69,18 @@ public class CreateAction implements Runnable {
         this.manyDuplicates = manyDuplicates;
     }
 
-    /**
-     * Copy a number of employee avro files in the with-policy directory to the no-policy directory
-     *
-     * @param fileSet parameters for file and directory names
-     * @return whether the operations completed successfully
-     */
-    private static boolean copyNoPolicyDataset(final Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
-        Path smallFile = fileSet.getKey().smallFile;
-        Path largeFile = fileSet.getKey().largeFile;
-        Path manyDir = fileSet.getKey().manyDir;
-
-        Path smallFileNoPolicy = fileSet.getValue().smallFile;
-        Path largeFileNoPolicy = fileSet.getValue().largeFile;
-        Path manyDirNoPolicy = fileSet.getValue().manyDir;
-
-        try {
-            boolean smallParentCreated = smallFileNoPolicy.toFile().mkdirs();
-            if (!smallParentCreated && !smallFileNoPolicy.getParent().toFile().exists()) {
-                LOGGER.warn("Failed to create parent directory {}", smallFileNoPolicy);
-            }
-            boolean largeParentCreated = largeFileNoPolicy.toFile().mkdirs();
-            if (!largeParentCreated && !largeFileNoPolicy.getParent().toFile().exists()) {
-                LOGGER.warn("Failed to create parent directory {}", largeFileNoPolicy);
-            }
-            boolean manyParentCreated = manyDirNoPolicy.toFile().mkdirs();
-            if (!manyParentCreated && !manyDirNoPolicy.toFile().exists()) {
-                LOGGER.warn("Failed to create parent directory {}", manyDirNoPolicy);
-            }
-
-            // copy the files to no policy variants
-            LOGGER.info("Copying small file");
-            Files.copy(smallFile, smallFileNoPolicy, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.info("Copying large file");
-            Files.copy(largeFile, largeFileNoPolicy, StandardCopyOption.REPLACE_EXISTING);
-            LOGGER.info("Copying many files dir");
-            try (Stream<Path> files = Files.walk(manyDir)) {
-                files.forEach((Path file) -> {
-                    try {
-                        Files.copy(
-                                file,
-                                manyDirNoPolicy.resolve(file.getFileName()),
-                                StandardCopyOption.REPLACE_EXISTING
-                        );
-                    } catch (IOException e) {
-                        LOGGER.error("Exception occurred while copying file {}", file);
-                        LOGGER.error("Exception was: ", e);
-                        throw new PerfException(e);
-                    }
-                });
-                return true;
-            }
+    private static void copyDir(final Path src, final Path dest) {
+        try (Stream<Path> files = Files.walk(src)) {
+            files.forEach(file -> {
+                Path relative = src.relativize(file);
+                try {
+                    Files.copy(file, dest.resolve(relative), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    throw new PerfException(e);
+                }
+            });
         } catch (IOException e) {
-            LOGGER.error("Exception occurred while copying no-policy data", e);
-            return false;
+            throw new PerfException(e);
         }
     }
 
@@ -132,12 +90,12 @@ public class CreateAction implements Runnable {
      * @param fileSet parameters for file and directory names
      * @return whether the operations completed successfully
      */
-    private boolean createWithPolicyDataset(final Map.Entry<PerfFileSet, PerfFileSet> fileSet) {
+    private boolean createWithPolicyDataset(final PerfFileSet fileSet) {
         ExecutorService tasks = Executors.newFixedThreadPool(3, Util.createDaemonThreadFactory());
 
-        Path smallFile = fileSet.getKey().smallFile;
-        Path largeFile = fileSet.getKey().largeFile;
-        Path manyDir = fileSet.getKey().manyDir;
+        Path smallFile = fileSet.smallFile;
+        Path largeFile = fileSet.largeFile;
+        Path manyDir = fileSet.manyDir;
         Path masterCopy = manyDir.resolve(String.format(PerfUtils.MANY_DUP_DIR_FORMAT, 0));
 
         // make result writers
@@ -149,13 +107,12 @@ public class CreateAction implements Runnable {
                 .mapToObj((long i) -> new CreateDataFile(
                         1,
                         seedFrom + i,
-                        masterCopy
-                                .resolve(String.format(PerfUtils.MANY_FILE_FORMAT, i)).toFile()
+                        masterCopy.resolve(String.format(PerfUtils.MANY_FILE_FORMAT, i)).toFile()
                 ));
 
         // submit tasks
         LOGGER.info("Going to create {} records in file {}, {} records in file {}", small, PerfUtils.SMALL_FILE_NAME, large, PerfUtils.LARGE_FILE_NAME);
-        LOGGER.info("Going to create {} records in directory {}, then duplicate {} times", manyUnique, masterCopy, manyDuplicates);
+        LOGGER.info("Going to create {} resources in directory {}", manyUnique, masterCopy);
         Future<Boolean> smallFuture = tasks.submit(smallWriter);
         Future<Boolean> largeFuture = tasks.submit(largeWriter);
         Stream<Future<Boolean>> manyFutures = manyWriters.map(tasks::submit);
@@ -177,19 +134,14 @@ public class CreateAction implements Runnable {
             });
             LOGGER.info("Many files written successfully: {}", manyComplete);
 
-            LOGGER.info("Duplicating many files");
-            LongStream.range(0, manyDuplicates)
-                    .forEach((long i) -> {
-                        try {
-                            Files.copy(
-                                    masterCopy,
-                                    masterCopy.resolveSibling(String.format(PerfUtils.MANY_DUP_DIR_FORMAT, i)),
-                                    StandardCopyOption.REPLACE_EXISTING
-                            );
-                        } catch (IOException e) {
-                            throw new PerfException(e);
-                        }
-                    });
+            // Already created original 'master copy' set, exclude this from the 'duplicate' count
+            if (manyDuplicates > 1) {
+                LOGGER.info("Duplicating {} unique resources {} times", manyUnique, manyDuplicates - 1);
+                LongStream.range(1, manyDuplicates)
+                        .mapToObj((long i) -> masterCopy.resolveSibling(String.format(PerfUtils.MANY_DUP_DIR_FORMAT, i)))
+                        .forEach((Path dest) -> copyDir(masterCopy, dest));
+            }
+
             return true;
         } catch (ExecutionException e) {
             LOGGER.error("Exception occurred while creating with-policy data", e);
@@ -212,18 +164,24 @@ public class CreateAction implements Runnable {
     public void run() {
         // get the sizes and paths
         Path directory = Path.of(directoryName);
+        Path withPolicy = PerfUtils.getWithPolicyDir(directory);
+        Path noPolicy = PerfUtils.getNoPolicyDir(directory);
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
 
-        if (createWithPolicyDataset(fileSet)) {
-            LOGGER.info("Successfully created with-policy dataset, copying to no-policy");
-        } else {
-            throw new PerfException(new IOException("Failed to create with-policy dataset"));
+        try {
+            Files.deleteIfExists(withPolicy);
+            Files.deleteIfExists(noPolicy);
+        } catch (IOException e) {
+            LOGGER.warn("Exception while deleting existing dirs, continuing anyway", e);
         }
 
-        if (copyNoPolicyDataset(fileSet)) {
-            LOGGER.info("Successfully copied no-policy dataset");
+        if (createWithPolicyDataset(fileSet.getKey())) {
+            LOGGER.info("Successfully created with-policy dataset at {}", withPolicy);
+
+            LOGGER.info("Copying to no-policy dataset at {}", noPolicy);
+            copyDir(withPolicy, noPolicy);
         } else {
-            throw new PerfException(new IOException("Failed to copy no-policy dataset"));
+            throw new PerfException(new IOException("Failed to create with-policy dataset"));
         }
     }
 }
