@@ -19,7 +19,6 @@ package uk.gov.gchq.palisade.example.perf.trial;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
