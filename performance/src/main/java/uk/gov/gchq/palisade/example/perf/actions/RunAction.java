@@ -68,6 +68,23 @@ public class RunAction implements Runnable {
     }
 
     /**
+     * Run this action and throw a runtime exxception if an error occurred
+     *
+     * @throws RuntimeException if an error occurred
+     */
+    public void run() {
+        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(Path.of(directoryName));
+
+        // create the output collector
+        PerfCollector collector = new PerfCollector();
+
+        performTrialBatch(liveRuns, fileSet.getKey(), fileSet.getValue(), collector, skipTests);
+
+        // write the performance test outputs
+        collector.outputTo(LOGGER, buildNormalMap());
+    }
+
+    /**
      * Sleep method for separating runs.
      *
      * @param ms time to wait in milliseconds
@@ -77,6 +94,40 @@ public class RunAction implements Runnable {
             Thread.sleep(ms);
         } catch (InterruptedException ignored) {
             Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
+     * Perform a single batch of tests. This runs all tests the given number of times.
+     *
+     * @param trialCount  the number of trials of each test to run
+     * @param fileSet     the file set for tests
+     * @param noPolicySet the file set for tests with no policy
+     * @param collector   the output collector
+     * @param testsToSkip test names to skip
+     * @throws IllegalArgumentException if any of {@code testsToSkip} are invalid
+     * @throws IllegalArgumentException {@code trialCount} is less than 1
+     */
+    private void performTrialBatch(final int trialCount, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final Set<String> testsToSkip) {
+        requireNonNull(collector, "collector");
+        requireNonNull(testsToSkip, "testsToSkip");
+        if (trialCount < 1) {
+            throw new IllegalArgumentException("live trials cannot be less than 1");
+        }
+
+        // iterate over each test to run and execute the given number of trials
+        for (Map.Entry<String, PerfTrial> e : testsToRun.entrySet()) {
+            // do we need to skip this one?
+            if (testsToSkip.contains(e.getKey())) {
+                LOGGER.info("Skipping test {}", e.getKey());
+                continue;
+            }
+
+            // perform a number of dry and live runs of the trial
+            for (TrialType type : new TrialType[]{TrialType.DRY_RUN, TrialType.LIVE}) {
+                LOGGER.info("Starting trial type {}", type);
+                performSingleTrial(trialCount, e.getValue(), fileSet, noPolicySet, collector, type);
+            }
         }
     }
 
@@ -119,7 +170,7 @@ public class RunAction implements Runnable {
      * @param collector   the output collector
      * @param type        test type being run
      */
-    public static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
+    private static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
         requireNonNull(trial, "trial");
         requireNonNull(collector, "collector");
 
@@ -140,31 +191,6 @@ public class RunAction implements Runnable {
     }
 
     /**
-     * Run this action and throw a runtime exxception if an error occurred
-     *
-     * @throws RuntimeException if an error occurred
-     */
-    public void run() {
-        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(Path.of(directoryName));
-
-        // create the output collector
-        PerfCollector collector = new PerfCollector();
-
-        // do we need to do any dry runs?
-        if (dryRuns > 0) {
-            LOGGER.info("Starting dry runs");
-            performTrialBatch(dryRuns, fileSet.getKey(), fileSet.getValue(), collector, TrialType.DRY_RUN, skipTests);
-        }
-
-        // do the live trials
-        LOGGER.info("Starting live tests");
-        performTrialBatch(liveRuns, fileSet.getKey(), fileSet.getValue(), collector, TrialType.LIVE, skipTests);
-
-        // write the performance test outputs
-        collector.outputTo(LOGGER, buildNormalMap());
-    }
-
-    /**
      * Create the map of test names to optional normal test names.
      *
      * @return normal map
@@ -172,37 +198,5 @@ public class RunAction implements Runnable {
     private Map<String, Optional<String>> buildNormalMap() {
         return testsToRun.entrySet().stream()
                 .collect(Collectors.toMap(Entry::getKey, e -> e.getValue().getNameForNormalisation()));
-    }
-
-    /**
-     * Perform a single batch of tests. This runs all tests the given number of times.
-     *
-     * @param trialCount  the number of trials of each test to run
-     * @param fileSet     the file set for tests
-     * @param noPolicySet the file set for tests with no policy
-     * @param collector   the output collector
-     * @param type        the test type being run
-     * @param testsToSkip test names to skip
-     * @throws IllegalArgumentException if any of {@code testsToSkip} are invalid
-     * @throws IllegalArgumentException {@code trialCount} is less than 1
-     */
-    private void performTrialBatch(final int trialCount, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type, final Set<String> testsToSkip) {
-        requireNonNull(collector, "collector");
-        requireNonNull(testsToSkip, "testsToSkip");
-        if (trialCount < 1) {
-            throw new IllegalArgumentException("live trials cannot be less than 1");
-        }
-
-        // iterate over each test to run and execute the given number of trials
-        for (Map.Entry<String, PerfTrial> e : testsToRun.entrySet()) {
-            // do we need to skip this one?
-            if (testsToSkip.contains(e.getKey())) {
-                LOGGER.info("Skipping test {}", e.getKey());
-                continue;
-            }
-
-            // perform a run of the named test
-            performSingleTrial(trialCount, e.getValue(), fileSet, noPolicySet, collector, type);
-        }
     }
 }
