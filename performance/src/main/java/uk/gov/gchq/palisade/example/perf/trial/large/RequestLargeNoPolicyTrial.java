@@ -38,7 +38,6 @@ public class RequestLargeNoPolicyTrial extends PalisadeTrial {
         normal = Optional.of(NAME);
     }
 
-    @Override
     public String name() {
         return NAME;
     }
@@ -47,7 +46,7 @@ public class RequestLargeNoPolicyTrial extends PalisadeTrial {
         return "makes a request for the large file with no policy set without reading data";
     }
 
-    public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
+    public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Employee> ignored = getDataStream(noPolicySet.smallFile)) {
             //do nothing
         }

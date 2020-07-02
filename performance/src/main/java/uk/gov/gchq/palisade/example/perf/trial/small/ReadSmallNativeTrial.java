@@ -44,7 +44,6 @@ public class ReadSmallNativeTrial extends PerfTrial {
         normal = Optional.of(NAME);
     }
 
-    @Override
     public String name() {
         return NAME;
     }
@@ -53,7 +52,7 @@ public class ReadSmallNativeTrial extends PerfTrial {
         return "performs a native read and deserialise of the small file";
     }
 
-    public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
+    public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //read from file
         try (InputStream bis = Files.newInputStream(fileSet.smallFile);
              Stream<Employee> dataStream = SERIALISER.deserialise(bis)) {

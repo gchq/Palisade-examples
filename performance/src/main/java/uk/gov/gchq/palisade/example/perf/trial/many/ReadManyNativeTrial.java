@@ -45,7 +45,6 @@ public class ReadManyNativeTrial extends PerfTrial {
         normal = Optional.of(NAME);
     }
 
-    @Override
     public String name() {
         return NAME;
     }
@@ -54,7 +53,7 @@ public class ReadManyNativeTrial extends PerfTrial {
         return "performs a native read and deserialise of many files";
     }
 
-    public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
+    public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Path> manyFiles = Files.walk(fileSet.manyDir)) {
             manyFiles.filter(path -> path.toFile().isFile())
                     .forEach(file -> {

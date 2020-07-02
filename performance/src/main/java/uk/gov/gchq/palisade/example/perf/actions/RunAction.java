@@ -127,7 +127,7 @@ public class RunAction implements Runnable {
         try {
             trial.setup(fileSet, noPolicySet);
             long time = System.nanoTime();
-            trial.accept(fileSet, noPolicySet);
+            trial.runTrial(fileSet, noPolicySet);
             time = System.nanoTime() - time;
             trial.tearDown(fileSet, noPolicySet);
             // if this is a live trial then log it

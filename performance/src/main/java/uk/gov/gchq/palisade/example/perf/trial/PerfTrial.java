@@ -27,7 +27,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Abstract superclass for all performance trials.
  */
-public abstract class PerfTrial implements BiConsumer<PerfFileSet, PerfFileSet> {
+public abstract class PerfTrial {
     /**
      * Normal trial name.
      */
@@ -38,9 +38,7 @@ public abstract class PerfTrial implements BiConsumer<PerfFileSet, PerfFileSet> 
      *
      * @return test name
      */
-    public String name() {
-        return null;
-    }
+    public abstract String name();
 
     /**
      * Provides a one line description of this performance test.
@@ -48,6 +46,16 @@ public abstract class PerfTrial implements BiConsumer<PerfFileSet, PerfFileSet> 
      * @return the usage line
      */
     public abstract String description();
+
+    /**
+     * Consume a pair of {@link PerfFileSet}s, the first for resources with a policy attached, the second without.
+     * Run the appropriate trial, this method will be timed so any set-up and tear-down should be in the appropriate
+     * methods to ensure meaningful and useful results (we don't want to be timing JVM object constructor times etc...)
+     *
+     * @param fileSet     a collection of resources in a location that does not have any attached policies in palisade
+     * @param noPolicySet a collection of resources in a location that does have a number of attached policies
+     */
+    public abstract void runTrial(PerfFileSet fileSet, PerfFileSet noPolicySet);
 
     /**
      * Provide a trial instance to normalise performance times to.

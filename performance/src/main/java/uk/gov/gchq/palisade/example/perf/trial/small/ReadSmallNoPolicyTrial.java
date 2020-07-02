@@ -38,7 +38,6 @@ public class ReadSmallNoPolicyTrial extends PalisadeTrial {
         normal = Optional.of(ReadSmallNativeTrial.NAME);
     }
 
-    @Override
     public String name() {
         return NAME;
     }
@@ -47,7 +46,7 @@ public class ReadSmallNoPolicyTrial extends PalisadeTrial {
         return "reads the small data file with no policy set";
     }
 
-    public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
+    public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //setup a request and read data
         try (Stream<Employee> data = getDataStream(noPolicySet.smallFile)) {
             sink(data);

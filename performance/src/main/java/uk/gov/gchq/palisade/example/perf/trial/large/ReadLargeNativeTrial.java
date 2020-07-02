@@ -44,7 +44,6 @@ public class ReadLargeNativeTrial extends PerfTrial {
         normal = Optional.of(name());
     }
 
-    @Override
     public String name() {
         return NAME;
     }
@@ -53,7 +52,7 @@ public class ReadLargeNativeTrial extends PerfTrial {
         return "performs a native read and deserialise of the large file";
     }
 
-    public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
+    public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //get file URI
         //read from file
         try (InputStream bis = Files.newInputStream(fileSet.largeFile);

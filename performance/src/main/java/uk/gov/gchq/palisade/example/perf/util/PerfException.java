@@ -16,22 +16,47 @@
 
 package uk.gov.gchq.palisade.example.perf.util;
 
+/**
+ * Wrapper around RuntimeException, should capture any exception thrown during performance trials.
+ * This allows using a functional style wherever possible and elevating Exceptions to RuntimeExceptions.
+ * Should a performance-test throw an exception, it is likely the system is not working correctly and any
+ * results produced by the test suite will be invalid anyway, so fail-fast and report this error, never
+ * handle it 'gracefully'.
+ */
 public class PerfException extends RuntimeException {
-    public PerfException() {
+    // Hide the empty-constructor, we always want some info of what happened
+    // Also hide the String constructor, we should only really be failing if an exception was thrown
+    private PerfException() {
+        super();
     }
 
-    public PerfException(final String message) {
-        super(message);
-    }
-
+    /**
+     * Attach a message to a thrown exception, such as probable cause and action that resulted in the exception
+     *
+     * @param message a message to attach to enrich the context of the thrown exception cause
+     * @param cause   the caught-and-rethrown exception (possibly not yet a RuntimeException)
+     */
     public PerfException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * Rethrow a caught exception as a RuntimeException
+     *
+     * @param cause the caught-and-rethrown exception (possibly not yet a RuntimeException)
+     */
     public PerfException(final Throwable cause) {
         super(cause);
     }
 
+    /**
+     * Fine-grained control over exception output
+     *
+     * @param message            a message to attach to enrich the context of the thrown exception cause
+     * @param cause              the caught-and-rethrown exception (possibly not yet a RuntimeException)
+     * @param enableSuppression  whether or not suppression is enabled or disabled
+     * @param writableStackTrace whether or not the stack trace should be writable
+     */
     public PerfException(final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }

@@ -38,7 +38,6 @@ public class RequestManyWithPolicyTrial extends PalisadeTrial {
         normal = Optional.of(RequestManyNoPolicyTrial.NAME);
     }
 
-    @Override
     public String name() {
         return NAME;
     }
@@ -47,7 +46,7 @@ public class RequestManyWithPolicyTrial extends PalisadeTrial {
         return "makes a request for many files without reading data";
     }
 
-    public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
+    public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Employee> ignored = getDataStream(fileSet.manyDir)) {
             //do nothing
         }

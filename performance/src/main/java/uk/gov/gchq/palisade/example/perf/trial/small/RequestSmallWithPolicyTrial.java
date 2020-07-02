@@ -38,7 +38,6 @@ public class RequestSmallWithPolicyTrial extends PalisadeTrial {
         normal = Optional.of(RequestSmallNoPolicyTrial.NAME);
     }
 
-    @Override
     public String name() {
         return NAME;
     }
@@ -47,7 +46,7 @@ public class RequestSmallWithPolicyTrial extends PalisadeTrial {
         return "makes a request for the small file without reading data";
     }
 
-    public void accept(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
+    public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Employee> ignored = getDataStream(fileSet.smallFile)) {
             //do nothing
         }
