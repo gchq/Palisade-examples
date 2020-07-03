@@ -119,6 +119,7 @@ spec:
                                      file(credentialsId: "${env.SQ_KEY_STORE}", variable: 'KEYSTORE')]) {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
                             withSonarQubeEnv(installationName: 'sonar') {
+                                sh 'echo ${GIT_BRANCH_NAME}'
                                 sh 'mvn -s $MAVEN_SETTINGS org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey="Palisade-Examples-${CHANGE_BRANCH}" -Dsonar.projectName="Palisade-Examples-${CHANGE_BRANCH}" -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS'
                             }
                         }
