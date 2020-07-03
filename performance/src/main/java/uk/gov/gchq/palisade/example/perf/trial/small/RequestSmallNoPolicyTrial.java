@@ -34,7 +34,7 @@ public class RequestSmallNoPolicyTrial extends PalisadeTrial {
 
     public RequestSmallNoPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
-        setNameForNormalisation(NAME);
+        normal = NAME;
     }
 
     public String name() {

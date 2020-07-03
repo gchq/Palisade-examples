@@ -34,7 +34,7 @@ public class RequestLargeWithPolicyTrial extends PalisadeTrial {
 
     public RequestLargeWithPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
-        setNameForNormalisation(RequestLargeNoPolicyTrial.NAME);
+        normal = RequestLargeNoPolicyTrial.NAME;
     }
 
     public String name() {

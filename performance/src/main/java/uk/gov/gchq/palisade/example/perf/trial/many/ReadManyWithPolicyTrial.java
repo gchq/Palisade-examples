@@ -34,7 +34,7 @@ public class ReadManyWithPolicyTrial extends PalisadeTrial {
 
     public ReadManyWithPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
-        setNameForNormalisation(ReadManyNativeTrial.NAME);
+        normal = ReadManyNativeTrial.NAME;
     }
 
     public String name() {

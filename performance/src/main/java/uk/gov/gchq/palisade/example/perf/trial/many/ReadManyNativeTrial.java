@@ -42,7 +42,7 @@ public class ReadManyNativeTrial extends PerfTrial {
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
     public ReadManyNativeTrial() {
-        setNameForNormalisation(NAME);
+        normal = NAME;
     }
 
     public String name() {
