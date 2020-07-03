@@ -183,7 +183,8 @@ public class RunAction implements Runnable {
                 collector.logTime(trial.name(), time);
             }
         } catch (Exception e) {
-            LOGGER.warn("Performance test \"{}\" failed because {}", trial.name(), e.getMessage());
+            LOGGER.warn("Performance test \"{}\" failed", trial.name());
+            LOGGER.warn("Exception was :", e);
         }
     }
 

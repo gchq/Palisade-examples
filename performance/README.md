@@ -56,7 +56,7 @@ Create some test data for the performance-test, start the palisade-services and 
 Once the create-perf-data task has been run once, it does not need to be re-run:
  * If running the performance tests repeatedly, the above command can be sped up to the default configuration of:  
    `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar`  
- * If the palisade services are also still running, the caobe command can be sped up again to exclude starting the already-running services:  
+ * If the palisade services are also still running, the above command can be sped up again to exclude starting the already-running services:  
    `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-test-task`  
    Or run just the performance-test manually as below...
 

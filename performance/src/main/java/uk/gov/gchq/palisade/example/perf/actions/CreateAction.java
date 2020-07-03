@@ -71,7 +71,7 @@ public class CreateAction implements Runnable {
 
     private static void copyDir(final Path src, final Path dest) {
         try (Stream<Path> files = Files.walk(src)) {
-            files.forEach(file -> {
+            files.forEach((Path file) -> {
                 Path relative = src.relativize(file);
                 try {
                     Files.copy(file, dest.resolve(relative), StandardCopyOption.REPLACE_EXISTING);
