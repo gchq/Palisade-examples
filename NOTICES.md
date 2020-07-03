@@ -11,6 +11,7 @@ List of third-party dependencies grouped by their license type
 * clients-simple ([uk.gov.gchq.palisade:clients-simple:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/clients-simple))
 * common ([uk.gov.gchq.palisade:common:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-common))
 * example-library ([uk.gov.gchq.palisade:example-library:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
+* example-model ([uk.gov.gchq.palisade:example-model:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-model))
 * hr-data-generator ([uk.gov.gchq.palisade:hr-data-generator:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/hr-data-generator))
 * readers-common ([uk.gov.gchq.palisade:readers-common:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-readers/tree/develop/readers-common))
 

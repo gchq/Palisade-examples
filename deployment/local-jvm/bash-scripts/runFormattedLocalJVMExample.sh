@@ -5,7 +5,7 @@ FORMATTER=deployment/bash-scripts/formatOutput.sh
 # Run the formatted rest example
 if [ -f $FILE ]; then
   if [ -f $FORMATTER ]; then
-    java -Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.runner.RestExample=INFO -Dspring.profiles.active=eureka,rest -jar $FILE | $FORMATTER
+    java -Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.model.runner.RestExample=INFO -Dspring.profiles.active=eureka,rest -jar $FILE | $FORMATTER
   else
     echo "Cannot find formatter script -- check your 'git status'"
   fi
