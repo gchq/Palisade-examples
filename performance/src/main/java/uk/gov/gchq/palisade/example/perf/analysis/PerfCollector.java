@@ -93,7 +93,7 @@ public class PerfCollector {
         stats.setMin(resultList[0]);
         stats.setMax(resultList[resultList.length - 1]);
 
-        // compute mean
+        // compute mean and standard deviation
         double total = 0;
         double totalDiff = 0;
         for (double seconds : resultList) {
