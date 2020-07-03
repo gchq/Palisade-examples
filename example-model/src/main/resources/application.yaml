@@ -26,6 +26,10 @@ spring:
       ribbon:
         enabled: false
 
+web:
+  client:
+    palisade-service: "http://localhost:8084"
+
 ---
 
 spring:
@@ -51,7 +55,6 @@ eureka:
     fetchRegistry: true
     registry-fetch-interval-seconds: 5
 
-
 web:
   client:
     palisade-service: ""
@@ -64,6 +67,8 @@ spring:
 example:
   type: bulk
   directory: "../Palisade-examples/resources/data/"
+  shouldCreate: true
+  shouldDelete: true
 
 ---
 
