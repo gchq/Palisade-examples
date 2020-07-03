@@ -29,7 +29,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -194,7 +193,7 @@ public class RunAction implements Runnable {
      *
      * @return normal map
      */
-    private Map<String, Optional<String>> buildNormalMap() {
+    private Map<String, String> buildNormalMap() {
         return testsToRun.entrySet().stream()
                 .collect(Collectors.toMap(Entry::getKey, e -> e.getValue().getNameForNormalisation()));
     }

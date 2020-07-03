@@ -27,7 +27,6 @@ import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -36,12 +35,12 @@ import java.util.stream.Stream;
  */
 @Component
 public class ReadLargeNativeTrial extends PerfTrial {
-    static final String NAME = "read_large_native";
+    protected static final String NAME = "read_large_native";
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
     public ReadLargeNativeTrial() {
-        normal = Optional.of(NAME);
+        setNameForNormalisation(NAME);
     }
 
     public String name() {

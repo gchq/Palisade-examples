@@ -18,7 +18,6 @@ package uk.gov.gchq.palisade.example.perf.trial;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
@@ -30,7 +29,7 @@ public abstract class PerfTrial {
     /**
      * Normal trial name.
      */
-    protected Optional<String> normal = Optional.empty();
+    protected String normal = "";
 
     /**
      * Returns the name for this performance test.
@@ -61,7 +60,7 @@ public abstract class PerfTrial {
      *
      * @return trial instance name to normalise to
      */
-    public Optional<String> getNameForNormalisation() {
+    public String getNameForNormalisation() {
         return normal;
     }
 
@@ -73,7 +72,7 @@ public abstract class PerfTrial {
      */
     public PerfTrial setNameForNormalisation(final String normalTrialName) {
         requireNonNull(normalTrialName, "normalTrialName");
-        this.normal = Optional.of(normalTrialName);
+        this.normal = normalTrialName;
         return this;
     }
 

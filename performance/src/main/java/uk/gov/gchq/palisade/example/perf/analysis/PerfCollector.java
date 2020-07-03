@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.TreeMap;
 
 import static java.util.Objects.nonNull;
@@ -175,7 +174,7 @@ public class PerfCollector {
      * @param normalMap the map of which test names to normalise against which others
      * @param logger    where to write output
      */
-    public void outputTo(final Logger logger, final Map<String, Optional<String>> normalMap) {
+    public void outputTo(final Logger logger, final Map<String, String> normalMap) {
         requireNonNull(logger, "out");
         requireNonNull(normalMap, "normalMap");
 
@@ -205,17 +204,14 @@ public class PerfCollector {
             // do we have an entry for this test?
             if (normalMap.containsKey(entry.getKey())) {
                 // get the test name we should normalise against
-                Optional<String> normalTest = normalMap.get(entry.getKey());
-                normalTest.ifPresent((String normalTestName) -> {
-                            // get the perf stats for this test and the normalised one
-                            PerfStats trial = entry.getValue();
-                            PerfStats normalTrial = results.get(normalTestName);
-                            // if both non null then compute normalisation
-                            if (nonNull(trial) && nonNull(normalTrial)) {
-                                trial.setNorm(trial.getMean() / normalTrial.getMean());
-                            }
-                        }
-                );
+                String normalTest = normalMap.get(entry.getKey());
+                // get the perf stats for this test and the normalised one
+                PerfStats trial = entry.getValue();
+                PerfStats normalTrial = results.get(normalTest);
+                // if both non null then compute normalisation
+                if (nonNull(trial) && nonNull(normalTrial)) {
+                    trial.setNorm(trial.getMean() / normalTrial.getMean());
+                }
             }
             // send to output
             PerfStats pfs = entry.getValue();
