@@ -23,6 +23,7 @@ import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.util.PerfException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,11 +66,11 @@ public class ReadManyNativeTrial extends PerfTrial {
                             sink(dataStream);
 
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            throw new PerfException(e);
                         }
                     });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerfException(e);
         }
     }
 }
