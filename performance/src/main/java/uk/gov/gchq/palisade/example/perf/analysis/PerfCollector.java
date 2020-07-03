@@ -189,9 +189,10 @@ public class PerfCollector {
                     rows.append("%12.3f");
                 });
 
-        String headerString = header.toString();
-        logger.info(headerString, COLUMN_HEADERS);
-        logger.info("{}, {}", header, COLUMN_HEADERS);
+        if (logger.isInfoEnabled()) {
+            String headerString = header.toString();
+            logger.info(headerString, COLUMN_HEADERS);
+        }
 
         Map<String, PerfStats> results = new HashMap<>();
 
@@ -215,11 +216,13 @@ public class PerfCollector {
                     trial.setNorm(trial.getMean() / normalTrial.getMean());
                 }
             }
-            // send to output
-            PerfStats pfs = entry.getValue();
-            String rowsString = rows.toString();
-            logger.info(rowsString,
-                    entry.getKey(), pfs.getNumTrials(), pfs.getMin(), pfs.getMax(), pfs.getMean(), pfs.getStdDev(), pfs.getPc25(), pfs.getPc50(), pfs.getPc75(), pfs.getPc99(), pfs.getNorm());
+            if (logger.isInfoEnabled()) {
+                // send to output
+                PerfStats pfs = entry.getValue();
+                String rowsString = rows.toString();
+                logger.info(rowsString,
+                        entry.getKey(), pfs.getNumTrials(), pfs.getMin(), pfs.getMax(), pfs.getMean(), pfs.getStdDev(), pfs.getPc25(), pfs.getPc50(), pfs.getPc75(), pfs.getPc99(), pfs.getNorm());
+            }
         }
     }
 }
