@@ -189,6 +189,8 @@ public class PerfCollector {
                     rows.append("%12.3f");
                 });
 
+        String headerString = header.toString();
+        logger.info(headerString, COLUMN_HEADERS);
         logger.info("{}, {}", header, COLUMN_HEADERS);
 
         Map<String, PerfStats> results = new HashMap<>();
@@ -215,7 +217,8 @@ public class PerfCollector {
             }
             // send to output
             PerfStats pfs = entry.getValue();
-            logger.info("{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},", rows,
+            String rowsString = rows.toString();
+            logger.info(rowsString,
                     entry.getKey(), pfs.getNumTrials(), pfs.getMin(), pfs.getMax(), pfs.getMean(), pfs.getStdDev(), pfs.getPc25(), pfs.getPc50(), pfs.getPc75(), pfs.getPc99(), pfs.getNorm());
         }
     }
