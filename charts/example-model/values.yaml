@@ -18,8 +18,9 @@ service:
   port: 80
 
 image:
-  repository: palisade/example-model
+  repository: palisade-examples
   tag: 4302b6e-SNAPSHOT
+  name: example-model
   pullPolicy: IfNotPresent
 
 resources:

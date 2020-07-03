@@ -15,5 +15,5 @@
 apiVersion: v2
 appVersion: "1.0"
 description: A helm chart to run the kubernetes example
-name: example-client
+name: example-model
 version: 0.4.0
