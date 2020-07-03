@@ -56,7 +56,7 @@ public class ReadManyNativeTrial extends PerfTrial {
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Path> manyFiles = Files.walk(fileSet.manyDir)) {
             manyFiles.filter(path -> path.toFile().isFile())
-                    .forEach(file -> {
+                    .forEach((Path file) -> {
                         //read from file
                         try (InputStream bis = Files.newInputStream(file);
                              Stream<Employee> dataStream = SERIALISER.deserialise(bis)) {

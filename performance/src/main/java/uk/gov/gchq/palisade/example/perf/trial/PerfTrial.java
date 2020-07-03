@@ -71,9 +71,9 @@ public abstract class PerfTrial {
      * @param normalTrialName the trial name to normalise against
      * @return this object
      */
-    public PerfTrial setNameForNormalisation(final Optional<String> normalTrialName) {
+    public PerfTrial setNameForNormalisation(final String normalTrialName) {
         requireNonNull(normalTrialName, "normalTrialName");
-        this.normal = normalTrialName;
+        this.normal = Optional.of(normalTrialName);
         return this;
     }
 
@@ -85,7 +85,7 @@ public abstract class PerfTrial {
      */
     public PerfTrial setNameForNormalisation(final PerfTrial trial) {
         requireNonNull(trial, "trial");
-        return this.setNameForNormalisation(Optional.of(trial.name()));
+        return this.setNameForNormalisation(trial.name());
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class PerfTrial {
      * @param stream the stream to sink
      */
     public void sink(final Stream<?> stream) {
-        stream.forEach(ignore -> {
+        stream.forEach((Object ignore) -> {
         });
     }
 

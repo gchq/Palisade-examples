@@ -44,6 +44,7 @@ public class RunAction implements Runnable {
      */
     public static final Duration TEST_DELAY = Duration.ofMillis(250);
     private static final Logger LOGGER = LoggerFactory.getLogger(RunAction.class);
+    private static final String COLLECTOR = "collector";
     private final String directoryName;
     private final int dryRuns;
     private final int liveRuns;
@@ -108,7 +109,7 @@ public class RunAction implements Runnable {
      * @throws IllegalArgumentException {@code trialCount} is less than 1
      */
     private void performTrialBatch(final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final Set<String> testsToSkip) {
-        requireNonNull(collector, "collector");
+        requireNonNull(collector, COLLECTOR);
         requireNonNull(testsToSkip, "testsToSkip");
 
         // iterate over each test to run and execute the given number of trials
@@ -141,7 +142,7 @@ public class RunAction implements Runnable {
      */
     private static void performSingleTrial(final int trialCount, final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
         requireNonNull(trial, "trial");
-        requireNonNull(collector, "collector");
+        requireNonNull(collector, COLLECTOR);
         if (trialCount < 1) {
             throw new IllegalArgumentException("trial count cannot be less than 1");
         }
@@ -169,7 +170,7 @@ public class RunAction implements Runnable {
      */
     private static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
         requireNonNull(trial, "trial");
-        requireNonNull(collector, "collector");
+        requireNonNull(collector, COLLECTOR);
 
         // perform trial
         try {

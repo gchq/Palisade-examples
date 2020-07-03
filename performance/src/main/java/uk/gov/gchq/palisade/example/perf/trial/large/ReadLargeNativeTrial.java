@@ -41,7 +41,7 @@ public class ReadLargeNativeTrial extends PerfTrial {
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
     public ReadLargeNativeTrial() {
-        normal = Optional.of(name());
+        normal = Optional.of(NAME);
     }
 
     public String name() {

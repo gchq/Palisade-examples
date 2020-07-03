@@ -37,7 +37,13 @@ public class PerfCollector {
     /**
      * Number of nanoseconds in a second.
      */
-    public static final double NANOS_IN_SECOND = 1e9d;
+    public static final double NANOS_IN_SECOND = 1E9D;
+    public static final int TWENTY_FIVE_PERCENT = 25;
+    public static final int FIFTY_PERCENT = 50;
+    public static final int SEVENTY_FIVE_PERCENT = 75;
+    public static final int NINETY_NINE_PERCENT = 99;
+    public static final int ONE_HUNDRED_PERCENT = 100;
+    public static final double ONE_HUNDRED_DOUBLE = 100D;
     /**
      * Column headers.
      */
@@ -90,24 +96,20 @@ public class PerfCollector {
 
         // compute mean
         double total = 0;
-        for (double seconds : resultList) {
-            total = total + seconds;
-        }
-        stats.setMean(total / stats.getNumTrials());
-
-        // compute standard deviation
         double totalDiff = 0;
         for (double seconds : resultList) {
+            total = total + seconds;
             double difFromMean = seconds - stats.getMean();
             totalDiff = totalDiff + (difFromMean * difFromMean);
         }
+        stats.setMean(total / stats.getNumTrials());
         stats.setStdDev(Math.sqrt(totalDiff / stats.getNumTrials()));
 
         // compute percentiles
-        stats.setPc25(computePercentile(resultList, 25));
-        stats.setPc50(computePercentile(resultList, 50));
-        stats.setPc75(computePercentile(resultList, 75));
-        stats.setPc99(computePercentile(resultList, 99));
+        stats.setPc25(computePercentile(resultList, TWENTY_FIVE_PERCENT));
+        stats.setPc50(computePercentile(resultList, FIFTY_PERCENT));
+        stats.setPc75(computePercentile(resultList, SEVENTY_FIVE_PERCENT));
+        stats.setPc99(computePercentile(resultList, NINETY_NINE_PERCENT));
 
         // set default
         stats.setNorm(-1);
@@ -128,12 +130,12 @@ public class PerfCollector {
         if (data.length < 1) {
             throw new IllegalArgumentException("data array is empty");
         }
-        if (percentile < 0 || percentile > 100) {
+        if (percentile < 0 || percentile > ONE_HUNDRED_PERCENT) {
             throw new IllegalArgumentException("percentile must be between 0 and 100 inclusive");
         }
 
         // assume data is sorted
-        double rank = ((percentile / 100d) * (data.length - 1));
+        double rank = ((percentile / ONE_HUNDRED_DOUBLE) * (data.length - 1));
         int truncatedRank = (int) rank;
         double remain = rank - truncatedRank;
         double lower = data[truncatedRank];
@@ -183,12 +185,12 @@ public class PerfCollector {
         StringBuilder rows = new StringBuilder("%-30s");
         Arrays.stream(COLUMN_HEADERS)
                 .skip(1) //skip "test" column
-                .forEach(ignore -> {
+                .forEach((String ignore) -> {
                     header.append("%12s");
                     rows.append("%12.3f");
                 });
 
-        logger.info(String.format(header.toString(), COLUMN_HEADERS));
+        logger.info("{}, {}", header, COLUMN_HEADERS);
 
         Map<String, PerfStats> results = new HashMap<>();
 
@@ -204,7 +206,7 @@ public class PerfCollector {
             if (normalMap.containsKey(entry.getKey())) {
                 // get the test name we should normalise against
                 Optional<String> normalTest = normalMap.get(entry.getKey());
-                normalTest.ifPresent(normalTestName -> {
+                normalTest.ifPresent((String normalTestName) -> {
                             // get the perf stats for this test and the normalised one
                             PerfStats trial = entry.getValue();
                             PerfStats normalTrial = results.get(normalTestName);
@@ -215,13 +217,10 @@ public class PerfCollector {
                         }
                 );
             }
-        }
-
-        // send to output
-        for (Map.Entry<String, PerfStats> entry : results.entrySet()) {
+            // send to output
             PerfStats pfs = entry.getValue();
-            logger.info(String.format(rows.toString(),
-                    entry.getKey(), pfs.getNumTrials(), pfs.getMin(), pfs.getMax(), pfs.getMean(), pfs.getStdDev(), pfs.getPc25(), pfs.getPc50(), pfs.getPc75(), pfs.getPc99(), pfs.getNorm()));
+            logger.info("{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},", rows,
+                    entry.getKey(), pfs.getNumTrials(), pfs.getMin(), pfs.getMax(), pfs.getMean(), pfs.getStdDev(), pfs.getPc25(), pfs.getPc50(), pfs.getPc75(), pfs.getPc99(), pfs.getNorm());
         }
     }
 }
