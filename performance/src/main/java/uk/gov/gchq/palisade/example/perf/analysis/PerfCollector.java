@@ -219,9 +219,9 @@ public class PerfCollector {
             if (logger.isInfoEnabled()) {
                 // send to output
                 PerfStats pfs = entry.getValue();
-                String rowsString = rows.toString();
-                logger.info(rowsString,
-                        entry.getKey(), pfs.getNumTrials(), pfs.getMin(), pfs.getMax(), pfs.getMean(), pfs.getStdDev(), pfs.getPc25(), pfs.getPc50(), pfs.getPc75(), pfs.getPc99(), pfs.getNorm());
+                String formattedTrialResults = String.format(rows.toString(),
+                    entry.getKey(), pfs.getNumTrials(), pfs.getMin(), pfs.getMax(), pfs.getMean(), pfs.getStdDev(), pfs.getPc25(), pfs.getPc50(), pfs.getPc75(), pfs.getPc99(), pfs.getNorm());
+                logger.info(formattedTrialResults);
             }
         }
     }
