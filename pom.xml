@@ -78,6 +78,12 @@
         <protobuf.version>3.5.1</protobuf.version>
         <jetcd.version>0.3.0</jetcd.version>
         <fabric8.version>4.3.0</fabric8.version>
+
+        <!-- Sonar -->
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.xml</sonar.jacoco.reportPath>
+        <sonar.language>java</sonar.language>
     </properties>
 
     <modules>

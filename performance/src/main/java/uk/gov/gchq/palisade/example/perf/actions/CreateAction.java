@@ -42,6 +42,7 @@ import java.util.stream.Stream;
  */
 public class CreateAction implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateAction.class);
+    public static final int NUMBER_OF_THREADS = 3;
 
     private final String directoryName;
     private final long small;
@@ -91,7 +92,7 @@ public class CreateAction implements Runnable {
      * @return whether the operations completed successfully
      */
     private boolean createWithPolicyDataset(final PerfFileSet fileSet) {
-        ExecutorService tasks = Executors.newFixedThreadPool(3, Util.createDaemonThreadFactory());
+        ExecutorService tasks = Executors.newFixedThreadPool(NUMBER_OF_THREADS, Util.createDaemonThreadFactory());
 
         Path smallFile = fileSet.smallFile;
         Path largeFile = fileSet.largeFile;
@@ -129,6 +130,7 @@ public class CreateAction implements Runnable {
                     return future.get();
                 } catch (ExecutionException | InterruptedException ex) {
                     Thread.currentThread().interrupt();
+                    LOGGER.error("{} thrown", ex.getCause(), ex);
                     return false;
                 }
             });

@@ -24,6 +24,8 @@ import uk.gov.gchq.palisade.rule.Rule;
 import java.io.Serializable;
 
 public class PassThroughRule implements Serializable, Rule<Resource> {
+    private static final long serialVersionUID = 1L;
+
     public Resource apply(final Resource resource, final User user, final Context context) {
         return resource;
     }
