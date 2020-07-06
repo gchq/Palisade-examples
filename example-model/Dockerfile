@@ -22,4 +22,5 @@ COPY $JAR_FILE /usr/share/example-client/example-model.jar
 
 LABEL service="example" project="palisade"
 
-ENTRYPOINT ["java", "-jar", "/usr/share/example-model/example-model.jar"]
+COPY target/classes/formatOutput.sh /bin/formatOutput.sh
+COPY target/classes/verify.sh /bin/verify.sh
