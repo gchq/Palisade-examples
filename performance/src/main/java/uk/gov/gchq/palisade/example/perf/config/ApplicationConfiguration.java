@@ -33,9 +33,9 @@ import uk.gov.gchq.palisade.example.perf.actions.RunAction;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -60,7 +60,7 @@ public class ApplicationConfiguration {
     @Bean
     public Function<String, Stream<Employee>> configuredSimpleClient(final ExampleSimpleClient client, final PerformanceConfiguration conf) {
         LOGGER.info("Configured ExampleSimpleClient with config {}", conf);
-        return resourceId -> {
+        return (String resourceId) -> {
             try {
                 return client.read(resourceId, conf.getUserId(), conf.getPurpose());
             } catch (IOException e) {
@@ -89,7 +89,7 @@ public class ApplicationConfiguration {
      */
     @Bean
     @ConditionalOnProperty(name = "performance.action", havingValue = "run")
-    public CommandLineRunner runAction(final PerformanceConfiguration conf, final Set<PerfTrial> perfTrialSet) {
+    public CommandLineRunner runAction(final PerformanceConfiguration conf, final Collection<PerfTrial> perfTrialSet) {
         Map<String, PerfTrial> testsToRun = perfTrialSet.stream()
                 .collect(Collectors.toMap(PerfTrial::name, Function.identity()));
         LOGGER.debug("Created RunAction with conf {} and tests {}", conf, testsToRun);

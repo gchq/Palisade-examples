@@ -22,7 +22,6 @@ import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -31,11 +30,11 @@ import java.util.stream.Stream;
  */
 @Component
 public class RequestSmallNoPolicyTrial extends PalisadeTrial {
-    static final String NAME = "request_small_no_policy";
+    protected static final String NAME = "request_small_no_policy";
 
     public RequestSmallNoPolicyTrial(final Function<String, Stream<Employee>> client) {
         super(client);
-        normal = Optional.of(NAME);
+        normal = NAME;
     }
 
     public String name() {

@@ -23,12 +23,12 @@ import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.util.PerfException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -37,12 +37,12 @@ import java.util.stream.Stream;
  */
 @Component
 public class ReadManyNativeTrial extends PerfTrial {
-    static final String NAME = "read_many_native";
+    protected static final String NAME = "read_many_native";
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
     public ReadManyNativeTrial() {
-        normal = Optional.of(NAME);
+        normal = NAME;
     }
 
     public String name() {
@@ -56,7 +56,7 @@ public class ReadManyNativeTrial extends PerfTrial {
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Path> manyFiles = Files.walk(fileSet.manyDir)) {
             manyFiles.filter(path -> path.toFile().isFile())
-                    .forEach(file -> {
+                    .forEach((Path file) -> {
                         //read from file
                         try (InputStream bis = Files.newInputStream(file);
                              Stream<Employee> dataStream = SERIALISER.deserialise(bis)) {
@@ -65,11 +65,11 @@ public class ReadManyNativeTrial extends PerfTrial {
                             sink(dataStream);
 
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            throw new PerfException(e);
                         }
                     });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerfException(e);
         }
     }
 }
