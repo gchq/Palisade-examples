@@ -11,20 +11,22 @@ if [ -f $FILE ]; then
     echo "Success - Number of lines was 764"
   else
     echo "ERROR - Number of lines was not $expected but was: $num"
-        echo "*** exampleOutput.txt"
-        cat $FILE
-        echo "*** pod/audit-service"
-        kubectl logs -f $(kubectl get pods | awk '/audit-service/ {print $1}')
-        echo "*** pod/data-service"
-        kubectl logs -f $(kubectl get pods | awk '/data-service/ {print $1}')
-        echo "*** pod/palisade-service"
-        kubectl logs -f $(kubectl get pods | awk '/palisade-service/ {print $1}')
-        echo "*** pod/policy-service"
-        kubectl logs -f $(kubectl get pods | awk '/policy-service/ {print $1}')
-        echo "*** pod/resource-service"
-        kubectl logs -f $(kubectl get pods | awk '/resource-service/ {print $1}')
-        echo "*** pod/user-service"
-        kubectl logs -f $(kubectl get pods | awk '/user-service/ {print $1}')
+    echo "*** exampleOutput.txt"
+    cat $FILE
+    echo "*** pod/audit-service"
+    kubectl logs -f $(kubectl get pods | awk '/audit-service/ {print $1}')
+    echo "*** pod/data-service"
+    kubectl logs -f $(kubectl get pods | awk '/data-service/ {print $1}')
+    echo "*** pod/palisade-service"
+    kubectl logs -f $(kubectl get pods | awk '/palisade-service/ {print $1}')
+    echo "*** pod/policy-service"
+    kubectl logs -f $(kubectl get pods | awk '/policy-service/ {print $1}')
+    echo "*** pod/resource-service"
+    kubectl logs -f $(kubectl get pods | awk '/resource-service/ {print $1}')
+    echo "*** pod/user-service"
+    kubectl logs -f $(kubectl get pods | awk '/user-service/ {print $1}')
+    echo "ERROR - Number of lines was not $expected but was: $num"
+    echo "*** exampleOutput.txt"
     exit 1
   fi
 else
