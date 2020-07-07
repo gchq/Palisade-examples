@@ -11,10 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: {{ include "example-model.name" . }}
   namespace: {{ include "palisade.namespace" . }}
@@ -23,21 +22,37 @@ metadata:
     helm.sh/chart: {{ include "example-model.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-  annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-delete-policy": before-hook-creation
 spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "example-model.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
-      name: {{ include "example-model.name" . }}
       labels:
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        app.kubernetes.io/name: {{ include "example-model.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      restartPolicy: Never
+      serviceAccountName: internal-kubectl
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
+        image: "{{ .Values.global.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["java", "-jar", "/usr/share/example-model/example-model.jar"]
+        # keep the pod alive, but don't do anything - waiting for a kubectl exec on this pod
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 100; done;" ]
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

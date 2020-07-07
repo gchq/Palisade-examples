@@ -90,10 +90,33 @@
                 <configuration>
                     <dateFormat>yyyyMMdd-HHmmss</dateFormat>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <generateGitPropertiesFile>false
-                    </generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
                     <useNativeGit>true</useNativeGit>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/container-scripts</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/../deployment/local-k8s/k8s-bash-scripts</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../deployment/bash-scripts</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -207,20 +230,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>../deployment/bash-scripts</directory>
-                <includes>
-                    <include>formatOutput.sh</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>../deployment/local-jvm/bash-scripts</directory>
-                <includes>
-                    <include>verify.sh</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
 
 </project>

@@ -14,12 +14,7 @@
 #
 
 nameOverride: "example-model"
-
 replicaCount: 1
-
-service:
-  port: 80
-  type: ClusterIP
 
 image:
   name: example-model

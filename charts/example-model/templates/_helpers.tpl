@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 {{/* vim: set filetype=mustache: */}}
 {{/*
@@ -57,16 +56,4 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end -}}
-
-{{/*
-Determine ingress root url
-*/}}
-{{- define "example-model.root" -}}
-{{- $ns := include "palisade.namespace" . -}}
-{{- if eq "default" $ns -}}
-{{- printf "" -}}
-{{- else -}}
-{{- printf "/%s" $ns -}}
-{{- end -}}
 {{- end -}}

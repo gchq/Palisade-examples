@@ -1,4 +1,3 @@
-#
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +17,7 @@ VOLUME /tmp
 
 ARG JAR_FILE
 
-COPY $JAR_FILE /usr/share/example-client/example-model.jar
+ADD target/container-scripts /usr/share/example-model
+COPY $JAR_FILE /usr/share/example-model/example-model.jar
 
 LABEL service="example" project="palisade"
-
-COPY target/classes/formatOutput.sh /bin/formatOutput.sh
-COPY target/classes/verify.sh /bin/verify.sh

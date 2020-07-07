@@ -20,5 +20,4 @@ version: 0.4.0-SNAPSHOT
 dependencies:
   - name: Palisade-services
     version: 0.4.0-SNAPSHOT
-    # repository: https://github.com/gchq/Palisade-services/
     repository: file://../Palisade-services
