@@ -15,7 +15,6 @@ if [ -d $DIR ]; then
     if [ $num == 764 ]; then
       echo "Success - Number of lines was 764"
     else
-      echo "ERROR - Number of lines was not 764 but was: $num"
           echo "*** exampleOutput.txt"
           cat $FILE
           cd $DIRCHANGE
@@ -33,6 +32,7 @@ if [ -d $DIR ]; then
           cat resource-service-example.log
           echo "*** user-service-example.log"
           cat user-service-example.log
+        echo "ERROR - Number of lines was not 764 but was: $num"
       exit 1
     fi
   else
