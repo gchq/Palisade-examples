@@ -17,15 +17,15 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "example-model.name" . }}
+  namespace: {{ include "palisade.namespace" . }}
   labels:
-    app.kukbernetes.io/name: {{ include "example-model.name" . }}
+    app.kubernetes.io/name: {{ include "example-model.name" . }}
     helm.sh/chart: {{ include "example-model.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
     "helm.sh/hook": post-install
-    "helm.sh/hook-delete-policy": hook-succeeded
-    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation
 spec:
   template:
     metadata:
@@ -38,6 +38,6 @@ spec:
       restartPolicy: Never
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{.Values.image.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
+        image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["java", "-Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.runner.RestExample=INFO -Dspring.profiles.active=k8s,rest", "-jar", "/usr/share/example-model/example-model/target/example-model-*-exec.jar", "|", "formatOutput.sh"]
+        command: ["java", "-jar", "/usr/share/example-model/example-model.jar"]

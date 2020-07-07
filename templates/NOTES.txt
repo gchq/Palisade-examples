@@ -12,29 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-nameOverride: "example-model"
-
-replicaCount: 1
-
-service:
-  port: 80
-  type: ClusterIP
-
-image:
-  name: example-model
-  tag: 1e537ed-SNAPSHOT
-  pullPolicy: IfNotPresent
-  codeRelease: 0.4.0-SNAPSHOT
-
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 512Mi
-
-nodeSelector: {}
-tolerations: []
-affinity: {}
+================================
+You have installed {{ .Chart.Name }} as release {{ .Release.Name }} into namespace {{ include "palisade.namespace" . }}
+================================

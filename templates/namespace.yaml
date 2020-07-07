@@ -13,28 +13,16 @@
 # limitations under the License.
 #
 
-nameOverride: "example-model"
-
-replicaCount: 1
-
-service:
-  port: 80
-  type: ClusterIP
-
-image:
-  name: example-model
-  tag: 1e537ed-SNAPSHOT
-  pullPolicy: IfNotPresent
-  codeRelease: 0.4.0-SNAPSHOT
-
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 512Mi
-
-nodeSelector: {}
-tolerations: []
-affinity: {}
+{{/*
+Should a new namespace be created
+*/}}
+{{- if .Values.global.uniqueNamespace -}}
+{{- if .Release.IsInstall -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ include "palisade.namespace" . }}
+  annotations:
+    "helm.sh/hook": pre-install
+{{- end -}}
+{{- end -}}
