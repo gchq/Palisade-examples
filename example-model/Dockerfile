@@ -17,7 +17,7 @@ VOLUME /tmp
 
 ARG JAR_FILE
 
-ADD target/container-scripts /usr/share/example-model
+COPY target/container-scripts /usr/share/example-model
 COPY $JAR_FILE /usr/share/example-model/example-model.jar
 
 LABEL service="example" project="palisade"

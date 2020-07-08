@@ -3,6 +3,7 @@
 JARFILE=./example-model.jar
 OUTPUT=./exampleOutput.txt
 FORMATTER=./formatOutput.sh
+
 # Run the formatted rest example
 if [ -f $JARFILE ]; then
   if [ -f $FORMATTER ]; then
