@@ -2,6 +2,7 @@
 
 JARFILE=./example-model.jar
 OUTPUT=./exampleOutput.txt
+
 # Run the rest example
 if [ -f $JARFILE ]; then
   java -Dspring.profiles.active=k8s,rest -jar $JARFILE | tee $OUTPUT
