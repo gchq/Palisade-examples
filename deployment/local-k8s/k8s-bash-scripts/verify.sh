@@ -10,7 +10,6 @@ if [ -f $FILE ]; then
   if [ $num == $expected ]; then
     echo "Success - Number of lines was 764"
   else
-    echo "ERROR - Number of lines was not $expected but was: $num"
     echo "*** exampleOutput.txt"
     cat $FILE
     echo "*** pod/audit-service"
