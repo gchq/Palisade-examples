@@ -25,6 +25,11 @@ global:
   # Sets up some mount points in services for example data
   deployment: example
 
+  env:
+    example:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,example-k8s"
+
   # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
   repository: palisade
 
@@ -33,4 +38,5 @@ global:
     dataStores:
       palisade-data-store:
         local:
+          # must be manually set to an absolute path
           hostPath: "./resources/data"
