@@ -13,20 +13,5 @@
 # limitations under the License.
 #
 
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-web:
-  client:
-    palisade-service: "http://localhost:8084"
-    data-service: "http://localhost:8082"
+example:
+  type: rest

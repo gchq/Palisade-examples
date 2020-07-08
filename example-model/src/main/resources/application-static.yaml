@@ -13,18 +13,9 @@
 # limitations under the License.
 #
 
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
+example:
+  filename: "../Palisade-examples/resources/"
+  directory: "../Palisade-examples/resources/"
 
 web:
   client:
