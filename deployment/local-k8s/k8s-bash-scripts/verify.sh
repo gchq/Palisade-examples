@@ -25,7 +25,6 @@ if [ -f $FILE ]; then
     echo "*** pod/user-service"
     kubectl logs -f $(kubectl get pods | awk '/user-service/ {print $1}')
     echo "ERROR - Number of lines was not $expected but was: $num"
-    echo "*** exampleOutput.txt"
     exit 1
   fi
 else

@@ -8,7 +8,7 @@ List of third-party dependencies grouped by their license type
 * Spring Cloud Netflix Eureka Client ([org.springframework.cloud:spring-cloud-netflix-eureka-client:2.2.0.RELEASE](https://spring.io/spring-cloud/spring-cloud-netflix/spring-cloud-netflix-eureka-client))
 * Spring Cloud Starter Netflix Eureka Client ([org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.0.RELEASE](https://projects.spring.io/spring-cloud))
 * Spring Cloud Starter OpenFeign ([org.springframework.cloud:spring-cloud-starter-openfeign:2.2.0.RELEASE](https://projects.spring.io/spring-cloud))
-* clients-simple ([uk.gov.gchq.palisade:clients-simple:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/clients-simple))
+* clients-simple ([uk.gov.gchq.palisade:clients-simple:0.4.0-20200707.143828-44](https://github.com/gchq/Palisade-clients/tree/develop/clients-simple))
 * common ([uk.gov.gchq.palisade:common:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-common))
 * example-library ([uk.gov.gchq.palisade:example-library:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
 * example-model ([uk.gov.gchq.palisade:example-model:0.4.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-model))
