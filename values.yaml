@@ -32,14 +32,5 @@ global:
   persistence:
     dataStores:
       palisade-data-store:
-        storageClassName:
-          _default: local-storage
-          local: local-storage
-          aws: efs-sc
-        mountPath: "/data/local-data-store"
-        storage: 1Gi
         local:
           hostPath: "./resources/data"
-        aws:
-          volumeHandle: null
-          volumePath: "/"
