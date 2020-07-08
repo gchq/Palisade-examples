@@ -26,6 +26,10 @@ spring:
       ribbon:
         enabled: false
 
+eureka:
+  client:
+    enabled: false
+
 web:
   client:
     palisade-service: "http://localhost:8084"

@@ -41,7 +41,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # keep the pod alive, but don't do anything - waiting for a kubectl exec on this pod
         command: [ "/bin/bash", "-c", "--" ]
-        args: [ "while true; do sleep 100; done;" ]
+        args: [ "chmod +x /usr/share/example-model/*.sh; while true; do sleep 100; done;" ]
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
       {{- with .Values.nodeSelector }}
