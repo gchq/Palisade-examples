@@ -27,7 +27,7 @@ Provides the `Employee` datatype and its associated members, as well as a config
 ### [Example Library](example-library/README.md)
 The policies applied when running the example are a collection of static coarse-grained (resource-level) and fine-grained (record-level) rules that can be found in the *Example Library*, and are used for prepopulating the palisade services with data.
 This collection of example-specific rules, types and configurations is based around the possible policies a company might set out for users accessing sensitive employee data, depending upon their role in the company.
-Provides the `ExampleUser` datatype specialisation of the Palisade-common `User`, as well as Rules to be used for policy setting.
+Provides the `ExampleUser` datatype specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common) `User`, as well as Rules to be used for policy setting.
 
 ### [Example Model](example-model/README.md)
 The example scenarios can be run using the Spring Boot REST client application in the *Example Model*, requesting and reading for a number of different users, resources and contexts.
@@ -39,5 +39,8 @@ The performance of the palisade services compared to native file reads (and othe
 This performance-testing suite has a number of different trial types, datasets and policy variants to cover a reasonable number of common use-cases.
 
 ### [Deployment](deployment)
-Contains all the deployment specific code and scripts.
+Contains all the deployment specific code and scripts. Current deployment targets are:
+* [Local JVM Processes](./deployment/local-jvm)
+* [Docker/Kubernetes Containers](./deployment/local-k8s)
+
 Since scripts are all `.sh` files, the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) may be preferred for cross-platform compatibility.

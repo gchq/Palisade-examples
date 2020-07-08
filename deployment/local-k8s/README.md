@@ -16,68 +16,66 @@
 
 # Local Kubernetes Example
 
-This example demonstrates different users querying an avro file over a REST api running locally in kubernetes containers.
+This example demonstrates different users querying an avro file over a REST api running locally in Kubernetes containers.
 
-The example runs several different queries by the different users, with different purposes. When you run the example you will see the data has been redacted in line with the rules.  
-For an overview of the example see [here](../../README.md)
+The example runs different queries by different users, with different purposes.
+When you run the example you will see the data has been redacted in line with the rules.
+For an overview of the example, see [here](../../README.md).
+
+In order to successfully run the K8s example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) and [example-model](../../example-model) docker images have been built.
 
 ### Prerequisites for running in kubernetes 
-As well as docker, this example also requires Kubernetes. Kubernetes is now bundled as part of docker. The following
-screenshows shows the Docker Kubernetes preferences:
+As well as Docker, this example also requires Kubernetes and Helm 3.
+Kubernetes is now bundled as part of Docker.
 
-![Alt text](k8sPreferences.png?raw=true "Kubernetes preferences")
+Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services](https://github.com/gchq/Palisade-services) README.
 
-
-##### N.B. If you have "Show system containers (advanced) ticked, you will be unable to run the etcd service on port 3279"
-
-To run the example locally in docker containers (under kubernetes) follow these steps (from the root of the project):
+To run the example in a local Kubernetes cluster, follow these steps (from the root [Palisade-examples](../..) directory):
 
 1. Compile the code:
     ```bash
-    mvn clean install -P example
+    mvn clean install
     ```
 
-2. Start the REST services:
-    If you have made changes to the code since you last built the docker containers then you will need to run:
-    
-    *NOTE* This will clean all stopped docker services, requiring them to be rebuilt when you next want to start them up. 
+1. Deploy the example (and services):
     ```bash
-     ./example/deployment/local-docker/bash-scripts/dockerCleanSystem.sh
+    helm dep up
+    helm upgrade --install palisade .
     ```
 
-    Then you can start up the docker containers to create the docker images:
-    ```bash
-     ./example/deployment/local-docker/bash-scripts/dockerComposeCreateOnly.sh
-    ```
-    
-    Then you can start the kubernetes cluster:
-    ```bash
-    ./example/deployment/local-k8s/bash-scripts/buildServices.sh
-    ```
-
-    You can check the pods are available:    
+    You can check the pods are available:
     ```bash
     kubectl get pods
     ```
 
-    After a while you should see the liveness and readiness probes indicating all is well - see the example below:
+1. Run the test example with:
+    ```bash
+    kubectl exec example-model-xxxxx -- java -Dspring.profiles.active=k8s,rest -jar /usr/share/example-model/example-model.jar
+    ```
 
-![Alt text](runningServices.png?raw=true "Running services")
-    You can verify that ingress is working correctly by running the following commands:
+1. Delete the deployed services:
+    ```bash
+    helm delete palisade
+    ```
 
-    ```bash
-    curl -kL http://localhost/config/v1/status && curl -kL http://localhost/palisade/v1/status &&
-    curl -kL http://localhost/data/v1/status
-![Alt text](checkUp.png?raw=true "Is service up")
-    ```
-    
-3. Run the test example with:
-    ```bash
-    ./example/deployment/local-k8s/bash-scripts/runExample.sh
-    ```
-    
-4. Stop the REST services:
-    ```bash
-    ./example/deployment/local-k8s/bash-scripts/deleteServices.sh
-    ./example/deployment/local-docker/bash-scripts/dockerCleanSystem.sh
-    ```
+## Bash Scripts
+
+The above steps can be automated using the provided [local bash-scripts](./local-bash-scripts), which are intended to be run from the Palisade-examples root directory.
+These, in turn, will call the scripts in [k8s bash-scripts](./k8s-bash-scripts), which are intended to be run from the /usr/share/example-model directory inside the k8s pod:
+
+1. Make sure you are within the Palisade-examples directory:  
+   ```bash
+   >> ls
+     drwxrwxrwx deoloyment
+     drwxrwxrwx example-library
+     drwxrwxrwx example-model
+     drwxrwxrwx hr-data-generator
+     drwxrwxrwx performance
+   ```
+
+1. Run one or more of the available scripts - eg. to run the example and verify its output:
+   ```bash
+   deployment/local-k8s/local-bash-scripts/deployServicesToK8s.sh
+   deployment/local-k8s/local-bash-scripts/runFormattedK8sExample.sh
+   deployment/local-k8s/local-bash-scripts/verify.sh
+   ```
