@@ -35,8 +35,12 @@ global:
 
   # guarantee the data we are expecting is mounted appropriately
   persistence:
+    classpathJars:
+      local:
+        # must be manually set to an absolute path
+        hostPath: "./example-library/target"
+
     dataStores:
       palisade-data-store:
         local:
-          # must be manually set to an absolute path
           hostPath: "./resources/data"
