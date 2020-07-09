@@ -38,7 +38,8 @@ global:
     classpathJars:
       local:
         # must be manually set to an absolute path
-        hostPath: "./example-library/target"
+        # the `deployment: example` wil lead to the hostPath being appended to `./deployment/target/example` as intended
+        hostPath: "./deployment/target"
 
     dataStores:
       palisade-data-store:

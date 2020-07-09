@@ -45,6 +45,11 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
 
     public Stream<Employee> read(final String resourceId, final String userId, final String purpose) throws IOException {
         String absoluteFile = new File(resourceId).toURI().toString();
+        // Maintain is-a-file-or-a-directory consistency between relative and absolute paths
+        char lastResourceChar = resourceId.charAt(resourceId.length() - 1);
+        if (lastResourceChar != absoluteFile.charAt(absoluteFile.length() - 1)) {
+            absoluteFile += lastResourceChar;
+        }
         return super.read(absoluteFile, userId, purpose);
     }
 }

@@ -1,6 +1,6 @@
 uk.gov.gchq.palisade:example-library:jar:0.4.0-SNAPSHOT
-+- org.springframework.cloud:spring-cloud-netflix-eureka-client:jar:2.2.0.RELEASE:compile
-|  \- org.springframework.cloud:spring-cloud-netflix-hystrix:jar:2.2.0.RELEASE:compile
++- org.springframework.cloud:spring-cloud-netflix-eureka-client:jar:2.2.2.RELEASE:compile
+|  \- org.springframework.cloud:spring-cloud-netflix-hystrix:jar:2.2.2.RELEASE:compile
 |     +- org.springframework.boot:spring-boot-autoconfigure:jar:2.2.0.RELEASE:compile
 |     |  \- org.springframework.boot:spring-boot:jar:2.2.0.RELEASE:compile
 |     |     +- org.springframework:spring-core:jar:5.2.0.RELEASE:compile
