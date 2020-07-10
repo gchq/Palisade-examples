@@ -18,8 +18,8 @@ VOLUME /tmp
 ARG JAR_FILE
 ARG K8_VERSION=v1.15.3
 
-RUN apt update && \
-      apt install -y curl && \
+RUN apt-get update && \
+      apt-get install -y curl && \
       curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \
       mv ./kubectl /usr/local/bin/kubectl
