@@ -57,6 +57,8 @@ To run the example in a local Kubernetes cluster, follow these steps (from the r
     ```bash
     helm delete palisade
     ```
+   
+You can also use the bash scripts included in the deployment/local-k8s folder as instructed below.
 
 ## Bash Scripts
 
@@ -66,7 +68,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](./k8s-bash-scripts),
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
-     drwxrwxrwx deoloyment
+     drwxrwxrwx deployment
      drwxrwxrwx example-library
      drwxrwxrwx example-model
      drwxrwxrwx hr-data-generator
@@ -75,7 +77,6 @@ These, in turn, will call the scripts in [k8s bash-scripts](./k8s-bash-scripts),
 
 1. Run one or more of the available scripts - eg. to run the example and verify its output:
    ```bash
-   chmod +x deployment/local-k8s/*/*.sh
    deployment/local-k8s/local-bash-scripts/deployServicesToK8s.sh
    deployment/local-k8s/local-bash-scripts/runFormattedK8sExample.sh
    deployment/local-k8s/local-bash-scripts/verify.sh

@@ -27,4 +27,7 @@ RUN apt update && \
 COPY target/container-scripts /usr/share/example-model
 COPY $JAR_FILE /usr/share/example-model/example-model.jar
 
+# Needed for converting all bash scripts windows line endings into unix
+RUN sed -i 's/\r$//' /usr/share/example-model/*.sh
+
 LABEL service="example" project="palisade"
