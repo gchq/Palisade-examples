@@ -101,7 +101,7 @@ The above steps can be automated using the provided [bash-scripts](./bash-script
      drwxrwxrwx Palisade-examples
    >> cd Palisade-examples
    >> ls
-     drwxrwxrwx deoloyment
+     drwxrwxrwx deployment
      drwxrwxrwx example-library
      drwxrwxrwx example-model
      drwxrwxrwx hr-data-generator
