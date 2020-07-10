@@ -19,10 +19,11 @@ ARG JAR_FILE
 ARG K8_VERSION=v1.15.3
 
 RUN apt-get update && \
-      apt-get install -y curl && \
+      apt-get install -y curl=7.70.0 --no-install-recommends && \
       curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \
       mv ./kubectl /usr/local/bin/kubectl
+      && rm -rf /var/lib/apt/lists/*
 
 COPY target/container-scripts /usr/share/example-model
 COPY $JAR_FILE /usr/share/example-model/example-model.jar
