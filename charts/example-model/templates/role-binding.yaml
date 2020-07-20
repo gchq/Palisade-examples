@@ -19,7 +19,7 @@ metadata:
   namespace: {{ include "palisade.namespace" . }}
 subjects:
 - kind: ServiceAccount
-  name: internal-kubectl
+  name: kubectl-get-logs
 roleRef:
   kind: Role
   name: get-pods-logs
