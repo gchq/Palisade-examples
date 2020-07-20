@@ -47,7 +47,15 @@ To run the example in a local Kubernetes cluster, follow these steps (from the r
 
     You can check the pods are available:
     ```bash
-    kubectl get pods
+   kubectl get pods
+   NAME                      READY   STATUS    RESTARTS   AGE
+   audit-service-xxxxx       1/1     Running   0          116s
+   data-service-xxxxx        1/1     Running   0          116s
+   example-model-xxxxx       1/1     Running   0          116s
+   palisade-service-xxxxx    1/1     Running   0          116s
+   policy-service-xxxxx      1/1     Running   0          116s
+   resource-service-xxxxx    1/1     Running   0          116s
+   user-service-xxxxx        1/1     Running   0          116s
     ```
 
 1. Run the test example with:

@@ -15,8 +15,8 @@
 
 web:
   client:
-    palisade-service: "http://palisade-service"
-    data-service: "http://data-service"
+    palisade-service: "palisade-service"
+    data-service: "data-service"
 
 example:
   directory: "/data/local-data-store/"
