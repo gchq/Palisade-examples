@@ -23,7 +23,7 @@ global:
   uniqueNamespace: false
 
   # namespace: the target namespace, overridden by (1) --namespace (helm, the preferred override) or (2) global.uniqueNamespace=true, ingress path will include this name at the path root (default truncated to null)
-  namespace: palisade-examples
+  namespace: default
 
   # Sets up some mount points in services for example data
   deployment: example
