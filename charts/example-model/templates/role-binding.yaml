@@ -16,7 +16,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: get-pods-logs-to-sa
-  namespace: "{{.Release.Namespace}}"
+  namespace: {{ include "palisade.namespace" . }}
 subjects:
 - kind: ServiceAccount
   name: internal-kubectl

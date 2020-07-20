@@ -22,6 +22,9 @@ global:
   # uniqueNamespace: if true (and this is a new install) the generated deployment name will be used as the namespace name too
   uniqueNamespace: false
 
+  # namespace: the target namespace, overridden by (1) --namespace (helm, the preferred override) or (2) global.uniqueNamespace=true, ingress path will include this name at the path root (default truncated to null)
+  namespace: palisade-examples
+
   # Sets up some mount points in services for example data
   deployment: example
 

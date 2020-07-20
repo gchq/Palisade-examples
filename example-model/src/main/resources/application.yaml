@@ -33,4 +33,3 @@ eureka:
 web:
   client:
     palisade-service: "http://localhost:8084"
-    data-service: "http://localhost:8082"
