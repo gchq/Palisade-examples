@@ -47,7 +47,15 @@ To run the example in a local Kubernetes cluster, follow these steps (from the r
 
     You can check the pods are available:
     ```bash
-    kubectl get pods
+   kubectl get pods
+   NAME                      READY   STATUS    RESTARTS   AGE
+   audit-service-xxxxx       1/1     Running   0          116s
+   data-service-xxxxx        1/1     Running   0          116s
+   example-model-xxxxx       1/1     Running   0          116s
+   palisade-service-xxxxx    1/1     Running   0          116s
+   policy-service-xxxxx      1/1     Running   0          116s
+   resource-service-xxxxx    1/1     Running   0          116s
+   user-service-xxxxx        1/1     Running   0          116s
     ```
 
 1. Run the test example with:
@@ -65,8 +73,8 @@ You can also use the bash scripts included in the deployment/local-k8s folder as
 ## Bash Scripts
 
 Ensure Line Endings are correct for the environment you are using. If running on Windows, checked out in CRLF, you need to run using WSL and therefore require LF line endings.  
-The above steps can be automated using the provided [local bash-scripts](./local-bash-scripts), which are intended to be run from the Palisade-examples root directory.
-These, in turn, will call the scripts in [k8s bash-scripts](./k8s-bash-scripts), which are intended to be run from the /usr/share/example-model directory inside the k8s pod:
+The above steps can be automated using the provided [local bash-scripts](./example-model), which are intended to be run from the Palisade-examples root directory.
+These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/src/main/resources/k8s-bash-scripts), which are intended to be run from the /usr/share/example-model directory inside the k8s pod:
 
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
@@ -89,12 +97,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](./k8s-bash-scripts),
    
 3. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
    ```bash
-   bash deployment/local-k8s/local-bash-scripts/runFormattedK8sExample.sh
+   bash deployment/local-k8s/example-model/runFormattedK8sExample.sh
    <or>
-   bash deployment/local-k8s/local-bash-scripts/runK8sExample.sh
+   bash deployment/local-k8s/example-model/runK8sExample.sh
    ```
    
 4. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
-   bash deployment/local-k8s/local-bash-scripts/verify.sh
+   bash deployment/local-k8s/example-model/verify.sh
     ```

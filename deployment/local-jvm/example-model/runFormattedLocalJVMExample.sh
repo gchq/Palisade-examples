@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,23 +14,16 @@
 # limitations under the License.
 #
 
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
+FILE=example-model/target/example-model-*-exec.jar
+FORMATTER=deployment/local-jvm/example-model/formatOutput.sh
 
-eureka:
-  client:
-    enabled: false
-
-web:
-  client:
-    palisade-service: "http://localhost:8084"
+# Run the formatted rest example
+if [ -f $FILE ]; then
+  if [ -f $FORMATTER ]; then
+    java -Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.model.runner.RestExample=INFO -Dspring.profiles.active=eureka,rest -jar $FILE | $FORMATTER
+  else
+    echo "Cannot find formatter script -- check your 'git status'"
+  fi
+else
+  echo "Cannot find example-model-<version>-exec.jar - have you run 'mvn install'?"
+fi

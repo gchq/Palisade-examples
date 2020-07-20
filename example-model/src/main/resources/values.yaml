@@ -12,24 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+replicaCount: 1
 
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
+service:
+  port: 80
+  type: ClusterIP
 
-eureka:
-  client:
-    enabled: false
+image:
+  name: @artifactId@
+  tag: @git.commit.id.abbrev@-@revision@
+  pullPolicy: IfNotPresent
+  codeRelease: @project.parent.version@
 
-web:
-  client:
-    palisade-service: "http://localhost:8084"
+resources:
+  limits:
+    cpu: 750m
+    memory: 2.5Gi
+  requests:
+    cpu: 250m
+    memory: 1Gi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
