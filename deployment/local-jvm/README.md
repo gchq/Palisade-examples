@@ -110,7 +110,7 @@ The above steps can be automated using the provided [bash-scripts](./bash-script
 
 1. Run one or more of the available scripts - eg. to run the example and verify its output:
    ```bash
-   deployment/local-jvm/bash-scripts/startServices.sh
-   deployment/local-jvm/bash-scripts/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/bash-scripts/exampleOutput.txt
-   deployment/local-jvm/bash-scripts/verify.sh
+   deployment/local-jvm/example-model/startServices.sh
+   deployment/local-jvm/example-model/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-model/exampleOutput.txt
+   deployment/local-jvm/example-model/verify.sh
    ```

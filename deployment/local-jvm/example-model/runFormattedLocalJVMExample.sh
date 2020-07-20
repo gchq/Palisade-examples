@@ -15,7 +15,7 @@
 #
 
 FILE=example-model/target/example-model-*-exec.jar
-FORMATTER=deployment/bash-scripts/formatOutput.sh
+FORMATTER=deployment/local-jvm/example-model/formatOutput.sh
 
 # Run the formatted rest example
 if [ -f $FILE ]; then

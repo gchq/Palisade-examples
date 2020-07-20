@@ -40,7 +40,7 @@ This performance-testing suite has a number of different trial types, datasets a
 
 ### [Deployment](deployment)
 Contains all the deployment specific code and scripts. Current deployment targets are:
-* [Local JVM Processes](./deployment/local-jvm)
-* [Docker/Kubernetes Containers](./deployment/local-k8s)
+* [Local JVM Processes](./deployment/local-jvm/README.md)
+* [Docker/Kubernetes Containers](./deployment/local-k8s/README.md)
 
 Since scripts are all `.sh` files, the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) may be preferred for cross-platform compatibility.

@@ -26,10 +26,10 @@ RUN apt-get update && \
       && apt-get clean \
       && rm -rf /var/lib/apt/lists/*
 
-COPY target/container-scripts /usr/share/example-model
+COPY target/classes/k8s-bash-scripts /usr/share/example-model
 COPY $JAR_FILE /usr/share/example-model/example-model.jar
 
 # Needed for converting all bash scripts windows line endings into unix
 RUN sed -i 's/\r$//' /usr/share/example-model/*.sh
 
-LABEL service="example" project="palisade"
+LABEL service="example-model" project="palisade"
