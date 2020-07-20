@@ -14,12 +14,8 @@
 # limitations under the License.
 #
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-. "$DIR/setScriptPath.sh"
-
 # Check if necessary compiled JAR is present
-TARGET_DIR="${EXAMPLE}/hr-data-generator/target"
-
+TARGET_DIR="$(pwd)/hr-data-generator/target"
 FILE_PRESENT=0
 
 if [ -d "$TARGET_DIR" ];
