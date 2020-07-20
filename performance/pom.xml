@@ -69,6 +69,22 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/values.yaml</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/values.yaml</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>pl.project13.maven</groupId>
@@ -119,6 +135,39 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <id>cache</id>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <phase>deploy</phase>
+                        <id>ar</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <repository>${image.repository}${project.artifactId}</repository>
+                    <dockerfile>Dockerfile</dockerfile>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <tag>${image.tag}</tag>
+                    <finalName>${project.artifactId}</finalName>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}-exec.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>

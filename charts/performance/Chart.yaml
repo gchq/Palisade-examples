@@ -11,16 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-FROM openjdk:11@sha256:736dd07fc5cb53060a49d38c86b9e673974510c5a18afc40b1c936475f59aee7
-VOLUME /tmp
-
-ARG JAR_FILE
-
-COPY target/classes/k8s-bash-scripts /usr/share/performance
-COPY $JAR_FILE /usr/share/performance/performance.jar
-
-# Needed for converting all bash scripts windows line endings into unix
-RUN sed -i 's/\r$//' /usr/share/performance/*.sh
-
-LABEL service="performance" project="palisade"
+#
+apiVersion: v2
+appVersion: "1.0"
+description: A Helm chart to run the Palisade performance tests
+name: performance
+version: 0.4.0

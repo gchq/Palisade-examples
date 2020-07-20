@@ -11,16 +11,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+replicaCount: 1
 
-FROM openjdk:11@sha256:736dd07fc5cb53060a49d38c86b9e673974510c5a18afc40b1c936475f59aee7
-VOLUME /tmp
+service:
+  port: 80
+  type: ClusterIP
 
-ARG JAR_FILE
+image:
+  name: performance
+  tag: 40ce480-SNAPSHOT
+  pullPolicy: IfNotPresent
+  codeRelease: 0.4.0-SNAPSHOT
 
-COPY target/classes/k8s-bash-scripts /usr/share/performance
-COPY $JAR_FILE /usr/share/performance/performance.jar
+resources:
+  limits:
+    cpu: 750m
+    memory: 2.5Gi
+  requests:
+    cpu: 250m
+    memory: 1Gi
 
-# Needed for converting all bash scripts windows line endings into unix
-RUN sed -i 's/\r$//' /usr/share/performance/*.sh
-
-LABEL service="performance" project="palisade"
+nodeSelector: {}
+tolerations: []
+affinity: {}

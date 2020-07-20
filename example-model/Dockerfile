@@ -26,7 +26,7 @@ RUN apt-get update && \
       && apt-get clean \
       && rm -rf /var/lib/apt/lists/*
 
-COPY target/container-scripts /usr/share/example-model
+COPY target/classes/k8s-bash-scripts /usr/share/example-model
 COPY $JAR_FILE /usr/share/example-model/example-model.jar
 
 # Needed for converting all bash scripts windows line endings into unix
