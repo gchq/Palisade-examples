@@ -34,7 +34,7 @@ spec:
         app.kubernetes.io/name: {{ include "example-model.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      serviceAccountName: internal-kubectl
+      serviceAccountName: kubectl-get-logs
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.global.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
