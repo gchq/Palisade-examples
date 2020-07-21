@@ -26,10 +26,10 @@ image:
 
 resources:
   limits:
-    cpu: 2Gi
+    cpu: 1Gi
     memory: 1Gi
   requests:
-    cpu: 1Gi
+    cpu: 500m
     memory: 500Mi
 
 nodeSelector: {}

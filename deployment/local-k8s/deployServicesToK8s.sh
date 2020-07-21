@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,26 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-replicaCount: 1
 
-service:
-  port: 80
-  type: ClusterIP
-
-image:
-  name: performance
-  tag: 4b1d922-SNAPSHOT
-  pullPolicy: IfNotPresent
-  codeRelease: 0.4.0-SNAPSHOT
-
-resources:
-  limits:
-    cpu: 1Gi
-    memory: 1Gi
-  requests:
-    cpu: 500m
-    memory: 500Mi
-
-nodeSelector: {}
-tolerations: []
-affinity: {}
+helm dep up
+helm upgrade --install palisade . \
+--set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
+--set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target
