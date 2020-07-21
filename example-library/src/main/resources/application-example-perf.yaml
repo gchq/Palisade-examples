@@ -15,7 +15,7 @@
 
 # Not interpreted by any java code, simply used by reference in the population.resources section
 default:
-  rootId: ../Palisade-examples/resources/
+  rootId: ../Palisade-examples/resources
   connectionDetail: data-service
   type: uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee
   format: avro
@@ -34,7 +34,7 @@ population:
 
   policyProvider: std
   policies:
-  - resource: ../Palisade-examples/resources/data/with-policy/
+  - resource: ${default.rootId}/data/with-policy/
     owner: Alice
     recordRules:
       "1-Bank details only visible for the purpose of salary": uk.gov.gchq.palisade.example.library.rule.BankDetailsRule
@@ -44,7 +44,7 @@ population:
       "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.library.rule.RecordMaskingRule
     resourceRules:
       "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.library.rule.FirstResourceRule
-  - resource: ../Palisade-examples/resources/data/no-policy/
+  - resource: ${default.rootId}/data/no-policy/
     owner: Alice
     resourceRules:
       "1-Pass through rule for no-policy directory": uk.gov.gchq.palisade.example.library.rule.PassThroughRule

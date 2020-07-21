@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Crown Copyright
+ * Copyright 2020 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,11 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
 
     public Stream<Employee> read(final String resourceId, final String userId, final String purpose) throws IOException {
         String absoluteFile = new File(resourceId).toURI().toString();
+        // Check that the last char of the resourceId is '/' or '\' for Windows Users, and then readd it if it missing
+        char lastResourceChar = resourceId.charAt(resourceId.length() - 1);
+        if (lastResourceChar != absoluteFile.charAt(absoluteFile.length() - 1)) {
+            absoluteFile += lastResourceChar;
+        }
         return super.read(absoluteFile, userId, purpose);
     }
 }

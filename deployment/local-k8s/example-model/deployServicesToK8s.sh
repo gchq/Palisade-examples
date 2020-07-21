@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,23 +14,7 @@
 # limitations under the License.
 #
 
-# Check if necessary compiled JAR is present
-TARGET_DIR="$(pwd)/hr-data-generator/target"
-FILE_PRESENT=0
-
-if [ -d "$TARGET_DIR" ];
-then
-    JAR_FILE=$(find "$TARGET_DIR" -type f -iname "hr-data-generator-*-jar-with-dependencies.jar")
-    if [ ! -z "$JAR_FILE" ];
-    then
-        FILE_PRESENT=1
-    fi
-fi
-
-if [ "$FILE_PRESENT" -eq 0 ];then
-    echo "Can't find hr-data-generator-<version>.jar in ${TARGET_DIR}. Have you run \"mvn install\" ?"
-    exit 1;
-fi
-
-# Run the generator
-java -cp $JAR_FILE uk.gov.gchq.palisade.example.hrdatagenerator.CreateData $@
+helm dep up
+helm upgrade --install palisade . \
+--set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
+--set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target
