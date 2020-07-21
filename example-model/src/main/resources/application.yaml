@@ -16,9 +16,6 @@
 spring:
   application:
     name: example-model
-  output:
-    ansi:
-      enabled: always
   main:
     allow-bean-definition-overriding: true
   cloud:

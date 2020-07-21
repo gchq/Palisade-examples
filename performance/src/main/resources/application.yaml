@@ -23,14 +23,10 @@ spring:
       ribbon:
         enabled: false
 
-# Simple logging patern, output will be copied from here and we're not using this for debugging info
+# Simple logging pattern, output will be copied from here and we're not using this for debugging info
 logging:
   pattern:
     console: "%d{HH:mm:ss} [%-5level] - %msg%n"
-
-# let spring autoconfigure a port, this is never running as a 'server'
-server:
-  port: 0
 
 eureka:
   client:

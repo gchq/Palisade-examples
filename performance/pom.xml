@@ -44,6 +44,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
@@ -129,9 +133,49 @@
                 <configuration>
                     <dateFormat>yyyyMMdd-HHmmss</dateFormat>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <generateGitPropertiesFile>false
-                    </generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
                     <useNativeGit>true</useNativeGit>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>it.ozimov</groupId>
+                <artifactId>yaml-properties-maven-plugin</artifactId>
+                <version>1.1.3</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>${project.basedir}/../charts/${project.artifactId}/values.yaml</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <file>${basedir}/target/classes/banner.txt</file>
+                    <replacements>
+                        <replacement>
+                            <token>image.tag</token>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <value>${image.tag}</value>
+                        </replacement>
+                    </replacements>
                 </configuration>
             </plugin>
             <plugin>
@@ -197,6 +241,32 @@
                     </buildArgs>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>ossrh</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
 </project>

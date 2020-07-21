@@ -20,7 +20,7 @@ service:
 
 image:
   name: example-model
-  tag: 4b1d922-SNAPSHOT
+  tag: 2a3938c-SNAPSHOT
   pullPolicy: IfNotPresent
   codeRelease: 0.4.0-SNAPSHOT
 

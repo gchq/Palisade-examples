@@ -14,7 +14,4 @@
 # limitations under the License.
 #
 
-helm dep up
-helm upgrade --install palisade . \
---set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
---set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target
+kubectl exec $(kubectl get pods | awk '/performance/ {print $1}') -- bash -c "cd /usr/share/performance && bash ./runK8sPerformanceTest.sh"
