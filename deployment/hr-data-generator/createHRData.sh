@@ -28,7 +28,7 @@ then
 fi
 
 if [ "$FILE_PRESENT" -eq 0 ];then
-    echo "Can't find hr-data-generator-<version>.jar in ${TARGET_DIR}. Have you run \"mvn install -P example\" ?"
+    echo "Can't find hr-data-generator-<version>.jar in ${TARGET_DIR}. Have you run \"mvn install\" ?"
     exit 1;
 fi
 

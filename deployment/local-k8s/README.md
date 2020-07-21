@@ -88,7 +88,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/
 
 2. To deploy the example, run:
    ```bash
-   bash deployment/local-k8s/local-bash-scripts/deployServicesToK8s.sh
+   bash deployment/local-k8s/example-model/deployServicesToK8s.sh
    ```
    You can check the pods are available:
    ```bash
