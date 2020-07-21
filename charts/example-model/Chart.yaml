@@ -12,24 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+apiVersion: v2
+appVersion: "1.0"
+description: A Helm chart to run the Palisade example
+name: example-model
+version: 0.4.0
 
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-eureka:
-  client:
-    enabled: false
-
-web:
-  client:
-    palisade-service: "http://localhost:8084"

@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,23 +14,7 @@
 # limitations under the License.
 #
 
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-eureka:
-  client:
-    enabled: false
-
-web:
-  client:
-    palisade-service: "http://localhost:8084"
+helm dep up
+helm upgrade --install palisade . \
+--set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
+--set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target

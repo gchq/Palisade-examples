@@ -12,24 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-eureka:
-  client:
-    enabled: false
-
-web:
-  client:
-    palisade-service: "http://localhost:8084"
+================================
+You have installed {{ .Chart.Name }} as release {{ .Release.Name }} into namespace {{ include "palisade.namespace" . }}
+================================

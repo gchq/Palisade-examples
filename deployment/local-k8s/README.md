@@ -1,83 +1,108 @@
-/*
- * Copyright 2020 Crown Copyright
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+<!--
+ Copyright 2020 Crown Copyright
  
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
 # Local Kubernetes Example
 
-This example demonstrates different users querying an avro file over a REST api running locally in kubernetes containers.
+This example demonstrates different users querying an avro file over a REST api running locally in Kubernetes containers.
 
-The example runs several different queries by the different users, with different purposes. When you run the example you will see the data has been redacted in line with the rules.  
-For an overview of the example see [here](../../README.md)
+The example runs different queries by different users, with different purposes.
+When you run the example you will see the data has been redacted in line with the rules.
+For an overview of the example, see [here](../../README.md).
+
+In order to successfully run the K8s example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) and [example-model](../../example-model) docker images have been built.
 
 ### Prerequisites for running in kubernetes 
-As well as docker, this example also requires Kubernetes. Kubernetes is now bundled as part of docker. The following
-screenshows shows the Docker Kubernetes preferences:
+As well as Docker, this example also requires Kubernetes and Helm 3.
+Kubernetes is now bundled as part of Docker.
 
-![Alt text](k8sPreferences.png?raw=true "Kubernetes preferences")
+Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services](https://github.com/gchq/Palisade-services) README.
 
-
-##### N.B. If you have "Show system containers (advanced) ticked, you will be unable to run the etcd service on port 3279"
-
-To run the example locally in docker containers (under kubernetes) follow these steps (from the root of the project):
+To run the example in a local Kubernetes cluster, follow these steps (from the root [Palisade-examples](../..) directory):
 
 1. Compile the code:
     ```bash
-    mvn clean install -P example
+    mvn clean install
     ```
 
-2. Start the REST services:
-    If you have made changes to the code since you last built the docker containers then you will need to run:
-    
-    *NOTE* This will clean all stopped docker services, requiring them to be rebuilt when you next want to start them up. 
+1. Deploy the example (and services):
     ```bash
-     ./example/deployment/local-docker/bash-scripts/dockerCleanSystem.sh
+    helm dep up
+    helm upgrade --install palisade . \
+    --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
+    --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target
     ```
 
-    Then you can start up the docker containers to create the docker images:
+    You can check the pods are available:
     ```bash
-     ./example/deployment/local-docker/bash-scripts/dockerComposeCreateOnly.sh
-    ```
-    
-    Then you can start the kubernetes cluster:
-    ```bash
-    ./example/deployment/local-k8s/bash-scripts/buildServices.sh
-    ```
-
-    You can check the pods are available:    
-    ```bash
-    kubectl get pods
+   kubectl get pods
+   NAME                      READY   STATUS    RESTARTS   AGE
+   audit-service-xxxxx       1/1     Running   0          116s
+   data-service-xxxxx        1/1     Running   0          116s
+   example-model-xxxxx       1/1     Running   0          116s
+   palisade-service-xxxxx    1/1     Running   0          116s
+   policy-service-xxxxx      1/1     Running   0          116s
+   resource-service-xxxxx    1/1     Running   0          116s
+   user-service-xxxxx        1/1     Running   0          116s
     ```
 
-    After a while you should see the liveness and readiness probes indicating all is well - see the example below:
-
-![Alt text](runningServices.png?raw=true "Running services")
-    You can verify that ingress is working correctly by running the following commands:
-
+1. Run the test example with:
     ```bash
-    curl -kL http://localhost/config/v1/status && curl -kL http://localhost/palisade/v1/status &&
-    curl -kL http://localhost/data/v1/status
-![Alt text](checkUp.png?raw=true "Is service up")
+    kubectl exec example-model-xxxxx -- java -Dspring.profiles.active=k8s,rest -jar /usr/share/example-model/example-model.jar
     ```
-    
-3. Run the test example with:
+
+1. Delete the deployed services:
     ```bash
-    ./example/deployment/local-k8s/bash-scripts/runExample.sh
+    helm delete palisade
     ```
-    
-4. Stop the REST services:
+   
+You can also use the bash scripts included in the deployment/local-k8s folder as instructed below.
+
+## Bash Scripts
+
+Ensure Line Endings are correct for the environment you are using. If running on Windows, checked out in CRLF, you need to run using WSL and therefore require LF line endings.  
+The above steps can be automated using the provided [local bash-scripts](./example-model), which are intended to be run from the Palisade-examples root directory.
+These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/src/main/resources/k8s-bash-scripts), which are intended to be run from the /usr/share/example-model directory inside the k8s pod:
+
+1. Make sure you are within the Palisade-examples directory:  
+   ```bash
+   >> ls
+     drwxrwxrwx deployment
+     drwxrwxrwx example-library
+     drwxrwxrwx example-model
+     drwxrwxrwx hr-data-generator
+     drwxrwxrwx performance
+   ```
+
+2. To deploy the example, run:
+   ```bash
+   bash deployment/local-k8s/example-model/deployServicesToK8s.sh
+   ```
+   You can check the pods are available:
+   ```bash
+   kubectl get pods
+   ```
+   
+3. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
+   ```bash
+   bash deployment/local-k8s/example-model/runFormattedK8sExample.sh
+   <or>
+   bash deployment/local-k8s/example-model/runK8sExample.sh
+   ```
+   
+4. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
-    ./example/deployment/local-k8s/bash-scripts/deleteServices.sh
-    ./example/deployment/local-docker/bash-scripts/dockerCleanSystem.sh
+   bash deployment/local-k8s/example-model/verify.sh
     ```

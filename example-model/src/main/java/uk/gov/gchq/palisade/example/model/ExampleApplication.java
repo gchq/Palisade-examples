@@ -26,5 +26,4 @@ public class ExampleApplication {
     public static void main(final String[] args) {
         new SpringApplicationBuilder(ExampleApplication.class).run(args);
     }
-
 }

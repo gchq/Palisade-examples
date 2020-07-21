@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,23 +14,12 @@
 # limitations under the License.
 #
 
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
+JARFILE=./example-model.jar
+OUTPUT=./exampleOutput.txt
 
-eureka:
-  client:
-    enabled: false
-
-web:
-  client:
-    palisade-service: "http://localhost:8084"
+# Run the rest example
+if [ -f $JARFILE ]; then
+  java -Dspring.profiles.active=k8s,rest -jar $JARFILE | tee $OUTPUT
+else
+  echo "Cannot find example-model-<version>-exec.jar - have you run 'mvn install'?"
+fi

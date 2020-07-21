@@ -13,23 +13,16 @@
 # limitations under the License.
 #
 
-spring:
-  application:
-    name: example-model
-  output:
-    ansi:
-      enabled: always
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-eureka:
-  client:
-    enabled: false
-
-web:
-  client:
-    palisade-service: "http://localhost:8084"
+{{/*
+Should a new namespace be created
+*/}}
+{{- if .Values.global.uniqueNamespace -}}
+{{- if .Release.IsInstall -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ include "palisade.namespace" . }}
+  annotations:
+    "helm.sh/hook": pre-install
+{{- end -}}
+{{- end -}}

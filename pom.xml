@@ -62,13 +62,14 @@
         <compiler.plugin.version>3.8.0</compiler.plugin.version>
         <javadoc.plugin.version>3.2.0</javadoc.plugin.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
+        <checkstyle.phase>verify</checkstyle.phase>
         <depends.maven.version>3.1.1</depends.maven.version>
+        <depends.phase>prepare-package</depends.phase>
 
         <!-- Testing properties -->
         <junit.version>4.12</junit.version>
         <surefire.plugin.version>2.22.1</surefire.plugin.version>
         <failsafe.version>2.22.1</failsafe.version>
-        <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
 
         <!-- Dependencies -->
         <javafaker.version>1.0.1</javafaker.version>
@@ -113,7 +114,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Hoxton.RELEASE</version>
+                <version>Hoxton.SR3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -186,7 +187,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>javadoc-compile</id>
+                        <id>javadoc</id>
                         <phase>compile</phase>
                         <configuration>
                             <show>public</show>
@@ -220,7 +221,7 @@
                 <executions>
                     <execution>
                         <id>dependencies</id>
-                        <phase>prepare-package</phase>
+                        <phase>${depends.phase}</phase>
                         <goals>
                             <goal>tree</goal>
                         </goals>
@@ -237,7 +238,7 @@
                 <executions>
                     <execution>
                         <id>licenses-report</id>
-                        <phase>prepare-package</phase>
+                        <phase>generate-resources</phase>
                         <goals>
                             <goal>aggregate-download-licenses</goal>
                             <goal>aggregate-add-third-party</goal>

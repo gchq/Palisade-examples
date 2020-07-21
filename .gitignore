@@ -15,7 +15,12 @@
 # Ignore data generated for performance tests
 resources/data/with-policy
 resources/data/no-policy
+
+# Build artifacts
 target/
+charts/*.tgz
+
+# Other common patterns to ignore
 *.iml
 .project/
 bin/
@@ -25,6 +30,7 @@ bin/
 .classpath/
 *.pem
 *.DS_Store
+*.lock
 *.flattened-pom.xml
 _book
 node_modules/
