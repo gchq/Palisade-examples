@@ -16,6 +16,9 @@
 
 package uk.gov.gchq.palisade.example.perf.trial;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
 import java.util.stream.Stream;
@@ -26,6 +29,8 @@ import static java.util.Objects.requireNonNull;
  * Abstract superclass for all performance trials.
  */
 public abstract class PerfTrial {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PerfTrial.class);
+
     /**
      * Normal trial name.
      */
@@ -96,8 +101,7 @@ public abstract class PerfTrial {
      * @param stream the stream to sink
      */
     public void sink(final Stream<?> stream) {
-        stream.forEach((Object ignore) -> {
-        });
+        LOGGER.debug("Sink consumed {} records", stream.count());
     }
 
     /**

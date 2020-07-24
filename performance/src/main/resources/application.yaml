@@ -23,6 +23,18 @@ spring:
       ribbon:
         enabled: false
 
+server:
+  port: 0
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 3600000
+        loggerLevel: basic
+    default-config: default
+
 # Simple logging pattern, output will be copied from here and we're not using this for debugging info
 logging:
   pattern:
@@ -61,5 +73,4 @@ performance:
 
 web:
   client:
-    data-service: "http://localhost:8082"
     palisade-service: "http://localhost:8084"

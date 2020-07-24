@@ -28,15 +28,15 @@ public class PerfFileSet {
     /**
      * Small file of data.
      */
-    public final Path smallFile;
+    public final String smallFile;
     /**
      * Large file of data.
      */
-    public final Path largeFile;
+    public final String largeFile;
     /**
      * Directory containing many small files of data
      */
-    public final Path manyDir;
+    public final String manyDir;
 
     /**
      * Default constructor
@@ -45,7 +45,7 @@ public class PerfFileSet {
      * @param largeFile location of the 'large' file
      * @param manyDir   location of the 'many' directory
      */
-    public PerfFileSet(final Path smallFile, final Path largeFile, final Path manyDir) {
+    public PerfFileSet(final String smallFile, final String largeFile, final String manyDir) {
         requireNonNull(smallFile, "smallFile");
         requireNonNull(largeFile, "largeFile");
         requireNonNull(manyDir, "manyDir");

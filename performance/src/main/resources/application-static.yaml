@@ -13,32 +13,10 @@
 # limitations under the License.
 #
 
-spring:
-  application:
-    name: example-model
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-eureka:
-  client:
-    enabled: false
-
-server:
-  port: 0
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 3600000
-        loggerLevel: basic
-    default-config: default
+performance:
+  directory: "../Palisade-examples/resources/data/"
 
 web:
   client:
     palisade-service: "http://localhost:8084"
+    data-service: "http://localhost:8082"

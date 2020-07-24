@@ -27,6 +27,7 @@ import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.stream.Stream;
 
 /**
@@ -54,7 +55,7 @@ public class ReadLargeNativeTrial extends PerfTrial {
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //get file URI
         //read from file
-        try (InputStream bis = Files.newInputStream(fileSet.largeFile);
+        try (InputStream bis = Files.newInputStream(Path.of(fileSet.largeFile));
              Stream<Employee> dataStream = SERIALISER.deserialise(bis)) {
 
             //now read everything in the file

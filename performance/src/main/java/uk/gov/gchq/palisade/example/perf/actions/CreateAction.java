@@ -25,6 +25,7 @@ import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
 import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -94,14 +95,14 @@ public class CreateAction implements Runnable {
     private boolean createWithPolicyDataset(final PerfFileSet fileSet) {
         ExecutorService tasks = Executors.newFixedThreadPool(NUMBER_OF_THREADS, Util.createDaemonThreadFactory());
 
-        Path smallFile = fileSet.smallFile;
-        Path largeFile = fileSet.largeFile;
-        Path manyDir = fileSet.manyDir;
-        Path masterCopy = manyDir.resolve(String.format(PerfUtils.MANY_DUP_DIR_FORMAT, 0));
+        String smallFile = fileSet.smallFile;
+        String largeFile = fileSet.largeFile;
+        String manyDir = fileSet.manyDir;
+        Path masterCopy = Path.of(manyDir).resolve(String.format(PerfUtils.MANY_DUP_DIR_FORMAT, 0));
 
         // make result writers
-        CreateDataFile smallWriter = new CreateDataFile(small, 0, smallFile.toFile());
-        CreateDataFile largeWriter = new CreateDataFile(large, 1, largeFile.toFile());
+        CreateDataFile smallWriter = new CreateDataFile(small, 0, new File(smallFile));
+        CreateDataFile largeWriter = new CreateDataFile(large, 1, new File(largeFile));
         // stream of writers for many files
         long seedFrom = 2L;
         Stream<CreateDataFile> manyWriters = LongStream.range(0, manyUnique)

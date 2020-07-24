@@ -18,7 +18,6 @@ package uk.gov.gchq.palisade.example.perf.trial;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
-import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -44,8 +43,8 @@ public abstract class PalisadeTrial extends PerfTrial {
      * @return data stream
      * @throws IllegalArgumentException if {@code resourceName} is empty
      */
-    protected Stream<Employee> getDataStream(final Path resource) {
+    protected Stream<Employee> getDataStream(final String resource) {
         requireNonNull(resource, "resourceName");
-        return client.apply(resource.toString());
+        return client.apply(resource);
     }
 }

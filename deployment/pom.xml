@@ -40,7 +40,7 @@
                 <version>3.1.2</version>
                 <executions>
                     <execution>
-                        <id>copy-installed</id>
+                        <id>copy-installed-example</id>
                         <phase>install</phase>
                         <goals>
                             <goal>copy</goal>
@@ -62,6 +62,31 @@
                             </artifactItems>
                             <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="example" -->
                             <outputDirectory>${basedir}/target/example/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-installed-performance</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>example-library</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>hr-data-generator</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="performance-test" -->
+                            <outputDirectory>${basedir}/target/performance-test/</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

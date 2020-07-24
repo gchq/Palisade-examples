@@ -27,10 +27,12 @@ import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public class ExampleSimpleClient extends SimpleClient<Employee> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleSimpleClient.class);
+    private static final String FORMAT = "file:%s";
 
     public ExampleSimpleClient(final PalisadeClient palisadeClient, final DataClientFactory dataClient) {
         super(new AvroSerialiser<>(Employee.class), palisadeClient, dataClient);
@@ -43,13 +45,31 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
         results.map(Object::toString).forEach(LOGGER::info);
     }
 
-    public Stream<Employee> read(final String resourceId, final String userId, final String purpose) throws IOException {
-        String absoluteFile = new File(resourceId).toURI().toString();
-        // Check that the last char of the resourceId is '/' or '\' for Windows Users, and then readd it if it missing
-        char lastResourceChar = resourceId.charAt(resourceId.length() - 1);
-        if (lastResourceChar != absoluteFile.charAt(absoluteFile.length() - 1)) {
-            absoluteFile += lastResourceChar;
+    /**
+     * Given a name for either a directory of many files, or a single file, containing Employee AVRO data,
+     * format this fileName to a URI resourceId, then read from the SimpleClient.
+     *
+     * @param fileName   the absolute or (if it exists locally) relative filename for the resource
+     * @param userId     the user id
+     * @param purpose    the purpose
+     * @return a stream of Employee objects from palisade
+     * @throws IOException if an exception occurred deserialising data
+     */
+    public Stream<Employee> read(final String fileName, final String userId, final String purpose) throws IOException {
+        final String resourceName;
+        if (!Path.of(fileName).isAbsolute()) {
+            // If a relative path is requested, this implies it is available locally
+            // We can be sure that this path is appropriately a directory "/some/dir " or a file "/some/file"
+            resourceName = new File(fileName).getCanonicalPath();
+        } else {
+            // Otherwise, it could be either, so carefully preserve the exact request
+            // If we tried to resolve a directory that doesn't exist, Java will treat it as a file and drop the trailing "/"
+            resourceName = fileName;
         }
-        return super.read(absoluteFile, userId, purpose);
+        // Again, we cannot trust any toURI methods to not drop a trailing "/"
+        final String resourceId = String.format(FORMAT, resourceName);
+
+        LOGGER.debug("Formatted fileName {} to resourceName {} to resourceId {}", fileName, resourceName, resourceId);
+        return super.read(resourceId, userId, purpose);
     }
 }
