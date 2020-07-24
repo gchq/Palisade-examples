@@ -19,7 +19,7 @@ OUTPUT=./performanceOutput.txt
 
 # Run the performance tests
 if [ -f $JARFILE ]; then
-  java -Dspring.profiles.active=k8s,rest -jar $JARFILE | tee $OUTPUT
+  java -Dspring.profiles.active=k8s -jar $JARFILE | tee $OUTPUT
 else
   echo "Cannot find performance-<version>-exec.jar - have you run 'mvn install'?"
 fi

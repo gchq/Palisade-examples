@@ -28,6 +28,7 @@ import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ExampleSimpleClient extends SimpleClient<Employee> {
@@ -40,9 +41,14 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
 
     public void run(final String filename, final String userId, final String purpose) throws IOException {
         LOGGER.info("{} is reading the Employee file {} with a purpose of {}", userId, filename, purpose);
-        final Stream<Employee> results = read(filename, userId, purpose);
+        final Stream<Stream<Employee>> results = read(filename, userId, purpose);
         LOGGER.info("{} got back:", userId);
-        results.map(Object::toString).forEach(LOGGER::info);
+        // We are going to read all resources and all records
+        // So we won't be leaving any dangling connections
+        // Therefore it is safe to flatMap and open up a connection for every resource simultaneously
+        results.flatMap(Function.identity())
+                .map(Employee::toString)
+                .forEach(LOGGER::info);
     }
 
     /**
@@ -55,7 +61,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
      * @return a stream of Employee objects from palisade
      * @throws IOException if an exception occurred deserialising data
      */
-    public Stream<Employee> read(final String fileName, final String userId, final String purpose) throws IOException {
+    public Stream<Stream<Employee>> read(final String fileName, final String userId, final String purpose) throws IOException {
         final String resourceName;
         if (!Path.of(fileName).isAbsolute()) {
             // If a relative path is requested, this implies it is available locally

@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 public class RequestSmallWithPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "request_small_with_policy";
 
-    public RequestSmallWithPolicyTrial(final Function<String, Stream<Employee>> client) {
+    public RequestSmallWithPolicyTrial(final Function<String, Stream<Stream<Employee>>> client) {
         super(client);
         normal = RequestSmallNoPolicyTrial.NAME;
     }
@@ -46,7 +46,7 @@ public class RequestSmallWithPolicyTrial extends PalisadeTrial {
     }
 
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        try (Stream<Employee> ignored = getDataStream(fileSet.smallFile)) {
+        try (Stream<Stream<Employee>> ignored = getDataStream(fileSet.smallFile)) {
             //do nothing
         }
     }

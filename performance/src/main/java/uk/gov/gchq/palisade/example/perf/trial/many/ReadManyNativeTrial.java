@@ -56,9 +56,9 @@ public class ReadManyNativeTrial extends PerfTrial {
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Path> manyFiles = Files.walk(Path.of(fileSet.manyDir))) {
             // collect all records of all resources into a single stream
-            Stream<Employee> data = manyFiles
+            Stream<Stream<Employee>> data = manyFiles
                     .filter(path -> path.toFile().isFile())
-                    .flatMap((Path file) -> {
+                    .map((Path file) -> {
                         try {
                             //read from file
                             InputStream bis = Files.newInputStream(file);

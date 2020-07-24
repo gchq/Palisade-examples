@@ -152,10 +152,10 @@ public class RunAction implements Runnable {
             delay(TEST_DELAY.toMillis());
 
             runTrial(trial, fileSet, noPolicySet, collector, type);
-            LOGGER.info(".. {}", i + 1);
+            LOGGER.info("Completed trial {}", i + 1);
         }
 
-        LOGGER.info(".. done");
+        LOGGER.info("Completed test {}:", trial.name());
     }
 
     /**

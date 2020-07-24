@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 public class ReadLargeNoPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_large_no_policy";
 
-    public ReadLargeNoPolicyTrial(final Function<String, Stream<Employee>> client) {
+    public ReadLargeNoPolicyTrial(final Function<String, Stream<Stream<Employee>>> client) {
         super(client);
         normal = ReadLargeNativeTrial.NAME;
     }
@@ -47,7 +47,7 @@ public class ReadLargeNoPolicyTrial extends PalisadeTrial {
 
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //setup a request and read data
-        try (Stream<Employee> data = getDataStream(noPolicySet.largeFile)) {
+        try (Stream<Stream<Employee>> data = getDataStream(noPolicySet.largeFile)) {
             sink(data);
         }
     }
