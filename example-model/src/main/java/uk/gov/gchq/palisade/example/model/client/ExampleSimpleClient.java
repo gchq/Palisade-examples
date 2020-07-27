@@ -65,7 +65,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
         final String resourceName;
         if (!Path.of(fileName).isAbsolute()) {
             // If a relative path is requested, this implies it is available locally
-            // We can be sure that this path is appropriately a directory "/some/dir " or a file "/some/file"
+            // We can be sure that this path is appropriately a directory "/some/dir/" or a file "/some/file"
             resourceName = new File(fileName).getCanonicalPath();
         } else {
             // Otherwise, it could be either, so carefully preserve the exact request
