@@ -33,7 +33,6 @@ import java.util.stream.Stream;
 
 public class ExampleSimpleClient extends SimpleClient<Employee> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleSimpleClient.class);
-    private static final String FORMAT = "file:%s";
 
     public ExampleSimpleClient(final PalisadeClient palisadeClient, final DataClientFactory dataClient) {
         super(new AvroSerialiser<>(Employee.class), palisadeClient, dataClient);
@@ -62,20 +61,27 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
      * @throws IOException if an exception occurred deserialising data
      */
     public Stream<Stream<Employee>> read(final String fileName, final String userId, final String purpose) throws IOException {
-        final String resourceName;
+        final File file;
         if (!Path.of(fileName).isAbsolute()) {
             // If a relative path is requested, this implies it is available locally
-            // We can be sure that this path is appropriately a directory "/some/dir/" or a file "/some/file"
-            resourceName = new File(fileName).getCanonicalPath();
+            file = new File(fileName).getCanonicalFile();
         } else {
-            // Otherwise, it could be either, so carefully preserve the exact request
-            // If we tried to resolve a directory that doesn't exist, Java will treat it as a file and drop the trailing "/"
-            resourceName = fileName;
+            // Otherwise, keep it as it is
+            file = new File(fileName);
         }
-        // Again, we cannot trust any toURI methods to not drop a trailing "/"
-        final String resourceId = String.format(FORMAT, resourceName);
 
-        LOGGER.debug("Formatted fileName {} to resourceName {} to resourceId {}", fileName, resourceName, resourceId);
+        // Get a file:$fileName URI
+        String resourceId = file.toURI().toString();
+
+        // Check that the resourceId ending is consistent with the fileName
+        // ie. "../some/directory/" should still have a trailing slash "file:/root/some/directory/"
+        // fileName could have been a DOS path
+        // resourceId is a URI, so only a UNIX path
+        if ((fileName.endsWith("/") || fileName.endsWith("\\")) && !resourceId.endsWith("/")) {
+            resourceId += "/";
+        }
+
+        LOGGER.debug("Formatted fileName {} to file {} to resourceId {}", fileName, file, resourceId);
         return super.read(resourceId, userId, purpose);
     }
 }
