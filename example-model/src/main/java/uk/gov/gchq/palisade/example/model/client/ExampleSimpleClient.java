@@ -33,7 +33,6 @@ import java.util.stream.Stream;
 
 public class ExampleSimpleClient extends SimpleClient<Employee> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleSimpleClient.class);
-    private static final String FORMAT = "file:%s";
 
     public ExampleSimpleClient(final PalisadeClient palisadeClient, final DataClientFactory dataClient) {
         super(new AvroSerialiser<>(Employee.class), palisadeClient, dataClient);
@@ -48,6 +47,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
                 .forEach(LOGGER::info);
     }
 
+    @Override
     public Stream<Stream<Employee>> read(final String fileName, final String userId, final String purpose) throws IOException {
         final File file;
         if (!Path.of(fileName).isAbsolute()) {

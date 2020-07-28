@@ -81,21 +81,13 @@ public class ApplicationConfiguration {
         return new PerformanceConfiguration();
     }
 
-//    /**
-//     * Bean for a CommandLineRunner to use as the entrypoint for this application, configured to run a performance test
-//     *
-//     * @param conf         configuration for the conditions of the test - number of runs, data set size, directory locations etc.
-//     * @param perfTrialSet the set of trials to perform - these may be further overridden by the configuration's skipTests field
-//     * @return a SpringBootApplication CommandLineRunner that will run the trial set with the given configuration
-//     */
-    /*@Bean
-    @ConditionalOnProperty(name = "performance.action", havingValue = "run")
-    public CommandLineRunner runAction(final PerformanceConfiguration conf, final Function<String, Stream<Stream<Employee>>> client) {
-        PerfTrial trial = new RequestSmallNoPolicyTrial(client);
-        Map<String, PerfTrial> testsToRun = Collections.singletonMap(trial.name(), trial);
-        LOGGER.debug("Created RunAction with conf {} and tests {}", conf, testsToRun);
-        return new ActionRunner(new RunAction(conf.getDirectory(), conf.getDryRuns(), conf.getLiveRuns(), testsToRun, new HashSet<>(conf.getSkipTests())));
-    }*/
+    /**
+     * Bean for a CommandLineRunner to use as the entrypoint for this application, configured to run a performance test
+     *
+     * @param conf         configuration for the conditions of the test - number of runs, data set size, directory locations etc.
+     * @param perfTrialSet the set of trials to perform - these may be further overridden by the configuration's skipTests field
+     * @return a SpringBootApplication CommandLineRunner that will run the trial set with the given configuration
+     */
     @Bean
     @ConditionalOnProperty(name = "performance.action", havingValue = "run")
     public CommandLineRunner runAction(final PerformanceConfiguration conf, final Collection<PerfTrial> perfTrialSet) {
