@@ -31,6 +31,7 @@ import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.util.PerfException;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -58,13 +59,13 @@ public class ApplicationConfiguration {
      * @throws RuntimeException if there was an IOException deserialising returned data
      */
     @Bean
-    public Function<String, Stream<Employee>> configuredSimpleClient(final ExampleSimpleClient client, final PerformanceConfiguration conf) {
+    public Function<String, Stream<Stream<Employee>>> configuredSimpleClient(final ExampleSimpleClient client, final PerformanceConfiguration conf) {
         LOGGER.info("Configured ExampleSimpleClient with config {}", conf);
         return (String resourceId) -> {
             try {
                 return client.read(resourceId, conf.getUserId(), conf.getPurpose());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new PerfException(e);
             }
         };
     }
@@ -80,13 +81,21 @@ public class ApplicationConfiguration {
         return new PerformanceConfiguration();
     }
 
-    /**
-     * Bean for a CommandLineRunner to use as the entrypoint for this application, configured to run a performance test
-     *
-     * @param conf         configuration for the conditions of the test - number of runs, data set size, directory locations etc.
-     * @param perfTrialSet the set of trials to perform - these may be further overridden by the configuration's skipTests field
-     * @return a SpringBootApplication CommandLineRunner that will run the trial set with the given configuration
-     */
+//    /**
+//     * Bean for a CommandLineRunner to use as the entrypoint for this application, configured to run a performance test
+//     *
+//     * @param conf         configuration for the conditions of the test - number of runs, data set size, directory locations etc.
+//     * @param perfTrialSet the set of trials to perform - these may be further overridden by the configuration's skipTests field
+//     * @return a SpringBootApplication CommandLineRunner that will run the trial set with the given configuration
+//     */
+    /*@Bean
+    @ConditionalOnProperty(name = "performance.action", havingValue = "run")
+    public CommandLineRunner runAction(final PerformanceConfiguration conf, final Function<String, Stream<Stream<Employee>>> client) {
+        PerfTrial trial = new RequestSmallNoPolicyTrial(client);
+        Map<String, PerfTrial> testsToRun = Collections.singletonMap(trial.name(), trial);
+        LOGGER.debug("Created RunAction with conf {} and tests {}", conf, testsToRun);
+        return new ActionRunner(new RunAction(conf.getDirectory(), conf.getDryRuns(), conf.getLiveRuns(), testsToRun, new HashSet<>(conf.getSkipTests())));
+    }*/
     @Bean
     @ConditionalOnProperty(name = "performance.action", havingValue = "run")
     public CommandLineRunner runAction(final PerformanceConfiguration conf, final Collection<PerfTrial> perfTrialSet) {
