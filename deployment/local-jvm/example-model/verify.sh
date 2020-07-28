@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FILE=deployment/local-jvm/bash-scripts/exampleOutput.txt
+FILE=deployment/local-jvm/example-model/exampleOutput.txt
 DIR=../Palisade-services
 
 if [ -d $DIR ]; then
