@@ -19,7 +19,6 @@ ARG JAR_FILE
 ARG K8_VERSION=v1.15.3
 
 RUN apt-get update && \
-      apt-get install -y --no-install-recommends curl=7.52.1-5+deb9u10 && \
       curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \
       mv ./kubectl /usr/local/bin/kubectl \
