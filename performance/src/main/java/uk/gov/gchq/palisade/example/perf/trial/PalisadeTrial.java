@@ -18,21 +18,20 @@ package uk.gov.gchq.palisade.example.perf.trial;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
-import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
 public abstract class PalisadeTrial extends PerfTrial {
-    private Function<String, Stream<Employee>> client;
+    private Function<String, Stream<Stream<Employee>>> client;
 
     /**
      * Default constructor
      *
      * @param client a pre-configured client (eg. userId Alice and purpose SALARY for Employee Avro files)
      */
-    public PalisadeTrial(final Function<String, Stream<Employee>> client) {
+    public PalisadeTrial(final Function<String, Stream<Stream<Employee>>> client) {
         this.client = client;
     }
 
@@ -44,8 +43,8 @@ public abstract class PalisadeTrial extends PerfTrial {
      * @return data stream
      * @throws IllegalArgumentException if {@code resourceName} is empty
      */
-    protected Stream<Employee> getDataStream(final Path resource) {
+    protected Stream<Stream<Employee>> getDataStream(final String resource) {
         requireNonNull(resource, "resourceName");
-        return client.apply(resource.toString());
+        return client.apply(resource);
     }
 }

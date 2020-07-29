@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 public class ReadManyNoPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_many_no_policy";
 
-    public ReadManyNoPolicyTrial(final Function<String, Stream<Employee>> client) {
+    public ReadManyNoPolicyTrial(final Function<String, Stream<Stream<Employee>>> client) {
         super(client);
         normal = ReadManyNativeTrial.NAME;
     }
@@ -47,7 +47,7 @@ public class ReadManyNoPolicyTrial extends PalisadeTrial {
 
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //setup a request and read data
-        try (Stream<Employee> data = getDataStream(noPolicySet.manyDir)) {
+        try (Stream<Stream<Employee>> data = getDataStream(noPolicySet.manyDir)) {
             sink(data);
         }
     }

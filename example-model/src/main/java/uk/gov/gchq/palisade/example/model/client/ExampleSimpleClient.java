@@ -27,6 +27,8 @@ import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ExampleSimpleClient extends SimpleClient<Employee> {
@@ -38,18 +40,34 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
 
     public void run(final String filename, final String userId, final String purpose) throws IOException {
         LOGGER.info("{} is reading the Employee file {} with a purpose of {}", userId, filename, purpose);
-        final Stream<Employee> results = read(filename, userId, purpose);
+        final Stream<Stream<Employee>> results = read(filename, userId, purpose);
         LOGGER.info("{} got back:", userId);
-        results.map(Object::toString).forEach(LOGGER::info);
+        results.flatMap(Function.identity())
+                .map(Employee::toString)
+                .forEach(LOGGER::info);
     }
 
-    public Stream<Employee> read(final String resourceId, final String userId, final String purpose) throws IOException {
-        String absoluteFile = new File(resourceId).toURI().toString();
-        // Check that the last char of the resourceId is '/' or '\' for Windows Users, and then readd it if it missing
-        char lastResourceChar = resourceId.charAt(resourceId.length() - 1);
-        if (lastResourceChar != absoluteFile.charAt(absoluteFile.length() - 1)) {
-            absoluteFile += lastResourceChar;
+    @Override
+    public Stream<Stream<Employee>> read(final String fileName, final String userId, final String purpose) throws IOException {
+        final File file;
+        if (!Path.of(fileName).isAbsolute()) {
+            // If a relative path is requested, this implies it is available locally
+            file = new File(fileName).getCanonicalFile();
+        } else {
+            // Otherwise, keep it as it is
+            file = new File(fileName);
         }
-        return super.read(absoluteFile, userId, purpose);
+        // Get a file:$fileName URI
+        String resourceId = file.toURI().toString();
+
+        // Check that the resourceId ending is consistent with the fileName
+        // ie. "../some/directory/" should still have a trailing slash "file:/root/some/directory/"
+        // fileName could have been a DOS path
+        // resourceId is a URI, so only a UNIX path
+        if (file.isDirectory() && !resourceId.endsWith(File.separator)) {
+            resourceId += "/";
+        }
+        LOGGER.debug("Formatted fileName {} to file {} to resourceId {}", fileName, file, resourceId);
+        return super.read(resourceId, userId, purpose);
     }
 }

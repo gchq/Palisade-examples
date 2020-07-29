@@ -146,16 +146,17 @@ public class RunAction implements Runnable {
             throw new IllegalArgumentException("trial count cannot be less than 1");
         }
 
-        LOGGER.info("Starting test {}:", trial.name());
+        String trialName = trial.name();
+        LOGGER.info("Starting test {}:", trialName);
 
         for (int i = 0; i < trialCount; i++) {
             delay(TEST_DELAY.toMillis());
 
             runTrial(trial, fileSet, noPolicySet, collector, type);
-            LOGGER.info(".. {}", i + 1);
+            LOGGER.info("Completed trial {}", i + 1);
         }
 
-        LOGGER.info(".. done");
+        LOGGER.info("Completed test {}:", trialName);
     }
 
     /**

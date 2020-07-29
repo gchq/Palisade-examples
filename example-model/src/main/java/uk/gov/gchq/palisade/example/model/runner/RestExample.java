@@ -24,6 +24,7 @@ import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.model.client.ExampleSimpleClient;
 
 import java.io.IOException;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class RestExample {
@@ -39,7 +40,8 @@ public class RestExample {
     private void makeRequest(final String userId, final String resourceId, final String purpose) throws IOException {
         LOGGER.info("");
         LOGGER.info("{} is reading {} with a purpose of {}...", userId, resourceId, purpose);
-        final Stream<Employee> results = client.read(resourceId, userId, purpose);
+        final Stream<Employee> results = client.read(resourceId, userId, purpose)
+                .flatMap(Function.identity());
         LOGGER.info("{} got back: ", userId);
         results.map(Object::toString).forEach(LOGGER::info);
     }

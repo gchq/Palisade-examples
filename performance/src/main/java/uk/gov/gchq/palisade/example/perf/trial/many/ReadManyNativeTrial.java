@@ -54,22 +54,23 @@ public class ReadManyNativeTrial extends PerfTrial {
     }
 
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        try (Stream<Path> manyFiles = Files.walk(fileSet.manyDir)) {
-            manyFiles.filter(path -> path.toFile().isFile())
-                    .forEach((Path file) -> {
-                        //read from file
-                        try (InputStream bis = Files.newInputStream(file);
-                             Stream<Employee> dataStream = SERIALISER.deserialise(bis)) {
-
-                            //now read everything in the file
-                            sink(dataStream);
-
-                        } catch (IOException e) {
-                            throw new PerfException(e);
+        try (Stream<Path> manyFiles = Files.walk(Path.of(fileSet.manyDir))) {
+            // collect all records of all resources into a single stream
+            Stream<Stream<Employee>> data = manyFiles
+                    .filter(path -> path.toFile().isFile())
+                    .map((Path file) -> {
+                        try {
+                            //read from file
+                            InputStream bis = Files.newInputStream(file);
+                            return SERIALISER.deserialise(bis);
+                        } catch (IOException ex) {
+                            throw new PerfException(ex);
                         }
                     });
-        } catch (IOException e) {
-            throw new PerfException(e);
+            //now read everything in each of the files
+            sink(data);
+        } catch (IOException ex) {
+            throw new PerfException(ex);
         }
     }
 }

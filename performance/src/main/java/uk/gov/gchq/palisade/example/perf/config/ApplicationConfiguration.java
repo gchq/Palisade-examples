@@ -31,6 +31,7 @@ import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.util.PerfException;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -58,13 +59,13 @@ public class ApplicationConfiguration {
      * @throws RuntimeException if there was an IOException deserialising returned data
      */
     @Bean
-    public Function<String, Stream<Employee>> configuredSimpleClient(final ExampleSimpleClient client, final PerformanceConfiguration conf) {
+    public Function<String, Stream<Stream<Employee>>> configuredSimpleClient(final ExampleSimpleClient client, final PerformanceConfiguration conf) {
         LOGGER.info("Configured ExampleSimpleClient with config {}", conf);
         return (String resourceId) -> {
             try {
                 return client.read(resourceId, conf.getUserId(), conf.getPurpose());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new PerfException(e);
             }
         };
     }
