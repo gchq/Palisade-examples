@@ -64,7 +64,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
         // ie. "../some/directory/" should still have a trailing slash "file:/root/some/directory/"
         // fileName could have been a DOS path
         // resourceId is a URI, so only a UNIX path
-        if ((fileName.endsWith("/") || fileName.endsWith("\\")) && !resourceId.endsWith("/")) {
+        if (file.isDirectory() && !resourceId.endsWith(File.separator)) {
             resourceId += "/";
         }
         LOGGER.debug("Formatted fileName {} to file {} to resourceId {}", fileName, file, resourceId);
