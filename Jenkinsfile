@@ -22,8 +22,8 @@ timestamps {
     podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
-    metadata: 
-        name: dind 
+    metadata:
+        name: dind
     spec:
       affinity:
         nodeAffinity:
@@ -33,7 +33,7 @@ timestamps {
               matchExpressions:
               - key: palisade-node-name
                 operator: In
-                values: 
+                values:
                 - node1
                 - node2
                 - node3
@@ -41,7 +41,7 @@ timestamps {
       - name: jnlp
         image: jenkins/jnlp-slave
         imagePullPolicy: Always
-        args: 
+        args:
         - $(JENKINS_SECRET)
         - $(JENKINS_NAME)
         resources:
@@ -49,7 +49,7 @@ timestamps {
             ephemeral-storage: "4Gi"
           limits:
             ephemeral-storage: "8Gi"
-    
+
       - name: docker-cmds
         image: 779921734503.dkr.ecr.eu-west-1.amazonaws.com/jnlp-did:200608
         imagePullPolicy: IfNotPresent
@@ -65,9 +65,9 @@ timestamps {
             ephemeral-storage: "4Gi"
           limits:
             ephemeral-storage: "8Gi"
-    
+
       - name: hadolint
-        image: hadolint/hadolint:latest-debian@sha256:15016b18964c5e623bd2677661a0be3c00ffa85ef3129b11acf814000872861e
+        image: hadolint/hadolint:v1.18.0-6-ga0d655d-alpine@sha256:e0f960b5acf09ccbf092ec1e8f250cd6b5c9a586a0e9783c53618d76590b6aec
         imagePullPolicy: IfNotPresent
         command:
             - cat
@@ -77,7 +77,7 @@ timestamps {
             ephemeral-storage: "1Gi"
           limits:
             ephemeral-storage: "2Gi"
-    
+
       - name: dind-daemon
         image: docker:1.12.6-dind
         imagePullPolicy: IfNotPresent
@@ -95,7 +95,7 @@ timestamps {
             ephemeral-storage: "1Gi"
           limits:
             ephemeral-storage: "2Gi"
-    
+
       - name: maven
         image: 779921734503.dkr.ecr.eu-west-1.amazonaws.com/jnlp-dood-new-infra:200710
         imagePullPolicy: IfNotPresent
@@ -109,18 +109,18 @@ timestamps {
             ephemeral-storage: "4Gi"
           limits:
             ephemeral-storage: "8Gi"
-    
+
       volumes:
         - name: docker-graph-storage
           emptyDir: {}
         - name: docker-sock
           hostPath:
              path: /var/run
-    
+
     ''') {
         node(POD_LABEL) {
             def GIT_BRANCH_NAME
-    
+
             stage('Bootstrap') {
                 if (env.CHANGE_BRANCH) {
                     GIT_BRANCH_NAME=env.CHANGE_BRANCH
@@ -129,7 +129,7 @@ timestamps {
                 }
                 echo sh(script: 'env | sort', returnStdout: true)
             }
-    
+
             stage('Prerequisites') {
                 dir ('Palisade-common') {
                     git url: 'https://github.com/gchq/Palisade-common.git'
@@ -153,7 +153,7 @@ timestamps {
                     }
                 }
             }
-    
+
             stage('Install, Unit Tests, Checkstyle') {
                 dir ('Palisade-examples') {
                     git url: 'https://github.com/gchq/Palisade-examples.git'
@@ -191,7 +191,7 @@ timestamps {
                     }
                 }
             }
-    
+
             stage("SonarQube Quality Gate") {
                 // Wait for SonarQube to prepare the report
                 sleep(time: 10, unit: 'SECONDS')
@@ -204,7 +204,7 @@ timestamps {
                     }
                 }
             }
-    
+
             stage('Maven deploy') {
                 dir ('Palisade-examples') {
                     container('docker-cmds') {
@@ -221,5 +221,4 @@ timestamps {
             }
         }
     }
-
 }
