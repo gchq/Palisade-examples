@@ -60,6 +60,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
      * @return a stream of Employee objects from palisade
      * @throws IOException if an exception occurred deserialising data
      */
+    @Override
     public Stream<Stream<Employee>> read(final String fileName, final String userId, final String purpose) throws IOException {
         final File file;
         if (!Path.of(fileName).isAbsolute()) {
@@ -80,7 +81,6 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
         if ((fileName.endsWith("/") || fileName.endsWith("\\")) && !resourceId.endsWith("/")) {
             resourceId += "/";
         }
-
         LOGGER.debug("Formatted fileName {} to file {} to resourceId {}", fileName, file, resourceId);
         return super.read(resourceId, userId, purpose);
     }

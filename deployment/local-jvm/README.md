@@ -89,7 +89,7 @@ To run the example locally in JVMs follow these steps (from the root of the proj
 
 ## Bash Scripts
 
-The above steps can be automated using the provided [bash-scripts](./bash-scripts), all of which are intended to be run from the Palisade-examples root directory:
+The above steps can be automated using the provided [bash-scripts](./example-model), all of which are intended to be run from the Palisade-examples root directory:
 
 1. Make sure you are within the Palisade-examples directory:  
    ```bash

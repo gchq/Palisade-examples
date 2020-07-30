@@ -16,13 +16,11 @@
 
 package uk.gov.gchq.palisade.example.perf.analysis;
 
-import java.nio.file.Path;
-
 import static java.util.Objects.requireNonNull;
 
 /**
  * Simple class that contains details on the files being manipulated.
- * A triple of {@link Path}s
+ * A triple of {@link String}s
  */
 public class PerfFileSet {
     /**
