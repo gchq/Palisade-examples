@@ -129,7 +129,7 @@ spec:
 
         stage('Prerequisites') {
             dir ('Palisade-common') {
-                git branch:'develop', url: 'https://github.com/gchq/Palisade-common.git'
+                git branch: 'develop', url: 'https://github.com/gchq/Palisade-common.git'
                 sh "git fetch origin develop"
                 if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
                     container('docker-cmds') {
@@ -140,7 +140,7 @@ spec:
                 }
             }
             dir ('Palisade-clients') {
-                git branch:'develop', url: 'https://github.com/gchq/Palisade-clients.git'
+                git branch: 'develop', url: 'https://github.com/gchq/Palisade-clients.git'
                 if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
                     container('docker-cmds') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
@@ -153,7 +153,7 @@ spec:
 
         stage('Install, Unit Tests, Checkstyle') {
             dir ('Palisade-examples') {
-                git branch:'develop', url: 'https://github.com/gchq/Palisade-examples.git'
+                git branch: 'develop', url: 'https://github.com/gchq/Palisade-examples.git'
                 sh "git checkout ${GIT_BRANCH_NAME}"
                 container('docker-cmds') {
                     configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
