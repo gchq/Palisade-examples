@@ -23,10 +23,12 @@ import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.util.PerfException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.stream.Stream;
 
 /**
@@ -53,14 +55,14 @@ public class ReadSmallNativeTrial extends PerfTrial {
 
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //read from file
-        try (InputStream bis = Files.newInputStream(fileSet.smallFile);
+        try (InputStream bis = Files.newInputStream(Path.of(fileSet.smallFile));
              Stream<Employee> dataStream = SERIALISER.deserialise(bis)) {
 
             //now read everything in the file
-            sink(dataStream);
+            sink(Stream.of(dataStream));
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerfException(e);
         }
     }
 }
