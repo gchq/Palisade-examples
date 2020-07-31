@@ -26,6 +26,7 @@ import java.util.StringJoiner;
 import static java.util.Objects.requireNonNull;
 
 public class ExampleUser extends User {
+    private static final long serialVersionUID = 1L;
 
     private EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
