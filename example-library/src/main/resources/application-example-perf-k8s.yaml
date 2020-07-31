@@ -83,12 +83,6 @@ population:
     attributes:
       type: ${default.type}
       serialisedFormat: ${default.format}
-  - resourceId: ${default.rootId}/no-policy/many-employees/duplicate_000000/employee_000000.avro
-    rootId: ${default.rootId}/
-    connectionDetail: ${default.connectionDetail}
-    attributes:
-      type: ${default.type}
-      serialisedFormat: ${default.format}
   - resourceId: ${default.rootId}/no-policy/many-employees/duplicate_000000/employee_000001.avro
     rootId: ${default.rootId}/
     connectionDetail: ${default.connectionDetail}
@@ -678,12 +672,6 @@ population:
       type: ${default.type}
       serialisedFormat: ${default.format}
   - resourceId: ${default.rootId}/no-policy/many-employees/duplicate_000000/employee_000099.avro
-    rootId: ${default.rootId}/
-    connectionDetail: ${default.connectionDetail}
-    attributes:
-      type: ${default.type}
-      serialisedFormat: ${default.format}
-  - resourceId: ${default.rootId}/with-policy/many-employees/duplicate_000000/employee_000000.avro
     rootId: ${default.rootId}/
     connectionDetail: ${default.connectionDetail}
     attributes:

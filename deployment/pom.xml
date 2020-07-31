@@ -38,7 +38,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.1.2</version>
-                <!-- Copy to separate directories the full set of classpath jars required for the example and the performance tests -->
+                <!-- Copy the full set of classpath jars required for each of the example and the performance tests to separate directories -->
                 <!-- Currently, these jars are the same (example-lib and hr-data-generator) but could be different in the future -->
                 <executions>
                     <execution>
