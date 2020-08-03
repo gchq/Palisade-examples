@@ -13,10 +13,6 @@
 # limitations under the License.
 #
 
-# Since using eureka, let spring autoconfigure a port
-server:
-  port: 0
-
 example:
   filename: "../Palisade-examples/resources/"
   directory: "../Palisade-examples/resources/"

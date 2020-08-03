@@ -16,7 +16,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: palisade:get-pod-logs
-
   namespace: {{ include "palisade.namespace" . }}
 subjects:
 - kind: ServiceAccount

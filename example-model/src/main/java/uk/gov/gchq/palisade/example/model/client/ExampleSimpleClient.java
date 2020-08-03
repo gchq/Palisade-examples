@@ -42,11 +42,24 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
         LOGGER.info("{} is reading the Employee file {} with a purpose of {}", userId, filename, purpose);
         final Stream<Stream<Employee>> results = read(filename, userId, purpose);
         LOGGER.info("{} got back:", userId);
+        // We are going to read all resources and all records
+        // So we won't be leaving any dangling connections
+        // Therefore it is safe to flatMap and open up a connection for every resource simultaneously
         results.flatMap(Function.identity())
                 .map(Employee::toString)
                 .forEach(LOGGER::info);
     }
 
+    /**
+     * Given a name for either a directory of many files, or a single file, containing Employee AVRO data,
+     * format this fileName to a URI resourceId, then read from the SimpleClient.
+     *
+     * @param fileName   the absolute or (if it exists locally) relative filename for the resource
+     * @param userId     the user id
+     * @param purpose    the purpose
+     * @return a stream of Employee objects from palisade
+     * @throws IOException if an exception occurred deserialising data
+     */
     @Override
     public Stream<Stream<Employee>> read(final String fileName, final String userId, final String purpose) throws IOException {
         final File file;
@@ -57,6 +70,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
             // Otherwise, keep it as it is
             file = new File(fileName);
         }
+
         // Get a file:$fileName URI
         String resourceId = file.toURI().toString();
 
@@ -64,7 +78,7 @@ public class ExampleSimpleClient extends SimpleClient<Employee> {
         // ie. "../some/directory/" should still have a trailing slash "file:/root/some/directory/"
         // fileName could have been a DOS path
         // resourceId is a URI, so only a UNIX path
-        if (file.isDirectory() && !resourceId.endsWith(File.separator)) {
+        if ((fileName.endsWith("/") || fileName.endsWith("\\")) && !resourceId.endsWith("/")) {
             resourceId += "/";
         }
         LOGGER.debug("Formatted fileName {} to file {} to resourceId {}", fileName, file, resourceId);

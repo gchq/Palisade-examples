@@ -156,7 +156,7 @@ public class RunAction implements Runnable {
             LOGGER.info("Completed trial {}", i + 1);
         }
 
-        LOGGER.info("Completed test {}:", trialName);
+        LOGGER.info("Completed test {}", trialName);
     }
 
     /**
