@@ -14,9 +14,9 @@
  limitations under the License.
 -->
 
-# Local Kubernetes Example
+# Local Kubernetes Examples
 
-This example demonstrates different users querying an avro file over a REST api running locally in Kubernetes containers.
+This example demonstrates different users querying an avro file over a REST api running locally in Docker/Kubernetes containers.
 
 The example runs different queries by different users, with different purposes.
 When you run the example you will see the data has been redacted in line with the rules.
@@ -24,58 +24,26 @@ For an overview of the example, see [here](../../README.md).
 
 In order to successfully run the K8s example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) and [example-model](../../example-model) docker images have been built.
 
-### Prerequisites for running in kubernetes 
+To run the example in a local Kubernetes cluster, follow these steps (running commands from the root [Palisade-examples](../..) directory):
+
+## Prerequisites
 As well as Docker, this example also requires Kubernetes and Helm 3.
 Kubernetes is now bundled as part of Docker.
 
-Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services](https://github.com/gchq/Palisade-services) README.
+Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services README](https://github.com/gchq/Palisade-services/tree/develop/README.md).
 
-To run the example in a local Kubernetes cluster, follow these steps (from the root [Palisade-examples](../..) directory):
+Otherwise, follow the [local-jvm prerequisites](../local-jvm/README.md).
 
-1. Compile the code:
-    ```bash
-    mvn clean install
-    ```
 
-1. Deploy the example (and services):
-    ```bash
-    helm dep up
-    helm upgrade --install palisade . \
-    --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
-    --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target
-    ```
+## Running using the Bash Scripts
 
-    You can check the pods are available:
-    ```bash
-   kubectl get pods
-   NAME                      READY   STATUS    RESTARTS   AGE
-   audit-service-xxxxx       1/1     Running   0          116s
-   data-service-xxxxx        1/1     Running   0          116s
-   example-model-xxxxx       1/1     Running   0          116s
-   palisade-service-xxxxx    1/1     Running   0          116s
-   policy-service-xxxxx      1/1     Running   0          116s
-   resource-service-xxxxx    1/1     Running   0          116s
-   user-service-xxxxx        1/1     Running   0          116s
-    ```
+Ensure Line Endings are correct for the environment you are using. If running on Windows, checked out in CRLF, be aware that Docker will be expecting LF endings in any scripts inside containers.
 
-1. Run the test example with:
-    ```bash
-    kubectl exec example-model-xxxxx -- java -Dspring.profiles.active=k8s,rest -jar /usr/share/example-model/example-model.jar
-    ```
+Both the [example-model](../../example-model) and the [performance tests](../../performance) have two sets of scripts, one local set outside of the cluster ([here](./example-model) and [here](./performance) respectively) and one set inside the containers ([here](../../example-model/src/main/resources/k8s-bash-scripts) and [here](../../performance/src/main/resources/k8s-bash-scripts) respectively).
+The deployment steps can be automated using the provided local bash scripts, which are intended to be run from the [Palisade-examples](../..) root directory.
+These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/src/main/resources/k8s-bash-scripts), which are intended to be run from the `/usr/share/example-model` or `/usr/share/performance` directory inside the pod:
 
-1. Delete the deployed services:
-    ```bash
-    helm delete palisade
-    ```
-   
-You can also use the bash scripts included in the deployment/local-k8s folder as instructed below.
-
-## Bash Scripts
-
-Ensure Line Endings are correct for the environment you are using. If running on Windows, checked out in CRLF, you need to run using WSL and therefore require LF line endings.  
-The above steps can be automated using the provided [local bash-scripts](./example-model), which are intended to be run from the Palisade-examples root directory.
-These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/src/main/resources/k8s-bash-scripts), which are intended to be run from the /usr/share/example-model directory inside the k8s pod:
-
+### Rest Example ([example-model](../../example-model/README.md))
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
@@ -86,7 +54,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/
      drwxrwxrwx performance
    ```
 
-2. To deploy the example, run:
+1. To deploy the example, run:
    ```bash
    bash deployment/local-k8s/example-model/deployServicesToK8s.sh
    ```
@@ -95,14 +63,54 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/
    kubectl get pods
    ```
    
-3. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
+1. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
    ```bash
    bash deployment/local-k8s/example-model/runFormattedK8sExample.sh
    <or>
    bash deployment/local-k8s/example-model/runK8sExample.sh
    ```
    
-4. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
+1. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
    bash deployment/local-k8s/example-model/verify.sh
+    ```
+
+1. Delete the deployed services:
+    ```bash
+    helm delete palisade
+    ```
+
+### Performance Tests ([performance](../../performance/README.md))
+1. Make sure you are within the Palisade-examples directory:  
+   ```bash
+   >> ls
+     drwxrwxrwx deployment
+     drwxrwxrwx example-library
+     drwxrwxrwx example-model
+     drwxrwxrwx hr-data-generator
+     drwxrwxrwx performance
+   ```
+
+1. Create the performance test dataset locally, run:
+   ```bash
+   bash deployment/local-k8s/performance/createPerformanceData.sh
+   ```
+
+1. To deploy the performance tests, run:
+   ```bash
+   bash deployment/local-k8s/performance/deployServicesToK8s.sh
+   ```
+   You can check the pods are available:
+   ```bash
+   kubectl get pods
+   ```
+   
+1. After the pods have started, you can run the performance tests:
+   ```bash
+   bash deployment/local-k8s/runK8sPerformanceTest.sh
+   ```
+
+1. Delete the deployed services:
+    ```bash
+    helm delete palisade
     ```
