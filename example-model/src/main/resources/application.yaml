@@ -16,9 +16,6 @@
 spring:
   application:
     name: example-model
-  output:
-    ansi:
-      enabled: always
   main:
     allow-bean-definition-overriding: true
   cloud:
@@ -29,6 +26,18 @@ spring:
 eureka:
   client:
     enabled: false
+
+server:
+  port: 0
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 3600000
+        loggerLevel: basic
+    default-config: default
 
 web:
   client:

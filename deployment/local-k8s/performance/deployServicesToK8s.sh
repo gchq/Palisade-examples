@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,8 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-apiVersion: v2
-appVersion: "1.0"
-description: A Helm chart to run the Palisade example
-name: example-model
-version: 0.4.0
+
+helm dep up
+helm upgrade --install palisade . \
+--set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
+--set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
+--set global.deployment=performance-test

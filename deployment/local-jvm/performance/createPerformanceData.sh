@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,9 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-apiVersion: v2
-appVersion: "1.0"
-description: A Helm chart to run the Palisade example
-name: example-model
-version: 0.4.0
+
+FILE=performance/target/performance-*-exec.jar
+# Create the perf-test dataset
+if [ -f $FILE ]; then
+  java -jar $FILE --performance.action=create
+else
+  echo "Cannot find performance-<version>-exec.jar - have you run 'mvn install'?"
+fi
