@@ -100,8 +100,8 @@ The above steps can be automated using the provided , all of which are intended 
    ```
 
 
-## Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
-See the [services-manager/README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
+## Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/main/services-manager)
+See the [services-manager/README](https://github.com/gchq/Palisade-services/tree/main/services-manager/README.md) for more info.
 
 ### Rest Example ([example-model](../../example-model/README.md))
 When using the services manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):

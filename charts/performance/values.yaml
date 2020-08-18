@@ -20,9 +20,9 @@ service:
 
 image:
   name: performance
-  tag: 2a3938c-SNAPSHOT
+  tag: 9805b47-SNAPSHOT
   pullPolicy: IfNotPresent
-  codeRelease: 0.4.0-SNAPSHOT
+  codeRelease: 0.4.0
 
 resources:
   limits:

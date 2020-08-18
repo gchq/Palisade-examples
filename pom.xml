@@ -28,7 +28,7 @@
 
     <groupId>uk.gov.gchq.palisade</groupId>
     <artifactId>example</artifactId>
-    <version>0.4.0-${revision}</version>
+    <version>0.4.0</version>
     <description>Example layer for palisade</description>
     <url>https://github.com/gchq/Palisade-examples</url>
     <packaging>pom</packaging>

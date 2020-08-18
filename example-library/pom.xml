@@ -20,13 +20,13 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.4.0-${revision}</version>
+        <version>0.4.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <!--  *********** Aritfact ID ***********    -->
     <artifactId>example-library</artifactId>
-    <url>https://github.com/gchq/Palisade-examples/tree/develop/example-library</url>
+    <url>https://github.com/gchq/Palisade-examples/tree/main/example-library</url>
     <!--  *********** Aritfact ID ***********    -->
 
     <dependencies>
