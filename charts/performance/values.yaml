@@ -20,7 +20,7 @@ service:
 
 image:
   name: performance
-  tag: 9805b47-SNAPSHOT
+  tag: fdee33b-RELEASE
   pullPolicy: IfNotPresent
   codeRelease: 0.4.0
 
