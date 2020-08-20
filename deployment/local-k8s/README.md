@@ -30,7 +30,7 @@ To run the example in a local Kubernetes cluster, follow these steps (running co
 As well as Docker, this example also requires Kubernetes and Helm 3.
 Kubernetes is now bundled as part of Docker.
 
-Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services README](https://github.com/gchq/Palisade-services/tree/main/README.md).
+Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services README](https://github.com/gchq/Palisade-services/tree/develop/README.md).
 
 Otherwise, follow the [local-jvm prerequisites](../local-jvm/README.md).
 
