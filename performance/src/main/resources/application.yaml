@@ -1,0 +1,71 @@
+# Copyright 2020 Crown Copyright
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+spring:
+  application:
+    name: performance
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+server:
+  port: 0
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 3600000
+        loggerLevel: basic
+    default-config: default
+
+eureka:
+  client:
+    enabled: false
+
+performance:
+  # create|run - create test data, run tests on data
+  action: run
+  directory: ../Palisade-examples/resources/data/
+  # number of employees in single resource "employee_small.avro"
+  small: 1000
+  # number of employees in single resource "employee_large.avro"
+  large: 10000
+  # due to a tradeoff in randomisation and uniqueness of data vs creation and processing time, a number of unique resources are generated, then duplicated
+  # manyUnique larger     -> larger unique dataset, slower creation time
+  # manyDuplicates larger -> larger (no-longer unique) dataset, faster creation time
+  # the total number of many resources is the product manyUnique * manyDuplicates
+  # number of resources, each of a single employee, size of n for "many-employees/m/employee_n.avro", must be at least 1
+  manyUnique: 100
+  # number of resources, each of a single employee, size of m for "many-employees/m/employee_n.avro", must be at least 1
+  manyDuplicates: 1
+  # number of dry-runs, does not count towards output results, used to remove impact of system level caching on performance
+  dryRuns: 3
+  # number of live-runs, does count towards output results
+  liveRuns: 5
+  ## list of tests by name to skip
+  skipTests: []
+  # user making requests
+  userId: Alice
+  # purpose of requests
+  purpose: SALARY
+
+web:
+  client:
+    palisade-service: "http://localhost:8084"

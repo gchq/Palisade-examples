@@ -1,0 +1,53 @@
+# Copyright 2020 Crown Copyright
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Use Palisade-services values.yaml mostly, but set some useful defaults here
+
+# Used by templates for naming resources, see assorted helpers.tpl
+fullnameOverride: palisade-examples
+
+global:
+  # uniqueNamespace: if true (and this is a new install) the generated deployment name will be used as the namespace name too
+  uniqueNamespace: false
+
+  # namespace: the target namespace, overridden by (1) --namespace (helm, the preferred override) or (2) global.uniqueNamespace=true, ingress path will include this name at the path root (default truncated to null)
+  namespace: default
+
+  # Sets up some mount points in services for example data
+  deployment: example
+
+  env:
+    example:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,example-k8s"
+    performance-test:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,example-perf-k8s"
+
+  # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
+  repository: palisade
+
+  # guarantee the data we are expecting is mounted appropriately
+  persistence:
+    classpathJars:
+      local:
+        # must be manually set to an absolute path
+        # the `deployment: example` wil lead to the hostPath being appended to `./deployment/target/example` as intended
+        hostPath: "./deployment/target"
+
+    dataStores:
+      palisade-data-store:
+        local:
+          hostPath: "./resources/data"
