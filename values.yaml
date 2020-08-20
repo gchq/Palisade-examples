@@ -39,6 +39,10 @@ global:
   # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
   repository: palisade
 
+  kafka:
+    # install: install kafka streaming platform
+    install: false
+
   # guarantee the data we are expecting is mounted appropriately
   persistence:
     classpathJars:

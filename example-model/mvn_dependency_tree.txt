@@ -1,4 +1,4 @@
-uk.gov.gchq.palisade:example-model:jar:0.4.0
+uk.gov.gchq.palisade:example-model:jar:0.5.0-SNAPSHOT
 +- org.springframework.cloud:spring-cloud-starter-openfeign:jar:2.2.2.RELEASE:compile
 |  +- org.springframework.cloud:spring-cloud-starter:jar:2.2.2.RELEASE:compile
 |  |  \- org.springframework.security:spring-security-rsa:jar:1.0.9.RELEASE:compile
@@ -119,7 +119,7 @@ uk.gov.gchq.palisade:example-model:jar:0.4.0
 |  \- com.thoughtworks.xstream:xstream:jar:1.4.11.1:compile
 |     +- xmlpull:xmlpull:jar:1.1.3.1:compile
 |     \- xpp3:xpp3_min:jar:1.1.4c:compile
-+- uk.gov.gchq.palisade:common:jar:0.4.0:compile
++- uk.gov.gchq.palisade:common:jar:0.5.0-SNAPSHOT:compile
 |  +- com.fasterxml.jackson.core:jackson-core:jar:2.10.0:compile
 |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.10.0:compile
 |  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.10.0:compile
@@ -133,11 +133,11 @@ uk.gov.gchq.palisade:example-model:jar:0.4.0
 |     +- org.xerial.snappy:snappy-java:jar:1.1.1.3:compile
 |     +- org.apache.commons:commons-compress:jar:1.8.1:compile
 |     \- org.tukaani:xz:jar:1.5:compile
-+- uk.gov.gchq.palisade:clients-simple:jar:0.4.0:compile
-|  +- uk.gov.gchq.palisade:clients-common:jar:0.4.0:compile
-|  \- uk.gov.gchq.palisade:readers-common:jar:0.4.0:compile
-+- uk.gov.gchq.palisade:example-library:jar:0.4.0:compile
-|  \- uk.gov.gchq.palisade:hr-data-generator:jar:0.4.0:compile
++- uk.gov.gchq.palisade:clients-simple:jar:0.5.0-SNAPSHOT:compile
+|  +- uk.gov.gchq.palisade:clients-common:jar:0.5.0-SNAPSHOT:compile
+|  \- uk.gov.gchq.palisade:readers-common:jar:0.5.0-SNAPSHOT:compile
++- uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT:compile
+|  \- uk.gov.gchq.palisade:hr-data-generator:jar:0.5.0-SNAPSHOT:compile
 |     +- com.github.javafaker:javafaker:jar:1.0.1:compile
 |     |  +- org.yaml:snakeyaml:jar:android:1.23:compile
 |     |  \- com.github.mifmif:generex:jar:1.0.2:compile
