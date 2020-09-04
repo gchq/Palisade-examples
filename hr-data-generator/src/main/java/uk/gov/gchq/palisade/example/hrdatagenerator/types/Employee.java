@@ -23,11 +23,12 @@ import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.example.hrdatagenerator.utils.DateHelper;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.StringJoiner;
 
-public class Employee {
+public class Employee implements Serializable {
     private static final int MIN_MANGERS_TREE_HEIGHT = 2;
     private static final int EXTRA_MANAGERS_TREE_HEIGHT_RANGE = 3;
     private static final int MIN_SALARY = 20_000;
