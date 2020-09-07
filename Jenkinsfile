@@ -122,16 +122,23 @@ timestamps {
             def GIT_BRANCH_NAME
             def GIT_BRANCH_NAME_LOWER
             def COMMON_REVISION
+            def READERS_REVISION
+            def CLIENTS_REVISION
+            def IS_PR
 
             stage('Bootstrap') {
                 if (env.CHANGE_BRANCH) {
                     GIT_BRANCH_NAME=env.CHANGE_BRANCH
+                    IS_PR = "true"
                 } else {
                     GIT_BRANCH_NAME=env.BRANCH_NAME
+                    IS_PR = "false"
                 }
                  // set default values for the variables
                  GIT_BRANCH_NAME_LOWER = GIT_BRANCH_NAME.toLowerCase().take(7)
                  COMMON_REVISION = "SNAPSHOT"
+                 READERS_REVISION = "SNAPSHOT"
+                 CLIENTS_REVISION = "SNAPSHOT"
                  // update values for the variables if this is the develop branch build
                  if ("${env.BRANCH_NAME}" == "develop") {
                     COMMON_REVISION = "SNAPSHOT"
@@ -139,6 +146,8 @@ timestamps {
                  // update values for the variables if this is the main branch build
                  if ("${env.BRANCH_NAME}" == "main") {
                     COMMON_REVISION = "RELEASE"
+                    READERS_REVISION = "RELEASE"
+                    CLIENTS_REVISION = "RELEASE"
                  }
                  echo sh(script: 'env | sort', returnStdout: true)
             }
@@ -148,31 +157,19 @@ timestamps {
                     git branch: 'develop', url: 'https://github.com/gchq/Palisade-common.git'
                     if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
                         COMMON_REVISION = "${GIT_BRANCH_NAME_LOWER}-BRANCH-SNAPSHOT"
-                        container('docker-cmds') {
-                            configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                                 sh "mvn -s ${MAVEN_SETTINGS} -P quick -D revision=${COMMON_REVISION} install"
-                            }
-                        }
                     }
                 }
                 dir ('Palisade-readers') {
                     git branch: 'develop', url: 'https://github.com/gchq/Palisade-readers.git'
                     if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
-                        container('docker-cmds') {
-                            configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                            sh "mvn -s ${MAVEN_SETTINGS}  -D common.revision=${COMMON_REVISION} install"
-                            }
-                        }
+                         READERS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
                     }
                 }
                 dir ('Palisade-clients') {
                     git branch: 'develop', url: 'https://github.com/gchq/Palisade-clients.git'
                     if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
-                        container('docker-cmds') {
-                            configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                                sh 'mvn -s $MAVEN_SETTINGS install -P quick'
-                            }
-                        }
+                        CLIENTS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+
                     }
                 }
             }
@@ -182,11 +179,16 @@ timestamps {
                     git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
                     container('docker-cmds') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                             sh "mvn -s ${MAVEN_SETTINGS} -P quick -D revision=${COMMON_REVISION} install"
+                             if (IS_PR == "true") {
+                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${READERS_REVISION} -D common.revision=${COMMON_REVISION} deploy"
+                             } else {
+                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${READERS_REVISION} -D common.revision=${COMMON_REVISION} install"
+                             }
                         }
                     }
                 }
             }
+
             stage('Hadolinting') {
                 dir('Palisade-examples') {
                     container('hadolint') {
@@ -194,6 +196,7 @@ timestamps {
                     }
                 }
             }
+
             stage('SonarQube analysis') {
                 dir ('Palisade-examples') {
                     container('docker-cmds') {
