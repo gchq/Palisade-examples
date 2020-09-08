@@ -124,6 +124,7 @@ timestamps {
             def COMMON_REVISION
             def READERS_REVISION
             def CLIENTS_REVISION
+            def EXAMPLE_REVISION
             def IS_PR
 
             stage('Bootstrap') {
@@ -139,15 +140,20 @@ timestamps {
                  COMMON_REVISION = "SNAPSHOT"
                  READERS_REVISION = "SNAPSHOT"
                  CLIENTS_REVISION = "SNAPSHOT"
-                 // update values for the variables if this is the develop branch build
+                 EXAMPLE_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+
+
+               // update values for the variables if this is the develop branch build
                  if ("${env.BRANCH_NAME}" == "develop") {
-                    COMMON_REVISION = "SNAPSHOT"
+                    EXAMPLE_REVISION = "SNAPSHOT"
                  }
                  // update values for the variables if this is the main branch build
                  if ("${env.BRANCH_NAME}" == "main") {
                     COMMON_REVISION = "RELEASE"
                     READERS_REVISION = "RELEASE"
                     CLIENTS_REVISION = "RELEASE"
+                    EXAMPLE_REVISION = "RELEASE"
+
                  }
                  echo sh(script: 'env | sort', returnStdout: true)
             }
@@ -222,17 +228,6 @@ timestamps {
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
                         error "Pipeline aborted due to SonarQube quality gate failure: ${qg.status}"
-                    }
-                }
-            }
-
-            stage('Maven deploy') {
-                dir ('Palisade-examples') {
-                    container('docker-cmds') {
-                        configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                            sh "mvn -s ${MAVEN_SETTINGS} -P quick -D revision=${READERS_REVISION} -D common.revision=${COMMON_REVISION} deploy"
-
-                        }
                     }
                 }
             }
