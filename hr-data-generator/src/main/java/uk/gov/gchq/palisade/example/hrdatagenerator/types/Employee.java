@@ -29,6 +29,7 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static final int MIN_MANGERS_TREE_HEIGHT = 2;
     private static final int EXTRA_MANAGERS_TREE_HEIGHT_RANGE = 3;
     private static final int MIN_SALARY = 20_000;
