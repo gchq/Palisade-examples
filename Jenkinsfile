@@ -195,9 +195,9 @@ timestamps {
                     container('docker-cmds') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
                              if (IS_PR == "true") {
-                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} deploy"
+                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} -P quick deploy"
                              } else {
-                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} install"
+                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} -P quick install"
                              }
                         }
                     }
