@@ -204,13 +204,7 @@ timestamps {
                 }
             }
 
-            stage('Hadolinting') {
-                dir('Palisade-examples') {
-                    container('hadolint') {
-                        sh 'hadolint */Dockerfile'
-                    }
-                }
-            }
+
 
             stage('SonarQube analysis') {
                 dir ('Palisade-examples') {
