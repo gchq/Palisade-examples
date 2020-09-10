@@ -120,45 +120,71 @@ timestamps {
     ''') {
         node(POD_LABEL) {
             def GIT_BRANCH_NAME
+            def GIT_BRANCH_NAME_LOWER
+            def CLIENTS_REVISION
+            def COMMON_REVISION
+            def EXAMPLE_REVISION
+            def READERS_REVISION
+            def IS_PR
 
             stage('Bootstrap') {
                 if (env.CHANGE_BRANCH) {
                     GIT_BRANCH_NAME=env.CHANGE_BRANCH
+                    IS_PR = "true"
                 } else {
                     GIT_BRANCH_NAME=env.BRANCH_NAME
+                    IS_PR = "false"
                 }
-                echo sh(script: 'env | sort', returnStdout: true)
+                 // set default values for the variables
+                 GIT_BRANCH_NAME_LOWER = GIT_BRANCH_NAME.toLowerCase().take(7)
+                 COMMON_REVISION = "SNAPSHOT"
+                 READERS_REVISION = "SNAPSHOT"
+                 CLIENTS_REVISION = "SNAPSHOT"
+                 EXAMPLE_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+
+
+               // update values for the variables if this is the develop branch build
+                 if ("${env.BRANCH_NAME}" == "develop") {
+                    EXAMPLE_REVISION = "SNAPSHOT"
+                 }
+                 // update values for the variables if this is the main branch build
+                 if ("${env.BRANCH_NAME}" == "main") {
+                    COMMON_REVISION = "RELEASE"
+                    READERS_REVISION = "RELEASE"
+                    CLIENTS_REVISION = "RELEASE"
+                    EXAMPLE_REVISION = "RELEASE"
+
+                 }
+                 echo sh(script: 'env | sort', returnStdout: true)
             }
 
             stage('Prerequisites') {
                 dir ('Palisade-common') {
                     git branch: 'develop', url: 'https://github.com/gchq/Palisade-common.git'
                     if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
-                        container('docker-cmds') {
-                            configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                                sh 'mvn -s $MAVEN_SETTINGS install -P quick'
-                            }
-                        }
+                        COMMON_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
                     }
                 }
                 dir ('Palisade-readers') {
                     git branch: 'develop', url: 'https://github.com/gchq/Palisade-readers.git'
                     if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
-                        container('docker-cmds') {
-                            configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                                sh 'mvn -s $MAVEN_SETTINGS install -P quick'
-                            }
-                        }
+                         READERS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                    } else {
+                         if (COMMON_REVISION == "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT") {
+                             sh "mvn -s ${MAVEN_SETTINGS} -D revision=${READERS_REVISION} -D common.revision=${COMMON_REVISION} deploy"
+                             READERS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                         }
                     }
                 }
                 dir ('Palisade-clients') {
                     git branch: 'develop', url: 'https://github.com/gchq/Palisade-clients.git'
                     if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
-                        container('docker-cmds') {
-                            configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                                sh 'mvn -s $MAVEN_SETTINGS install -P quick'
-                            }
-                        }
+                        CLIENTS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                    } else {
+                      if (READERS_REVISION == "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"){
+                          sh "mvn -s ${MAVEN_SETTINGS} -D revision=${CLIENTS_REVISION} -D common.revision=${COMMON_REVISION} -D readers.revision=${READERS_REVISION} deploy"
+                          CLIENTS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                      }
                     }
                 }
             }
@@ -168,11 +194,16 @@ timestamps {
                     git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
                     container('docker-cmds') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                            sh 'mvn -s $MAVEN_SETTINGS install'
+                             if (IS_PR == "true") {
+                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} -P quick deploy"
+                             } else {
+                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} install"
+                             }
                         }
                     }
                 }
             }
+
             stage('Hadolinting') {
                 dir('Palisade-examples') {
                     container('hadolint') {
@@ -180,6 +211,7 @@ timestamps {
                     }
                 }
             }
+
             stage('SonarQube analysis') {
                 dir ('Palisade-examples') {
                     container('docker-cmds') {
@@ -188,11 +220,7 @@ timestamps {
                                          file(credentialsId: "${env.SQ_KEY_STORE}", variable: 'KEYSTORE')]) {
                             configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
                                 withSonarQubeEnv(installationName: 'sonar') {
-                                    if (env.CHANGE_BRANCH) {
-                                        sh 'mvn -s $MAVEN_SETTINGS org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey="Palisade-Examples-${CHANGE_BRANCH}" -Dsonar.projectName="Palisade-Examples-${CHANGE_BRANCH}" -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS'
-                                    } else {
-                                        sh 'mvn -s $MAVEN_SETTINGS org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey="Palisade-Examples-${BRANCH_NAME}" -Dsonar.projectName="Palisade-Examples-${BRANCH_NAME}" -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS'
-                                    }
+                                    sh "mvn -s ${MAVEN_SETTINGS} org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.projectName=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS"
                                 }
                             }
                         }
@@ -209,21 +237,6 @@ timestamps {
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
                         error "Pipeline aborted due to SonarQube quality gate failure: ${qg.status}"
-                    }
-                }
-            }
-
-            stage('Maven deploy') {
-                dir ('Palisade-examples') {
-                    container('docker-cmds') {
-                        configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                            if (("${env.BRANCH_NAME}" == "develop") ||
-                                    ("${env.BRANCH_NAME}" == "master")) {
-                                sh 'mvn -s $MAVEN_SETTINGS deploy -P quick'
-                            } else {
-                                sh "echo - no deploy"
-                            }
-                        }
                     }
                 }
             }
