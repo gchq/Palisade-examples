@@ -159,7 +159,7 @@ timestamps {
             }
 
             stage('Prerequisites') {
-                if("${env.BRANCH_NAME}" != "main" || "${env.BRANCH_NAME}" != "develop") {
+               if (("${GIT_BRANCH_NAME}" != "develop") && ("${GIT_BRANCH_NAME}" != "main")) {
                     dir ('Palisade-common') {
                         git branch: 'develop', url: 'https://github.com/gchq/Palisade-common.git'
                         if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
