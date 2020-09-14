@@ -193,55 +193,73 @@ timestamps {
                 }
             }
 
-            stage('Install, Unit Tests, Checkstyle') {
-                dir ('Palisade-examples') {
-                    git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
-                    container('maven') {
+            parallel Test: {
+                stage('Install, Unit Tests, Checkstyle') {
+                    container('docker-cmds') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                             if (IS_PR == "true" || FEATURE_BRANCH == "false") {
-                               sh 'palisade-login'
-                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} deploy"
-                             } else {
-                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} install"
-                             }
+                            dir ('Palisade-examples') {
+                                git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
+                                       sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} install"
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-            }
 
-            stage('Hadolinting') {
-                dir('Palisade-examples') {
+                stage('Hadolinting') {
                     container('hadolint') {
-                        sh 'hadolint */Dockerfile'
+                        dir('Palisade-examples') {
+                            sh 'hadolint */Dockerfile'
+                        }
                     }
                 }
-            }
 
-            stage('SonarQube analysis') {
-                dir ('Palisade-examples') {
+                stage('SonarQube analysis') {
                     container('docker-cmds') {
                         withCredentials([string(credentialsId: "${env.SQ_WEB_HOOK}", variable: 'SONARQUBE_WEBHOOK'),
                                          string(credentialsId: "${env.SQ_KEY_STORE_PASS}", variable: 'KEYSTORE_PASS'),
                                          file(credentialsId: "${env.SQ_KEY_STORE}", variable: 'KEYSTORE')]) {
                             configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
                                 withSonarQubeEnv(installationName: 'sonar') {
-                                    sh "mvn -s ${MAVEN_SETTINGS} org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.projectName=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS"
+                                    dir ('Palisade-examples') {
+                                        sh "mvn -s ${MAVEN_SETTINGS} org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.projectName=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS"
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            stage("SonarQube Quality Gate") {
-                // Wait for SonarQube to prepare the report
-                sleep(time: 10, unit: 'SECONDS')
-                // Just in case something goes wrong, pipeline will be killed after a timeout
-                timeout(time: 5, unit: 'MINUTES') {
-                    // Reuse taskId previously collected by withSonarQubeEnv
-                    def qg = waitForQualityGate()
-                    if (qg.status != 'OK') {
-                        error "Pipeline aborted due to SonarQube quality gate failure: ${qg.status}"
+                stage("SonarQube Quality Gate") {
+                    // Wait for SonarQube to prepare the report
+                    sleep(time: 10, unit: 'SECONDS')
+                    // Just in case something goes wrong, pipeline will be killed after a timeout
+                    timeout(time: 5, unit: 'MINUTES') {
+                        // Reuse taskId previously collected by withSonarQubeEnv
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to SonarQube quality gate failure: ${qg.status}"
+                        }
+                    }
+                }
+            },
+
+            Deploy: {
+                stage('Helm deploy') {
+                    container('maven') {
+                        configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
+                            dir("Palisade-examples-deploy") {
+                                if (IS_PR == "true" || FEATURE_BRANCH == "false") {
+                                    git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
+                                    sh 'palisade-login'
+                                    //now extract the public IP addresses that this will be open on
+                                    sh 'extract-addresses'
+                                    // Push containers to the registry so they are available to helm
+                                    sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} -Dmaven.test.skip=true -P pi deploy"
+                                }
+                            }
+                        }
                     }
                 }
             }
