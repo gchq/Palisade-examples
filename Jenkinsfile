@@ -196,7 +196,7 @@ timestamps {
             stage('Install, Unit Tests, Checkstyle') {
                 dir ('Palisade-examples') {
                     git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
-                    container('docker-cmds') {
+                    container('maven') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
                              if (IS_PR == "true" || FEATURE_BRANCH == "false") {
                                sh 'palisade-login'
