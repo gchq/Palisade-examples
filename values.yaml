@@ -42,41 +42,14 @@ global:
     install: false
 
   # persistent-volume and associated claims configurations
+
+  # guarantee the data we are expecting is mounted appropriately
   persistence:
-    storageClassDeploy: false
-
-    # classpathJars: Store used by all services within palisade to dynamically load datatypes (Users, Resources, Policies/Rules, Serialisers)
     classpathJars:
-      storageClassName:
-        _default: hostpath
-        local: hostpath
-        hostPath: "./deployment/target"
-        aws: efs-sc
-
-      auto:
-        _default: false
-        local: false
-        aws: false
-      mode:
-        _default: ReadWriteOnce
-        local: ReadWriteMany
-        aws: ReadWriteMany
-      name: palisade-classpath-jars
-      # mountPath: internal mountpoint for classpath jars directory, see Dockerfile ENTRYPOINT -Dloader.path and PodSpec.containers.volumeMounts.mountPath
-      mountPath: "/usr/share"
-      # storage: storage size for this volume and its claims
-      storage: 2Gi
-      # environment-specific tags
       local:
-        # hostPath: external host directory to be mounted
-        hostPath: "/"
-      aws:
-        # volumeHandle: aws handle for the volume to mount
-        volumeHandle: null
-        # aws host directory to mount
-        # The path has to be created before hand - see here: https://github.com/kubernetes-sigs/aws-efs-csi-driver/issues/63
-        # Only safe mount point is root as it currently stands
-        volumePath: "/"
+        # must be manually set to an absolute path
+        # the `deployment: example` wil lead to the hostPath being appended to `./deployment/target/example` as intended
+        hostPath: "./deployment/target"
 
     # dataStores: List of stores used by data-service and associated data-readers to read resources and return to a client
     # nb. the mountPath here will be referenced by all client resource requests
