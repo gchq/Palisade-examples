@@ -126,6 +126,7 @@ timestamps {
             def EXAMPLE_REVISION
             def READERS_REVISION
             def IS_PR
+            def FEATURE_BRANCH
 
             stage('Bootstrap') {
                 if (env.CHANGE_BRANCH) {
@@ -141,11 +142,12 @@ timestamps {
                  READERS_REVISION = "SNAPSHOT"
                  CLIENTS_REVISION = "SNAPSHOT"
                  EXAMPLE_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
-
+                 FEATURE_BRANCH = "true"
 
                // update values for the variables if this is the develop branch build
                  if ("${env.BRANCH_NAME}" == "develop") {
                     EXAMPLE_REVISION = "SNAPSHOT"
+                    FEATURE_BRANCH = "false"
                  }
                  // update values for the variables if this is the main branch build
                  if ("${env.BRANCH_NAME}" == "main") {
@@ -153,76 +155,41 @@ timestamps {
                     READERS_REVISION = "RELEASE"
                     CLIENTS_REVISION = "RELEASE"
                     EXAMPLE_REVISION = "RELEASE"
-
+                    FEATURE_BRANCH = "false"
                  }
                  echo sh(script: 'env | sort', returnStdout: true)
             }
 
             stage('Prerequisites') {
-               if (("${GIT_BRANCH_NAME}" != "develop") && ("${GIT_BRANCH_NAME}" != "main")) {
-                    dir ('Palisade-common') {
-                        git branch: 'develop', url: 'https://github.com/gchq/Palisade-common.git'
-                        if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
-                            COMMON_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
-                        }
-                    }
-                    dir ('Palisade-readers') {
-                        git branch: 'develop', url: 'https://github.com/gchq/Palisade-readers.git'
-                        if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
-                             READERS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
-                        } else {
-                             if (COMMON_REVISION == "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT") {
-                                 sh "mvn -s ${MAVEN_SETTINGS} -D revision=${READERS_REVISION} -D common.revision=${COMMON_REVISION} deploy"
-                                 READERS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
-                             }
-                        }
-                    }
-                    dir ('Palisade-clients') {
-                        git branch: 'develop', url: 'https://github.com/gchq/Palisade-clients.git'
-                        if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
-                            CLIENTS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
-                        } else {
-                          if (READERS_REVISION == "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"){
-                              sh "mvn -s ${MAVEN_SETTINGS} -D revision=${CLIENTS_REVISION} -D common.revision=${COMMON_REVISION} -D readers.revision=${READERS_REVISION} deploy"
-                              CLIENTS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
-                          }
-                        }
-                    }
-                }
-            }
-
-            stage('Install, Unit Tests, Checkstyle') {
-                dir ('Palisade-examples') {
-                    git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
-                    container('docker-cmds') {
-                        configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                             if (IS_PR == "true") {
-                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} -P quick deploy"
-                             } else {
-                               sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} install"
-                             }
-                        }
-                    }
-                }
-            }
-
-            stage('Hadolinting') {
-                dir('Palisade-examples') {
-                    container('hadolint') {
-                        sh 'hadolint */Dockerfile'
-                    }
-                }
-            }
-
-            stage('SonarQube analysis') {
-                dir ('Palisade-examples') {
-                    container('docker-cmds') {
-                        withCredentials([string(credentialsId: "${env.SQ_WEB_HOOK}", variable: 'SONARQUBE_WEBHOOK'),
-                                         string(credentialsId: "${env.SQ_KEY_STORE_PASS}", variable: 'KEYSTORE_PASS'),
-                                         file(credentialsId: "${env.SQ_KEY_STORE}", variable: 'KEYSTORE')]) {
-                            configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                                withSonarQubeEnv(installationName: 'sonar') {
-                                    sh "mvn -s ${MAVEN_SETTINGS} org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.projectName=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS"
+                container('docker-cmds') {
+                    configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
+                        if (FEATURE_BRANCH == "true") {
+                            dir ('Palisade-common') {
+                                git branch: 'develop', url: 'https://github.com/gchq/Palisade-common.git'
+                                if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
+                                    COMMON_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                                }
+                            }
+                            dir ('Palisade-readers') {
+                                git branch: 'develop', url: 'https://github.com/gchq/Palisade-readers.git'
+                                if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
+                                     READERS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                                } else {
+                                     if (COMMON_REVISION == "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT") {
+                                         READERS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                                         sh "mvn -s ${MAVEN_SETTINGS} -P quick -D revision=${READERS_REVISION} -D common.revision=${COMMON_REVISION} deploy"
+                                     }
+                                }
+                            }
+                            dir ('Palisade-clients') {
+                                git branch: 'develop', url: 'https://github.com/gchq/Palisade-clients.git'
+                                if (sh(script: "git checkout ${GIT_BRANCH_NAME}", returnStatus: true) == 0) {
+                                    CLIENTS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                                } else {
+                                  if (READERS_REVISION == "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"){
+                                      CLIENTS_REVISION = "BRANCH-${GIT_BRANCH_NAME_LOWER}-SNAPSHOT"
+                                      sh "mvn -s ${MAVEN_SETTINGS} -P quick -D revision=${CLIENTS_REVISION} -D common.revision=${COMMON_REVISION} -D readers.revision=${READERS_REVISION} deploy"
+                                  }
                                 }
                             }
                         }
@@ -230,26 +197,69 @@ timestamps {
                 }
             }
 
-            stage("SonarQube Quality Gate") {
-                // Wait for SonarQube to prepare the report
-                sleep(time: 10, unit: 'SECONDS')
-                // Just in case something goes wrong, pipeline will be killed after a timeout
-                timeout(time: 5, unit: 'MINUTES') {
-                    // Reuse taskId previously collected by withSonarQubeEnv
-                    def qg = waitForQualityGate()
-                    if (qg.status != 'OK') {
-                        error "Pipeline aborted due to SonarQube quality gate failure: ${qg.status}"
-                    }
-                }
-            }
-            stage('Maven deploy') {
-                dir('Palisade-examples') {
+            parallel Test: {
+                stage('Install, Unit Tests, Checkstyle') {
                     container('docker-cmds') {
                         configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
-                            if (("${env.BRANCH_NAME}" == "develop") || ("${env.BRANCH_NAME}" == "main")) {
-                                sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -P quick deploy"
-                            } else {
-                                sh "echo - no deploy"
+                            dir ('Palisade-examples') {
+                                git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
+                                sh "mvn -s ${MAVEN_SETTINGS} -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION} -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} install"
+                            }
+                        }
+                    }
+                }
+
+                stage('Hadolinting') {
+                    container('hadolint') {
+                        dir('Palisade-examples') {
+                            sh 'hadolint */Dockerfile'
+                        }
+                    }
+                }
+
+                stage('SonarQube analysis') {
+                    container('docker-cmds') {
+                        withCredentials([string(credentialsId: "${env.SQ_WEB_HOOK}", variable: 'SONARQUBE_WEBHOOK'),
+                                         string(credentialsId: "${env.SQ_KEY_STORE_PASS}", variable: 'KEYSTORE_PASS'),
+                                         file(credentialsId: "${env.SQ_KEY_STORE}", variable: 'KEYSTORE')]) {
+                            configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
+                                withSonarQubeEnv(installationName: 'sonar') {
+                                    dir ('Palisade-examples') {
+                                        sh "mvn -s ${MAVEN_SETTINGS} org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.projectName=Palisade-Readers-${GIT_BRANCH_NAME} -Dsonar.webhooks.project=$SONARQUBE_WEBHOOK -Djavax.net.ssl.trustStore=$KEYSTORE -Djavax.net.ssl.trustStorePassword=$KEYSTORE_PASS"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage("SonarQube Quality Gate") {
+                    // Wait for SonarQube to prepare the report
+                    sleep(time: 10, unit: 'SECONDS')
+                    // Just in case something goes wrong, pipeline will be killed after a timeout
+                    timeout(time: 5, unit: 'MINUTES') {
+                        // Reuse taskId previously collected by withSonarQubeEnv
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to SonarQube quality gate failure: ${qg.status}"
+                        }
+                    }
+                }
+            },
+
+            Deploy: {
+                stage('Helm deploy') {
+                    container('maven') {
+                        configFileProvider([configFile(fileId: "${env.CONFIG_FILE}", variable: 'MAVEN_SETTINGS')]) {
+                            dir("Palisade-examples-deploy") {
+                                if (IS_PR == "true" || FEATURE_BRANCH == "false") {
+                                    git branch: GIT_BRANCH_NAME, url: 'https://github.com/gchq/Palisade-examples.git'
+                                    sh 'palisade-login'
+                                    //now extract the public IP addresses that this will be open on
+                                    sh 'extract-addresses'
+                                    // Push containers to the registry so they are available to helm
+                                    sh "mvn -s ${MAVEN_SETTINGS} -P pi -D maven.test.skip=true -D revision=${EXAMPLE_REVISION} -D common.revision=${COMMON_REVISION}  -D readers.revision=${READERS_REVISION} -D clients.revision=${CLIENTS_REVISION} deploy"
+                                }
                             }
                         }
                     }
