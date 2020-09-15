@@ -56,3 +56,5 @@ global:
         local:
           hostPath: "./resources/data"
 
+  # must be last for file to be appended with addresses
+  globalIPAddresses:
