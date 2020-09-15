@@ -14,82 +14,32 @@
 #
 
 # Used by templates for naming resources, see assorted helpers.tpl
-fullnameOverride: palisade-services
-
-traefik:
-  # install: install the traefik ingress controller, this should be true for the first installation into the cluster as it resides in kube-system to provide a single cluster-wide ingress controller
-  install: false
-metrics-server:
-  # install: install the metrics server, this should be true for the first installation into the cluster as it resides in kube-system to provide a single cluster-wide metrics server
-  install: false
-dashboard:
-  # install: install routing through the ingress controller to a pre-installed kubernetes dashboard i.e. https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
-  install: false
-
-namespaces:
-  default: default
-  dev: dev
-  uat: uat
-  prod: prod
+fullnameOverride: palisade-examples
 
 global:
-  # hostname: the external hostname of the ingress, this may be the cluster master or public load-balancer
-  hostname: localhost
-
-  kafka:
-    # install: install kafka streaming platform
-    install: true
-
-  redis:
-    # install: install redis persistence and caching data storage platform
-    install: true
-    # config: configure services to connect to (previously installed?) redis (if unset, use install value)
-    # config: true
-    exports:
-      nameOverride: "redis"
-    master:
-      service:
-        port: 6379
-
-  redis-cluster:
-    # install: install clustered redis persistence and caching data storage platform
-    install: false
-    # imported from sub-chart, default values here are overridden by sub-chart values
-    exports:
-      nameOverride: "redis"
-      redisPort: 6379
-    cluster:
-      nodes: 6
-
-  # hosting: [local | aws | metal] the target environment to deploy to
-  hosting: local
-
-  # Set to true to enable redis cluster. leave as false for master/worker
-  redisClusterEnabled: false
-
-  # nodes: the number of nodes in the cluster, this will be used to calculate the service scaling factors
-  nodes: 1
+  # uniqueNamespace: if true (and this is a new install) the generated deployment name will be used as the namespace name too
+  uniqueNamespace: false
 
   # namespace: the target namespace, overridden by (1) --namespace (helm, the preferred override) or (2) global.uniqueNamespace=true, ingress path will include this name at the path root (default truncated to null)
   namespace: default
 
-  # uniqueNamespace: if true (and this is a new install) the generated deployment name will be used as the namespace name too, ingress path will include this name at the path root eg. localhost/lazy-goat/palisade
-  uniqueNamespace: false
+  # Sets up some mount points in services for example data
+  deployment: example
+
+  env:
+    example:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,example-k8s"
+    performance-test:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,example-perf-k8s"
 
   # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
   repository: palisade
 
-  # deployment: [codeRelease | example | <any previous code release tag>] the target deployment mode for partitioning external type dependencies, the value "codeRelease" will align it with the java parent project version
-  deployment: codeRelease
-
-  # set environment variables for all palisade services pods by deployment type eg. spring profiles active
-  env:
-    _default:
-    - name: "SPRING_PROFILES_ACTIVE"
-      value: "k8s,example-k8s"
-
-  # see charts/kafka/charts/zookeeper
-  zookeeperConnectString: palisade-zookeeper:2181
+  kafka:
+    # install: install kafka streaming platform
+    install: false
 
   # persistent-volume and associated claims configurations
   persistence:
