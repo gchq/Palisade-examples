@@ -39,12 +39,12 @@ fi
 # Begin script in case all parameters are correct
 # Create and copy datastore data
 mkdir /mnt/datastore-efs
-mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${datastore}:/ datastore-efs-mountpoint
+mount -t efs ${datastore}:/ datastore-efs-mountpoint
 cp resources/data/* /mnt/datastore-efs
 umount /mnt/datastore-efs
 
 # Create and copy classpathjars data
 mkdir /mnt/classpathjars-efs
-mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${classpathjars}:/ classpathjars-efs-mountpoint
+mount -t efs ${classpathjars}:/ classpathjars-efs-mountpoint
 cp deployment/target/* /mnt/classpathjars-efs
 umount /mnt/classpathjars-efs
