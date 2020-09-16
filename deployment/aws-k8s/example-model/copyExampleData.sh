@@ -39,12 +39,12 @@ fi
 # Begin script in case all parameters are correct
 # Create and copy datastore data
 mkdir /mnt/datastore-efs
-mount -t efs ${datastore}:/ /mnt/datastore-efs-mountpoint
+mount -t efs ${datastore}:/ /mnt/datastore-efs
 cp -r resources/data/* /mnt/datastore-efs
 umount /mnt/datastore-efs
 
 # Create and copy classpathjars data
 mkdir /mnt/classpathjars-efs
-mount -t efs ${classpathjars}:/ /mnt/classpathjars-efs-mountpoint
+mount -t efs ${classpathjars}:/ /mnt/classpathjars-efs
 cp -r deployment/target/* /mnt/classpathjars-efs
 umount /mnt/classpathjars-efs
