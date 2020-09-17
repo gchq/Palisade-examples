@@ -15,8 +15,8 @@
 replicaCount: 1
 
 image:
-  name: deployment
-  tag: SNAPSHOT-a45d027
+  name: @artifactId@
+  tag: @revision@-@git.commit.id.abbrev@
   pullPolicy: IfNotPresent
 
 resources:
