@@ -12,5 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+NAMESPACE=$1
 
-kubectl exec $(kubectl get pods | awk '/example-model/ {print $1}') -- bash -c "cd /usr/share/example-model && bash ./verify.sh"
+if [ -z "$NAMESPACE" ]
+then
+  #If the user doesnt pass in a namespace
+	kubectl exec $(kubectl get pods | awk '/example-model/ {print $1}') -- bash -c "cd /usr/share/example-model && bash ./verify.sh"
+else
+  #If the user passes in a namespace, use the namespace in the kubectl command
+	kubectl exec $(kubectl get pods --namespace="$NAMESPACE" | awk '/example-model/ {print $1}') --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-model && bash ./verify.sh"
+fi
