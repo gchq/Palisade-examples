@@ -11,21 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+apiVersion: v2
+appVersion: "1.0"
+description: A Helm chart to mount the jars required by the example
+name: deployment
+version: 0.5.0
 
-{{- if eq .Values.global.deployment "example" }}
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: {{ include "example-model.name" . }}
-  namespace: {{ include "palisade.namespace" . }}
-  labels:
-    app.kubernetes.io/name: {{ include "mount-examples.name" . }}
-    helm.sh/chart: {{ include "example-model.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-  annotations:
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "1"
-    "helm.sh/hook-delete-policy": hook-succeeded
-
-{{- end }}
