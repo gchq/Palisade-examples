@@ -22,6 +22,6 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERS
       mv ./kubectl /usr/local/bin/kubectl
 
 COPY target/example/ /usr/share/example-jars/
-COPY ../resources/data/ /usr/share/example-data/
+COPY target/resources/ /usr/share/example-data/
 
 LABEL service="deployment" project="palisade"
