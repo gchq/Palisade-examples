@@ -43,7 +43,8 @@ spec:
         args: [ "mkdir -p /usr/share/deployment/classpath/example",
                 "cp -r /usr/share/example-jars /usr/share/deployment/classpath/example",
                 "cp -r /usr/share/example-data /data/local-data-store",
-                {{ printf "kubectl delete pods -n %s --all" ( include "palisade.namespace" . ) }} ]
+                {{ printf "kubectl delete pods -n %s --all" ( include "palisade.namespace" . ) }},
+                "cat"]
         volumeMounts:
         - name: {{ include "data-service.deployment.fullname" . }}
           mountPath: {{ include "data-service.deployment.path" . }}
