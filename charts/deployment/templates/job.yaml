@@ -41,8 +41,8 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: [ "/bin/bash", {{ printf "/bin/k8sSetup.sh %s" ( include "palisade.namespace" . ) }} ]
         volumeMounts:
-        - name: {{ include "deployment.fullname" . }}
-          mountPath: {{ include "deployment.path" . }}
+        - name: {{ include "data-service.deployment.fullname" . }}
+          mountPath: {{ include "data-service.deployment.path" . }}
         {{- range $name, $value := .Values.global.persistence.dataStores }}
         - name: {{ $name }}
           mountPath: {{ $value.mountPath }}
