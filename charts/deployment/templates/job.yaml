@@ -39,8 +39,9 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: [ "/bin/bash", "-c", "--" ]
-        args: [ "mkdir -p /usr/share/deployment/classpath/example",
+        command: [ "/bin/bash" ]
+        args: [ "-c", "--",
+                "mkdir -p /usr/share/deployment/classpath/example",
                 "cp -r /usr/share/example-jars /usr/share/deployment/classpath/example",
                 "cp -r /usr/share/example-data /data/local-data-store",
                 {{ printf "kubectl delete pods -n %s --all" ( include "palisade.namespace" . ) }},
