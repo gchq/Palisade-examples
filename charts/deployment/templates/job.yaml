@@ -24,10 +24,6 @@ metadata:
     helm.sh/chart: {{ include "deployment.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-  annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "1"
-    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   template:
     metadata:
@@ -43,13 +39,7 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: [ "/bin/bash" ]
-        args: [ "-c", "--",
-                "mkdir -p /usr/share/deployment/classpath/example",
-                "cp -r /usr/share/example-jars /usr/share/deployment/classpath/example",
-                "cp -r /usr/share/example-data /data/local-data-store",
-                {{ printf "kubectl delete pods -n %s --all" ( include "palisade.namespace" . ) }},
-                "cat"]
+        command: [ "/bin/bash", {{ printf "/bin/k8sSetup.sh %s" ( include "palisade.namespace" . ) }} ]
         volumeMounts:
         - name: {{ include "data-service.deployment.fullname" . }}
           mountPath: {{ include "data-service.deployment.path" . }}
