@@ -56,11 +56,11 @@ spec:
       - name: {{ include "deployment.deployment.fullname" . }}
         persistentVolumeClaim:
           claimName: {{ include "deployment.deployment.fullname" . }}
-          readOnly: true
+          readOnly: false
       {{- range $name, $_ := .Values.global.persistence.dataStores }}
       - name: {{ $name }}
         persistentVolumeClaim:
           claimName: {{ $name }}
-          readOnly: true
+          readOnly: false
       {{- end }}
 {{- end }}
