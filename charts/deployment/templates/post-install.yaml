@@ -44,7 +44,7 @@ spec:
         image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: [ "/bin/bash", "/bin/k8sSetup.sh" ]
-        args: [ {{ include "palisade.namespace" . }} ]
+        args: [ {{ include "palisade.namespace" . | quote }} ]
         volumeMounts:
         - name: {{ include "deployment.deployment.fullname" . }}
           mountPath: {{ include "deployment.deployment.path" . }}
