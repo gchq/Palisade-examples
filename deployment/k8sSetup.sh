@@ -14,12 +14,12 @@
 # limitations under the License.
 
 val=$(kubectl get ns $1)
-if [ -z ${val} ]; then
-  echo "Deleting current palisade deployment on namespace ${val}"
-  helm delete palisade -n ${val}
-  echo "Sleeping for 2 minutes"
-  sleep 120
-fi
+# if [ -z ${val} ]; then
+#   echo "Deleting current palisade deployment on namespace ${val}"
+#   helm delete palisade -n ${val}
+#   echo "Sleeping for 2 minutes"
+#   sleep 120
+# fi
 
 if [ $# -eq 1 ]; then
   read -r NAMESPACE <<< $1
@@ -34,3 +34,5 @@ if [ $# -eq 1 ]; then
 else
   echo "1 argument should be passed"
 fi
+
+cat
