@@ -16,7 +16,7 @@ replicaCount: 1
 
 image:
   name: deployment
-  tag: SNAPSHOT-35b1f77
+  tag: SNAPSHOT-ba7030c
   pullPolicy: IfNotPresent
 
 resources:
