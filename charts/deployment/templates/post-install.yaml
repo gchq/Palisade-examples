@@ -46,16 +46,16 @@ spec:
         command: [ "/bin/bash", "/bin/k8sSetup.sh" ]
         args: [ {{ include "palisade.namespace" . }} ]
         volumeMounts:
-        - name: {{ include "data-service.deployment.fullname" . }}
-          mountPath: {{ include "data-service.deployment.path" . }}
+        - name: {{ include "deployment.deployment.fullname" . }}
+          mountPath: {{ include "deployment.deployment.path" . }}
         {{- range $name, $value := .Values.global.persistence.dataStores }}
         - name: {{ $name }}
           mountPath: {{ $value.mountPath }}
         {{- end }}
       volumes:
-      - name: {{ include "deployment.fullname" . }}
+      - name: {{ include "deployment.deployment.fullname" . }}
         persistentVolumeClaim:
-          claimName: {{ include "deployment.fullname" . }}
+          claimName: {{ include "deployment.deployment.fullname" . }}
           readOnly: true
       {{- range $name, $_ := .Values.global.persistence.dataStores }}
       - name: {{ $name }}
