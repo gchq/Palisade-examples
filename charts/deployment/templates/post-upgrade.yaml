@@ -24,6 +24,10 @@ metadata:
     helm.sh/chart: {{ include "deployment.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+      annotations:
+        "helm.sh/hook": post-upgrade
+        "helm.sh/hook-weight": "1"
+        "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   template:
     metadata:
