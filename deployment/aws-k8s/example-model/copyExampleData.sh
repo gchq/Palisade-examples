@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,38 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-helpFunction() {
-   echo ""
-   echo "Usage: $(basename $0) [OPTIONS]"
-   echo -e "\t-d(atastore)     The URL for the (EFS) aws volume handle used as a data-store"
-   echo -e "\t-c(lasspathjars) The URL for the (EFS) aws volume handle used for storing classpath JARs"
-   exit 1 # Exit script after printing help
-}
+if [ $# -eq 1 ]; then
+  read -r NAMESPACE <<< $1
 
-while getopts "d:c:" opt
-do
-   case "$opt" in
-      d) datastore="$OPTARG" ;;
-      c) classpathjars="$OPTARG" ;;
-      ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
-   esac
-done
-
-# Print helpFunction in case parameters are empty
-if [ -z "$datastore" ] || [ -z "$classpathjars" ]; then
-   echo "Some or all of the parameters are empty";
-   helpFunction
+  mkdir -p /usr/share/deployment/classpath/example
+  cp -r /usr/share/example-jars /usr/share/deployment/classpath/example
+  echo "Copied example-jars to /usr/share/deployment/classpath/example"
+  cp -r /usr/share/example-data/resources/data/employee_file0.avro /data/local-data-store
+  cp -r /usr/share/example-data/resources/data/employee_file1.avro /data/local-data-store
+  echo "Copied example-data to /data/local-data-store"
+  kubectl delete pods -n ${NAMESPACE} --all
+  echo "Restarted pods for namespace ${NAMESPACE}"
+else
+  echo "1 argument should be passed"
 fi
-
-# Begin script in case all parameters are correct
-# Create and copy datastore data
-mkdir /mnt/datastore-efs
-mount -t efs ${datastore}:/ /mnt/datastore-efs
-cp -r resources/data/* /mnt/datastore-efs
-umount /mnt/datastore-efs
-
-# Create and copy classpathjars data
-mkdir /mnt/classpathjars-efs
-mount -t efs ${classpathjars}:/ /mnt/classpathjars-efs
-cp -r deployment/target/* /mnt/classpathjars-efs
-umount /mnt/classpathjars-efs

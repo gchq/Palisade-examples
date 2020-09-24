@@ -76,10 +76,6 @@
                     <exclude>**/values.yaml</exclude>
                 </excludes>
             </resource>
-            <resource>
-                <filtering>false</filtering>
-                <directory>../resources</directory>
-            </resource>
         </resources>
         <plugins>
             <plugin>

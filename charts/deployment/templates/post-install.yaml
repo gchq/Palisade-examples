@@ -43,7 +43,7 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: [ "/bin/bash", "/bin/k8sSetup.sh" ]
+        command: [ "/bin/bash", "/bin/copyExampleData.sh" ]
         args: [ {{ include "palisade.namespace" . | quote }} ]
         volumeMounts:
         - name: {{ include "deployment.deployment.fullname" . }}

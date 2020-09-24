@@ -26,7 +26,7 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERS
 
 COPY target/example/ /usr/share/example-jars/
 COPY target/resources/ /usr/share/example-data/resources/
-COPY k8sSetup.sh /bin/k8sSetup.sh
-RUN sed -i 's/\r$//' /bin/k8sSetup.sh
+COPY aws-k8s/example-model/copyExampleData.sh /bin/copyExampleData.sh
+RUN sed -i 's/\r$//' /bin/copyExampleData.sh
 
 LABEL service="deployment" project="palisade"
