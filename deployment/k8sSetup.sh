@@ -19,7 +19,7 @@ if [ $# -eq 1 ]; then
   mkdir -p /usr/share/deployment/classpath/example
   cp -r /usr/share/example-jars /usr/share/deployment/classpath/example
   echo "Copied example-jars to /usr/share/deployment/classpath/example"
-  cp -r /usr/share/example-data/resources/data /data/local-data-store
+  cp -r /usr/share/example-data/resources /data/local-data-store
   echo "Copied example-data to /data/local-data-store"
   kubectl delete pods -n ${NAMESPACE} --all
   echo "Restarted pods for namespace ${NAMESPACE}"
