@@ -18,5 +18,5 @@ web:
     palisade-service: "palisade-service"
 
 example:
-  directory: "/data/local-data-store"
-  filename: "/data/local-data-store"
+  directory: "/data/local-data-store/"
+  filename: "/data/local-data-store/"
