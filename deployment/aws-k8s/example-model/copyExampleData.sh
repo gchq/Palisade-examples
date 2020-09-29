@@ -25,5 +25,5 @@ if [ $# -eq 1 ]; then
   kubectl delete pods -n ${NAMESPACE} --all
   echo "Restarted pods for namespace ${NAMESPACE}"
 else
-  echo "1 argument should be passed"
+  echo "The Kubernetes namespace value should be passed as an argument"
 fi

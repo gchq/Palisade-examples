@@ -13,6 +13,8 @@
 # limitations under the License.
 #
 
+# Use Palisade-services values.yaml mostly, but set some useful defaults here
+
 # Used by templates for naming resources, see assorted helpers.tpl
 fullnameOverride: palisade-examples
 

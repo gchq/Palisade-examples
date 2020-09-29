@@ -62,8 +62,7 @@ the expected data and jars in order for the example to run successfully. This is
 and will run the script `copyExampleData.sh`.
 
 This script will need to have the name of the helm namespace passed into it as an argument.
-This is automatically picked up by helm through the job template so for a deployment in a "test-space" namespace
-the job would run the script like this: `copyExampleData.sh "test-space"`
+This is automatically picked up by helm through the job template so for a deployment in a "test-space" namespace the job would run the script like this: `copyExampleData.sh "test-space"`
 
 This takes the example employee files, and the example jars from the [deployment](../Dockerfile) Docker image and copies them to the expected location on the persistent volumes within the AWS environment.
 
