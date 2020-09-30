@@ -15,7 +15,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "deployment.name" -}}
+{{- define "c.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -24,7 +24,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "deployment.fullname" -}}
+{{- define "deploy-example-jars.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -40,16 +40,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "deployment.chart" -}}
+{{- define "deploy-example-jars.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "deployment.labels" -}}
-app.kubernetes.io/name: {{ include "deployment.name" . }}
-helm.sh/chart: {{ include "deployment.chart" . }}
+{{- define "deploy-example-jars.labels" -}}
+app.kubernetes.io/name: {{ include "deploy-example-jars.name" . }}
+helm.sh/chart: {{ include "deploy-example-jars.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -60,7 +60,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
 */}}
-{{- define "deployment.deployment.path" }}
+{{- define "deploy-example-jars.deployment.path" }}
 {{- if eq .Values.global.deployment "codeRelease" }}
 {{- $path := .Values.image.codeRelease | lower | replace "." "-" | trunc 63 | trimSuffix "-" }}
 {{- printf "%s/%s/classpath/%s" .Values.global.persistence.classpathJars.mountPath .Chart.Name $path }}
@@ -73,13 +73,13 @@ Calculate a storage path based on the code release artifact id or the supplied v
 {{/*
 Calculate a storage name based on the code release artifact id or the supplied value of codeRelease
 */}}
-{{- define "deployment.deployment.name" }}
-{{- include "deployment.deployment.path" . | base }}
+{{- define "deploy-example-jars.deployment.name" }}
+{{- include "deploy-example-jars.deployment.path" . | base }}
 {{- end }}
 
 {{/*
 Calculate a storage full name based on the code release artifact id or the supplied value of codeRelease
 */}}
-{{- define "deployment.deployment.fullname" }}
-{{- .Values.global.persistence.classpathJars.name }}-{{- include "deployment.deployment.name" . }}
+{{- define "deploy-example-jars.deployment.fullname" }}
+{{- .Values.global.persistence.classpathJars.name }}-{{- include "deploy-example-jars.deployment.name" . }}
 {{- end }}

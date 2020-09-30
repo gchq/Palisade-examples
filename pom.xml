@@ -96,6 +96,7 @@
         <module>example-model</module>
         <module>performance</module>
         <module>deployment</module>
+        <module>deploy-example-jars</module>
     </modules>
 
     <profiles>
