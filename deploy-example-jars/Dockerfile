@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openjdk:8-alpine
+FROM alpine:3.12.0@sha256:90baa0922fe90624b05cb5766fa5da4e337921656c2f8e2b13bd3c052a0baac1
 VOLUME /tmp
 
 ARG K8_VERSION=v1.15.3
 
-RUN apk --no-cache add curl=7.64.0-r4
-RUN apk --no-cache add bash=4.4.19-r1
+RUN apk --no-cache add curl=7.69.1-r1
+RUN apk --no-cache add bash=5.0.17-r0
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \

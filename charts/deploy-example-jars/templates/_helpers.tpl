@@ -15,7 +15,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "c.name" -}}
+{{- define "deploy-example-jars.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
