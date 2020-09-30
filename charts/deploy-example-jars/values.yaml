@@ -19,6 +19,14 @@ image:
   tag: SNAPSHOT-1b205e7
   pullPolicy: IfNotPresent
 
+deletePods:
+  - name: audit-service
+  - name: data-service
+  - name: palisade-service
+  - name: policy-service
+  - name: resource-service
+  - name: user-service
+
 resources:
   limits:
     cpu: 750m

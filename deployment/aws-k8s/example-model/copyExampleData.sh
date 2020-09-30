@@ -13,8 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if [ $# -eq 1 ]; then
-  read -r NAMESPACE <<< $1
+val=$(kubectl get ns $1)
+
+if [ -z "$val" ]; then
+  NAMESPACE=$1
 
   mkdir -p /usr/share/deployment/classpath/example
   cp -r /usr/share/example-jars /usr/share/deployment/classpath/example
@@ -22,8 +24,11 @@ if [ $# -eq 1 ]; then
   cp -r /usr/share/example-data/resources/data/employee_file0.avro /data/local-data-store
   cp -r /usr/share/example-data/resources/data/employee_file1.avro /data/local-data-store
   echo "Copied example-data to /data/local-data-store"
-  kubectl delete pods -n ${NAMESPACE} --all
-  echo "Restarted pods for namespace ${NAMESPACE}"
+
+  for pod in "${!PODS@}"; do
+    pod=$(kubectl get pods --namespace="$NAMESPACE" | awk '"$service" {print $1}')
+    kubectl delete pod -n ${NAMESPACE} ${pod}
+  done
 else
   echo "The Kubernetes namespace value should be passed as an argument"
 fi

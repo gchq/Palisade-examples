@@ -44,7 +44,6 @@ global:
     install: false
 
   # persistent-volume and associated claims configurations
-
   # guarantee the data we are expecting is mounted appropriately
   persistence:
     classpathJars:
