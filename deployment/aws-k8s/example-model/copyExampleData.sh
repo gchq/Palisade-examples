@@ -17,6 +17,7 @@ val=$(kubectl get ns $1)
 
 if [ -z "$val" ]; then
   NAMESPACE=$1
+  printenv
 
   mkdir -p /usr/share/deployment/classpath/example
   cp -r /usr/share/example-jars /usr/share/deployment/classpath/example
@@ -26,8 +27,9 @@ if [ -z "$val" ]; then
   echo "Copied example-data to /data/local-data-store"
 
   for pod in "${!PODS@}"; do
-    pod=$(kubectl get pods --namespace="$NAMESPACE" | awk '"$service" {print $1}')
-    kubectl delete pod -n ${NAMESPACE} ${pod}
+    echo "Attempting to restart the ${pod}"
+    service=$(kubectl get pods --namespace="$NAMESPACE" | awk '"$pod" {print $1}')
+    kubectl delete pod -n ${NAMESPACE} ${service}
   done
 else
   echo "The Kubernetes namespace value should be passed as an argument"
