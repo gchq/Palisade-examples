@@ -13,19 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-val=$(kubectl get ns $1)
-
-if [ -z "$val" ]; then
-  NAMESPACE=$1
-  printenv
-
-  mkdir -p /usr/share/deployment/classpath/example
-  cp -r /usr/share/example-jars /usr/share/deployment/classpath/example
-  echo "Copied example-jars to /usr/share/deployment/classpath/example"
-  cp -r /usr/share/example-data/resources/data/employee_file0.avro /data/local-data-store
-  cp -r /usr/share/example-data/resources/data/employee_file1.avro /data/local-data-store
-  echo "Copied example-data to /data/local-data-store"
-
-else
-  echo "The Kubernetes namespace value should be passed as an argument"
-fi
+mkdir -p /usr/share/deployment/classpath/example
+cp -r /usr/share/example-jars /usr/share/deployment/classpath/example
+echo "Copied example-jars to /usr/share/deployment/classpath/example"
+cp -r /usr/share/example-data/resources/data/employee_file0.avro /data/local-data-store
+cp -r /usr/share/example-data/resources/data/employee_file1.avro /data/local-data-store
+echo "Copied example-data to /data/local-data-store"
