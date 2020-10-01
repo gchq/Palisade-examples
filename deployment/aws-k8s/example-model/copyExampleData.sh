@@ -26,12 +26,6 @@ if [ -z "$val" ]; then
   cp -r /usr/share/example-data/resources/data/employee_file1.avro /data/local-data-store
   echo "Copied example-data to /data/local-data-store"
 
-#  for pod in "${!PODS@}"; do
-#    echo "Attempting to restart the ${pod}"
-#    service=$(kubectl get pods --namespace="$NAMESPACE" | awk '"$pod" {print $1}')
-#    kubectl delete pod -n ${NAMESPACE} ${service}
-#  done
-
 else
   echo "The Kubernetes namespace value should be passed as an argument"
 fi
