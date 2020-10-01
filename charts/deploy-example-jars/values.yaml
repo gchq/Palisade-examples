@@ -1,4 +1,3 @@
-#! /usr/bin/env bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-NAMESPACE=$1
+replicaCount: 1
 
-if [ -z "$NAMESPACE" ]
-then
-  #If the user doesnt pass in a namespace
-  kubectl exec "$(kubectl get pods | awk '/example-model/ {print $1}')" -- bash -c "cd /usr/share/example-model && bash ./runK8sExample.sh"
-else
-  #If the user passes in a namespace, use the namespace in the kubectl command
-  kubectl exec "$(kubectl get pods --namespace="$NAMESPACE" | awk '/example-model/ {print $1}')" --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-model && bash ./runK8sExample.sh"
-fi
+image:
+  name: deploy-example-jars
+  tag: SNAPSHOT-1b205e7
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 750m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 500Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

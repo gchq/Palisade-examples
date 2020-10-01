@@ -43,6 +43,7 @@ global:
     # install: install kafka streaming platform
     install: false
 
+  # persistent-volume and associated claims configurations
   # guarantee the data we are expecting is mounted appropriately
   persistence:
     classpathJars:
@@ -55,3 +56,6 @@ global:
       palisade-data-store:
         local:
           hostPath: "./resources/data"
+
+  # must be last for file to be appended with addresses
+  globalIPAddresses:

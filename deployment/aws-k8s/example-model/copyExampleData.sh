@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/bin/bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +12,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-NAMESPACE=$1
 
-if [ -z "$NAMESPACE" ]
-then
-  #If the user doesnt pass in a namespace
-  kubectl exec "$(kubectl get pods | awk '/example-model/ {print $1}')" -- bash -c "cd /usr/share/example-model && bash ./runK8sExample.sh"
-else
-  #If the user passes in a namespace, use the namespace in the kubectl command
-  kubectl exec "$(kubectl get pods --namespace="$NAMESPACE" | awk '/example-model/ {print $1}')" --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-model && bash ./runK8sExample.sh"
-fi
+mkdir -p /usr/share/deployment/classpath/example
+cp -r /usr/share/example-jars /usr/share/deployment/classpath/example
+echo "Copied example-jars to /usr/share/deployment/classpath/example"
+cp -r /usr/share/example-data/resources/data/employee_file0.avro /data/local-data-store
+cp -r /usr/share/example-data/resources/data/employee_file1.avro /data/local-data-store
+echo "Copied example-data to /data/local-data-store"

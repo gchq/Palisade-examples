@@ -18,7 +18,7 @@
 
 A collection of scripts for making life easier.
 
-## [hr-data-generator](hr-data-generator/README.md)
+## [hr-data-generator](../hr-data-generator/README.md)
 Scrips for running the hr data generator
 
 ## [local-jvm](local-jvm/README.md)
@@ -26,3 +26,6 @@ Scripts for running the examples in local jvms
 
 ## [local-k8s](local-k8s/README.md)
 Scripts for running the examples in a local k8s cluster
+
+## [aws-k8s](aws-k8s/README.md)
+Scripts for running the examples in an AWS k8s cluster
