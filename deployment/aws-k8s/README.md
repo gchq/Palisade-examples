@@ -22,7 +22,7 @@ The example runs different queries by different users, with different purposes.
 When you run the example you will see the data has been redacted in line with the rules.
 For an overview of the example, see [here](../../README.md).
 
-### Rest Example ([example-model](../../example-model/README.md))
+### Rest Example ([example-runner](../../example-runner/README.md))
 
 #### Deploying into AWS
 
@@ -37,7 +37,7 @@ When running the script a number of AWS values will have to be passed in as argu
 ```
 ```
 e.g.
-bash deployment/aws-k8s/example-model/deployServicesToK8s.sh \
+bash deployment/aws-k8s/example-runner/deployServicesToK8s.sh \
     -n namespace-value \
     -r aws-repository-handle \
     -h deployment-hostname-handle \
@@ -66,16 +66,16 @@ This takes the example employee files, and the example jars from the [deployment
 #### Running the example
 
 The example can be run by using either the `runK8sExample.sh` or the `runFormattedK8sExample.sh` scripts. These will run through the scenario presented above, however the "Formatted" script will output
-a readable version of the output. These are run from within the `example-model` pod of the Palisade deployment in AWS.
+a readable version of the output. These are run from within the `example-runner` pod of the Palisade deployment in AWS.
 
-The following command will 'exec' into the example-model pod and then run the formatted
+The following command will 'exec' into the example-runner pod and then run the formatted
 script (replace the `"$NAMESPACE"` placeholder for the appropriate namespace value):
 ```
-kubectl exec $(kubectl get pods --namespace="$NAMESPACE" | awk '/example-model/ {print $1}') --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-model && bash ./runFormattedK8sExample.sh"
+kubectl exec $(kubectl get pods --namespace="$NAMESPACE" | awk '/example-runner/ {print $1}') --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-runner && bash ./runFormattedK8sExample.sh"
 ```
 
 If the formatted example script has been executed then we can verify that the example has returned the expected level of redaction for the employee files using the `verify.sh` script.
 This can be run by changing the script name in the command above:
 ```
-kubectl exec $(kubectl get pods --namespace="$NAMESPACE" | awk '/example-model/ {print $1}') --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-model && bash ./verify.sh"
+kubectl exec $(kubectl get pods --namespace="$NAMESPACE" | awk '/example-runner/ {print $1}') --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-runner && bash ./verify.sh"
 ```
