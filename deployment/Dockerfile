@@ -17,15 +17,15 @@ VOLUME /tmp
 
 ARG K8_VERSION=v1.15.3
 
-RUN apk --no-cache add curl=7.69.1-r1
+RUN apk --no-cache add curl=7.69.1-r3
 RUN apk --no-cache add bash=5.0.17-r0
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \
       mv ./kubectl /usr/local/bin/kubectl
 
-COPY target/example/ /usr/share/example-jars/
-COPY target/resources/ /usr/share/example-data/resources/
+COPY target/example /usr/share/example-jars/
+COPY target/resources /usr/share/example-data/resources/
 COPY target/scripts/copyExampleData.sh /bin/copyExampleData.sh
 RUN sed -i 's/\r$//' /bin/copyExampleData.sh
 

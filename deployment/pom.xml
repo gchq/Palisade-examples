@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2019 Crown Copyright
+  ~ Copyright 2021 Crown Copyright
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -28,8 +28,8 @@
     </parent>
 
     <!--  *********** Aritfact ID ***********    -->
-    <artifactId>deploy-example-jars</artifactId>
-    <url>https://github.com/gchq/Palisade-examples/tree/develop/deploy-example-jars</url>
+    <artifactId>deployment</artifactId>
+    <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment</url>
     <!--  *********** Aritfact ID ***********    -->
 
     <profiles>
@@ -126,7 +126,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/resources/data</outputDirectory>
+                            <outputDirectory>target/resources/data</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>../resources/data</directory>
@@ -141,10 +141,10 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/scripts</outputDirectory>
+                            <outputDirectory>target/scripts</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>../deployment/aws-k8s/example-model</directory>
+                                    <directory>aws-k8s/example-model</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -180,7 +180,7 @@
                                 </artifactItem>
                             </artifactItems>
                             <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="example" -->
-                            <outputDirectory>${basedir}/target/example/</outputDirectory>
+                            <outputDirectory>target/example</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
@@ -205,7 +205,7 @@
                                 </artifactItem>
                             </artifactItems>
                             <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="performance-test" -->
-                            <outputDirectory>${basedir}/target/performance-test/</outputDirectory>
+                            <outputDirectory>target/performance-test</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
