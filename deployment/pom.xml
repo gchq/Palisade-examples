@@ -135,7 +135,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-aws-scripts</id>
+                        <id>copy-data-scripts</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -144,7 +144,7 @@
                             <outputDirectory>target/scripts</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>aws-k8s/example-model</directory>
+                                    <directory>src/main/resources/k8s-bash-scripts</directory>
                                 </resource>
                             </resources>
                         </configuration>

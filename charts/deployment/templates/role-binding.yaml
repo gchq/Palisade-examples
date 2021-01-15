@@ -1,4 +1,3 @@
-#!/bin/bash
 # Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-mkdir -p /usr/share/deployment/classpath/example
-cp -r /usr/share/example-jars/* /usr/share/deployment/classpath/example/
-echo "Copied example-jars to /usr/share/deployment/classpath/example"
-cp -r /usr/share/example-data/resources/data/employee_file0.avro /data/local-data-store
-cp -r /usr/share/example-data/resources/data/employee_file1.avro /data/local-data-store
-echo "Copied example-data to /data/local-data-store"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: palisade:delete-pods
+  namespace: {{ include "palisade.namespace" . }}
+subjects:
+- kind: ServiceAccount
+  name: kubectl-delete-pods
+roleRef:
+  kind: Role
+  name: delete-pods
+  apiGroup: rbac.authorization.k8s.io
