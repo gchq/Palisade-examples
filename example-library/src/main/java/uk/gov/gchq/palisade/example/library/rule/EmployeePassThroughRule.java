@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.perf;
+package uk.gov.gchq.palisade.example.library.rule;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import uk.gov.gchq.palisade.Context;
+import uk.gov.gchq.palisade.User;
+import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.rule.Rule;
 
-/**
- * Main class for the performance testing tool.
- */
+import java.io.Serializable;
 
-@SpringBootApplication
-public class PerfApplication {
+public class EmployeePassThroughRule implements Serializable, Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
-    public static void main(final String[] args) {
-        new SpringApplicationBuilder(PerfApplication.class).run(args);
+    public Employee apply(final Employee record, final User user, final Context context) {
+        return record;
     }
-
 }

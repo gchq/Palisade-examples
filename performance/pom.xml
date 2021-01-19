@@ -29,46 +29,60 @@
     <url>https://github.com/gchq/Palisade-examples/tree/develop/performance</url>
     <!--  *********** Aritfact ID ***********    -->
 
+    <properties>
+        <!-- Dependency versions -->
+        <scala.version>2.13</scala.version>
+        <akka.version>2.6.10</akka.version>
+        <akka.http.version>10.2.1</akka.http.version>
+    </properties>
+
     <dependencies>
         <dependency>
+            <!-- Spring Boot DI -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
+            <!-- User, Resource, Context types -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
             <version>0.5.0-${common.revision}</version>
         </dependency>
         <dependency>
+            <!-- Employee datatype -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>hr-data-generator</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <!-- Resource request pre-population -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>example-library</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-model</artifactId>
-            <version>${project.parent.version}</version>
+            <!-- Core Akka streaming -->
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-stream_${scala.version}</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <!-- Core Akka streaming -->
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-stream-typed_${scala.version}</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <!-- Akka HTTP/Websocket server -->
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-http_${scala.version}</artifactId>
+            <version>${akka.http.version}</version>
+        </dependency>
+        <dependency>
+            <!-- Akka HTTP JSON serialisation -->
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-http-jackson_${scala.version}</artifactId>
+            <version>${akka.http.version}</version>
         </dependency>
     </dependencies>
 

@@ -18,12 +18,9 @@ package uk.gov.gchq.palisade.example.perf.trial.many;
 
 import org.springframework.stereotype.Component;
 
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.client.SimpleClient;
 import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
-
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * Test that reads many data files from Palisade with no policy and times entire Palisade interaction.
@@ -32,7 +29,7 @@ import java.util.stream.Stream;
 public class ReadManyNoPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_many_no_policy";
 
-    public ReadManyNoPolicyTrial(final Function<String, Stream<Stream<Employee>>> client) {
+    public ReadManyNoPolicyTrial(final SimpleClient client) {
         super(client);
         normal = ReadManyNativeTrial.NAME;
     }
@@ -46,9 +43,6 @@ public class ReadManyNoPolicyTrial extends PalisadeTrial {
     }
 
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        //setup a request and read data
-        try (Stream<Stream<Employee>> data = getDataStream(noPolicySet.manyDir)) {
-            sink(data);
-        }
+        read(noPolicySet.manyDir);
     }
 }

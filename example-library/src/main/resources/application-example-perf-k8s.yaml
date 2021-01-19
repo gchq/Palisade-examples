@@ -46,9 +46,10 @@ population:
       "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.library.rule.FirstResourceRule
   - resource: ${default.rootId}/no-policy/
     owner: Alice
+    recordRules:
+      "1-Pass through rule for no-policy directory": uk.gov.gchq.palisade.example.library.rule.EmployeePassThroughRule
     resourceRules:
       "1-Pass through rule for no-policy directory": uk.gov.gchq.palisade.example.library.rule.PassThroughRule
-    recordRules: {}
 
   resourceProvider: std
   resources:

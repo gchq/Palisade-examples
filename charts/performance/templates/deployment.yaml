@@ -41,7 +41,13 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # keep the pod alive, but don't do anything - waiting for a kubectl exec on this pod
         command: [ "/bin/bash", "-c", "--" ]
-        args: [ "chmod +x /usr/share/performance/*.sh; while true; do sleep 100; done;" ]
+        args: [ "chmod +x /usr/share/performance/*.sh; tail -f /dev/null" ]
+        env:
+        {{- $envVars := pluck .Values.global.deployment .Values.global.env | first | default .Values.global.env._default }}
+        {{- range $item := $envVars }}
+        - name: {{ $item.name }}
+          value: {{ $item.value }}
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         volumeMounts:
@@ -54,7 +60,6 @@ spec:
       - name: {{ $name }}
         persistentVolumeClaim:
           claimName: {{ $name }}
-          readOnly: true
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

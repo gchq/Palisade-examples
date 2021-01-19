@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Copyright 2020 Crown Copyright
+#
+# Copyright 2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,11 +13,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-FILE=performance/target/performance-*-exec.jar
+JARFILE=./performance.jar
+
 # Create the perf-test dataset
-if [ -f $FILE ]; then
-  java -jar $FILE --performance.action=create
+if [ -f $JARFILE ]; then
+  java -jar $JARFILE --performance.action=create
 else
   echo "Cannot find performance-<version>-exec.jar - have you run 'mvn install'?"
 fi

@@ -60,7 +60,7 @@ public class ReadLargeNativeTrial extends PerfTrial {
              Stream<Employee> dataStream = SERIALISER.deserialise(bis)) {
 
             //now read everything in the file
-            sink(Stream.of(dataStream));
+            nativeRead(Stream.of(dataStream));
 
         } catch (IOException e) {
             throw new PerfException(e);

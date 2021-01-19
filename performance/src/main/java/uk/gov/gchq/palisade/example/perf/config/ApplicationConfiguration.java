@@ -18,6 +18,7 @@ package uk.gov.gchq.palisade.example.perf.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -25,21 +26,17 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.model.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
+import uk.gov.gchq.palisade.example.perf.client.SimpleClient;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
-import uk.gov.gchq.palisade.example.perf.util.PerfException;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Bean configuration and dependency injection graph
@@ -49,25 +46,9 @@ import java.util.stream.Stream;
 public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
-    /**
-     * Bean for a configured ExampleSimpleClient - that is, a client prepopulated with a user and purpose to use for each request
-     *
-     * @param client ExampleSimpleClient to wrap with some default configuration
-     * @param conf   a configuration with a default {@link uk.gov.gchq.palisade.UserId} and
-     *               {@link uk.gov.gchq.palisade.example.library.common.Purpose} (or String) purpose to use for the client
-     * @return a function mapping from a resourceId String to Stream of {@link Employee}s from a data-service
-     * @throws RuntimeException if there was an IOException deserialising returned data
-     */
     @Bean
-    public Function<String, Stream<Stream<Employee>>> configuredSimpleClient(final ExampleSimpleClient client, final PerformanceConfiguration conf) {
-        LOGGER.info("Configured ExampleSimpleClient with config {}", conf);
-        return (String resourceId) -> {
-            try {
-                return client.read(resourceId, conf.getUserId(), conf.getPurpose());
-            } catch (IOException e) {
-                throw new PerfException(e);
-            }
-        };
+    SimpleClient simpleClient(final @Value("${web.client.palisade-service}") String palisadeService, final @Value("${web.client.filtered-resource-service}") String filteredResourceService, final PerformanceConfiguration performanceConfiguration) {
+        return new SimpleClient(palisadeService, filteredResourceService, performanceConfiguration);
     }
 
     /**
@@ -77,7 +58,7 @@ public class ApplicationConfiguration {
      */
     @Bean
     @ConfigurationProperties(prefix = "performance")
-    public PerformanceConfiguration runConfiguration() {
+    PerformanceConfiguration runConfiguration() {
         return new PerformanceConfiguration();
     }
 
@@ -90,7 +71,7 @@ public class ApplicationConfiguration {
      */
     @Bean
     @ConditionalOnProperty(name = "performance.action", havingValue = "run")
-    public CommandLineRunner runAction(final PerformanceConfiguration conf, final Collection<PerfTrial> perfTrialSet) {
+    CommandLineRunner runAction(final PerformanceConfiguration conf, final Collection<PerfTrial> perfTrialSet) {
         Map<String, PerfTrial> testsToRun = perfTrialSet.stream()
                 .collect(Collectors.toMap(PerfTrial::name, Function.identity()));
         LOGGER.debug("Created RunAction with conf {} and tests {}", conf, testsToRun);
@@ -106,7 +87,7 @@ public class ApplicationConfiguration {
      */
     @Bean
     @ConditionalOnProperty(name = "performance.action", havingValue = "create")
-    public CommandLineRunner createAction(final PerformanceConfiguration conf) {
+    CommandLineRunner createAction(final PerformanceConfiguration conf) {
         LOGGER.debug("Created CreateAction with conf {}", conf);
         return new ActionRunner(new CreateAction(conf.getDirectory(), conf.getSmall(), conf.getLarge(), conf.getManyUnique(), conf.getManyDuplicates()));
     }

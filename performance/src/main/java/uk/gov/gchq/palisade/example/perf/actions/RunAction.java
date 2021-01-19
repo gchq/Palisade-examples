@@ -48,7 +48,7 @@ public class RunAction implements Runnable {
     private final int dryRuns;
     private final int liveRuns;
     private final Map<String, PerfTrial> testsToRun;
-    private Set<String> skipTests;
+    private final Set<String> skipTests;
 
     /**
      * Runner for executing a number of performance trials and collating statistical data on run-times
