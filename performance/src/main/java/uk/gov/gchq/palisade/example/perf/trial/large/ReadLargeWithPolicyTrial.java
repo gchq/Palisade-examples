@@ -19,7 +19,6 @@ package uk.gov.gchq.palisade.example.perf.trial.large;
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.example.perf.client.SimpleClient;
 import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 
 /**
@@ -29,8 +28,7 @@ import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 public class ReadLargeWithPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_large_with_policy";
 
-    public ReadLargeWithPolicyTrial(final SimpleClient client) {
-        super(client);
+    public ReadLargeWithPolicyTrial() {
         normal = ReadLargeNativeTrial.NAME;
     }
 

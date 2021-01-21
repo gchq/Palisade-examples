@@ -16,6 +16,7 @@
 
 package uk.gov.gchq.palisade.example.perf.config;
 
+import akka.actor.ActorSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,10 +27,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import uk.gov.gchq.palisade.client.akka.AkkaClient;
+import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
+import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
-import uk.gov.gchq.palisade.example.perf.client.SimpleClient;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
 
 import java.util.Collection;
@@ -47,8 +50,20 @@ public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
     @Bean
-    SimpleClient simpleClient(final @Value("${web.client.palisade-service}") String palisadeService, final @Value("${web.client.filtered-resource-service}") String filteredResourceService, final PerformanceConfiguration performanceConfiguration) {
-        return new SimpleClient(palisadeService, filteredResourceService, performanceConfiguration);
+    ActorSystem actorSystem() {
+        return ActorSystem.create("palisade-client");
+    }
+
+    @Bean
+    AkkaClient client(final @Value("${web.client.palisade-service}") String palisadeService,
+                      final @Value("${web.client.filtered-resource-service}") String filteredResourceService,
+                      final ActorSystem actorSystem) {
+        return new AkkaClient(palisadeService, filteredResourceService, actorSystem);
+    }
+
+    @Bean
+    AkkaClientWrapper<Employee> simpleClientWrapper(final AkkaClient client) {
+        return new AkkaClientWrapper<>(client, new AvroSerialiser<>(Employee.class));
     }
 
     /**

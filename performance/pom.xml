@@ -29,12 +29,6 @@
     <url>https://github.com/gchq/Palisade-examples/tree/develop/performance</url>
     <!--  *********** Aritfact ID ***********    -->
 
-    <properties>
-        <!-- Dependency versions -->
-        <scala.version>2.13</scala.version>
-        <akka.version>2.6.10</akka.version>
-        <akka.http.version>10.2.1</akka.http.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -61,29 +55,12 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <!-- Core Akka streaming -->
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-stream_${scala.version}</artifactId>
-            <version>${akka.version}</version>
+            <groupId>uk.gov.gchq.palisade</groupId>
+            <artifactId>client-akka</artifactId>
+            <version>0.5.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
-        <dependency>
-            <!-- Core Akka streaming -->
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-stream-typed_${scala.version}</artifactId>
-            <version>${akka.version}</version>
-        </dependency>
-        <dependency>
-            <!-- Akka HTTP/Websocket server -->
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-http_${scala.version}</artifactId>
-            <version>${akka.http.version}</version>
-        </dependency>
-        <dependency>
-            <!-- Akka HTTP JSON serialisation -->
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-http-jackson_${scala.version}</artifactId>
-            <version>${akka.http.version}</version>
-        </dependency>
+
     </dependencies>
 
     <profiles>
