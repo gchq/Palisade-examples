@@ -12,21 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM alpine:3.12.0@sha256:90baa0922fe90624b05cb5766fa5da4e337921656c2f8e2b13bd3c052a0baac1
+FROM openjdk:11@sha256:736dd07fc5cb53060a49d38c86b9e673974510c5a18afc40b1c936475f59aee7
 VOLUME /tmp
 
+ARG JAR_FILE
 ARG K8_VERSION=v1.15.3
-
-RUN apk --no-cache add curl=7.69.1-r3
-RUN apk --no-cache add bash=5.0.17-r0
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \
       mv ./kubectl /usr/local/bin/kubectl
 
-COPY target/example/ /usr/share/example-jars/
-COPY target/resources/ /usr/share/example-data/resources/
-COPY target/scripts/copyExampleData.sh /bin/copyExampleData.sh
-RUN sed -i 's/\r$//' /bin/copyExampleData.sh
+COPY target/classes/k8s-bash-scripts /usr/share/example-runner
+COPY $JAR_FILE /usr/share/example-runner/example-runner.jar
 
-LABEL service="deployment" project="palisade"
+# Needed for converting all bash scripts windows line endings into unix
+RUN sed -i 's/\r$//' /usr/share/example-runner/*.sh
+
+LABEL service="example-runner" project="palisade"

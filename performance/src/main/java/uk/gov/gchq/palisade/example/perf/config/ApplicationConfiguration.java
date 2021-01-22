@@ -26,12 +26,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.model.client.ExampleSimpleClient;
 import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
+import uk.gov.gchq.palisade.example.runner.client.ExampleSimpleClient;
 
 import java.io.IOException;
 import java.util.Collection;

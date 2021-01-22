@@ -29,8 +29,8 @@ The policies applied when running the example are a collection of static coarse-
 This collection of example-specific rules, types and configurations is based around the possible policies a company might set out for users accessing sensitive employee data, depending upon their role in the company.
 Provides the `ExampleUser` datatype specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common) `User`, as well as Rules to be used for policy setting.
 
-### [Example Model](example-model/README.md)
-The example scenarios can be run using the Spring Boot REST client application in the *Example Model*, requesting and reading for a number of different users, resources and contexts.
+### [Example Runner](example-runner/README.md)
+The example scenarios can be run using the Spring Boot REST client application in the *Example Runner*, requesting and reading for a number of different users, resources and contexts.
 This simple Spring Boot application has a number of different runners for such REST clients, which also manage using the palisade-service response to connect to the appropriate data-service.
 Provides an `ExampleSimpleClient` specialisation of the Palisade-clients `SimpleClient` for making REST requests for Employee avro data.
 

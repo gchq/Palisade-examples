@@ -22,7 +22,7 @@ The example runs different queries by different users, with different purposes.
 When you run the example you will see the data has been redacted in line with the rules.
 For an overview of the example, see [here](../../README.md).
 
-In order to successfully run the K8s example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) and [example-model](../../example-model) docker images have been built.
+In order to successfully run the K8s example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) and [example-runner](../../example-runner) docker images have been built.
 
 To run the example in a local Kubernetes cluster, follow these steps (running commands from the root [Palisade-examples](../..) directory):
 
@@ -39,24 +39,24 @@ Otherwise, follow the [local-jvm prerequisites](../local-jvm/README.md).
 
 Ensure Line Endings are correct for the environment you are using. If running on Windows, checked out in CRLF, be aware that Docker will be expecting LF endings in any scripts inside containers.
 
-Both the [example-model](../../example-model) and the [performance tests](../../performance) have two sets of scripts, one local set outside of the cluster ([here](./example-model) and [here](./performance) respectively) and one set inside the containers ([here](../../example-model/src/main/resources/k8s-bash-scripts) and [here](../../performance/src/main/resources/k8s-bash-scripts) respectively).
+Both the [example-runner](../../example-runner) and the [performance tests](../../performance) have two sets of scripts, one local set outside of the cluster ([here](./example-runner) and [here](./performance) respectively) and one set inside the containers ([here](../../example-runner/src/main/resources/k8s-bash-scripts) and [here](../../performance/src/main/resources/k8s-bash-scripts) respectively).
 The deployment steps can be automated using the provided local bash scripts, which are intended to be run from the [Palisade-examples](../..) root directory.
-These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/src/main/resources/k8s-bash-scripts), which are intended to be run from the `/usr/share/example-model` or `/usr/share/performance` directory inside the pod:
+These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner/src/main/resources/k8s-bash-scripts), which are intended to be run from the `/usr/share/example-runner` or `/usr/share/performance` directory inside the pod:
 
-### Rest Example ([example-model](../../example-model/README.md))
+### Rest Example ([example-runner](../../example-runner/README.md))
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
      drwxrwxrwx deployment
      drwxrwxrwx example-library
-     drwxrwxrwx example-model
+     drwxrwxrwx example-runner
      drwxrwxrwx hr-data-generator
      drwxrwxrwx performance
    ```
 
 1. To deploy the example, run:
    ```bash
-   bash deployment/local-k8s/example-model/deployServicesToK8s.sh
+   bash deployment/local-k8s/example-runner/deployServicesToK8s.sh
    ```
    You can check the pods are available:
    ```bash
@@ -65,14 +65,14 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/
    
 1. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
    ```bash
-   bash deployment/local-k8s/example-model/runFormattedK8sExample.sh
+   bash deployment/local-k8s/example-runner/runFormattedK8sExample.sh
    <or>
-   bash deployment/local-k8s/example-model/runK8sExample.sh
+   bash deployment/local-k8s/example-runner/runK8sExample.sh
    ```
    
 1. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
-   bash deployment/local-k8s/example-model/verify.sh
+   bash deployment/local-k8s/example-runner/verify.sh
     ```
 
 1. Delete the deployed services:
@@ -86,7 +86,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-model/
    >> ls
      drwxrwxrwx deployment
      drwxrwxrwx example-library
-     drwxrwxrwx example-model
+     drwxrwxrwx example-runner
      drwxrwxrwx hr-data-generator
      drwxrwxrwx performance
    ```
