@@ -77,7 +77,7 @@ The above steps can be automated using the provided , all of which are intended 
    >> ls
      drwxrwxrwx deployment
      drwxrwxrwx example-library
-     drwxrwxrwx example-model
+     drwxrwxrwx example-runner
      drwxrwxrwx hr-data-generator
      drwxrwxrwx performance
    ```
@@ -86,16 +86,16 @@ The above steps can be automated using the provided , all of which are intended 
 
    To run the example and verify its output:
    ```bash
-   deployment/local-jvm/example-model/startServices.sh
-   deployment/local-jvm/example-model/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-model/exampleOutput.txt
-   deployment/local-jvm/example-model/verify.sh
-   deployment/local-jvm/example-model/stopServices.sh
+   deployment/local-jvm/example-runner/startServices.sh
+   deployment/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+   deployment/local-jvm/example-runner/verify.sh
+   deployment/local-jvm/example-runner/stopServices.sh
    ```
    
    To run the performance tests:
    ```bash
    deployment/local-jvm/performance/startServices.sh
-   deployment/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-model/exampleOutput.txt
+   deployment/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
    deployment/local-jvm/performance/stopServices.sh
    ```
 
@@ -103,13 +103,13 @@ The above steps can be automated using the provided , all of which are intended 
 ## Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
 See the [services-manager/README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
-### Rest Example ([example-model](../../example-model/README.md))
+### Rest Example ([example-runner](../../example-runner/README.md))
 When using the services manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
 
 1. Start the palisade services and run the example using the services manager.
    ```bash
    >> java -Dspring.profiles.active=discovery -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
-   >> java -Dspring.profiles.active=example-model -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
+   >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
    ```
    
 1. It will take a couple of minutes for the Spring Boot services to start up.  
@@ -123,14 +123,14 @@ When using the services manager, follow these steps (running commands from anywh
     - resource-service
     - user-service
     
-1. The RestExample example-model runner (in particular, with the *rest* profile from the *application-rest.yaml*) will be run immediately afterwards
+1. The RestExample example-runner runner (in particular, with the *rest* profile from the *application-rest.yaml*) will be run immediately afterwards
     * The stdout and stderr will by default be stored in `Palisade-services/rest-example.log` and `Palisade-service/rest-example.err` respectively.  
     
    There will briefly be 8 services registered with Eureka while the example is running:
     - audit-service
     - data-service
     - discovery-service
-    - *example-model*
+    - *example-runner*
     - palisade-service
     - policy-service
     - resource-service
@@ -138,12 +138,12 @@ When using the services manager, follow these steps (running commands from anywh
     
 1. Stop the services.
    ```bash
-   >> java -Dspring.profiles.active=example-model -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
+   >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    >> java -Dspring.profiles.active=discovery -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```
 
 ### Performance Tests ([performance](../../performance/README.md))
-Run as above, but substitute using the `example-model` profile for the `example-perf` profile
+Run as above, but substitute using the `example-runner` profile for the `example-perf` profile
 
 1. Create the performance test data, start the palisade services and run the performance tests using the services manager.
    ```bash
