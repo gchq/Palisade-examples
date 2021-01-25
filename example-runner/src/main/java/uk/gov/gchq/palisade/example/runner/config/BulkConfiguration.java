@@ -24,8 +24,8 @@ public class BulkConfiguration {
     private String directory;
     private Integer quantity;
     private Integer copies;
-    private Boolean shouldCreate;
-    private Boolean shouldDelete;
+    private boolean shouldCreate;
+    private boolean shouldDelete;
 
     @Generated
     public String getDirectory() {
@@ -61,24 +61,22 @@ public class BulkConfiguration {
     }
 
     @Generated
-    public Boolean getShouldCreate() {
+    public boolean getShouldCreate() {
         return shouldCreate;
     }
 
     @Generated
-    public void setShouldCreate(final Boolean shouldCreate) {
-        this.shouldCreate = Optional.ofNullable(shouldCreate)
-                .orElseThrow(() -> new IllegalArgumentException("shouldCreate cannot be null"));
+    public void setShouldCreate(final boolean shouldCreate) {
+        this.shouldCreate = shouldCreate;
     }
 
     @Generated
-    public Boolean getShouldDelete() {
+    public boolean getShouldDelete() {
         return shouldDelete;
     }
 
     @Generated
-    public void setShouldDelete(final Boolean shouldDelete) {
-        this.shouldDelete = Optional.ofNullable(shouldDelete)
-                .orElseThrow(() -> new IllegalArgumentException("shouldDelete cannot be null"));
+    public void setShouldDelete(final boolean shouldDelete) {
+        this.shouldDelete = shouldDelete;
     }
 }
