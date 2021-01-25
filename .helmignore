@@ -44,7 +44,7 @@ Palisade-examples-*.tgz
 # Add the directory for every service module here
 /deployment/
 /example-library/
-/example-model/
+/example-runner/
 /hr-data-generator/
 /performance/
 /resources/
