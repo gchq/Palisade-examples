@@ -67,7 +67,7 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-model</artifactId>
+            <artifactId>example-runner</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

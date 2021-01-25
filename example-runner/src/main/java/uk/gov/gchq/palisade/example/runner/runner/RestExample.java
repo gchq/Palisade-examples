@@ -16,47 +16,37 @@
 
 package uk.gov.gchq.palisade.example.runner.runner;
 
-import akka.Done;
-import akka.stream.javadsl.Sink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
-import uk.gov.gchq.palisade.example.runner.config.AkkaClientWrapper;
-import uk.gov.gchq.palisade.example.runner.config.RestConfiguration;
+import uk.gov.gchq.palisade.example.runner.client.ExampleSimpleClient;
 
 import java.io.IOException;
-import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
-public class RestExample implements CommandLineRunner {
+public class RestExample {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
 
-    private final RestConfiguration configuration;
-    private final AkkaClientWrapper<Employee> client;
+    ExampleSimpleClient client;
 
-    public RestExample(final RestConfiguration configuration, final AkkaClientWrapper<Employee> client) {
-        this.configuration = configuration;
-        this.client = client;
+    public RestExample(final ExampleSimpleClient exampleSimpleClient) {
+        this.client = exampleSimpleClient;
     }
 
-    private void makeRequest(final String userId, final String fileName, final String purpose) {
+    private void makeRequest(final String userId, final String resourceId, final String purpose) throws IOException {
         LOGGER.info("");
-        LOGGER.info("'{}' is reading '{}' with a purpose of '{}'...", userId, fileName, purpose);
-        LOGGER.info("'{}' got back: ", userId);
-        client.<CompletionStage<Done>>execute(userId, fileName, purpose)
-                .apply(Sink.foreach(record -> LOGGER.info("{}", record)))
-                .toCompletableFuture().join();
+        LOGGER.info("{} is reading {} with a purpose of {}...", userId, resourceId, purpose);
+        final Stream<Employee> results = client.read(resourceId, userId, purpose)
+                .flatMap(Function.identity());
+        LOGGER.info("{} got back: ", userId);
+        results.map(Object::toString).forEach(LOGGER::info);
     }
 
-    /**
-     * The runner method to run some example requests through Palisade
-     *
-     * @param args command-line arguments
-     * @throws IOException for any file system error
-     */
-    public void run(final String... args) throws IOException {
+    public void run(final String employeeFile) throws IOException {
         final String alice = "Alice";
         final String bob = "Bob";
         final String eve = "Eve";
@@ -66,23 +56,21 @@ public class RestExample implements CommandLineRunner {
         final String staffReport = Purpose.STAFF_REPORT.name();
 
         //Alice is reading the employee file with a purpose of SALARY
-        makeRequest(alice, configuration.getFilename(), salary);
+        makeRequest(alice, employeeFile, salary);
 
         //Alice is reading the employee file with a purpose of DUTY OF CARE
-        makeRequest(alice, configuration.getFilename(), dutyOfCare);
+        makeRequest(alice, employeeFile, dutyOfCare);
 
         //Alice is reading the employee file with a purpose of STAFF REPORT
-        makeRequest(alice, configuration.getFilename(), staffReport);
+        makeRequest(alice, employeeFile, staffReport);
 
         //Bob is reading the employee file with a purpose of DUTY OF CARE
-        makeRequest(bob, configuration.getFilename(), dutyOfCare);
+        makeRequest(bob, employeeFile, dutyOfCare);
 
         //Bob is reading the employee file with a purpose that is empty
-        makeRequest(bob, configuration.getFilename(), "");
+        makeRequest(bob, employeeFile, "");
 
         //Eve is reading the employee file with a purpose that is empty
-        makeRequest(eve, configuration.getFilename(), "");
-
-        System.exit(0);
+        makeRequest(eve, employeeFile, "");
     }
 }
