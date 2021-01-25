@@ -19,5 +19,5 @@ example:
 
 web:
   client:
-    palisade-service: "http://localhost:8084"
-    data-service: "http://localhost:8082"
+    palisade-service: "localhost:8084"
+    filtered-resource-service: "localhost:8092"

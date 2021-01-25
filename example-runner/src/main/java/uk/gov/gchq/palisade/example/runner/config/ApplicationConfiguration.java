@@ -16,94 +16,92 @@
 
 package uk.gov.gchq.palisade.example.runner.config;
 
+import akka.actor.ActorSystem;
+import akka.stream.Materializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import uk.gov.gchq.palisade.example.runner.client.ExampleSimpleClient;
+import uk.gov.gchq.palisade.client.akka.AkkaClient;
+import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
+import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.runner.runner.BulkTestExample;
+import uk.gov.gchq.palisade.example.runner.runner.CommandLineExample;
 import uk.gov.gchq.palisade.example.runner.runner.RestExample;
 import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
 
-import static java.util.Objects.requireNonNull;
-
 @Configuration
+@EnableConfigurationProperties
 public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
-    @Value("${example.directory:#{null}}")
-    private String directory;
-    @Value("${example.shouldCreate:#{null}}")
-    private Boolean shouldCreate;
-    @Value("${example.shouldDelete:#{null}}")
-    private Boolean shouldDelete;
-    @Value("${example.quantity:#{null}}")
-    private Integer quantity;
-    @Value("${example.userid:#{null}}")
-    private String userId;
-    @Value("${example.filename:#{null}}")
-    private String filename;
-    @Value("${example.purpose:#{null}}")
-    private String purpose;
 
-    @ConditionalOnProperty(name = "example.type", havingValue = "bulk")
-    @Bean("BulkExample")
-    public BulkTestExample bulkExample(final RestExample client) {
-        LOGGER.debug("Constructed BulkExample");
-        return new BulkTestExample(client, shouldCreate, shouldDelete);
+
+    @Bean
+    ActorSystem actorSystem() {
+        return ActorSystem.create("palisade-client");
     }
 
-    @Bean("RestExample")
-    public RestExample restExample(final ExampleSimpleClient client) {
-        LOGGER.debug("Constructed RestExample");
-        return new RestExample(client);
+    @Bean
+    AkkaClient client(final @Value("${web.client.palisade-service}") String palisadeService,
+                      final @Value("${web.client.filtered-resource-service}") String filteredResourceService,
+                      final ActorSystem actorSystem) {
+        return new AkkaClient(palisadeService, filteredResourceService, actorSystem);
     }
 
-    @ConditionalOnBean(value = BulkTestExample.class)
-    @Bean("BulkRunner")
-    public CommandLineRunner bulkRunner(final BulkTestExample bulkTestExample) {
-        requireNonNull(directory, "--example.directory=... must be provided");
-        requireNonNull(quantity, "--example.quantity=... must be provided");
-        LOGGER.info("Constructed BulkRunner");
-        return args -> {
-            bulkTestExample.run(directory, quantity);
-            System.exit(0);
-        };
+    @Bean
+    AkkaClientWrapper<Employee> simpleClientWrapper(final AkkaClient client, final ActorSystem actorSystem) {
+        return new AkkaClientWrapper<>(client, new AvroSerialiser<>(Employee.class), Materializer.createMaterializer(actorSystem));
     }
 
-    @ConditionalOnProperty(name = "example.type", havingValue = "client", matchIfMissing = true)
-    @Bean("ClientRunner")
-    public CommandLineRunner clientRunner(final ExampleSimpleClient exampleClient) {
-        requireNonNull(filename, "--example.filename=... must be provided");
-        requireNonNull(userId, "--example.userid=... must be provided");
-        requireNonNull(purpose, "--example.purpose=... must be provided");
-        LOGGER.info("Constructed ClientRunner");
-        return args -> {
-            exampleClient.run(filename, userId, purpose);
-            System.exit(0);
-        };
-    }
-
+    @Bean
     @ConditionalOnProperty(name = "example.type", havingValue = "rest")
-    @Bean("RestRunner")
-    public CommandLineRunner restRunner(final RestExample restExample) {
-        requireNonNull(filename, "--example.filename=... must be provided");
-        LOGGER.info("Constructed RestRunner");
-        return args -> {
-            restExample.run(filename);
-            System.exit(0);
-        };
+    @ConfigurationProperties(prefix = "example")
+    RestConfiguration restExampleConfiguration() {
+        return new RestConfiguration();
+    }
+
+    @Bean
+    @ConditionalOnBean(RestConfiguration.class)
+    CommandLineRunner restExample(final RestConfiguration configuration, final AkkaClientWrapper<Employee> client) {
+        LOGGER.debug("Constructed RestExample");
+        return new RestExample(configuration, client);
+    }
+
+
+    @Bean
+    @ConditionalOnProperty(name = "example.type", havingValue = "bulk")
+    @ConfigurationProperties(prefix = "example")
+    BulkConfiguration bulkExampleConfiguration() {
+        return new BulkConfiguration();
+    }
+
+    @Bean
+    @ConditionalOnBean(BulkConfiguration.class)
+    CommandLineRunner restExample(final BulkConfiguration configuration, final AkkaClientWrapper<Employee> client) {
+        LOGGER.debug("Constructed RestExample");
+        return new BulkTestExample(configuration, client);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "example.type", havingValue = "cli")
+    @ConditionalOnMissingBean(CommandLineRunner.class)
+    CommandLineRunner commandLineExample(final AkkaClientWrapper<Employee> client) {
+        return new CommandLineExample(client);
     }
 
     @Bean
     @Primary
-    public ObjectMapper jacksonObjectMapper() {
+    ObjectMapper jacksonObjectMapper() {
         return JSONSerialiser.createDefaultMapper();
     }
 }
