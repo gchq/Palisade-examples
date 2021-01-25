@@ -16,48 +16,45 @@
 
 package uk.gov.gchq.palisade.example.runner.runner;
 
+import akka.Done;
+import akka.stream.javadsl.Sink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 
 import uk.gov.gchq.palisade.example.hrdatagenerator.CreateData;
+import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.example.library.common.Purpose;
+import uk.gov.gchq.palisade.example.runner.config.AkkaClientWrapper;
+import uk.gov.gchq.palisade.example.runner.config.BulkConfiguration;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * A class to test if the Palisade data path can handle retrieving many thousands of resources in a single request. This class
  * will create the given number of resources in the examples/resources/data directory and then try to retrieve them.
  */
-public final class BulkTestExample {
+public final class BulkTestExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(BulkTestExample.class);
     private static final Integer NUMBER_OF_EMPLOYEES = 10;
-    private static final Integer NUMBER_OF_FILES = 1;
     /**
      * Set by the destruct method to ensure this doesn't happen via a shutdown thread as well.
      */
     private static final AtomicBoolean HAS_DESTRUCTION_OCCURRED = new AtomicBoolean(false);
-    private final RestExample client;
-    private final boolean shouldCreate;
-    private final boolean shouldDelete;
 
-    /**
-     * Default constructor wrapping a RestExample object
-     *
-     * @param restExample the existing rest client and configuration to wrap for bulk-testing
-     * @param shouldCreate true if the directory is empty and therefore the data needs creating
-     * @param shouldDelete true if you want the data to be deleted after the test has run
-     */
-    public BulkTestExample(final RestExample restExample, final Boolean shouldCreate, final Boolean shouldDelete) {
-        this.client = restExample;
-        this.shouldCreate = requireNonNull(shouldCreate);
-        this.shouldDelete = requireNonNull(shouldDelete);
+    private final BulkConfiguration configuration;
+    private final AkkaClientWrapper<Employee> client;
+
+    public BulkTestExample(final BulkConfiguration configuration, final AkkaClientWrapper<Employee> client) {
+        this.configuration = configuration;
+        this.client = client;
     }
 
     /**
@@ -117,20 +114,18 @@ public final class BulkTestExample {
      * Create the bulk data directory. This will move any existing directory to a different name by adding ".spare" to the
      * end of the name.
      *
-     * @param directory the directory to create files in
-     * @param numCopies the number of resources to create
      * @throws IOException for any file system error
      */
-    private static void createBulkData(final String directory, final int numCopies) throws IOException {
-        Path dir = Paths.get(directory);
+    private void createBulkData() throws IOException {
+        Path dir = Paths.get(configuration.getDirectory());
         Path newLocation = generateNewDirectoryName(dir);
         if (Files.exists(dir) && !Files.isDirectory(dir)) {
-            throw new IllegalArgumentException(directory + " is not a directory");
+            throw new IllegalArgumentException(configuration.getDirectory() + " is not a directory");
         }
         moveDataDir(dir, newLocation);
 
         //call the HR Data generator
-        CreateData.main(directory, NUMBER_OF_EMPLOYEES.toString(), NUMBER_OF_FILES.toString());
+        CreateData.main(configuration.getDirectory(), NUMBER_OF_EMPLOYEES.toString(), configuration.getQuantity().toString());
 
         //check for existence of the file we need
         Path startFile = dir.resolve("employee_file0.avro");
@@ -139,7 +134,7 @@ public final class BulkTestExample {
         }
 
         //copy the files out n times
-        cloneFiles(numCopies, startFile);
+        cloneFiles(configuration.getCopies(), startFile);
     }
 
     /**
@@ -197,27 +192,30 @@ public final class BulkTestExample {
     /**
      * The runner method to run a test of how many resources/files can be read in a single request
      *
-     * @param directory    the directory to create files in
-     * @param numCopies    the number of resources to create
+     * @param args command-line arguments
      * @throws IOException for any file system error
      */
-    public void run(final String directory, final Integer numCopies) throws IOException {
+    public void run(final String... args) throws IOException {
         // Ensure we clean up if a SIGTERM occurs
-        configureShutdownHook(shouldDelete, directory);
+        configureShutdownHook(configuration.getShouldDelete(), configuration.getDirectory());
 
         // Create some bulk data (unless flag set)
         try {
-            if (shouldCreate) {
-                createBulkData(directory, numCopies);
+            if (configuration.getShouldCreate()) {
+                createBulkData();
             }
 
             // Run example
-            client.run(directory);
+            client.<CompletionStage<Done>>execute("Alice", configuration.getDirectory(), Purpose.SALARY.name())
+                    .apply(Sink.foreach(record -> LOGGER.info("{}", record)))
+                    .toCompletableFuture().join();
 
         } finally {
-            if (shouldDelete) {
-                removeBulkData(directory);
+            if (configuration.getShouldDelete()) {
+                removeBulkData(configuration.getDirectory());
             }
         }
+
+        System.exit(0);
     }
 }

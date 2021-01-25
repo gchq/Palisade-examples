@@ -13,15 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.gov.gchq.palisade.example.runner;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+package uk.gov.gchq.palisade.example.runner.config;
 
-@SpringBootApplication
-public class ExampleApplication {
+import uk.gov.gchq.palisade.Generated;
 
-    public static void main(final String[] args) {
-        new SpringApplicationBuilder(ExampleApplication.class).run(args);
+import java.util.Optional;
+
+public class RestConfiguration {
+    private String filename;
+
+    @Generated
+    public String getFilename() {
+        return filename;
+    }
+
+    @Generated
+    public void setFilename(final String filename) {
+        this.filename = Optional.ofNullable(filename)
+                .orElseThrow(() -> new IllegalArgumentException("filename cannot be null"));
     }
 }

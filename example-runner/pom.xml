@@ -31,29 +31,33 @@
 
     <dependencies>
         <dependency>
+            <!-- Spring Boot DI -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
+            <!-- Palisade client implementation -->
+            <groupId>uk.gov.gchq.palisade</groupId>
+            <artifactId>client-akka</artifactId>
+            <version>0.5.0-${clients.revision}</version>
+        </dependency>
+        <dependency>
+            <!-- User, Resource, Context types -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
             <version>0.5.0-${common.revision}</version>
         </dependency>
         <dependency>
+            <!-- Employee datatype -->
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>clients-simple</artifactId>
-            <version>0.5.0-${clients.revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-library</artifactId>
+            <artifactId>hr-data-generator</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <!-- Resource request pre-population -->
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>example-library</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 

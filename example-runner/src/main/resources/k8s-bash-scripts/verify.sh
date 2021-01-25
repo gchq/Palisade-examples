@@ -18,7 +18,7 @@ FILE=./exampleOutput.txt
 
 if [ -f $FILE ]; then
   num=$(wc -l $FILE | awk '{ print $1 }')
-  expected=764
+  expected=509
 
   # check the length of the exampleOutput text file and pass if it's the expected number of lines
   if [ $num == $expected ]; then
