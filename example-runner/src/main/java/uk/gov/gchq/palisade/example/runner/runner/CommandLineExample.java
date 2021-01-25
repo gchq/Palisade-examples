@@ -49,7 +49,7 @@ public class CommandLineExample implements CommandLineRunner {
             String fileName = args[FILENAME_ARGS];
             String purpose = args[PURPOSE_ARGS];
 
-            this.client.run(userId, fileName, purpose);
+            this.client.execute(userId, fileName, purpose);
 
             System.exit(0);
         } catch (IndexOutOfBoundsException ex) {

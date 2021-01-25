@@ -16,6 +16,8 @@
 
 package uk.gov.gchq.palisade.example.runner.runner;
 
+import akka.Done;
+import akka.stream.javadsl.Sink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -31,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -203,7 +206,9 @@ public final class BulkTestExample implements CommandLineRunner {
             }
 
             // Run example
-            client.run("Alice", configuration.getDirectory(), Purpose.SALARY.name());
+            client.<CompletionStage<Done>>execute("Alice", configuration.getDirectory(), Purpose.SALARY.name())
+                    .apply(Sink.foreach(record -> LOGGER.info("{}", record)))
+                    .toCompletableFuture().join();
 
         } finally {
             if (configuration.getShouldDelete()) {

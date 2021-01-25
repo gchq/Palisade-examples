@@ -32,11 +32,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class AkkaClientWrapper<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AkkaClientWrapper.class);
-
     private final AkkaClient client;
     private final Serialiser<T> serialiser;
     private final Materializer materializer;
@@ -47,12 +46,11 @@ public class AkkaClientWrapper<T> {
         this.materializer = materializer;
     }
 
-    public void run(final String userId, final String fileName, final String purpose) {
+    public <M> Function<Sink<T, M>, M> execute(final String userId, final String fileName, final String purpose) {
         String token = this.register(userId, fileName, purpose).toCompletableFuture().join();
         Source<LeafResource, NotUsed> resources = this.fetch(token);
         Source<T, NotUsed> records = resources.flatMapConcat(resource -> Source.fromJavaStream(() -> this.read(token, resource)));
-        records.runWith(Sink.foreach(record -> LOGGER.info("{}", record)), materializer)
-                .toCompletableFuture().join();
+        return sink -> records.runWith(sink, materializer);
     }
 
     public CompletionStage<String> register(final String userId, final String fileName, final String purpose) {

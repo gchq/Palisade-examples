@@ -16,6 +16,8 @@
 
 package uk.gov.gchq.palisade.example.runner.runner;
 
+import akka.Done;
+import akka.stream.javadsl.Sink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +28,7 @@ import uk.gov.gchq.palisade.example.runner.config.AkkaClientWrapper;
 import uk.gov.gchq.palisade.example.runner.config.RestConfiguration;
 
 import java.io.IOException;
+import java.util.concurrent.CompletionStage;
 
 public class RestExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
@@ -42,7 +45,9 @@ public class RestExample implements CommandLineRunner {
         LOGGER.info("");
         LOGGER.info("'{}' is reading '{}' with a purpose of '{}'...", userId, fileName, purpose);
         LOGGER.info("'{}' got back: ", userId);
-        client.run(userId, fileName, purpose);
+        client.<CompletionStage<Done>>execute(userId, fileName, purpose)
+                .apply(Sink.foreach(record -> LOGGER.info("{}", record)))
+                .toCompletableFuture().join();
     }
 
     /**
