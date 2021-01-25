@@ -15,7 +15,7 @@
 
 example:
   directory: "/data/local-data-store/"
-  filename: "/data/local-data-store/"
+  filename: "/data/local-data-store/employee_file0.avro"
 
 web:
   client:
