@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.global.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.global.repository }}/{{ .Values.image.name }}:{{ .Values.image.base }}-{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         # keep the pod alive, but don't do anything - waiting for a kubectl exec on this pod
         command: [ "/bin/bash", "-c", "--" ]
