@@ -61,7 +61,7 @@ public class BulkConfiguration {
     }
 
     @Generated
-    public boolean getShouldCreate() {
+    public boolean isShouldCreate() {
         return shouldCreate;
     }
 
@@ -71,7 +71,7 @@ public class BulkConfiguration {
     }
 
     @Generated
-    public boolean getShouldDelete() {
+    public boolean isShouldDelete() {
         return shouldDelete;
     }
 

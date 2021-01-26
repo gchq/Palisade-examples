@@ -197,11 +197,11 @@ public final class BulkTestExample implements CommandLineRunner {
      */
     public void run(final String... args) throws IOException {
         // Ensure we clean up if a SIGTERM occurs
-        configureShutdownHook(configuration.getShouldDelete(), configuration.getDirectory());
+        configureShutdownHook(configuration.isShouldDelete(), configuration.getDirectory());
 
         // Create some bulk data (unless flag set)
         try {
-            if (configuration.getShouldCreate()) {
+            if (configuration.isShouldCreate()) {
                 createBulkData();
             }
 
@@ -211,7 +211,7 @@ public final class BulkTestExample implements CommandLineRunner {
                     .toCompletableFuture().join();
 
         } finally {
-            if (configuration.getShouldDelete()) {
+            if (configuration.isShouldDelete()) {
                 removeBulkData(configuration.getDirectory());
             }
         }
