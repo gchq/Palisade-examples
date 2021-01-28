@@ -1,4 +1,4 @@
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,9 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-apiVersion: v2
-appVersion: "1.0"
-description: A Helm chart to mount the jars required by the example
-name: deploy-example-jars
-version: 0.5.0
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: palisade:delete-pods
+  namespace: {{ include "palisade.namespace" . }}
+subjects:
+- kind: ServiceAccount
+  name: kubectl-delete-pods
+roleRef:
+  kind: Role
+  name: delete-pods
+  apiGroup: rbac.authorization.k8s.io

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ FILE=./exampleOutput.txt
 
 if [ -f $FILE ]; then
   num=$(wc -l $FILE | awk '{ print $1 }')
-  expected=764
+  expected=509
 
   # check the length of the exampleOutput text file and pass if it's the expected number of lines
   if [ $num == $expected ]; then

@@ -1,4 +1,4 @@
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,10 +39,6 @@ global:
   # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
   repository: palisade
 
-  kafka:
-    # install: install kafka streaming platform
-    install: false
-
   # persistent-volume and associated claims configurations
   # guarantee the data we are expecting is mounted appropriately
   persistence:
@@ -56,6 +52,12 @@ global:
       palisade-data-store:
         local:
           hostPath: "./resources/data"
+
+    redisMaster.local.hostPath: "/data"
+    redisSlave.local.hostPath: "/data"
+    redisCluster.local.hostPath: "/data"
+    kafka.local.hostPath: "/data"
+    zookeeper.local.hostPath: "/data"
 
   # must be last for file to be appended with addresses
   globalIPAddresses:

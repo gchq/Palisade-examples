@@ -1,4 +1,4 @@
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,27 +18,8 @@ spring:
     name: example-runner
   main:
     allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-eureka:
-  client:
-    enabled: false
-
-server:
-  port: 0
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 3600000
-        loggerLevel: basic
-    default-config: default
 
 web:
   client:
-    palisade-service: "http://localhost:8084"
+    palisade-service: "localhost:8084"
+    filtered-resource-service: "localhost:8092"

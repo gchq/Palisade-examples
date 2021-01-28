@@ -1,5 +1,4 @@
-#!/bin/bash
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,10 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-mkdir -p /usr/share/deployment/classpath/example
-cp -r /usr/share/example-jars /usr/share/deployment/classpath/example
-echo "Copied example-jars to /usr/share/deployment/classpath/example"
-cp -r /usr/share/example-data/resources/data/employee_file0.avro /data/local-data-store
-cp -r /usr/share/example-data/resources/data/employee_file1.avro /data/local-data-store
-echo "Copied example-data to /data/local-data-store"
+#
+apiVersion: v2
+appVersion: "1.0"
+description: A Helm chart to mount the jars required by the example
+name: deployment
+version: 0.5.0

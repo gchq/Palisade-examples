@@ -1,4 +1,4 @@
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,27 +17,28 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "deploy-example-jars.name" . }}
+  name: {{ include "deployment.name" . }}
   namespace: {{ include "palisade.namespace" . }}
   labels:
-    app.kubernetes.io/name: {{ include "deploy-example-jars.name" . }}
-    helm.sh/chart: {{ include "deploy-example-jars.chart" . }}
+    app.kubernetes.io/name: {{ include "deployment.name" . }}
+    helm.sh/chart: {{ include "deployment.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "1"
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-delete-policy": before-hook-creation
 spec:
   template:
     metadata:
-      name: {{ include "deploy-example-jars.name" . }}
+      name: {{ include "deployment.name" . }}
       labels:
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     spec:
       restartPolicy: Never
+      serviceAccountName: kubectl-delete-pods
       containers:
       - name: {{ .Chart.Name }}
         image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
@@ -45,16 +46,16 @@ spec:
         command: [ "/bin/bash", "/bin/copyExampleData.sh" ]
         args: [ {{ include "palisade.namespace" . | quote }} ]
         volumeMounts:
-        - name: {{ include "deploy-example-jars.deployment.fullname" . }}
-          mountPath: {{ include "deploy-example-jars.deployment.path" . }}
+        - name: {{ include "deployment.deployment.fullname" . }}
+          mountPath: {{ include "deployment.deployment.path" . }}
         {{- range $name, $value := .Values.global.persistence.dataStores }}
         - name: {{ $name }}
           mountPath: {{ $value.mountPath }}
         {{- end }}
       volumes:
-      - name: {{ include "deploy-example-jars.deployment.fullname" . }}
+      - name: {{ include "deployment.deployment.fullname" . }}
         persistentVolumeClaim:
-          claimName: {{ include "deploy-example-jars.deployment.fullname" . }}
+          claimName: {{ include "deployment.deployment.fullname" . }}
           readOnly: false
       {{- range $name, $_ := .Values.global.persistence.dataStores }}
       - name: {{ $name }}

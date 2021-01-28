@@ -1,4 +1,4 @@
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERS
       chmod +x ./kubectl && \
       mv ./kubectl /usr/local/bin/kubectl
 
-COPY target/example/ /usr/share/example-jars/
-COPY target/resources/ /usr/share/example-data/resources/
+COPY target/example /usr/share/example-jars/
+COPY target/resources /usr/share/example-data/resources/
 COPY target/scripts/copyExampleData.sh /bin/copyExampleData.sh
 RUN sed -i 's/\r$//' /bin/copyExampleData.sh
 
