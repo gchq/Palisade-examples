@@ -14,4 +14,4 @@
 #
 
 example:
-  type: client
+  type: cli

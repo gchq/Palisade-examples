@@ -11,22 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-replicaCount: 1
 
-image:
-  name: deploy-example-jars
-  tag: SNAPSHOT-1b205e7
-  pullPolicy: IfNotPresent
-
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 500Mi
-
-nodeSelector: {}
-tolerations: []
-affinity: {}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: palisade:delete-pods
+  namespace: {{ include "palisade.namespace" . }}
+subjects:
+- kind: ServiceAccount
+  name: kubectl-delete-pods
+roleRef:
+  kind: Role
+  name: delete-pods
+  apiGroup: rbac.authorization.k8s.io
