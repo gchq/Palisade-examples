@@ -16,6 +16,7 @@
 
 package uk.gov.gchq.palisade.example.perf;
 
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
@@ -27,7 +28,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class PerfApplication {
 
     public static void main(final String[] args) {
-        new SpringApplicationBuilder(PerfApplication.class).run(args);
+        new SpringApplicationBuilder(PerfApplication.class).web(WebApplicationType.NONE).run(args);
     }
 
 }

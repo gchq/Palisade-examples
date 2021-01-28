@@ -19,9 +19,6 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-server:
-  port: 0
-
 performance:
   # create|run - create test data, run tests on data
   action: run
