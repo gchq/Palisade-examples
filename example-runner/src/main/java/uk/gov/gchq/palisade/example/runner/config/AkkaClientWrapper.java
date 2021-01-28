@@ -20,6 +20,8 @@ import akka.NotUsed;
 import akka.stream.Materializer;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
@@ -34,6 +36,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class AkkaClientWrapper<T> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AkkaClientWrapper.class);
     private final AkkaClient client;
     private final Serialiser<T> serialiser;
     private final Materializer materializer;
@@ -70,6 +73,7 @@ public class AkkaClientWrapper<T> {
             try {
                 file = new File(fileName).getCanonicalFile();
             } catch (IOException ex) {
+                LOGGER.warn("Failed to get CanonicalFile for '{}', using AbsoluteFile instead", fileName, ex);
                 file = new File(fileName).getAbsoluteFile();
             }
         } else {
