@@ -1,4 +1,4 @@
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ replicaCount: 1
 
 image:
   name: deployment
-  tag: SNAPSHOT-9b7349e
+  tag: SNAPSHOT-ce4cdea
   pullPolicy: IfNotPresent
 
 resources:
