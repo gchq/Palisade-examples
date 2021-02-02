@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 
-{{- if eq .Values.global.deployment "example" }}
+{{- if or (eq .Values.global.deployment "example") (eq .Values.global.deployment "performance-test") }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -25,7 +25,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "1"
     "helm.sh/hook-delete-policy": before-hook-creation
 spec:
@@ -44,7 +44,9 @@ spec:
         image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: [ "/bin/bash", "/bin/copyExampleData.sh" ]
-        args: [ {{ include "palisade.namespace" . | quote }} ]
+        args:
+          - {{ include "palisade.namespace" . | quote }}
+          - {{ .Values.global.deployment }}
         volumeMounts:
         - name: {{ include "deployment.deployment.fullname" . }}
           mountPath: {{ include "deployment.deployment.path" . }}

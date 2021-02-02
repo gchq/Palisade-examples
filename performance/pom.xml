@@ -29,47 +29,38 @@
     <url>https://github.com/gchq/Palisade-examples/tree/develop/performance</url>
     <!--  *********** Aritfact ID ***********    -->
 
+
     <dependencies>
         <dependency>
+            <!-- Spring Boot DI -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
+            <!-- User, Resource, Context types -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
             <version>0.5.0-${common.revision}</version>
         </dependency>
         <dependency>
+            <!-- Employee datatype -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>hr-data-generator</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <!-- Resource request pre-population -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>example-library</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-runner</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>uk.gov.gchq.palisade</groupId>
+            <artifactId>client-akka</artifactId>
+            <version>0.5.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
     <profiles>

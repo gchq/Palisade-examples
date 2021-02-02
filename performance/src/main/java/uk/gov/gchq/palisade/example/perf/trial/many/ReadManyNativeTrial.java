@@ -68,7 +68,7 @@ public class ReadManyNativeTrial extends PerfTrial {
                         }
                     });
             //now read everything in each of the files
-            sink(data);
+            nativeRead(data);
         } catch (IOException ex) {
             throw new PerfException(ex);
         }

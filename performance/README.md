@@ -16,19 +16,21 @@ limitations under the License.
 
 # Performance
 
-Palisade includes a performance tool for testing some simple scenarios.
-It uses the example rules and generates some fake HR data using the [HR data generator](../hr-data-generator/README.md).
+Palisade includes a performance tool for testing some simple scenarios. It uses the example rules and generates some fake HR data using the [HR data generator](../hr-data-generator/README.md).
 
 The tool works on the following data-set sizes:
+
 * *large* - 10,000 records in a single ~20MB file resource
 * *small* - 1,000 records in a single ~2MB file resource
 * *many* - 1 record per resource, with 10,000 such unique resources
 
 Each data-set is then duplicated as the following variants:
+
 * *no-policy* - a directory with no such rules applied (in reality, a single do-nothing rule is required)
 * *with-policy* - a directory subject to a number of example rules
 
 The following trials are tested for each size and variant of data-set:
+
 * *read-native* - baseline test of a native file-read and deserialise, used for normalisation
 * *request* - test of just palisade service with no data read or deserialise, providing an indication of palisade latency
 * *read* - test of palisade and data services read, deserialise and coarse/fine-grain rule application, providing an indication of palisade overhead
@@ -37,11 +39,10 @@ The general naming scheme is "trial_size_variant".
 
 All above values and more can be tweaked through the [config yaml](src/main/resources/application.yaml).
 
-
-
 ## Usage
 
 ### Automated
+
 For an automated way to perform these tests, see the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
 
 From the Palisade-services directory, start the discovery-service:  
@@ -49,51 +50,53 @@ From the Palisade-services directory, start the discovery-service:
 
 Create some test data for the performance-test, start the palisade-services and run the performance-test:  
 `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task`
- * Services will start up with their cache/persistence-store prepopulated with example data
- * The performance-test will run once all services have started
- * Check `performance-test.log` for output data
+
+* Services will start up with their cache/persistence-store prepopulated with example data
+* The performance-test will run once all services have started
+* Check `performance-test.log` for output data
 
 Once the create-perf-data task has been run once, it does not need to be re-run:
- * If running the performance tests repeatedly, the above command can be sped up to the default configuration of:  
-   `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar`  
- * If the palisade services are also still running, the above command can be sped up again to exclude starting the already-running services:  
-   `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-test-task`  
-   Or run just the performance-test manually as below...
 
+* If running the performance tests repeatedly, the above command can be sped up to the default configuration of:  
+  `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar`
+* If the palisade services are also still running, the above command can be sped up again to exclude starting the already-running services:  
+  `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-test-task`  
+  Or run just the performance-test manually as below...
 
 ### Manual
 
 #### Creation of test data
+
 Create a collection of Employee records in the [resources directory](/resources/data)
+
 ```bash
 java -jar performance/target/performance-*-exec.jar --performance.action=create
 # or similarly
 java -Dspring.profiles.active=create -jar performance/target/performance-*-exec.jar
 ```
+
 This may take a long time to run, depending upon the requested sizes of the test data (up to 5 minutes).
 
 #### Running performance tests
-Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data.
-The profile for prepopulating the services can be found [here](../example-library/src/main/resources/application-example-perf.yaml).
+
+Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data. The profile for prepopulating the services can be
+found [here](../example-library/src/main/resources/application-example-perf.yaml).
 
 Once all services have started, run the following:
+
 ```bash
 java -jar performance/target/performance-*-exec.jar
 ```
 
-Again, this may take some time, depending upon test data size.
-Be aware of any running antivirus software that may scan files in real time - eg. McAfee will contribute a factor of ~5x slow-down to bulk file tests.
-
+Again, this may take some time, depending upon test data size. Be aware of any running antivirus software that may scan files in real time - eg. McAfee will contribute a factor of ~5x slow-down to bulk file tests.
 
 ### Analysis of results
-The tool reports several statistics, but the most useful are the norm, mean and standard deviation.
-The percentage columns are the various percentile levels.
-The "Norm" column is the normalised column, showing how long various tests took compared to reading the files natively (without Palisade).
-Reads of `large`, `small` and `many` files are normalised against their corresponding native read.
-Requests for `with-policy` are normalised against their corresponding `no-policy` requests.
 
+The tool reports several statistics, but the most useful are the norm, mean and standard deviation. The percentage columns are the various percentile levels. The "Norm" column is the normalised column, showing how long various tests took compared to
+reading the files natively (without Palisade). Reads of `large`, `small` and `many` files are normalised against their corresponding native read. Requests for `with-policy` are normalised against their corresponding `no-policy` requests.
 
-### Sample of performance test results
+### Sample of performance test results (small=1000, large=10000, many=100)
+
 | Version   | Trial Name                | # Trials | Min      | Max      | Mean     | Std.dev. | 25%      | 50%      | 75%      | 99%      | Norm
 |:----------|:--------------------------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------
 | 0.4.0 jvm | read_large_native         | 5        | 0.416    | 0.430    | 0.425    | 0.005    | 0.424    | 0.428    | 0.429    | 0.430    | 1.000
@@ -127,3 +130,19 @@ Requests for `with-policy` are normalised against their corresponding `no-policy
 |           | request_many_with_policy  | 5        | 3.215    | 7.265    | 4.572    | 1.656    | 3.298    | 3.319    | 5.762    | 7.205    | 1.273
 |           | request_small_no_policy   | 5        | 0.050    | 0.081    | 0.065    | 0.011    | 0.057    | 0.064    | 0.074    | 0.081    | 1.000
 |           | request_small_with_policy | 5        | 0.047    | 0.080    | 0.058    | 0.011    | 0.052    | 0.054    | 0.055    | 0.079    | 0.883
+|           |                           |          |          |          |          |          |          |          |          |          |
+| 0.5.0 k8s | read_large_native         | 5        | 0.534    | 0.606    | 0.572    | 0.028    | 0.555    | 0.563    | 0.603    | 0.606    | 1.000
+|           | read_large_no_policy      | 5        | 2.062    | 2.353    | 2.176    | 0.107    | 2.097    | 2.124    | 2.243    | 2.348    | 3.803
+|           | read_large_with_policy    | 5        | 1.889    | 2.428    | 2.087    | 0.181    | 2.006    | 2.055    | 2.057    | 2.413    | 3.648
+|           | read_many_native          | 5        | 0.071    | 0.331    | 0.154    | 0.094    | 0.076    | 0.137    | 0.154    | 0.324    | 1.000
+|           | read_many_no_policy       | 5        | 1.565    | 3.236    | 2.455    | 0.531    | 2.452    | 2.467    | 2.553    | 3.209    | 15.940
+|           | read_many_with_policy     | 5        | 1.354    | 1.765    | 1.538    | 0.152    | 1.412    | 1.509    | 1.652    | 1.761    | 9.989
+|           | read_small_native         | 5        | 0.063    | 0.069    | 0.066    | 0.002    | 0.066    | 0.067    | 0.067    | 0.069    | 1.000
+|           | read_small_no_policy      | 5        | 0.372    | 0.850    | 0.606    | 0.171    | 0.477    | 0.598    | 0.731    | 0.845    | 9.146
+|           | read_small_with_policy    | 5        | 0.318    | 0.471    | 0.384    | 0.059    | 0.330    | 0.366    | 0.434    | 0.469    | 5.798
+|           | request_large_no_policy   | 5        | 0.160    | 0.275    | 0.204    | 0.044    | 0.174    | 0.174    | 0.235    | 0.274    | 1.000
+|           | request_large_with_policy | 5        | 0.156    | 0.326    | 0.210    | 0.061    | 0.174    | 0.187    | 0.204    | 0.321    | 1.028
+|           | request_many_no_policy    | 5        | 0.896    | 1.646    | 1.181    | 0.257    | 1.005    | 1.158    | 1.200    | 1.628    | 1.000
+|           | request_many_with_policy  | 5        | 0.766    | 1.017    | 0.914    | 0.081    | 0.924    | 0.927    | 0.933    | 1.014    | 0.774
+|           | request_small_no_policy   | 5        | 0.159    | 0.274    | 0.195    | 0.044    | 0.165    | 0.165    | 0.214    | 0.272    | 1.000
+|           | request_small_with_policy | 5        | 0.169    | 0.319    | 0.239    | 0.054    | 0.192    | 0.252    | 0.265    | 0.317    | 1.225

@@ -18,26 +18,6 @@ spring:
     name: performance
   main:
     allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-server:
-  port: 0
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 3600000
-        loggerLevel: basic
-    default-config: default
-
-eureka:
-  client:
-    enabled: false
 
 performance:
   # create|run - create test data, run tests on data
@@ -60,7 +40,7 @@ performance:
   # number of live-runs, does count towards output results
   liveRuns: 5
   ## list of tests by name to skip
-  skipTests: []
+  skipTests: [ ]
   # user making requests
   userId: Alice
   # purpose of requests
@@ -68,4 +48,5 @@ performance:
 
 web:
   client:
-    palisade-service: "http://localhost:8084"
+    palisade-service: ""
+    filtered-resource-service: ""
