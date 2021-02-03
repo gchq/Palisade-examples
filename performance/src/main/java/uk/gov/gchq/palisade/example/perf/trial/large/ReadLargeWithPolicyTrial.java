@@ -18,12 +18,8 @@ package uk.gov.gchq.palisade.example.perf.trial.large;
 
 import org.springframework.stereotype.Component;
 
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
-
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * Test that reads the large data file from Palisade with an example policy and times entire Palisade interaction.
@@ -32,8 +28,7 @@ import java.util.stream.Stream;
 public class ReadLargeWithPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_large_with_policy";
 
-    public ReadLargeWithPolicyTrial(final Function<String, Stream<Stream<Employee>>> client) {
-        super(client);
+    public ReadLargeWithPolicyTrial() {
         normal = ReadLargeNativeTrial.NAME;
     }
 
@@ -46,9 +41,6 @@ public class ReadLargeWithPolicyTrial extends PalisadeTrial {
     }
 
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        //setup a request and read data
-        try (Stream<Stream<Employee>> data = getDataStream(fileSet.largeFile)) {
-            sink(data);
-        }
+        read(fileSet.largeFile);
     }
 }

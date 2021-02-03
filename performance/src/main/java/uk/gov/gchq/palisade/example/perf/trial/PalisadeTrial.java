@@ -16,35 +16,77 @@
 
 package uk.gov.gchq.palisade.example.perf.trial;
 
+import akka.actor.ActorSystem;
+import akka.stream.javadsl.Sink;
+import akka.stream.javadsl.Source;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.example.perf.config.AkkaClientWrapper;
+import uk.gov.gchq.palisade.example.perf.config.PerformanceConfiguration;
+import uk.gov.gchq.palisade.resource.LeafResource;
 
-import java.util.function.Function;
-import java.util.stream.Stream;
-
-import static java.util.Objects.requireNonNull;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public abstract class PalisadeTrial extends PerfTrial {
-    private Function<String, Stream<Stream<Employee>>> client;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PalisadeTrial.class);
+    private static final long TIMEOUT_SECONDS = 30;
+    private static final String TIMEOUT_MESSAGE = "Test timed out after " + TIMEOUT_SECONDS + " seconds";
 
-    /**
-     * Default constructor
-     *
-     * @param client a pre-configured client (eg. userId Alice and purpose SALARY for Employee Avro files)
-     */
-    public PalisadeTrial(final Function<String, Stream<Stream<Employee>>> client) {
-        this.client = client;
+    @Autowired
+    private AkkaClientWrapper<Employee> client;
+    @Autowired
+    private ActorSystem actorSystem;
+    @Autowired
+    private PerformanceConfiguration performanceConfiguration;
+
+    protected void read(final String fileName) {
+        Sink<Employee, CompletionStage<Long>> countingSink = Sink.fold(0L, (count, ignored) -> count + 1L);
+        CompletionStage<Long> recordCount = Source
+                .completionStage(client.register(performanceConfiguration.getUserId(), fileName, performanceConfiguration.getPurpose()))
+                .flatMapConcat(token -> client.fetch(token).zip(Source.repeat(token)))
+                .flatMapConcat(resourceTokenPair -> Source.fromJavaStream(() -> client.read(resourceTokenPair.second(), resourceTokenPair.first())))
+                .runWith(countingSink, () -> actorSystem);
+        try {
+            LOGGER.info("Sink read consumed {} records", recordCount.toCompletableFuture().get(TIMEOUT_SECONDS, TimeUnit.SECONDS));
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException | TimeoutException e) {
+            LOGGER.error(TIMEOUT_MESSAGE, e);
+        }
     }
 
-    /**
-     * Makes a request for the named resource to the given Palisade entry point. This serves to set up the system ready
-     * to read data from Palisade.
-     *
-     * @param resource the resource to request from Palisade
-     * @return data stream
-     * @throws IllegalArgumentException if {@code resourceName} is empty
-     */
-    protected Stream<Stream<Employee>> getDataStream(final String resource) {
-        requireNonNull(resource, "resourceName");
-        return client.apply(resource);
+    protected void query(final String fileName) {
+        Sink<LeafResource, CompletionStage<Long>> countingSink = Sink.fold(0L, (count, ignored) -> count + 1L);
+        CompletionStage<Long> resourceCount = Source
+                .completionStage(client.register(performanceConfiguration.getUserId(), fileName, performanceConfiguration.getPurpose()))
+                .flatMapConcat(client::fetch)
+                .runWith(countingSink, () -> actorSystem);
+        try {
+            LOGGER.info("Sink query consumed {} resources", resourceCount.toCompletableFuture().get(TIMEOUT_SECONDS, TimeUnit.SECONDS));
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException | TimeoutException e) {
+            LOGGER.error(TIMEOUT_MESSAGE, e);
+        }
+    }
+
+    protected void register(final String fileName) {
+        Sink<String, CompletionStage<Long>> countingSink = Sink.fold(0L, (count, ignored) -> count + 1L);
+        CompletionStage<Long> tokenCount = Source
+                .completionStage(client.register(performanceConfiguration.getUserId(), fileName, performanceConfiguration.getPurpose()))
+                .runWith(countingSink, () -> actorSystem);
+        try {
+            LOGGER.info("Sink register consumed {} tokens", tokenCount.toCompletableFuture().get(TIMEOUT_SECONDS, TimeUnit.SECONDS));
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException | TimeoutException e) {
+            LOGGER.error(TIMEOUT_MESSAGE, e);
+        }
     }
 }

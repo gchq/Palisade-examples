@@ -12,11 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-FILE=performance/target/performance-*-exec.jar
+JARFILE=./performance.jar
+
 # Create the perf-test dataset
-if [ -f $FILE ]; then
-  java -jar $FILE --performance.action=create
+if [ -f $JARFILE ]; then
+  java -jar $JARFILE --performance.action=create
 else
   echo "Cannot find performance-<version>-exec.jar - have you run 'mvn install'?"
 fi
