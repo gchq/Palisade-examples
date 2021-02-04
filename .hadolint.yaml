@@ -1,4 +1,4 @@
-# Copyright 2018-2021 Crown Copyright
+# Copyright 2020 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,27 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-replicaCount: 1
 
-service:
-  port: 80
-  type: ClusterIP
+#For List of rules to ignore see: https://github.com/hadolint/hadolint#rules
+#and add in this format: - DL3000
+ignored:
+- DL3006
 
-image:
-  name: @artifactId@
-  base: @dockerfile.base.tag@
-  tag: @revision@-@git.commit.id.abbrev@
-  pullPolicy: IfNotPresent
-  codeRelease: @project.parent.version@
-
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 500Mi
-
-nodeSelector: { }
-tolerations: [ ]
-affinity: { }
+trustedRegistries:
+- docker.io

@@ -21,9 +21,7 @@ import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.rule.Rule;
 
-import java.io.Serializable;
-
-public class EmployeePassThroughRule implements Serializable, Rule<Employee> {
+public class EmployeePassThroughRule implements Rule<Employee> {
     private static final long serialVersionUID = 1L;
 
     public Employee apply(final Employee record, final User user, final Context context) {
