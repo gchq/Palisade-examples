@@ -33,8 +33,6 @@ if [ -d $DIR ]; then
       cat audit-service-example.log
       echo "*** data-service-example.log"
       cat data-service-example.log
-      echo "*** discovery-service.log"
-      cat discovery-service.log
       echo "*** palisade-service-example.log"
       cat palisade-service-example.log
       echo "*** policy-service-example.log"
