@@ -29,6 +29,13 @@ To run the example locally in JVMs, follow these steps (running commands from th
 
 ## Prerequisites
 
+1. Start **Kafka** and **Redis** on localhost using default ports by your preferred means:
+   * Try the [docker-compose](./docker-compose.yaml) file if you have docker available - `docker-compose -f ./docker-compose.yml up`  
+     ***or***
+   * Kafka must be listening to `http://localhost:9092`, see the [Kafka Quickstart Guide](https://kafka.apache.org/quickstart)
+   * Redis must be listening to `http://localhost:6379`, see the [Redis Quickstart Guide](https://redis.io/topics/quickstart)
+
+
 1. Do a Maven Install for each cloned repo:
    ```bash
     >> ls
