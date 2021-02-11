@@ -67,7 +67,9 @@ To run the example locally in JVMs, follow these steps (running commands from th
      drwxrwxrwx user-service
    ```
 
-## Running using the Bash Scripts
+## Running the Examples
+
+### Running using the Bash Scripts
 
 The above steps can be automated using the provided , all of which are intended to be run from the Palisade-examples root directory:
 
@@ -90,26 +92,28 @@ The above steps can be automated using the provided , all of which are intended 
 
 1. Run one or more of the available scripts.
 
-   To run the example and verify its output:
-   ```bash
-   deployment/local-jvm/example-runner/startServices.sh
-   deployment/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
-   deployment/local-jvm/example-runner/verify.sh
-   deployment/local-jvm/example-runner/stopServices.sh
-   ```
-   
-   To run the performance tests:
-   ```bash
-   deployment/local-jvm/performance/startServices.sh
-   deployment/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
-   deployment/local-jvm/performance/stopServices.sh
-   ```
+#### Rest Example ([example-runner](../../example-runner/README.md))
+To run the example and verify its output, use the [local-jvm example-runner scripts](./example-runner):
+```bash
+deployment/local-jvm/example-runner/startServices.sh
+deployment/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+deployment/local-jvm/example-runner/verify.sh
+deployment/local-jvm/example-runner/stopServices.sh
+```
+
+#### Performance Tests ([performance](../../performance/README.md))
+To run the performance tests, use the [local-jvm performance scripts](./performance):
+```bash
+deployment/local-jvm/performance/startServices.sh
+deployment/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+deployment/local-jvm/performance/stopServices.sh
+```
 
 
-## Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
+### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
 See the [services-manager/README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
-### Rest Example ([example-runner](../../example-runner/README.md))
+#### Rest Example ([example-runner](../../example-runner/README.md))
 When using the services manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
 
 1. Start the palisade services and run the example using the services manager.
@@ -150,7 +154,7 @@ When using the services manager, follow these steps (running commands from anywh
    >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```
 
-### Performance Tests ([performance](../../performance/README.md))
+#### Performance Tests ([performance](../../performance/README.md))
 Run as above, but substitute using the `example-runner` profile for the `example-perf` profile
 
 1. Create the performance test data, start the palisade services and run the performance tests using the services manager.
@@ -186,7 +190,6 @@ Run as above, but substitute using the `example-runner` profile for the `example
    - resource-service
    - topic-offset-service
    - user-service
-
 
 1. Stop the services.
     

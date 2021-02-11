@@ -17,7 +17,7 @@
 FILE=example-runner/target/example-runner-*-exec.jar
 # Run the rest example
 if [ -f $FILE ]; then
-  java -Dspring.profiles.active=rest,static,debug -jar $FILE
+  java -Dspring.profiles.active=rest,static -jar $FILE
 else
   echo "Cannot find example-runner-<version>-exec.jar - have you run 'mvn install'?"
 fi
