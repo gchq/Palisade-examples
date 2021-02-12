@@ -53,9 +53,9 @@ global:
         local:
           hostPath: "./resources/data"
 
-    redisMaster.local.hostPath: "/data"
-    redisSlave.local.hostPath: "/data"
-    redisCluster.local.hostPath: "/data"
+    redis-master.local.hostPath: "/data"
+    redis-slave.local.hostPath: "/data"
+    redis-cluster.local.hostPath: "/data"
     kafka.local.hostPath: "/data"
     zookeeper.local.hostPath: "/data"
 
