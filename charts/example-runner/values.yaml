@@ -21,7 +21,7 @@ service:
 image:
   name: example-runner
   base: jdk
-  tag: SNAPSHOT-a96e36c
+  tag: SNAPSHOT-c61643e
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 
