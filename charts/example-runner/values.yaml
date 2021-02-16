@@ -20,8 +20,8 @@ service:
 
 image:
   name: example-runner
-  base: jre
-  tag: SNAPSHOT-1c92114
+  base: jdk
+  tag: SNAPSHOT-a96e36c
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 

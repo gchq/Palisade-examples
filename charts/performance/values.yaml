@@ -20,7 +20,8 @@ service:
 
 image:
   name: performance
-  tag: SNAPSHOT-ce4cdea
+  base: jdk
+  tag: SNAPSHOT-a96e36c
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 
