@@ -176,7 +176,7 @@ Run as above, but substitute using the `example-runner` profile for the `example
    - topic-offset-service
    - user-service
 
-1. The performance runner (in particular, with the *eureka* profile from the *application-eureka.yaml*) will be run immediately afterwards
+1. The performance runner will be run immediately afterwards
     * The stdout will by default be stored in `Palisade-services/performance-test.log`.  
 
    There will briefly be 10 JVM instances running during the performance-test:
