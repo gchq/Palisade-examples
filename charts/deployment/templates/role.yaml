@@ -17,6 +17,8 @@ kind: Role
 metadata:
   name: delete-pods
   namespace: {{ include "palisade.namespace" . }}
+  annotations:
+    "helm.sh/hook": "pre-install"
 rules:
 - apiGroups: [""]
   resources:

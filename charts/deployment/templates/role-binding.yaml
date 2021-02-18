@@ -17,6 +17,8 @@ kind: RoleBinding
 metadata:
   name: palisade:delete-pods
   namespace: {{ include "palisade.namespace" . }}
+  annotations:
+    "helm.sh/hook": "pre-install"
 subjects:
 - kind: ServiceAccount
   name: kubectl-delete-pods
