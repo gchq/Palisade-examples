@@ -58,31 +58,31 @@ public class RestExample implements CommandLineRunner {
      */
     @Override
     public void run(final String... args) throws IOException {
-        final String alice = "Alice";
-        final String bob = "Bob";
-        final String eve = "Eve";
+        final String ALICE = "Alice";
+        final String BOB = "Bob";
+        final String EVE = "Eve";
 
-        final String salary = Purpose.SALARY.name();
-        final String dutyOfCare = Purpose.DUTY_OF_CARE.name();
-        final String staffReport = Purpose.STAFF_REPORT.name();
+        final String SALARY = Purpose.SALARY.name();
+        final String DUTYOFCARE = Purpose.DUTY_OF_CARE.name();
+        final String STAFFREPORT = Purpose.STAFF_REPORT.name();
 
         //Alice is reading the employee file with a purpose of SALARY
-        makeRequest(alice, configuration.getFilename(), salary);
+        makeRequest(ALICE, configuration.getFilename(), SALARY);
 
         //Alice is reading the employee file with a purpose of DUTY OF CARE
-        makeRequest(alice, configuration.getFilename(), dutyOfCare);
+        makeRequest(ALICE, configuration.getFilename(), DUTYOFCARE);
 
         //Alice is reading the employee file with a purpose of STAFF REPORT
-        makeRequest(alice, configuration.getFilename(), staffReport);
+        makeRequest(ALICE, configuration.getFilename(), STAFFREPORT);
 
         //Bob is reading the employee file with a purpose of DUTY OF CARE
-        makeRequest(bob, configuration.getFilename(), dutyOfCare);
+        makeRequest(BOB, configuration.getFilename(), DUTYOFCARE);
 
         //Bob is reading the employee file with a purpose that is empty
-        makeRequest(bob, configuration.getFilename(), "");
+        makeRequest(BOB, configuration.getFilename(), "");
 
         //Eve is reading the employee file with a purpose that is empty
-        makeRequest(eve, configuration.getFilename(), "");
+        makeRequest(EVE, configuration.getFilename(), "");
 
         System.exit(0);
     }
