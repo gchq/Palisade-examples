@@ -58,12 +58,15 @@ To run the example locally in JVMs, follow these steps (running commands from th
       drwxrwxrwx Palisade-examples
    >> cd Palisade-services
    >> ls
+     drwxrwxrwx attribute-masking-service
      drwxrwxrwx audit-service
      drwxrwxrwx data-service
+     drwxrwxrwx filtered-resource-service
      drwxrwxrwx palisade-service
      drwxrwxrwx policy-service
      drwxrwxrwx resource-service
      drwxrwxrwx services-manager
+     drwxrwxrwx topic-offset-service
      drwxrwxrwx user-service
    ```
 

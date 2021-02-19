@@ -29,16 +29,22 @@ if [ -d $DIR ]; then
       echo "*** exampleOutput.txt"
       cat $FILE
       cd $DIR
+      echo "*** attribute-masking-service-example.log"
+      cat attribute-masking-service-example.log
       echo "*** audit-service-example.log"
       cat audit-service-example.log
       echo "*** data-service-example.log"
       cat data-service-example.log
+      echo "*** filtered-resource-service-example.log"
+      cat filtered-resource-service-example.log
       echo "*** palisade-service-example.log"
       cat palisade-service-example.log
       echo "*** policy-service-example.log"
       cat policy-service-example.log
       echo "*** resource-service-example.log"
       cat resource-service-example.log
+      echo "*** topic-offset-service-example.log"
+      cat topic-offset-service-example.log
       echo "*** user-service-example.log"
       cat user-service-example.log
       echo "ERROR - Number of lines was not $expected but was: $num"

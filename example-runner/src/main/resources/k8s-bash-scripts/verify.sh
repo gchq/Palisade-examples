@@ -26,16 +26,22 @@ if [ -f $FILE ]; then
   else
     echo "*** exampleOutput.txt"
     cat $FILE
+    echo "*** pod/attribute-masking-service"
+    kubectl logs $(kubectl get pods | awk '/attribute-masking-service/ {print $1}')
     echo "*** pod/audit-service"
     kubectl logs $(kubectl get pods | awk '/audit-service/ {print $1}')
     echo "*** pod/data-service"
     kubectl logs $(kubectl get pods | awk '/data-service/ {print $1}')
+    echo "*** pod/filtered-resource-service"
+    kubectl logs $(kubectl get pods | awk '/filtered-resource-service/ {print $1}')
     echo "*** pod/palisade-service"
     kubectl logs $(kubectl get pods | awk '/palisade-service/ {print $1}')
     echo "*** pod/policy-service"
     kubectl logs $(kubectl get pods | awk '/policy-service/ {print $1}')
     echo "*** pod/resource-service"
     kubectl logs $(kubectl get pods | awk '/resource-service/ {print $1}')
+    echo "*** pod/topic-offset-service"
+    kubectl logs $(kubectl get pods | awk '/topic-offset-service/ {print $1}')
     echo "*** pod/user-service"
     kubectl logs $(kubectl get pods | awk '/user-service/ {print $1}')
     echo "ERROR - Number of lines was not $expected but was: $num"
