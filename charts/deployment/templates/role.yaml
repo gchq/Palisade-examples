@@ -18,7 +18,7 @@ metadata:
   name: delete-pods
   namespace: {{ include "palisade.namespace" . }}
   annotations:
-    "helm.sh/hook": "pre-install"
+    "helm.sh/hook": pre-install,pre-upgrade
 rules:
 - apiGroups: [""]
   resources:

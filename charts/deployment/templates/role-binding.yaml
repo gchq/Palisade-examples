@@ -18,7 +18,7 @@ metadata:
   name: palisade:delete-pods
   namespace: {{ include "palisade.namespace" . }}
   annotations:
-    "helm.sh/hook": "pre-install"
+    "helm.sh/hook": pre-install,pre-upgrade
 subjects:
 - kind: ServiceAccount
   name: kubectl-delete-pods
