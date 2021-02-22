@@ -16,9 +16,6 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.UserId;
@@ -34,8 +31,6 @@ import java.util.Set;
 import static java.util.Objects.requireNonNull;
 
 public class DutyOfCareRule implements Rule<Employee> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DutyOfCareRule.class);
-
     public DutyOfCareRule() {
     }
 
@@ -47,8 +42,6 @@ public class DutyOfCareRule implements Rule<Employee> {
     }
 
     public Employee apply(final Employee record, final User user, final Context context) {
-        LOGGER.warn("\n\t Employee: {} \n\t User: {} \n\t Context: {}", record, user, context);
-
         if (null == record) {
             return null;
         }
@@ -61,13 +54,10 @@ public class DutyOfCareRule implements Rule<Employee> {
         Manager[] managers = record.getManager();
 
         if (roles.contains(Role.HR.name()) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
-            LOGGER.warn("Is HR and duty of care");
             return record;
         } else if (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
-            LOGGER.warn("Is manager and duty of care");
             return record;
         } else {
-            LOGGER.warn("Redact as neither prereqs apply");
             return redactRecord(record);
         }
     }
