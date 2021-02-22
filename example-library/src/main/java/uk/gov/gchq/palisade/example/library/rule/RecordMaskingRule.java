@@ -16,6 +16,9 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.UserId;
@@ -29,6 +32,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class RecordMaskingRule implements Rule<Employee> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecordMaskingRule.class);
 
     public RecordMaskingRule() {
     }
@@ -42,6 +46,7 @@ public class RecordMaskingRule implements Rule<Employee> {
     }
 
     public Employee apply(final Employee record, final User user, final Context context) {
+        LOGGER.warn("\n\t Employee: {} \n\t User: {} \n\t Context: {}", record, user, context);
 
         Objects.requireNonNull(user);
         Objects.requireNonNull(context);
@@ -50,15 +55,18 @@ public class RecordMaskingRule implements Rule<Employee> {
         Set<String> roles = user.getRoles();
 
         if (roles.contains(Role.HR.name())) {
+            LOGGER.warn("Is HR");
+            return record;
+        }
+        if (EmployeeUtils.isManager(managers, userId)) {
+            LOGGER.warn("Is manager");
             return record;
         }
         if (roles.contains(Role.ESTATES.name())) {
+            LOGGER.warn("Is estates");
             return estatesRedactRecord(record);
         }
-        if (EmployeeUtils.isManager(managers, userId)) {
-            return record;
-        } else {
-            return null;
-        }
+        LOGGER.warn("Redact ENTIRE RECORD as no prereqs apply");
+        return null;
     }
 }

@@ -60,8 +60,11 @@ public final class CreateDataFile implements Callable<Boolean> {
 
             // Need at least one Employee
             Employee firstEmployee = Employee.generate(random);
+
+            // This first employee has a manager with UserId Bob, this will be used in tests
             Manager[] managers = firstEmployee.getManager();
             UserId lineManagerUid = managers[0].getUid();
+            LOGGER.info("Overriding {} and their manager {} to have userId Bob", firstEmployee.getUid(), lineManagerUid);
             lineManagerUid.setId("Bob");
             managers[0].setUid(lineManagerUid);
             firstEmployee.setManager(managers);
