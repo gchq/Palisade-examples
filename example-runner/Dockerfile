@@ -17,7 +17,7 @@ FROM $BASE_IMG
 
 VOLUME /tmp
 
-ARG CURL_VERSION=7.52.1-5
+ARG CURL_VERSION=7.52.1-5+deb9u9
 RUN apt-get install -y curl=${CURL_VERSION} --no-install-recommends
 
 ARG K8_VERSION=v1.15.3
