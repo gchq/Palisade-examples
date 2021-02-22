@@ -28,7 +28,6 @@ import uk.gov.gchq.palisade.example.runner.config.AkkaClientWrapper;
 import uk.gov.gchq.palisade.example.runner.config.RestConfiguration;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class RestExample implements CommandLineRunner {
