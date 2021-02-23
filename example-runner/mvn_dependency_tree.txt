@@ -56,8 +56,4 @@ uk.gov.gchq.palisade:example-runner:jar:0.5.0-SNAPSHOT
 |  |     \- dk.brics.automaton:automaton:jar:1.11-8:compile
 |  \- org.slf4j:slf4j-simple:jar:1.7.28:compile
 \- uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT:compile
-   +- org.springframework.cloud:spring-cloud-netflix-eureka-client:jar:2.2.2.RELEASE:compile
-   |  \- org.springframework.cloud:spring-cloud-netflix-hystrix:jar:2.2.2.RELEASE:compile
-   |     \- org.springframework.boot:spring-boot-starter-aop:jar:2.2.0.RELEASE:compile
-   |        \- org.aspectj:aspectjweaver:jar:1.9.4:compile
    \- uk.gov.gchq.palisade:readers-common:jar:0.5.0-SNAPSHOT:compile

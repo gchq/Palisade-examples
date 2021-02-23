@@ -14,10 +14,11 @@
 #
 
 example:
-  directory: "../Palisade-examples/resources/"
-  filename: "../Palisade-examples/resources/employee_file0.avro"
+  directory: "../Palisade-examples/resources/data/"
+  filename: "../Palisade-examples/resources/data/employee_file0.avro"
 
 web:
   client:
     palisade-service: "localhost:8084"
     filtered-resource-service: "localhost:8092"
+    data-service: "localhost:8082"

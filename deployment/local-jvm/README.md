@@ -19,7 +19,7 @@
 This example demonstrates different users querying an avro file over a REST api running locally in JVMs.
 
 The example runs different queries by different users, with different purposes.
-When you run the example you will see the data has been redacted in line with the rules.
+When you run the example, you will see the data has been redacted in line with the rules.
 For an overview of the [example data](../../hr-data-generator/README.md) and [example policies](../../example-library/README.md), see the [repo root](../../README.md).
 
 In order to successfully run the Local JVM example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) repository has been cloned from GitHub to the intended project location.
@@ -28,6 +28,13 @@ A parent directory should at minimum hold the repos [Palisade-services](https://
 To run the example locally in JVMs, follow these steps (running commands from the root [Palisade-examples](../..) directory):
 
 ## Prerequisites
+
+1. Start **Kafka** and **Redis** on localhost using default ports by your preferred means:
+   * Try the [docker-compose](./docker-compose.yaml) file if you have docker available - `docker-compose -f ./docker-compose.yml up`  
+     ***or***
+   * Kafka must be listening to `http://localhost:9092`, see the [Kafka Quickstart Guide](https://kafka.apache.org/quickstart)
+   * Redis must be listening to `http://localhost:6379`, see the [Redis Quickstart Guide](https://redis.io/topics/quickstart)
+
 
 1. Do a Maven Install for each cloned repo:
    ```bash
@@ -51,17 +58,21 @@ To run the example locally in JVMs, follow these steps (running commands from th
       drwxrwxrwx Palisade-examples
    >> cd Palisade-services
    >> ls
+     drwxrwxrwx attribute-masking-service
      drwxrwxrwx audit-service
      drwxrwxrwx data-service
-     drwxrwxrwx discovery-service
+     drwxrwxrwx filtered-resource-service
      drwxrwxrwx palisade-service
      drwxrwxrwx policy-service
      drwxrwxrwx resource-service
      drwxrwxrwx services-manager
+     drwxrwxrwx topic-offset-service
      drwxrwxrwx user-service
    ```
 
-## Running using the Bash Scripts
+## Running the Examples
+
+### Running using the Bash Scripts
 
 The above steps can be automated using the provided , all of which are intended to be run from the Palisade-examples root directory:
 
@@ -84,101 +95,107 @@ The above steps can be automated using the provided , all of which are intended 
 
 1. Run one or more of the available scripts.
 
-   To run the example and verify its output:
-   ```bash
-   deployment/local-jvm/example-runner/startServices.sh
-   deployment/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
-   deployment/local-jvm/example-runner/verify.sh
-   deployment/local-jvm/example-runner/stopServices.sh
-   ```
-   
-   To run the performance tests:
-   ```bash
-   deployment/local-jvm/performance/startServices.sh
-   deployment/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
-   deployment/local-jvm/performance/stopServices.sh
-   ```
+#### Rest Example ([example-runner](../../example-runner/README.md))
+To run the example and verify its output, use the [local-jvm example-runner scripts](./example-runner):
+```bash
+deployment/local-jvm/example-runner/startServices.sh
+deployment/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+deployment/local-jvm/example-runner/verify.sh
+deployment/local-jvm/example-runner/stopServices.sh
+```
+
+#### Performance Tests ([performance](../../performance/README.md))
+To run the performance tests, use the [local-jvm performance scripts](./performance):
+```bash
+deployment/local-jvm/performance/startServices.sh
+deployment/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+deployment/local-jvm/performance/stopServices.sh
+```
 
 
-## Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
+### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
 See the [services-manager/README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
-### Rest Example ([example-runner](../../example-runner/README.md))
+#### Rest Example ([example-runner](../../example-runner/README.md))
 When using the services manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
 
 1. Start the palisade services and run the example using the services manager.
    ```bash
-   >> java -Dspring.profiles.active=discovery -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
    >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
    ```
    
 1. It will take a couple of minutes for the Spring Boot services to start up.  
-   The status of this can be checked by going to http://localhost:8083, or by following the output of the services-manager.  
-   There should be 7 services in total to register with Eureka:
+   The status of this can be checked by following the output of the services-manager.  
+   There should be 9 services in total running in separate JVM instances:
+    - attribute-masking-service
     - audit-service
     - data-service
-    - discovery-service
+    - filtered-resource-service
     - palisade-service
     - policy-service
     - resource-service
+    - topic-offset-service
     - user-service
     
 1. The RestExample example-runner runner (in particular, with the *rest* profile from the *application-rest.yaml*) will be run immediately afterwards
     * The stdout and stderr will by default be stored in `Palisade-services/rest-example.log` and `Palisade-service/rest-example.err` respectively.  
     
-   There will briefly be 8 services registered with Eureka while the example is running:
-    - audit-service
-    - data-service
-    - discovery-service
-    - *example-runner*
-    - palisade-service
-    - policy-service
-    - resource-service
-    - user-service
-    
+   There will briefly be 10 JVM instances running during the example:
+   - attribute-masking-service
+   - audit-service
+   - data-service
+   - *example-runner*
+   - filtered-resource-service
+   - palisade-service
+   - policy-service
+   - resource-service
+   - topic-offset-service
+   - user-service
+
 1. Stop the services.
    ```bash
    >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
-   >> java -Dspring.profiles.active=discovery -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```
 
-### Performance Tests ([performance](../../performance/README.md))
+#### Performance Tests ([performance](../../performance/README.md))
 Run as above, but substitute using the `example-runner` profile for the `example-perf` profile
 
 1. Create the performance test data, start the palisade services and run the performance tests using the services manager.
    ```bash
-   >> java -Dspring.profiles.active=discovery -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
    >> java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run --manager.schedule=performance-create-task,palisade-task,performance-test-task
    ```
    
 1. It will take a couple of minutes to generate the performance test data.
    It will then take a couple of minutes for the Spring Boot services to start up.  
-   The status of this can be checked by going to http://localhost:8083, or by following the output of the services-manager.  
-   There should be 7 services in total to register with Eureka:
-    - audit-service
-    - data-service
-    - discovery-service
-    - palisade-service
-    - policy-service
-    - resource-service
-    - user-service
-    
-1. The performance runner (in particular, with the *eureka* profile from the *application-eureka.yaml*) will be run immediately afterwards
+   The status of this can be checked by following the output of the services-manager.  
+   There should be 9 services in total running in separate JVM instances:
+   - attribute-masking-service
+   - audit-service
+   - data-service
+   - filtered-resource-service
+   - palisade-service
+   - policy-service
+   - resource-service
+   - topic-offset-service
+   - user-service
+
+1. The performance runner will be run immediately afterwards
     * The stdout will by default be stored in `Palisade-services/performance-test.log`.  
-    
-   There will briefly be 8 services registered with Eureka while the performance-test is running:
-    - audit-service
-    - data-service
-    - discovery-service
-    - palisade-service
-    - *performance*
-    - policy-service
-    - resource-service
-    - user-service
-    
+
+   There will briefly be 10 JVM instances running during the performance-test:
+   - attribute-masking-service
+   - audit-service
+   - data-service
+   - filtered-resource-service
+   - palisade-service
+   - *performance*
+   - policy-service
+   - resource-service
+   - topic-offset-service
+   - user-service
+
 1. Stop the services.
     
    ```bash
    >> java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
-   >> java -Dspring.profiles.active=discovery -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```

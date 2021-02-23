@@ -56,14 +56,15 @@ public class RestExample implements CommandLineRunner {
      * @param args command-line arguments
      * @throws IOException for any file system error
      */
+    @Override
     public void run(final String... args) throws IOException {
-        final String alice = "Alice";
-        final String bob = "Bob";
-        final String eve = "Eve";
+        String alice = "Alice";
+        String bob = "Bob";
+        String eve = "Eve";
 
-        final String salary = Purpose.SALARY.name();
-        final String dutyOfCare = Purpose.DUTY_OF_CARE.name();
-        final String staffReport = Purpose.STAFF_REPORT.name();
+        String salary = Purpose.SALARY.name();
+        String dutyOfCare = Purpose.DUTY_OF_CARE.name();
+        String staffReport = Purpose.STAFF_REPORT.name();
 
         //Alice is reading the employee file with a purpose of SALARY
         makeRequest(alice, configuration.getFilename(), salary);
