@@ -44,7 +44,7 @@ fi
 
 # Begin script in case all parameters are correct
 helm dep up
-helm upgrade --install palisade . \
+helm upgrade --install --wait --atomic palisade . \
     --namespace ${namespace} \
     --set global.repository=${repository} \
     --set global.hostname=${hostname} \
