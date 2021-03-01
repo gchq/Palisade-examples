@@ -32,7 +32,6 @@ Provides the `ExampleUser` datatype specialisation of the [Palisade-common](http
 ### [Example Runner](example-runner/README.md)
 The example scenarios can be run using the Spring Boot REST client application in the *Example Runner*, requesting and reading for a number of different users, resources and contexts.
 This simple Spring Boot application has a number of different runners for such REST clients, which also manage using the palisade-service response to connect to the appropriate data-service.
-Provides an `ExampleSimpleClient` specialisation of the Palisade-clients `SimpleClient` for making REST requests for Employee avro data.
 
 ### [Performance](performance/README.md)
 The performance of the palisade services compared to native file reads (and other metrics) can be measured using the *Performance* testing suite.

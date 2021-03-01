@@ -16,7 +16,7 @@
 FILE=performance/target/performance-*-exec.jar
 # Run the JVM performance test
 if [ -f $FILE ]; then
-  java -jar -Dspring.profiles.active=eureka $FILE --performance.action=run
+  java -jar -Dspring.profiles.active=static $FILE --performance.action=run
 else
   echo "Cannot find performance-<version>-exec.jar - have you run 'mvn install'?"
 fi
