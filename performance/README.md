@@ -45,9 +45,6 @@ All above values and more can be tweaked through the [config yaml](src/main/reso
 
 For an automated way to perform these tests, see the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
 
-From the Palisade-services directory, start the discovery-service:  
-`java -jar -Dspring.profiles.active=discovery services-manager/target/services-manager-*-exec.jar`
-
 Create some test data for the performance-test, start the palisade-services and run the performance-test:  
 `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task`
 
