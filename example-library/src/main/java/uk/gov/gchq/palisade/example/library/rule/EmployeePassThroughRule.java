@@ -29,6 +29,7 @@ public class EmployeePassThroughRule implements Rule<Employee> {
     }
 
     @Override
-    public boolean isApplicable(final User user, final Context context) { return false; }
+    public boolean isApplicable(final User user, final Context context) {
+        return false; }
 
 }
