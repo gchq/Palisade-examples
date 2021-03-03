@@ -19,7 +19,7 @@ DEPLOYMENT=$2
 
 # Copy the Dockerfile's ROM-like store of example jars and data compiled into the image during `docker build`
 # Once copied to the k8s mountpoints, it will be available to all other services
-# This allows upload of data to tle cluster independent of storage technology
+# This allows upload of data to the cluster independent of storage technology
 echo "Copying Dockerfile data to shared cluster storage paths"
 
 # Copy example jars that will be loaded onto the classpath

@@ -17,6 +17,9 @@ FROM $BASE_IMG
 
 VOLUME /tmp
 
+ARG CURL_VERSION=7.52.1-5+deb9u9
+RUN apt-get install -y curl=${CURL_VERSION} --no-install-recommends
+
 ARG K8_VERSION=v1.15.3
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \

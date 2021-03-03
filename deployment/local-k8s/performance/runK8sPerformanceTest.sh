@@ -12,6 +12,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-kubectl exec $(kubectl get pods | awk '/performance/ {print $1}') -- bash -c "cd /usr/share/performance && bash ./runK8sPerformanceTest.sh"
+NAMESPACE=$1
+
+if [ -z "$NAMESPACE" ]
+then
+  # If the user doesnt pass in a namespace
+  kubectl exec $(kubectl get pods | awk '/performance/ {print $1}') -- bash -c "cd /usr/share/performance && bash ./runK8sPerformanceTest.sh"
+else
+  # If the user passes in a namespace, use the namespace in the kubectl command
+  kubectl exec $(kubectl get pods --namespace="$NAMESPACE" | awk '/performance/ {print $1}') --namespace="$NAMESPACE" -- bash -c "cd /usr/share/performance && bash ./runK8sPerformanceTest.sh"
+fi

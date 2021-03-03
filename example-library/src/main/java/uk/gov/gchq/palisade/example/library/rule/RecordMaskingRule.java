@@ -29,7 +29,6 @@ import java.util.Objects;
 import java.util.Set;
 
 public class RecordMaskingRule implements Rule<Employee> {
-
     public RecordMaskingRule() {
     }
 
@@ -42,7 +41,6 @@ public class RecordMaskingRule implements Rule<Employee> {
     }
 
     public Employee apply(final Employee record, final User user, final Context context) {
-
         Objects.requireNonNull(user);
         Objects.requireNonNull(context);
         UserId userId = user.getUserId();
@@ -52,13 +50,12 @@ public class RecordMaskingRule implements Rule<Employee> {
         if (roles.contains(Role.HR.name())) {
             return record;
         }
+        if (EmployeeUtils.isManager(managers, userId)) {
+            return record;
+        }
         if (roles.contains(Role.ESTATES.name())) {
             return estatesRedactRecord(record);
         }
-        if (EmployeeUtils.isManager(managers, userId)) {
-            return record;
-        } else {
-            return null;
-        }
+        return null;
     }
 }
