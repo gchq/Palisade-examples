@@ -29,7 +29,7 @@ public class PassThroughRule implements Rule<Resource> {
     }
 
     @Override
-    public boolean isApplicable( final User user, final Context context) {
+    public boolean isApplicable(final User user, final Context context) {
         return false;
     }
 }
