@@ -25,13 +25,13 @@ rules:
   - deployments/log
   - statefulsets
   - statefulsets/log
-  verb:
+  verbs:
   - get
   - list
 - apiGroups: []
   resource:
   - pods
   - pods/log
-  verb:
+  verbs:
   - get
   - list
