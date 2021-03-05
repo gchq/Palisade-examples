@@ -30,13 +30,13 @@ if [ -f $FILE ]; then
     kubectl logs statefulset/attribute-masking-service
     echo "*** statefulSet/audit-service"
     kubectl logs statefulset/audit-service
-    echo "*** statefulSet/data-service"
-    kubectl logs statefulset/data-service
+    echo "*** deployment/data-service"
+    kubectl logs deployment/data-service
     echo "*** statefulSet/filtered-resource-service"
     kubectl logs statefulset/filtered-resource-service
-    echo "*** statefulSet/palisade-service"
+    echo "*** deployment/palisade-service"
     kubectl logs statefulset/palisade-service
-    echo "*** statefulSet/policy-service"
+    echo "*** deployment/policy-service"
     kubectl logs statefulset/policy-service
     echo "*** statefulSet/resource-service"
     kubectl logs statefulset/resource-service
