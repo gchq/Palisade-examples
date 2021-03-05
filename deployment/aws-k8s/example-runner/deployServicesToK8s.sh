@@ -15,7 +15,7 @@
 
 helpFunction() {
    echo ""
-   echo "Usage: $(basename $0) [OPTIONS]"
+   echo "Usage: $(basename "$0") [OPTIONS]"
    echo -e "\t-n(amespace)     The name for the K8s namespace to deploy to"
    echo -e "\t-r(epository)    The URL for the (ECR) repository"
    echo -e "\t-h(ostname)      The URL for the (ELB) hostname of the cluster deployment"
@@ -48,10 +48,10 @@ helm dep up
 # Added extra params to ensure that AWS deploys use the shared one at 'palisade-shared' DNS
 helm upgrade --install --wait --atomic palisade . \
     --set global.hosting=aws \
-    --set global.repository=${repository} \
-    --set global.hostname=${hostname} \
-    --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle=${datastore} \
-    --set global.persistence.classpathJars.aws.volumeHandle=${classpathjars} \
+    --set global.repository="${repository}" \
+    --set global.hostname="${hostname}" \
+    --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle="${datastore}" \
+    --set global.persistence.classpathJars.aws.volumeHandle="${classpathjars}" \
     --set global.deployment=example \
     --set global.kafka.install=false \
     --set global.kafka.exports.fullnameOverride=kafka \
@@ -59,4 +59,4 @@ helm upgrade --install --wait --atomic palisade . \
     --set global.redis.exports.fullnameOverride=redis \
     --set global.serviceName=.palisade-shared \
     --timeout 300s \
-    --namespace ${namespace}
+    --namespace "${namespace}"
