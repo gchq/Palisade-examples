@@ -35,8 +35,8 @@ if [ -f $FILE ]; then
     echo "*** statefulSet/filtered-resource-service"
     kubectl logs statefulset/filtered-resource-service
     echo "*** deployment/palisade-service"
-    kubectl logs statefulset/palisade-service
-    echo "*** deployment/policy-service"
+    kubectl logs deployment/palisade-service
+    echo "*** statefulSet/policy-service"
     kubectl logs statefulset/policy-service
     echo "*** statefulSet/resource-service"
     kubectl logs statefulset/resource-service
