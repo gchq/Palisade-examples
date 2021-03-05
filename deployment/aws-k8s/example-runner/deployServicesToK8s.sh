@@ -44,12 +44,19 @@ fi
 
 # Begin script in case all parameters are correct
 helm dep up
+
+# Added extra params to ensure that AWS deploys use the shared one at 'palisade-shared' DNS
 helm upgrade --install --wait --atomic palisade . \
-    --namespace ${namespace} \
+    --set global.hosting=aws \
     --set global.repository=${repository} \
     --set global.hostname=${hostname} \
     --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle=${datastore} \
     --set global.persistence.classpathJars.aws.volumeHandle=${classpathjars} \
     --set global.deployment=example \
-    --set global.hosting=aws \
-    --timeout 300s
+    --set global.kafka.install=false \
+    --set global.kafka.exports.fullnameOverride=kafka \
+    --set global.redis.install=false \
+    --set global.redis.exports.fullnameOverride=redis \
+    --set global.serviceName=.palisade-shared \
+    --timeout 300s \
+    --namespace ${namespace}
