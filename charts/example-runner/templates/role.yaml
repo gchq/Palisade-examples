@@ -29,7 +29,7 @@ rules:
   - get
   - list
 - apiGroups: []
-  resource:
+  resources:
   - pods
   - pods/log
   verbs:
