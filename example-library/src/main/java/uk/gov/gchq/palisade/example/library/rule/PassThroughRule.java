@@ -27,4 +27,9 @@ public class PassThroughRule implements Rule<Resource> {
     public Resource apply(final Resource resource, final User user, final Context context) {
         return resource;
     }
+
+    @Override
+    public boolean isApplicable(final User user, final Context context) {
+        return false;
+    }
 }

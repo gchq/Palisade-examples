@@ -27,4 +27,10 @@ public class EmployeePassThroughRule implements Rule<Employee> {
     public Employee apply(final Employee record, final User user, final Context context) {
         return record;
     }
+
+    @Override
+    public boolean isApplicable(final User user, final Context context) {
+        return false;
+    }
+
 }
