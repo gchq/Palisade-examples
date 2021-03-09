@@ -44,7 +44,7 @@ population:
       "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.library.rule.RecordMaskingRule
     resourceRules:
       "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.library.rule.FirstResourceRule
-  - resourceId: ${default.rootId}/no-policy/
+  - resourceId: ${default.rootId}/data/no-policy/
     owner: Alice
     recordRules:
       "1-Pass through rule for no-policy directory": uk.gov.gchq.palisade.example.library.rule.EmployeePassThroughRule

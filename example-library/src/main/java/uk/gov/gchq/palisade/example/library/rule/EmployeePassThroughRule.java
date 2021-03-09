@@ -30,6 +30,7 @@ public class EmployeePassThroughRule implements Rule<Employee> {
 
     @Override
     public boolean isApplicable(final User user, final Context context) {
-        return false; }
+        return false;
+    }
 
 }

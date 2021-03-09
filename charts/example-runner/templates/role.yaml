@@ -18,6 +18,16 @@ metadata:
   name: get-pods-logs
   namespace: {{ include "palisade.namespace" . }}
 rules:
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - deployments/log
+  - statefulsets
+  - statefulsets/log
+  verbs:
+  - get
+  - list
 - apiGroups: [""]
   resources:
   - pods

@@ -68,7 +68,7 @@ public class RunAction implements Runnable {
     }
 
     /**
-     * Run this action and throw a runtime exxception if an error occurred
+     * Run this action and throw a runtime exception if an error occurred
      *
      * @throws RuntimeException if an error occurred
      */
