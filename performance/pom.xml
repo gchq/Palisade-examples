@@ -53,7 +53,7 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>client-akka</artifactId>
-            <version>${project.parent.version}</version>
+            <version>0.5.0-${clients.revision}</version>
         </dependency>
         <!-- Logging Dependency -->
         <dependency>
