@@ -33,6 +33,7 @@
     <!--  *********** Aritfact ID ***********    -->
 
     <profiles>
+        <!-- Profile used to update image tag used by helm -->
         <profile>
             <id>pi</id>
             <build>

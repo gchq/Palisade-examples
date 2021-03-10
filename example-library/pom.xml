@@ -30,25 +30,24 @@
     <!--  *********** Aritfact ID ***********    -->
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>hr-data-generator</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+        <!--Palisade Dependency-->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
             <version>0.5.0-${common.revision}</version>
         </dependency>
+        <!-- Dependency used to generate example data-->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>readers-common</artifactId>
-            <version>0.5.0-${readers.revision}</version>
+            <artifactId>hr-data-generator</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
+        <!--Spring Dependency-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <!--Testing Dependency-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -74,8 +73,7 @@
                 <configuration>
                     <dateFormat>yyyyMMdd-HHmmss</dateFormat>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <generateGitPropertiesFile>false
-                    </generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
                     <useNativeGit>true</useNativeGit>
                 </configuration>
             </plugin>
@@ -106,5 +104,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

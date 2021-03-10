@@ -49,7 +49,7 @@
     </licenses>
 
     <properties>
-        <!-- Versions -->
+        <!-- Dependency properties -->
         <java.version>11</java.version>
         <revision>SNAPSHOT</revision>
         <clients.revision>SNAPSHOT</clients.revision>
@@ -61,29 +61,22 @@
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
-        <!-- Plugins -->
+        <!-- Plugin versions -->
         <compiler.plugin.version>3.8.0</compiler.plugin.version>
         <javadoc.plugin.version>3.2.0</javadoc.plugin.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <checkstyle.phase>verify</checkstyle.phase>
-        <depends.maven.version>3.1.1</depends.maven.version>
+        <depends.maven.version>3.1.2</depends.maven.version>
         <depends.phase>prepare-package</depends.phase>
+        <javafaker.version>1.0.1</javafaker.version>
+        <apache.commons.version>2.6</apache.commons.version>
 
-        <!-- Testing properties -->
+        <!-- Testing versions -->
         <junit.version>4.12</junit.version>
         <surefire.plugin.version>2.22.1</surefire.plugin.version>
         <failsafe.version>2.22.1</failsafe.version>
 
-        <!-- Dependencies -->
-        <javafaker.version>1.0.1</javafaker.version>
-        <spring-cloud-starter-ribbon.version>1.4.7.RELEASE</spring-cloud-starter-ribbon.version>
-        <apache.commons.version>1.19</apache.commons.version>
-        <slf4j.api.version>1.7.28</slf4j.api.version>
-        <protobuf.version>3.5.1</protobuf.version>
-        <jetcd.version>0.3.0</jetcd.version>
-        <fabric8.version>4.3.0</fabric8.version>
-
-        <!-- Sonar -->
+        <!-- Sonar Configuration-->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.xml</sonar.jacoco.reportPath>
@@ -218,6 +211,7 @@
                 <version>${surefire.plugin.version}</version>
             </plugin>
             <plugin>
+                <!-- Generates a dependency tree that is tracked within git -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>${depends.maven.version}</version>

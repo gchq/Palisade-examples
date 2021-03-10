@@ -38,11 +38,6 @@
 
     <dependencies>
         <dependency>
-            <!-- Spring Boot DI -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <!-- Palisade client implementation -->
             <groupId>uk.gov.gchq.palisade</groupId>
             <artifactId>client-akka</artifactId>
@@ -66,9 +61,20 @@
             <artifactId>example-library</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <!-- Jackson Dependency -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <!-- Logging Dependency -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>
+        <!-- Used to updated the image tag used by helm-->
         <profile>
             <id>pi</id>
             <build>
