@@ -27,12 +27,13 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!--  *********** Aritfact ID ***********    -->
+    <!--  *********** Artifact ID ***********    -->
     <artifactId>deployment</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment</url>
-    <!--  *********** Aritfact ID ***********    -->
+    <!--  *********** Artifact ID ***********    -->
 
     <profiles>
+        <!-- Profile used to update image tag used by helm -->
         <profile>
             <id>pi</id>
             <build>
@@ -211,6 +212,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- Used to build docker image -->
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.10</version>
