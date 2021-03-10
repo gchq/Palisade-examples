@@ -92,6 +92,7 @@
     </modules>
 
     <profiles>
+        <!-- A quick profile for the fastest install of the Repository, skipping tests, checkstyle and docker image generation -->
         <profile>
             <id>quick</id>
             <properties>
@@ -310,6 +311,7 @@
                 </configuration>
             </plugin>
             <plugin>
+                <!-- Test code coverage report used by SonarQube -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.5</version>
@@ -335,6 +337,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- Static analysis of the codebase -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.plugin.version}</version>
@@ -360,6 +363,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- Testing plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${failsafe.version}</version>
