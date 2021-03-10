@@ -24,10 +24,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!--  *********** Aritfact ID ***********    -->
+    <!--  *********** Artifact ID ***********    -->
     <artifactId>example-library</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/example-library</url>
-    <!--  *********** Aritfact ID ***********    -->
+    <!--  *********** Artifact ID ***********    -->
 
     <dependencies>
         <!--Palisade Dependency-->
@@ -42,12 +42,12 @@
             <artifactId>hr-data-generator</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <!--Spring Dependency-->
+        <!-- Spring Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
-        <!--Testing Dependency-->
+        <!-- Testing Dependency -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

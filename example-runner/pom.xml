@@ -24,10 +24,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!--  *********** Aritfact ID ***********    -->
+    <!--  *********** Artifact ID ***********    -->
     <artifactId>example-runner</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/example-runner</url>
-    <!--  *********** Aritfact ID ***********    -->
+    <!--  *********** Artifact ID ***********    -->
 
     <properties>
         <!-- Dockerfile-maven-plugin configurable base image - openjdk:11.0-jre-slim -->
@@ -211,6 +211,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- Used to build docker image -->
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.10</version>
