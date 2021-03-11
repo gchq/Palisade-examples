@@ -21,7 +21,7 @@ helpFunction() {
    echo -e "\t-h(ostname)      The URL for the (ELB) hostname of the cluster deployment"
    echo -e "\t-d(atastore)     The URL for the (EFS) aws volume handle used as a data-store"
    echo -e "\t-c(lasspathjars) The URL for the (EFS) aws volume handle used for storing classpath JARs"
-   echo -e "\t-P(refix) Topic prefix so we generate unique topic names"
+   echo -e "\t-P(refix)        The topic prefix so we generate unique topic names"
    exit 1 # Exit script after printing help
 }
 
