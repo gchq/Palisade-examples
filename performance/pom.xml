@@ -24,10 +24,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!--  *********** Aritfact ID ***********    -->
+    <!--  *********** Artifact ID ***********    -->
     <artifactId>performance</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/performance</url>
-    <!--  *********** Aritfact ID ***********    -->
+    <!--  *********** Artifact ID ***********    -->
 
     <properties>
         <!-- Dockerfile-maven-plugin configurable base image - openjdk:11.0-jre-slim -->
@@ -37,10 +37,9 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
+        <!--
+        ~ Palisade Dependencies
+        -->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
@@ -53,17 +52,23 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-library</artifactId>
-            <version>${project.parent.version}</version>
+            <artifactId>client-akka</artifactId>
+            <version>0.5.0-${clients.revision}</version>
         </dependency>
+        <!-- Logging Dependency -->
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-runner</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!-- Spring Dependency -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 
     <profiles>
+        <!-- Profile used to updated image version used by helm -->
         <profile>
             <id>pi</id>
             <build>
@@ -200,6 +205,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- Used to build docker image -->
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.10</version>
