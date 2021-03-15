@@ -84,7 +84,6 @@
     </properties>
 
     <modules>
-        <module>hr-data-generator</module>
         <module>example-library</module>
         <module>example-runner</module>
         <module>performance</module>
