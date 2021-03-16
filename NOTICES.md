@@ -5,6 +5,7 @@ List of third-party dependencies grouped by their license type
 * Java Faker ([com.github.javafaker:javafaker:1.0.1](http://github.com/DiUS/java-faker))
 * Apache Commons IO ([commons-io:commons-io:2.6](http://commons.apache.org/proper/commons-io/))
 * Spring Boot AutoConfigure ([org.springframework.boot:spring-boot-autoconfigure:2.2.0.RELEASE](https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-autoconfigure))
+* Spring Boot Starter ([org.springframework.boot:spring-boot-starter:2.2.0.RELEASE](https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-starters/spring-boot-starter))
 * client-akka ([uk.gov.gchq.palisade:client-akka:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/client-akka))
 * common ([uk.gov.gchq.palisade:common:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-common))
 * example-library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
