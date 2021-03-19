@@ -54,6 +54,9 @@ helm upgrade --install --wait palisade . \
     --set global.hostname="${hostname}" \
     --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle="${datastore}" \
     --set global.persistence.classpathJars.aws.volumeHandle="${classpathjars}" \
+    --set global.deployment=example \
+    --set global.kafka.install=false \
+    --set global.redis.install=false \
     --set global.topicPrefix="${topicprefix}" \
     --timeout 300s \
     --namespace "${namespace}"
