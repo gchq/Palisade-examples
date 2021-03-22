@@ -15,16 +15,17 @@
 
 helpFunction() {
    echo ""
-   echo "Usage: $(basename $0) [OPTIONS]"
+   echo "Usage: $(basename "$0") [OPTIONS]"
    echo -e "\t-n(amespace)     The name for the K8s namespace to deploy to"
    echo -e "\t-r(epository)    The URL for the (ECR) repository"
    echo -e "\t-h(ostname)      The URL for the (ELB) hostname of the cluster deployment"
    echo -e "\t-d(atastore)     The URL for the (EFS) aws volume handle used as a data-store"
    echo -e "\t-c(lasspathjars) The URL for the (EFS) aws volume handle used for storing classpath JARs"
+   echo -e "\t-P(refix)        The topic prefix so we generate unique topic names"
    exit 1 # Exit script after printing help
 }
 
-while getopts "n:r:h:d:c:" opt
+while getopts "n:r:h:d:c:P:" opt
 do
    case "$opt" in
       n) namespace="$OPTARG" ;;
@@ -32,6 +33,7 @@ do
       h) hostname="$OPTARG" ;;
       d) datastore="$OPTARG" ;;
       c) classpathjars="$OPTARG" ;;
+      P) topicprefix="$OPTARG" ;;
       ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
    esac
 done
@@ -44,12 +46,17 @@ fi
 
 # Begin script in case all parameters are correct
 helm dep up
+
+# Added extra params to ensure that AWS deploys use the shared one at 'palisade-shared' DNS
 helm upgrade --install --wait --atomic palisade . \
-    --namespace ${namespace} \
-    --set global.repository=${repository} \
-    --set global.hostname=${hostname} \
-    --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle=${datastore} \
-    --set global.persistence.classpathJars.aws.volumeHandle=${classpathjars} \
-    --set global.deployment=example \
     --set global.hosting=aws \
-    --timeout 300s
+    --set global.repository="${repository}" \
+    --set global.hostname="${hostname}" \
+    --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle="${datastore}" \
+    --set global.persistence.classpathJars.aws.volumeHandle="${classpathjars}" \
+    --set global.deployment=example \
+    --set global.kafka.install=false \
+    --set global.redis.install=false \
+    --set global.topicPrefix="${topicprefix}" \
+    --timeout 300s \
+    --namespace "${namespace}"
