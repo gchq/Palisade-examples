@@ -36,7 +36,7 @@ uk.gov.gchq.palisade:example-runner:jar:0.5.0-SNAPSHOT
 |  |     \- dk.brics.automaton:automaton:jar:1.11-8:compile
 |  \- org.slf4j:slf4j-simple:jar:1.7.28:compile
 +- uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT:compile
-|  +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.1:compile
+|  +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.2:compile
 |  \- org.springframework.boot:spring-boot-autoconfigure:jar:2.2.0.RELEASE:compile
 |     \- org.springframework.boot:spring-boot:jar:2.2.0.RELEASE:compile
 |        +- org.springframework:spring-core:jar:5.2.0.RELEASE:compile
