@@ -50,12 +50,6 @@
             <version>0.5.0-${common.revision}</version>
         </dependency>
         <dependency>
-            <!-- Employee datatype -->
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>hr-data-generator</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
             <!-- Resource request pre-population -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>example-library</artifactId>
