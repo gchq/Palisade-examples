@@ -15,11 +15,11 @@
 #
 
 # Check if necessary compiled JAR is present
-FILE=hr-data-generator/target/hr-data-generator-*-jar-with-dependencies.jar
+FILE=example-runner/target/example-runner-*-jar-with-dependencies.jar
 
 if [ -f $FILE ]; then
   # Run the generator
-  java -cp $FILE uk.gov.gchq.palisade.example.hrdatagenerator.CreateData $@
+  java -cp $FILE uk.gov.gchq.syntheticdatagenerator.CreateData $@
 else
   echo "Cannot find hr-data-generator-<version>-jar-with-dependencies - have you run 'mvn install'?"
 fi
