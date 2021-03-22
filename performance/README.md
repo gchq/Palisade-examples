@@ -16,7 +16,7 @@ limitations under the License.
 
 # Performance
 
-Palisade includes a performance tool for testing some simple scenarios. It uses the example rules and generates some fake HR data using the [HR data generator](../hr-data-generator/README.md).
+Palisade includes a performance tool for testing some simple scenarios. It uses the example rules and generates some fake HR data using the [sythethic data generator](https://github.com/gchq/synthetic-data-generator).
 
 The tool works on the following data-set sizes:
 
