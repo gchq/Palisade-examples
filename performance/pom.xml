@@ -46,9 +46,9 @@
             <version>0.5.0-${common.revision}</version>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>hr-data-generator</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>uk.gov.gchq.data-gen</groupId>
+            <artifactId>synthetic-data-generator</artifactId>
+            <version>0.0.2</version>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
