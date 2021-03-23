@@ -57,12 +57,12 @@ spec:
       volumes:
       - name: {{ include "deployment.deployment.fullname" . }}
         persistentVolumeClaim:
-          claimName: {{ include "deployment.deployment.fullname" . }}
+          claimName: {{ include "deployment.deployment.fullname" . }}-{{ include "palisade.namespace" . }}
           readOnly: false
       {{- range $name, $_ := .Values.global.persistence.dataStores }}
       - name: {{ $name }}
         persistentVolumeClaim:
-          claimName: {{ $name }}
+          claimName: {{ $name }}-{{ include "palisade.namespace" $ }}
           readOnly: false
       {{- end }}
 {{- end }}
