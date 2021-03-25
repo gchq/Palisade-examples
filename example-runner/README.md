@@ -23,8 +23,8 @@ purposes. When you run the example you will see the data has been redacted in li
 
 For deployment specific instructions on how to run the example see the [deployment module](/deployment), in particular:
 
-- [Local JVM](/deployment/local-jvm/README.md) - Runs the example in separate JVMs on the local machine
-- [Local Kubernetes](/deployment/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
+- [Local JVM](../deployment/local-jvm/README.md) - Runs the example in separate JVMs on the local machine
+- [Local Kubernetes](../deployment/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
 
 ### Bulk Retrieval Test (developer/maintenance only)
 
