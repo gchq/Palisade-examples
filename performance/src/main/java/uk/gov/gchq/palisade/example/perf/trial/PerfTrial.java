@@ -19,8 +19,8 @@ package uk.gov.gchq.palisade.example.perf.trial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.stream.Stream;
 

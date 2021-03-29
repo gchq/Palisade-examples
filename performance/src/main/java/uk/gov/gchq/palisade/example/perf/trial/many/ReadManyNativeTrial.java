@@ -20,10 +20,10 @@ import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.io.IOException;
 import java.io.InputStream;

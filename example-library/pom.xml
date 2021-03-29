@@ -38,9 +38,9 @@
         </dependency>
         <!-- Dependency used to generate example data-->
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>hr-data-generator</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>uk.gov.gchq.data-gen</groupId>
+            <artifactId>synthetic-data-generator</artifactId>
+            <version>0.0.2</version>
         </dependency>
         <!-- Spring Dependency -->
         <dependency>
