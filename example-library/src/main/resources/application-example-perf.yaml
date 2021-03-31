@@ -17,7 +17,7 @@
 default:
   rootId: ../Palisade-examples/resources
   connectionDetail: data-service
-  type: uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee
+  type: uk.gov.gchq.syntheticdatagenerator.types.Employee
   format: avro
 
 population:
@@ -55,7 +55,7 @@ population:
   serialisers:
   - flavourFormat: ${default.format}
     flavourType: ${default.type}
-    serialiserClass: uk.gov.gchq.palisade.data.serialise.AvroSerialiser
+    serialiserClass: uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser
 
 # Used by the resource-service to infer the types of the (many thousands of) resources created for the performance test
 resource:

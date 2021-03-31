@@ -22,8 +22,8 @@ import org.junit.Test;
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.UserId;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.library.common.Role;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Random;
 
@@ -46,9 +46,9 @@ public class RecordMaskingTest {
     @Before
     public void setUp() {
         testEmployee = Employee.generate(new Random(2));
-        testEmployee.getManager()[0].setUid(FIRST_MANAGER.getUserId());
-        testEmployee.getManager()[0].getManager()[0].setUid(MIDDLE_MANAGER.getUserId());
-        testEmployee.getManager()[0].getManager()[0].getManager()[0].setUid(END_MANAGER.getUserId());
+        testEmployee.getManager()[0].setUid(FIRST_MANAGER.getUserId().getId());
+        testEmployee.getManager()[0].getManager()[0].setUid(MIDDLE_MANAGER.getUserId().getId());
+        testEmployee.getManager()[0].getManager()[0].getManager()[0].setUid(END_MANAGER.getUserId().getId());
     }
 
     @Test

@@ -17,7 +17,7 @@
 package uk.gov.gchq.palisade.example.library.common;
 
 import uk.gov.gchq.palisade.UserId;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Manager;
+import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
 public final class EmployeeUtils {
 
@@ -30,7 +30,7 @@ public final class EmployeeUtils {
         }
 
         for (Manager manager : managers) {
-            if (manager.getUid().equals(userId)) {
+            if (manager.getUid().equals(userId.getId())) {
                 return true;
             }
         }

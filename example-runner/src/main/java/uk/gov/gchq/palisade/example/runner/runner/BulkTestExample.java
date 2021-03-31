@@ -22,11 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 
-import uk.gov.gchq.palisade.example.hrdatagenerator.CreateData;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.runner.config.AkkaClientWrapper;
 import uk.gov.gchq.palisade.example.runner.config.BulkConfiguration;
+import uk.gov.gchq.syntheticdatagenerator.CreateData;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.io.IOException;
 import java.nio.file.Files;

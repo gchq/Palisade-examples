@@ -21,10 +21,10 @@ import org.junit.Test;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Nationality;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
+import uk.gov.gchq.syntheticdatagenerator.types.Nationality;
 
 import java.util.Random;
 
