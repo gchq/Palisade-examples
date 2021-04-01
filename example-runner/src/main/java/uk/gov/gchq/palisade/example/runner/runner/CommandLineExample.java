@@ -20,8 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.runner.config.AkkaClientWrapper;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 public class CommandLineExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandLineExample.class);

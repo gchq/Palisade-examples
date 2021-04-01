@@ -50,7 +50,6 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
      drwxrwxrwx deployment
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
-     drwxrwxrwx hr-data-generator
      drwxrwxrwx performance
    ```
 
@@ -87,7 +86,6 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
      drwxrwxrwx deployment
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
-     drwxrwxrwx hr-data-generator
      drwxrwxrwx performance
    ```
 
