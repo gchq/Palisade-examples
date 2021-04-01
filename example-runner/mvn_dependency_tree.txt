@@ -9,13 +9,9 @@ uk.gov.gchq.palisade:example-runner:jar:0.5.0-SNAPSHOT
 |  |  +- org.reactivestreams:reactive-streams:jar:1.0.3:compile
 |  |  \- com.typesafe:ssl-config-core_2.13:jar:0.4.2:compile
 |  |     \- org.scala-lang.modules:scala-parser-combinators_2.13:jar:1.1.2:compile
-|  +- com.typesafe.akka:akka-stream-typed_2.13:jar:2.6.10:compile
-|  |  \- com.typesafe.akka:akka-actor-typed_2.13:jar:2.6.10:compile
-|  |     \- com.typesafe.akka:akka-slf4j_2.13:jar:2.6.10:compile
 |  +- com.typesafe.akka:akka-http_2.13:jar:10.2.1:compile
 |  |  \- com.typesafe.akka:akka-http-core_2.13:jar:10.2.1:compile
 |  |     \- com.typesafe.akka:akka-parsing_2.13:jar:10.2.1:compile
-|  +- com.typesafe.akka:akka-http-jackson_2.13:jar:10.2.1:compile
 |  \- com.fasterxml.jackson.core:jackson-annotations:jar:2.10.0:compile
 +- uk.gov.gchq.palisade:common:jar:0.5.0-SNAPSHOT:compile
 |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.10.0:compile
@@ -30,7 +26,7 @@ uk.gov.gchq.palisade:example-runner:jar:0.5.0-SNAPSHOT
 |     +- org.apache.commons:commons-compress:jar:1.8.1:compile
 |     \- org.tukaani:xz:jar:1.5:compile
 +- uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT:compile
-|  +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.2:compile
+|  +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.3:compile
 |  |  +- com.github.javafaker:javafaker:jar:1.0.1:compile
 |  |  |  +- org.yaml:snakeyaml:jar:android:1.23:compile
 |  |  |  \- com.github.mifmif:generex:jar:1.0.2:compile
