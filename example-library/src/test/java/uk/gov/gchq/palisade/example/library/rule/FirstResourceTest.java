@@ -16,18 +16,16 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
+import uk.gov.gchq.palisade.example.library.common.Context;
 import uk.gov.gchq.palisade.example.library.common.Role;
-import uk.gov.gchq.palisade.resource.Resource;
-import uk.gov.gchq.palisade.resource.impl.FileResource;
+import uk.gov.gchq.palisade.example.library.common.User;
+import uk.gov.gchq.palisade.example.library.common.resource.impl.FileResource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class FirstResourceTest {
+class FirstResourceTest {
 
     private static final User TEST_USER_HR = new User().userId("1").roles(Role.HR.name());
     private static final User TEST_USER_NOT_HR = new User().userId("1").roles("Not HR");
@@ -38,50 +36,59 @@ public class FirstResourceTest {
     private static final FirstResourceRule RESOURCE_RULE = new FirstResourceRule();
 
     @Test
-    public void hrGetFirstFile() {
+    void testHrGetFirstFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_1);
 
         //When
-        Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_HR, TEST_CONTEXT);
+        var actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals("HR should be able to access first resource", TEST_RESOURCE, actual);
+        assertThat(TEST_RESOURCE)
+                .as("HR should be able to access first resource")
+                .isEqualTo(actual);
     }
 
     @Test
-    public void nonHrGetFirstFile() {
+    void testNonHrGetFirstFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_1);
 
         //When
-        Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_NOT_HR, TEST_CONTEXT);
+        var actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_NOT_HR, TEST_CONTEXT);
 
         //Then
-        assertNull("non-HR should not be able to access first resource", actual);
+        assertThat(actual)
+                .as("non-HR should not be able to access first resource")
+                .isNull();
     }
 
     @Test
-    public void hrGetSecondFile() {
+    void testHrGetSecondFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_2);
 
         //When
-        Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_HR, TEST_CONTEXT);
+        var actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals("HR should be able to access second resource", TEST_RESOURCE, actual);
+        assertThat(TEST_RESOURCE)
+                .as("HR should be able to access second resource")
+                .isEqualTo(actual);
     }
 
     @Test
-    public void nonHrGetSecondFile() {
+    void testNonHrGetSecondFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_2);
 
         //When
-        Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_NOT_HR, TEST_CONTEXT);
+        var actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_NOT_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals("non-HR should be able to access second resource", TEST_RESOURCE, actual);
+        assertThat(TEST_RESOURCE)
+                .as("Non-HR should be able to access second resource")
+                .isEqualTo(actual);
+
     }
 }

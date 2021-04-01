@@ -16,11 +16,11 @@
 
 package uk.gov.gchq.palisade.example.library.config;
 
-import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.library.common.ExampleUser;
+import uk.gov.gchq.palisade.example.library.common.Generated;
 import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
-import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
+import uk.gov.gchq.palisade.example.library.common.User;
+import uk.gov.gchq.palisade.example.library.common.service.UserPrepopulationFactory;
 
 import java.util.Collections;
 import java.util.EnumSet;

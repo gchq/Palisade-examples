@@ -18,9 +18,9 @@ package uk.gov.gchq.palisade.example.perf.trial.small;
 
 import org.springframework.stereotype.Component;
 
-import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
-import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.common.serialise.AvroSerialiser;
+import uk.gov.gchq.palisade.example.perf.common.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;

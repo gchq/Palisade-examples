@@ -16,22 +16,20 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
+import uk.gov.gchq.palisade.example.library.common.Context;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
+import uk.gov.gchq.palisade.example.library.common.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
-import uk.gov.gchq.syntheticdatagenerator.types.Nationality;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class NationalityTest {
+class NationalityTest {
 
     private static final User TEST_USER_NOT_HR = new User().roles("Not HR"); // Role not in HR
     private static final User TEST_USER_HR = new User().roles(Role.HR.name()); // Role is HR
@@ -41,53 +39,60 @@ public class NationalityTest {
 
     private Employee testEmployee;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         testEmployee = Employee.generate(new Random(1));
     }
 
     @Test
-    public void shouldNotRedactForHRAndStaffReport() {
+    void testNotRedactForHRAndStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_HR, STAFF_REPORT_CONTEXT);
-        Nationality actualNationality = actual.getNationality();
+        var actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_HR, STAFF_REPORT_CONTEXT);
 
         // Then
-        assertNotNull("Should not redact nationality for hr role and staff report purpose", actualNationality);
+        assertThat(actual.getNationality())
+                .as("test not redact nationality for hr role and staff report purpose")
+                .isNotNull();
     }
 
     @Test
-    public void shouldRedactForHRAndNotStaffReport() {
+    void testRedactForHRAndNotStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_HR, NOT_STAFF_REPORT_CONTEXT);
+        var actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_HR, NOT_STAFF_REPORT_CONTEXT);
 
         // Then
-        assertNull("Should redact nationality for hr role without staff report purpose", actual.getNationality());
+        assertThat(actual.getNationality())
+                .as("test redact nationality for hr role without staff report purpose")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactForNotHRAndStaffReport() {
+    void testRedactForNotHRAndStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_NOT_HR, STAFF_REPORT_CONTEXT);
+        var actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_NOT_HR, STAFF_REPORT_CONTEXT);
 
         // Then
-        assertNull("Should redact nationality for staff report purpose without hr role", actual.getNationality());
+        assertThat(actual.getNationality())
+                .as("test redact nationality for staff report purpose without hr role")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactForNotHRAndNotStaffReport() {
+    void testRedactForNotHRAndNotStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_NOT_HR, NOT_STAFF_REPORT_CONTEXT);
+        var actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_NOT_HR, NOT_STAFF_REPORT_CONTEXT);
 
         // Then
-        assertNull("Should redact nationality without staff report purpose and without hr role", actual.getNationality());
+        assertThat(actual.getNationality())
+                .as("test redact nationality without staff report purpose and without hr role")
+                .isNull();
     }
 }

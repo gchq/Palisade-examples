@@ -16,7 +16,6 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
-import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
 public final class EmployeeUtils {

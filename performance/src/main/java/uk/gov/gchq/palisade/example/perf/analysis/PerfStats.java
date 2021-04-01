@@ -16,7 +16,7 @@
 
 package uk.gov.gchq.palisade.example.perf.analysis;
 
-import uk.gov.gchq.palisade.Generated;
+import uk.gov.gchq.palisade.client.akka.common.Generated;
 
 /**
  * Utility class.

@@ -16,25 +16,33 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
+import uk.gov.gchq.palisade.example.library.common.jsonserialisation.JSONSerialiser;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class ExampleUserTest {
+class ExampleUserTest {
     @Test
-    public void shouldDeserialiseExampleUser() {
+    void testDeserialiseExampleUser() {
         //given
-        User user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("bob").roles(Role.HR.name(), "another_role").auths("authorised_person", "more_authorisations");
+        var user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE)
+                .userId("bob")
+                .roles(Role.HR.name(), "another_role")
+                .auths("authorised_person", "more_authorisations");
 
         //when
         byte[] bytesSerialised = JSONSerialiser.serialise(user, true);
-        User newUser = JSONSerialiser.deserialise(bytesSerialised, User.class);
+        var newUser = JSONSerialiser.deserialise(bytesSerialised, User.class);
 
         //then
-        assertEquals("Deserialised user should be same class as original user", user.getClass(), newUser.getClass());
-        assertEquals("Deserialised user should be equal to original user", user, newUser);
+        assertThat(user)
+                .as("Deserialised user should be equal to original user when using recursion")
+                .usingRecursiveComparison()
+                .isEqualTo(newUser);
+
+        assertThat(user)
+                .as("Deserialised user should be equal to original user")
+                .isEqualTo(newUser);
     }
 }

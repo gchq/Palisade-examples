@@ -16,22 +16,22 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.UserId;
+import uk.gov.gchq.palisade.example.library.common.Context;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
+import uk.gov.gchq.palisade.example.library.common.User;
+import uk.gov.gchq.palisade.example.library.common.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class DutyOfCareTest {
+
+class DutyOfCareTest {
 
     private static final User FIRST_MANAGER = new User().userId(new UserId().id("1962720332")).roles("Not HR"); // Start of chain and not in HR
     private static final User MIDDLE_MANAGER = new User().userId(new UserId().id("1816031731")).roles("Not HR"); // Middle of chain and not HR
@@ -44,7 +44,7 @@ public class DutyOfCareTest {
 
     private Employee testEmployee;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         testEmployee = Employee.generate(new Random(2));
         testEmployee.getManager()[0].setUid(FIRST_MANAGER.getUserId().getId());
@@ -53,106 +53,114 @@ public class DutyOfCareTest {
     }
 
     @Test
-    public void shouldNotRedactForStartOfManagerInChain() {
+    void testRedactForStartOfManagerInChain() {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, FIRST_MANAGER, DUTY_OF_CARE_CONTEXT);
+        var actual = DUTY_OF_CARE_RULE.apply(testEmployee, FIRST_MANAGER, DUTY_OF_CARE_CONTEXT);
 
         // Then
-        assertNotNull("Should not redact contact numbers if first manager in chain", actual.getContactNumbers());
-        assertNotNull("Should not redact emergency contacts if first manager in chain", actual.getEmergencyContacts());
-        assertNotNull("Should not redact sex if first manager in chain", actual.getSex());
+        assertThat(actual)
+                .as("Check that if the first manager is in chain, contactNumbers, emergencyContacts and sex are not redacted ")
+                .extracting("contactNumbers", "emergencyContacts", "sex")
+                .isNotNull();
     }
 
     @Test
-    public void shouldNotRedactForMiddleManagerInChain() {
+    void testRedactForMiddleManagerInChain() {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, MIDDLE_MANAGER, DUTY_OF_CARE_CONTEXT);
+        var actual = DUTY_OF_CARE_RULE.apply(testEmployee, MIDDLE_MANAGER, DUTY_OF_CARE_CONTEXT);
 
         // Then
-        assertNotNull("Should not redact contact numbers if middle manager in chain", actual.getContactNumbers());
-        assertNotNull("Should not redact emergency contacts if middle manager in chain", actual.getEmergencyContacts());
-        assertNotNull("Should not redact sex if middle manager in chain", actual.getSex());
+        assertThat(actual)
+                .as("Check that if the middle manager is in chain, contactNumbers, emergencyContacts and sex are not redacted ")
+                .extracting("contactNumbers", "emergencyContacts", "sex")
+                .isNotNull();
     }
 
     @Test
-    public void shouldNotRedactForEndManagerInChain() {
+    void testRedactForEndManagerInChain() {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, END_MANAGER, DUTY_OF_CARE_CONTEXT);
+        var actual = DUTY_OF_CARE_RULE.apply(testEmployee, END_MANAGER, DUTY_OF_CARE_CONTEXT);
 
         // Then
-        assertNotNull("Should not redact contact numbers if end manager in chain", actual.getContactNumbers());
-        assertNotNull("Should not redact emergency contacts if end manager in chain", actual.getEmergencyContacts());
-        assertNotNull("Should not redact sex if end manager in chain", actual.getSex());
+        assertThat(actual)
+                .as("Check that if the end manager is in chain, contactNumbers, emergencyContacts and sex are not redacted ")
+                .extracting("contactNumbers", "emergencyContacts", "sex")
+                .isNotNull();
     }
 
     @Test
-    public void shouldNotRedactForHRAndDutyOfCare() {
+    void testRedactForHRAndDutyOfCare() {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, HR_USER, DUTY_OF_CARE_CONTEXT);
+        var actual = DUTY_OF_CARE_RULE.apply(testEmployee, HR_USER, DUTY_OF_CARE_CONTEXT);
 
         // Then
-        assertNotNull("Should not redact contact numbers if hr role with duty of care", actual.getContactNumbers());
-        assertNotNull("Should not redact emergency contacts if hr role with duty of care", actual.getEmergencyContacts());
-        assertNotNull("Should not redact sex if hr role with duty of care", actual.getSex());
+        assertThat(actual)
+                .as("Check that if the hr role is duty of care, contactNumbers, emergencyContacts and sex are not redacted ")
+                .extracting("contactNumbers", "emergencyContacts", "sex")
+                .isNotNull();
     }
 
     @Test
-    public void shouldRedactForNotManagerAndNotHR() {
+    void testRedactForNotManagerAndNotHR() {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, NON_HR_USER, DUTY_OF_CARE_CONTEXT);
+        var actual = DUTY_OF_CARE_RULE.apply(testEmployee, NON_HR_USER, DUTY_OF_CARE_CONTEXT);
 
         // Then
-        assertNull("Should redact contact numbers if not manager and not hr", actual.getContactNumbers());
-        assertNull("Should redact emergency contacts if not manager and not hr", actual.getEmergencyContacts());
-        assertNull("Should redact sex if not manager and not hr", actual.getSex());
+        assertThat(actual)
+                .as("Check that if there is no manager or hr, contactNumbers, emergencyContacts and sex are redacted ")
+                .extracting("contactNumbers", "emergencyContacts", "sex")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactForEndManagerInChainNotDutyOfCare() {
+    void testRedactForEndManagerInChainNotDutyOfCare() {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, END_MANAGER, NOT_DUTY_OF_CARE_CONTEXT);
+        var actual = DUTY_OF_CARE_RULE.apply(testEmployee, END_MANAGER, NOT_DUTY_OF_CARE_CONTEXT);
 
         // Then
-        assertNull("Should redact contact numbers if end manager in chain without duty of care", actual.getContactNumbers());
-        assertNull("Should redact emergency contacts if end manager in chain without duty of care", actual.getEmergencyContacts());
-        assertNull("Should redact sex if end manager in chain without duty of care", actual.getSex());
+        assertThat(actual)
+                .as("Check that if the end manager is in the chain without duty of care, contactNumbers, emergencyContacts and sex are redacted ")
+                .extracting("contactNumbers", "emergencyContacts", "sex")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactForHRAndNotDutyOfCare() {
+    void testRedactForHRAndNotDutyOfCare() {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, HR_USER, NOT_DUTY_OF_CARE_CONTEXT);
+        var actual = DUTY_OF_CARE_RULE.apply(testEmployee, HR_USER, NOT_DUTY_OF_CARE_CONTEXT);
 
         // Then
-        assertNull("Should redact contact numbers if hr role without duty of care", actual.getContactNumbers());
-        assertNull("Should redact emergency contacts if hr role without duty of care", actual.getEmergencyContacts());
-        assertNull("Should redact sex if hr role without duty of care", actual.getSex());
+        assertThat(actual)
+                .as("Check that if the hr role is not duty of care, contactNumbers, emergencyContacts and sex are redacted ")
+                .extracting("contactNumbers", "emergencyContacts", "sex")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactForNotManagerAndNotHRAndNotDutyOfCare() {
+    void testRedactForNotManagerAndNotHRAndNotDutyOfCare() {
         // Given - Nothing
 
         // When
-        Employee actual = DUTY_OF_CARE_RULE.apply(testEmployee, NON_HR_USER, NOT_DUTY_OF_CARE_CONTEXT);
+        var actual = DUTY_OF_CARE_RULE.apply(testEmployee, NON_HR_USER, NOT_DUTY_OF_CARE_CONTEXT);
 
         // Then
-        assertNull("Should redact contact numbers if not manager, not hr role and not duty of care purpose", actual.getContactNumbers());
-        assertNull("Should redact emergency contacts if not manager, not hr role and not duty of care purpose", actual.getEmergencyContacts());
-        assertNull("Should redact sex if not manager, not hr role and not duty of care purpose", actual.getSex());
+        assertThat(actual)
+                .as("Check that if there is no manager or hr with duty of care, contactNumbers, emergencyContacts and sex are redacted ")
+                .extracting("contactNumbers", "emergencyContacts", "sex")
+                .isNull();
     }
 }

@@ -19,8 +19,8 @@ package uk.gov.gchq.palisade.example.perf.actions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.gov.gchq.palisade.Util;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.example.perf.common.Util;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
 import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
 import uk.gov.gchq.syntheticdatagenerator.CreateDataFile;

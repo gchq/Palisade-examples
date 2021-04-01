@@ -23,9 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import uk.gov.gchq.palisade.client.akka.common.resource.LeafResource;
 import uk.gov.gchq.palisade.example.perf.config.AkkaClientWrapper;
 import uk.gov.gchq.palisade.example.perf.config.PerformanceConfiguration;
-import uk.gov.gchq.palisade.resource.LeafResource;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.concurrent.CompletionStage;

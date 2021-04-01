@@ -24,8 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
-import uk.gov.gchq.palisade.data.serialise.Serialiser;
-import uk.gov.gchq.palisade.resource.LeafResource;
+import uk.gov.gchq.palisade.client.akka.common.resource.LeafResource;
+import uk.gov.gchq.palisade.example.runner.common.Serialiser;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,26 +47,6 @@ public class AkkaClientWrapper<T> {
         this.materializer = materializer;
     }
 
-    public <M> Function<Sink<T, M>, M> execute(final String userId, final String fileName, final String purpose) {
-        String token = this.register(userId, fileName, purpose).toCompletableFuture().join();
-        Source<LeafResource, NotUsed> resources = this.fetch(token);
-        Source<T, NotUsed> records = resources.flatMapConcat(resource -> Source.fromJavaStream(() -> this.read(token, resource)));
-        return sink -> records.runWith(sink, materializer);
-    }
-
-    public CompletionStage<String> register(final String userId, final String fileName, final String purpose) {
-        return client.register(userId, fileNameToResourceId(fileName), Collections.singletonMap("purpose", purpose));
-    }
-
-    public Source<LeafResource, NotUsed> fetch(final String token) {
-        return client.fetchSource(token)
-                .mapMaterializedValue(ignored -> NotUsed.notUsed());
-    }
-
-    public Stream<T> read(final String token, final LeafResource resource) throws IOException {
-        return serialiser.deserialise(client.read(token, resource));
-    }
-
     private static String fileNameToResourceId(final String fileName) {
         File file;
         if (!Path.of(fileName).isAbsolute()) {
@@ -85,5 +65,25 @@ public class AkkaClientWrapper<T> {
             resourceId += "/";
         }
         return resourceId;
+    }
+
+    public <M> Function<Sink<T, M>, M> execute(final String userId, final String fileName, final String purpose) {
+        String token = this.register(userId, fileName, purpose).toCompletableFuture().join();
+        Source<LeafResource, NotUsed> resources = this.fetch(token);
+        Source<T, NotUsed> records = resources.flatMapConcat(resource -> Source.fromJavaStream(() -> this.read(token, resource)));
+        return sink -> records.runWith(sink, materializer);
+    }
+
+    public CompletionStage<String> register(final String userId, final String fileName, final String purpose) {
+        return client.register(userId, fileNameToResourceId(fileName), Collections.singletonMap("purpose", purpose));
+    }
+
+    public Source<LeafResource, NotUsed> fetch(final String token) {
+        return client.fetchSource(token)
+                .mapMaterializedValue(ignored -> NotUsed.notUsed());
+    }
+
+    public Stream<T> read(final String token, final LeafResource resource) throws IOException {
+        return serialiser.deserialise(client.read(token, resource));
     }
 }
