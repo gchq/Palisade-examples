@@ -4,7 +4,7 @@ List of third-party dependencies grouped by their license type
 * jackson-databind ([com.fasterxml.jackson.core:jackson-databind:2.10.0](http://github.com/FasterXML/jackson))
 * Spring Boot AutoConfigure ([org.springframework.boot:spring-boot-autoconfigure:2.2.0.RELEASE](https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-autoconfigure))
 * Spring Boot Starter ([org.springframework.boot:spring-boot-starter:2.2.0.RELEASE](https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-starters/spring-boot-starter))
-* synthetic-data-generator ([uk.gov.gchq.data-gen:synthetic-data-generator:0.0.3](https://github.com/gchq/synthetic-data-generator))
+* GCHQ Synthetic Data Generator ([uk.gov.gchq.data-gen:synthetic-data-generator:0.0.4](https://github.com/gchq/synthetic-data-generator))
 * client-akka ([uk.gov.gchq.palisade:client-akka:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/client-akka))
 * common ([uk.gov.gchq.palisade:common:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-common))
 * example-library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))

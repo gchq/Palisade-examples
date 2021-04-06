@@ -40,7 +40,7 @@
         <dependency>
             <groupId>uk.gov.gchq.data-gen</groupId>
             <artifactId>synthetic-data-generator</artifactId>
-            <version>0.0.2</version>
+            <version>0.0.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -58,6 +58,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>uk.gov.gchq.data-gen</groupId>
+            <artifactId>synthetic-data-generator</artifactId>
+            <version>0.0.4</version>
+            <classifier>jar-with-dependencies</classifier>
             <scope>test</scope>
         </dependency>
     </dependencies>
