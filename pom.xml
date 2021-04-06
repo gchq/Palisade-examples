@@ -53,7 +53,6 @@
         <java.version>11</java.version>
         <revision>SNAPSHOT</revision>
         <clients.revision>SNAPSHOT</clients.revision>
-        <common.revision>SNAPSHOT</common.revision>
         <readers.revision>SNAPSHOT</readers.revision>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
