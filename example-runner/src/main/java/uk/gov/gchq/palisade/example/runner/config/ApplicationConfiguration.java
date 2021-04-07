@@ -60,6 +60,7 @@ public class ApplicationConfiguration {
 
     @Bean
     AkkaClientWrapper<Employee> simpleClientWrapper(final AkkaClient client, final ActorSystem actorSystem) {
+        LOGGER.info("Starting AkkaClientWrapper with serialiser {}", AvroSerialiser.class.getSimpleName());
         return new AkkaClientWrapper<>(client, new AvroSerialiser<>(Employee.class), Materializer.createMaterializer(actorSystem));
     }
 
