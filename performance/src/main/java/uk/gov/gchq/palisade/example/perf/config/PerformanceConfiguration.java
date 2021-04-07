@@ -18,6 +18,7 @@ package uk.gov.gchq.palisade.example.perf.config;
 
 import uk.gov.gchq.palisade.client.akka.common.Generated;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -64,7 +65,6 @@ public class PerformanceConfiguration {
 
     @Generated
     public void setSmall(final int small) {
-        requireNonNull(small);
         this.small = small;
     }
 
@@ -75,7 +75,6 @@ public class PerformanceConfiguration {
 
     @Generated
     public void setLarge(final int large) {
-        requireNonNull(large);
         this.large = large;
     }
 
@@ -86,7 +85,6 @@ public class PerformanceConfiguration {
 
     @Generated
     public void setManyUnique(final int manyUnique) {
-        requireNonNull(manyUnique);
         this.manyUnique = manyUnique;
     }
 
@@ -97,7 +95,6 @@ public class PerformanceConfiguration {
 
     @Generated
     public void setManyDuplicates(final int manyDuplicates) {
-        requireNonNull(manyDuplicates);
         this.manyDuplicates = manyDuplicates;
     }
 
@@ -108,7 +105,6 @@ public class PerformanceConfiguration {
 
     @Generated
     public void setDryRuns(final int dryRuns) {
-        requireNonNull(dryRuns);
         this.dryRuns = dryRuns;
     }
 
@@ -119,19 +115,18 @@ public class PerformanceConfiguration {
 
     @Generated
     public void setLiveRuns(final int liveRuns) {
-        requireNonNull(liveRuns);
         this.liveRuns = liveRuns;
     }
 
     @Generated
     public List<String> getSkipTests() {
-        return skipTests;
+        return new ArrayList<>(skipTests);
     }
 
     @Generated
     public void setSkipTests(final List<String> skipTests) {
         requireNonNull(skipTests);
-        this.skipTests = skipTests;
+        this.skipTests = new ArrayList<>(skipTests);
     }
 
     @Generated

@@ -36,7 +36,7 @@ public final class Util {
         //set up a thread to watch this
         final ThreadFactory defaultFactory = Executors.defaultThreadFactory();
         //ensure thread is daemon
-        return runnable -> {
+        return (Runnable runnable) -> {
             Thread t = defaultFactory.newThread(runnable);
             t.setDaemon(true);
             return t;

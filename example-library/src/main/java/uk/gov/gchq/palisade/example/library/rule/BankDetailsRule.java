@@ -25,16 +25,18 @@ import uk.gov.gchq.palisade.example.library.common.User;
 import uk.gov.gchq.palisade.example.library.common.rule.Rule;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
-import java.util.EnumSet;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
 public class BankDetailsRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
+
     public BankDetailsRule() {
+        // Empty Constructor
     }
 
-    private Employee redactRecord(final Employee redactedRecord) {
+    private static Employee redactRecord(final Employee redactedRecord) {
         redactedRecord.setBankDetails(null);
         redactedRecord.setTaxCode(null);
         redactedRecord.setSalaryAmount(-1);
@@ -51,7 +53,7 @@ public class BankDetailsRule implements Rule<Employee> {
 
         if (user instanceof ExampleUser) {
             ExampleUser exampleUser = (ExampleUser) user;
-            EnumSet<TrainingCourse> trainingCompleted = exampleUser.getTrainingCompleted();
+            Set<TrainingCourse> trainingCompleted = exampleUser.getTrainingCompleted();
             Set<String> roles = exampleUser.getRoles();
             String purpose = context.getPurpose();
 

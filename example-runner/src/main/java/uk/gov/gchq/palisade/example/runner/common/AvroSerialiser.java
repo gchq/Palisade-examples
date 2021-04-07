@@ -69,6 +69,7 @@ public class AvroSerialiser<O> implements Serialiser<O> {
         return StreamSupport.stream(in.spliterator(), false);
     }
 
+    @SuppressWarnings({"java:S2221", "java:S112", "java:S2139"})
     @Override
     public void serialise(final Stream<O> objects, final OutputStream output) throws IOException {
         requireNonNull(output, "output");

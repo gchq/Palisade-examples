@@ -71,6 +71,7 @@ import java.util.Set;
  * also when a Store is initialised.
  * </p>
  */
+@SuppressWarnings({"java:S112", "java:S2658"})
 public class JSONSerialiser {
     public static final String JSON_SERIALISER_CLASS_KEY = "palisade.serialiser.json.class";
     /**
@@ -246,27 +247,32 @@ public class JSONSerialiser {
      *
      * @param object          the object to be serialised
      * @param fieldsToExclude optional property names to exclude from the json
-     * @return the provided object serialised into bytes
-     * @throws RuntimeException if the object fails to be serialised
+     * @return the provided object serialised (with pretty printing) into bytes
+     * @throws RuntimeException if the object fails to serialise
      */
     public static byte[] serialise(final Object object, final String... fieldsToExclude) {
-        return serialise(object, false, fieldsToExclude);
+        final ByteArrayBuilder byteArrayBuilder = new ByteArrayBuilder();
+        try {
+            serialise(object, JSON_FACTORY.createGenerator(byteArrayBuilder, JsonEncoding.UTF8), fieldsToExclude);
+        } catch (final IOException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+
+        return byteArrayBuilder.toByteArray();
     }
 
-
     /**
-     * Serialises an object.
+     * Serialises an object with pretty printing.
      *
      * @param object          the object to be serialised
-     * @param prettyPrint     true if the object should be serialised with pretty printing
      * @param fieldsToExclude optional property names to exclude from the json
      * @return the provided object serialised (with pretty printing) into bytes
      * @throws RuntimeException if the object fails to serialise
      */
-    public static byte[] serialise(final Object object, final boolean prettyPrint, final String... fieldsToExclude) {
+    public static byte[] serialisePretty(final Object object, final String... fieldsToExclude) {
         final ByteArrayBuilder byteArrayBuilder = new ByteArrayBuilder();
         try {
-            serialise(object, JSON_FACTORY.createGenerator(byteArrayBuilder, JsonEncoding.UTF8), prettyPrint, fieldsToExclude);
+            serialisePretty(object, JSON_FACTORY.createGenerator(byteArrayBuilder, JsonEncoding.UTF8), fieldsToExclude);
         } catch (final IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -279,15 +285,28 @@ public class JSONSerialiser {
      *
      * @param object          the object to be serialised and written to file
      * @param jsonGenerator   the {@link JsonGenerator} to use to write the object to
-     * @param prettyPrint     true if the object should be serialised with pretty printing
      * @param fieldsToExclude optional property names to exclude from the json
      * @throws RuntimeException if the object fails to serialise
      */
-    public static void serialise(final Object object, final JsonGenerator jsonGenerator, final boolean prettyPrint, final String... fieldsToExclude) {
-        if (prettyPrint) {
-            jsonGenerator.useDefaultPrettyPrinter();
+    public static void serialisePretty(final Object object, final JsonGenerator jsonGenerator, final String... fieldsToExclude) {
+        jsonGenerator.useDefaultPrettyPrinter();
+        final ObjectWriter writer = getInstance().mapper.writer(getFilterProvider(fieldsToExclude));
+        try {
+            writer.writeValue(jsonGenerator, object);
+        } catch (final IOException e) {
+            throw new RuntimeException("Failed to serialise object to json: " + e.getMessage(), e);
         }
+    }
 
+    /**
+     * Serialises an object using the provided json generator.
+     *
+     * @param object          the object to be serialised and written to file
+     * @param jsonGenerator   the {@link JsonGenerator} to use to write the object to
+     * @param fieldsToExclude optional property names to exclude from the json
+     * @throws RuntimeException if the object fails to serialise
+     */
+    public static void serialise(final Object object, final JsonGenerator jsonGenerator, final String... fieldsToExclude) {
         final ObjectWriter writer = getInstance().mapper.writer(getFilterProvider(fieldsToExclude));
         try {
             writer.writeValue(jsonGenerator, object);

@@ -37,6 +37,7 @@ import static java.util.Objects.requireNonNull;
  * additional information that can be stored and recovered in this structure and passed along with the request/operation.
  * i.e. A users purpose for requesting the contents of a file.
  */
+@SuppressWarnings({"java:S1166", "java:S112"})
 @JsonPropertyOrder(value = {"class", "contents"}, alphabetic = true)
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.CLASS,
@@ -54,7 +55,8 @@ public class Context {
 
     @JsonCreator
     public Context(@JsonProperty("contents") final Map<String, Object> contents) {
-        this.setContents(contents);
+        requireNonNull(contents);
+        this.contents = contents;
     }
 
     @Generated
@@ -62,7 +64,6 @@ public class Context {
         this.setContents(contents);
         return this;
     }
-
 
     @Generated
     public Map<String, Object> getContents() {

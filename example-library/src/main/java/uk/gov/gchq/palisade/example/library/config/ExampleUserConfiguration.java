@@ -20,6 +20,7 @@ import uk.gov.gchq.palisade.example.library.common.Generated;
 import uk.gov.gchq.palisade.example.library.common.service.UserConfiguration;
 import uk.gov.gchq.palisade.example.library.common.service.UserPrepopulationFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -46,19 +47,19 @@ public class ExampleUserConfiguration implements UserConfiguration {
      * @param users a list of objects implementing the {@link UserPrepopulationFactory} interface
      */
     public ExampleUserConfiguration(final List<ExampleUserPrepopulationFactory> users) {
-        this.users = users;
+        this.users = new ArrayList<>(users);
     }
 
     @Override
     @Generated
     public List<ExampleUserPrepopulationFactory> getUsers() {
-        return users;
+        return new ArrayList<>(users);
     }
 
     @Generated
     public void setUsers(final List<ExampleUserPrepopulationFactory> users) {
         requireNonNull(users);
-        this.users = users;
+        this.users = new ArrayList<>(users);
     }
 
     @Override

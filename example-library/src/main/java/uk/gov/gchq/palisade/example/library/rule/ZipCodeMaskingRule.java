@@ -32,11 +32,13 @@ import java.util.Objects;
 import java.util.Set;
 
 public class ZipCodeMaskingRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
     public ZipCodeMaskingRule() {
+        // Empty Constructor
     }
 
-    private Employee maskAddress(final Employee maskedRecord) {
+    private static Employee maskAddress(final Employee maskedRecord) {
         Address address = maskedRecord.getAddress();
         WorkLocation location = maskedRecord.getWorkLocation();
         Address workAddress = location.getAddress();
@@ -54,25 +56,28 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         return maskedRecord;
     }
 
-    private Employee redactAddress(final Employee maskedRecord) {
+    private static Employee redactAddress(final Employee maskedRecord) {
         maskedRecord.setAddress(null);
         return maskedRecord;
     }
 
+    @SuppressWarnings("java:S1142") // Supress number of returns in method
     public Employee apply(final Employee record, final User user, final Context context) {
         if (null == record) {
             return null;
         }
         Objects.requireNonNull(user);
         Objects.requireNonNull(context);
-        UserId userId = user.getUserId();
-        Manager[] managers = record.getManager();
-        Set<String> roles = user.getRoles();
-        String purpose = context.getPurpose();
 
+
+        Set<String> roles = user.getRoles();
         if (roles.contains(Role.HR.name())) {
             return record;
         }
+
+        UserId userId = user.getUserId();
+        Manager[] managers = record.getManager();
+        String purpose = context.getPurpose();
 
         if (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
             return record;

@@ -27,6 +27,7 @@ import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
 
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -64,7 +65,7 @@ public class RunAction implements Runnable {
         this.dryRuns = dryRuns;
         this.liveRuns = liveRuns;
         this.testsToRun = trialsToRun;
-        this.skipTests = skipTests;
+        this.skipTests = new HashSet<>(skipTests);
     }
 
     /**
@@ -168,6 +169,7 @@ public class RunAction implements Runnable {
      * @param collector   the output collector
      * @param type        test type being run
      */
+    @SuppressWarnings("java:S2221")
     private static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
         requireNonNull(trial, "trial");
         requireNonNull(collector, COLLECTOR);

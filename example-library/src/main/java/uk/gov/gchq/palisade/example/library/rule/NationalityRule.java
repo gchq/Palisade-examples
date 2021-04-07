@@ -28,11 +28,13 @@ import java.util.Set;
 import static java.util.Objects.requireNonNull;
 
 public class NationalityRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
     public NationalityRule() {
+        // Empty Constructor
     }
 
-    private Employee redactRecord(final Employee redactedRecord) {
+    private static Employee redactRecord(final Employee redactedRecord) {
         redactedRecord.setNationality(null);
         return redactedRecord;
     }
@@ -44,6 +46,7 @@ public class NationalityRule implements Rule<Employee> {
 
         requireNonNull(user);
         requireNonNull(context);
+
         Set<String> roles = user.getRoles();
         String purpose = context.getPurpose();
 

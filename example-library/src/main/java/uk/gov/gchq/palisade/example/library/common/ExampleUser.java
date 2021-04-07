@@ -17,7 +17,9 @@ package uk.gov.gchq.palisade.example.library.common;
 
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
@@ -25,7 +27,7 @@ import static java.util.Objects.requireNonNull;
 public class ExampleUser extends User {
     private static final long serialVersionUID = 1L;
 
-    private EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
+    private final EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     public ExampleUser(final User user) {
         setUserId(user.getUserId());
@@ -43,15 +45,15 @@ public class ExampleUser extends User {
         return this;
     }
 
-    public ExampleUser trainingCompleted(final EnumSet<TrainingCourse> trainingCompleted) {
+    public ExampleUser trainingCompleted(final Set<TrainingCourse> trainingCompleted) {
         requireNonNull(trainingCompleted, "cannot add null training completed");
         trainingCourses.clear();
         trainingCourses.addAll(trainingCompleted);
         return this;
     }
 
-    public EnumSet<TrainingCourse> getTrainingCompleted() {
-        return trainingCourses;
+    public Set<TrainingCourse> getTrainingCompleted() {
+        return new HashSet<>(trainingCourses);
     }
 
     public void setTrainingCompleted(final TrainingCourse... trainingCompleted) {

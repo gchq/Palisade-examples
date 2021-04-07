@@ -17,16 +17,16 @@
 package uk.gov.gchq.palisade.example.library.common.rule;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import uk.gov.gchq.palisade.example.library.common.Generated;
-import uk.gov.gchq.palisade.example.library.common.jsonserialisation.JSONSerialiser;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -175,35 +175,20 @@ public class Rules<T extends Serializable> implements Serializable {
 
     @Override
     public boolean equals(final Object o) {
-        boolean rtn = (this == o);
-        if (!rtn && (o != null && this.getClass() == o.getClass())) {
-
-            final Rules<?> that = (Rules<?>) o;
-
-            final EqualsBuilder builder = new EqualsBuilder()
-                    .append(message, that.message)
-                    .append(this.rulesMap.keySet(), that.getRules().keySet());
-
-            if (builder.isEquals()) {
-                for (final Map.Entry<String, Rule<T>> entry : this.rulesMap.entrySet()) {
-                    final String ruleName = entry.getKey();
-                    final Rule<?> thisRule = entry.getValue();
-                    final Rule<?> thatRule = that.getRules().get(ruleName);
-
-                    builder.append(thisRule.getClass(), thatRule.getClass());
-                    if (builder.isEquals()) {
-                        // This is expensive - but we don't have any other way of doing it
-                        builder.append(JSONSerialiser.serialise(thisRule), JSONSerialiser.serialise(thatRule));
-                    }
-
-                    if (!builder.isEquals()) {
-                        return false;
-                    }
-                }
-            }
-            rtn = builder.isEquals();
+        if (this == o) {
+            return true;
         }
-        return rtn;
+        if (!(o instanceof Rules)) {
+            return false;
+        }
+        Rules<?> other = (Rules<?>) o;
+        LinkedList<Class<? extends Rule>> thisRuleClasses = this.rulesMap.values().stream()
+                .map(Rule::getClass)
+                .collect(Collectors.toCollection(LinkedList::new));
+        LinkedList<Class<? extends Rule>> otherRuleClasses = other.rulesMap.values().stream()
+                .map(Rule::getClass)
+                .collect(Collectors.toCollection(LinkedList::new));
+        return thisRuleClasses.equals(otherRuleClasses);
     }
 
     @Override

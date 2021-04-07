@@ -32,7 +32,7 @@ class ExampleUserTest {
                 .auths("authorised_person", "more_authorisations");
 
         //when
-        byte[] bytesSerialised = JSONSerialiser.serialise(user, true);
+        byte[] bytesSerialised = JSONSerialiser.serialisePretty(user);
         var newUser = JSONSerialiser.deserialise(bytesSerialised, User.class);
 
         //then

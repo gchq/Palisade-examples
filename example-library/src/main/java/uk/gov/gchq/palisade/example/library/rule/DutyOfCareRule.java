@@ -31,10 +31,13 @@ import java.util.Set;
 import static java.util.Objects.requireNonNull;
 
 public class DutyOfCareRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
+
     public DutyOfCareRule() {
+        // Empty Constructor
     }
 
-    private Employee redactRecord(final Employee redactedRecord) {
+    private static Employee redactRecord(final Employee redactedRecord) {
         redactedRecord.setContactNumbers(null);
         redactedRecord.setEmergencyContacts(null);
         redactedRecord.setSex(null);

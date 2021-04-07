@@ -44,6 +44,7 @@ import java.util.stream.Stream;
 public final class BulkTestExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(BulkTestExample.class);
     private static final Integer NUMBER_OF_EMPLOYEES = 10;
+    private static final Integer NUMBER_OF_COPIES = 10;
     /**
      * Set by the destruct method to ensure this doesn't happen via a shutdown thread as well.
      */
@@ -83,10 +84,10 @@ public final class BulkTestExample implements CommandLineRunner {
      * @param directory the original directory
      * @throws IOException for any filesystem errors
      */
+    @SuppressWarnings("java:S112")
     private static void removeBulkData(final String directory) throws IOException {
         if (HAS_DESTRUCTION_OCCURRED.compareAndSet(false, true)) {
             Path dir = Paths.get(directory);
-            Path newLocation = generateNewDirectoryName(dir);
 
             //remove existing files
             try (Stream<Path> paths = Files.list(dir)) {
@@ -103,6 +104,7 @@ public final class BulkTestExample implements CommandLineRunner {
             Files.deleteIfExists(dir);
             LOGGER.info("Deleted {}", dir);
             //copy back
+            Path newLocation = generateNewDirectoryName(dir);
             Files.move(newLocation, dir);
             LOGGER.info("Moved {} to {}", newLocation, dir);
         } else {
@@ -118,10 +120,11 @@ public final class BulkTestExample implements CommandLineRunner {
      */
     private void createBulkData() throws IOException {
         Path dir = Paths.get(configuration.getDirectory());
-        Path newLocation = generateNewDirectoryName(dir);
         if (Files.exists(dir) && !Files.isDirectory(dir)) {
             throw new IllegalArgumentException(configuration.getDirectory() + " is not a directory");
         }
+
+        Path newLocation = generateNewDirectoryName(dir);
         moveDataDir(dir, newLocation);
 
         //call the HR Data generator
@@ -158,11 +161,11 @@ public final class BulkTestExample implements CommandLineRunner {
         if (numCopies < 0) {
             throw new IllegalArgumentException("Can't have fewer than 0 copies");
         }
-        //now copy that out as many times as necessary
+        // now copy that out as many times as necessary
         for (int i = 1; i < numCopies; i++) {
             Path newFile = originalFile.resolveSibling("employee_file" + i + ".avro");
             Files.copy(originalFile, newFile);
-            if (i % 10 == 0) {
+            if (i % NUMBER_OF_COPIES == 0) {
                 LOGGER.info("Wrote {}", newFile);
             }
         }

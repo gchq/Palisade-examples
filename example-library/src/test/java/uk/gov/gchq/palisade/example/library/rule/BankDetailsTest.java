@@ -55,7 +55,7 @@ class BankDetailsTest {
     }
 
     @Test
-    void shouldNotRedactForPayrollAndSalary() {
+    void testShouldNotRedactForPayrollAndSalary() {
         // Given - Employee, Role, Reason
 
         // When
@@ -68,7 +68,7 @@ class BankDetailsTest {
     }
 
     @Test
-    void shouldRedactIfNotSalaryPurpose() {
+    void testShouldRedactIfNotSalaryPurpose() {
         // Given - Employee, Role, Reason
 
         // When
@@ -81,7 +81,7 @@ class BankDetailsTest {
     }
 
     @Test
-    void shouldRedactIfNotPayrollTrained() {
+    void testShouldRedactIfNotPayrollTrained() {
         // Given - Employee, Role, Reason
 
         // When
@@ -94,7 +94,7 @@ class BankDetailsTest {
     }
 
     @Test
-    void shouldRedactIfNotHRRole() {
+    void testShouldRedactIfNotHRRole() {
         // Given - Employee, Role, Reason
 
         // When
