@@ -26,6 +26,7 @@ public interface UserConfiguration {
      *
      * @return a {@link List} of the objects that have implemented {@link UserPrepopulationFactory}.
      */
+    @SuppressWarnings("java:S1452") // Using wildcard in return type warning
     List<? extends UserPrepopulationFactory> getUsers();
 
 }

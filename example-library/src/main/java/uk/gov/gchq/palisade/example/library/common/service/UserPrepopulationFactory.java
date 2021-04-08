@@ -37,7 +37,7 @@ import uk.gov.gchq.palisade.User;
         include = As.EXISTING_PROPERTY,
         property = "class"
 )
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public interface UserPrepopulationFactory {
 
     /**
