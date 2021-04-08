@@ -18,6 +18,7 @@ image:
   name: deployment
   tag: SNAPSHOT-35fe85c
   pullPolicy: IfNotPresent
+  codeRelease: 0.5.0-SNAPSHOT
 
 resources:
   limits:
