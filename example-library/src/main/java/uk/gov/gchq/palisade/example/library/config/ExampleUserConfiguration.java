@@ -17,7 +17,7 @@
 package uk.gov.gchq.palisade.example.library.config;
 
 import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.service.UserConfiguration;
+import uk.gov.gchq.palisade.example.library.common.service.UserConfiguration;
 
 import java.util.Collections;
 import java.util.List;
