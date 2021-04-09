@@ -40,18 +40,15 @@ global:
   repository: palisade
 
   # persistent-volume and associated claims configurations
-  # guarantee the data we are expecting is mounted appropriately
   persistence:
     classpathJars:
       local:
-        # must be manually set to an absolute path
-        # the `deployment: example` wil lead to the hostPath being appended to `./deployment/target/example` as intended
-        hostPath: "./deployment/target"
+        hostPath: "/data"
 
     dataStores:
       palisade-data-store:
         local:
-          hostPath: "./resources/data"
+          hostPath: "/data"
 
     redis-master.local.hostPath: "/data"
     redis-slave.local.hostPath: "/data"
