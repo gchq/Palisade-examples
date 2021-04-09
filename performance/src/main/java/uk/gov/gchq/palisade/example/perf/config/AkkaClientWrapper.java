@@ -22,8 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
-import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.resource.LeafResource;
+import uk.gov.gchq.syntheticdatagenerator.serialise.Serialiser;
 
 import java.io.File;
 import java.io.IOException;

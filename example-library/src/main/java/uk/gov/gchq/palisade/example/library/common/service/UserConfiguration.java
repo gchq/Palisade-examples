@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib@feature/PAL-1033-add-synth-data-gen')_
+package uk.gov.gchq.palisade.example.library.common.service;
 
-timestamps {
-    examples()
+import java.util.List;
+
+public interface UserConfiguration {
+
+    /**
+     * Gets a {@link List} of the {@link UserPrepopulationFactory} implemented
+     * objects that have been created from a yaml file.
+     *
+     * @return a {@link List} of the objects that have implemented {@link UserPrepopulationFactory}.
+     */
+    @SuppressWarnings("java:S1452") // Using wildcard in return type warning
+    List<? extends UserPrepopulationFactory> getUsers();
+
 }
