@@ -1283,4 +1283,4 @@ population:
   serialisers:
   - flavourFormat: ${default.format}
     flavourType: ${default.type}
-    serialiserClass: uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser
+    serialiserClass: uk.gov.gchq.palisade.example.library.common.SynthDataGenAvroSerialiserAdapter

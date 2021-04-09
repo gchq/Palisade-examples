@@ -47,6 +47,7 @@ spec:
         args:
           - {{ include "palisade.namespace" . | quote }}
           - {{ .Values.global.deployment }}
+          - {{ .Values.image.codeRelease }}
         volumeMounts:
         - name: {{ include "deployment.deployment.fullname" . }}
           mountPath: {{ include "deployment.deployment.path" . }}

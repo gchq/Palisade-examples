@@ -47,26 +47,6 @@ public class AkkaClientWrapper<T> {
         this.materializer = materializer;
     }
 
-    private static String fileNameToResourceId(final String fileName) {
-        File file;
-        if (!Path.of(fileName).isAbsolute()) {
-            try {
-                file = new File(fileName).getCanonicalFile();
-            } catch (IOException ex) {
-                LOGGER.warn("Failed to get CanonicalFile for '{}', using AbsoluteFile instead", fileName, ex);
-                file = new File(fileName).getAbsoluteFile();
-            }
-        } else {
-            file = new File(fileName);
-        }
-
-        String resourceId = file.toURI().toString();
-        if ((fileName.endsWith("/") || fileName.endsWith("\\")) && !resourceId.endsWith("/")) {
-            resourceId += "/";
-        }
-        return resourceId;
-    }
-
     public <M> Function<Sink<T, M>, M> execute(final String userId, final String fileName, final String purpose) {
         String token = this.register(userId, fileName, purpose).toCompletableFuture().join();
         Source<LeafResource, NotUsed> resources = this.fetch(token);
@@ -85,5 +65,25 @@ public class AkkaClientWrapper<T> {
 
     public Stream<T> read(final String token, final LeafResource resource) throws IOException {
         return serialiser.deserialise(client.read(token, resource));
+    }
+
+    private static String fileNameToResourceId(final String fileName) {
+        File file;
+        if (!Path.of(fileName).isAbsolute()) {
+            try {
+                file = new File(fileName).getCanonicalFile();
+            } catch (IOException ex) {
+                LOGGER.warn("Failed to get CanonicalFile for '{}', using AbsoluteFile instead", fileName, ex);
+                file = new File(fileName).getAbsoluteFile();
+            }
+        } else {
+            file = new File(fileName);
+        }
+
+        String resourceId = file.toURI().toString();
+        if ((fileName.endsWith("/") || fileName.endsWith("\\")) && !resourceId.endsWith("/")) {
+            resourceId += "/";
+        }
+        return resourceId;
     }
 }
