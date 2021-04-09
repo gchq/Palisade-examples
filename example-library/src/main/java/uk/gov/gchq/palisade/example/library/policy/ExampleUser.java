@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.gov.gchq.palisade.example.library.common;
+package uk.gov.gchq.palisade.example.library.policy;
+
+import uk.gov.gchq.palisade.example.library.common.Generated;
+import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
+import uk.gov.gchq.palisade.service.policy.common.User;
 
 import java.util.Arrays;
 import java.util.EnumSet;

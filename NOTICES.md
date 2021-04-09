@@ -7,6 +7,9 @@ List of third-party dependencies grouped by their license type
 * Spring Boot Starter ([org.springframework.boot:spring-boot-starter:2.2.0.RELEASE](https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-starters/spring-boot-starter))
 * client-akka ([uk.gov.gchq.palisade:client-akka:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/client-akka))
 * example-library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
+* policy-service ([uk.gov.gchq.palisade:policy-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/policy-service))
+* resource-service ([uk.gov.gchq.palisade:resource-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/resource-service))
+* user-service ([uk.gov.gchq.palisade:user-service:0.5.0-SNAPSHOT](no url defined))
 
 ### [Eclipse Public License v2.0](./licenses/not recognised):
 * JUnit Jupiter Engine ([org.junit.jupiter:junit-jupiter-engine:5.6.2](https://junit.org/junit5/))

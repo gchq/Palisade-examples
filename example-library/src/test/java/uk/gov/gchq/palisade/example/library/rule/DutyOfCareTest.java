@@ -19,11 +19,11 @@ package uk.gov.gchq.palisade.example.library.rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import uk.gov.gchq.palisade.example.library.common.Context;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
-import uk.gov.gchq.palisade.example.library.common.User;
-import uk.gov.gchq.palisade.example.library.common.UserId;
+import uk.gov.gchq.palisade.service.policy.common.Context;
+import uk.gov.gchq.palisade.service.policy.common.User;
+import uk.gov.gchq.palisade.service.policy.common.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Random;

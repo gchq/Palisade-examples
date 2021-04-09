@@ -16,17 +16,13 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import uk.gov.gchq.palisade.example.library.common.Context;
-import uk.gov.gchq.palisade.example.library.common.EmployeeUtils;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
-import uk.gov.gchq.palisade.example.library.common.User;
-import uk.gov.gchq.palisade.example.library.common.UserId;
-import uk.gov.gchq.palisade.example.library.common.rule.Rule;
-import uk.gov.gchq.syntheticdatagenerator.types.Address;
+import uk.gov.gchq.palisade.example.library.policy.EmployeeUtils;
+import uk.gov.gchq.palisade.service.policy.common.Context;
+import uk.gov.gchq.palisade.service.policy.common.User;
+import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
-import uk.gov.gchq.syntheticdatagenerator.types.Manager;
-import uk.gov.gchq.syntheticdatagenerator.types.WorkLocation;
 
 import java.util.Objects;
 import java.util.Set;
@@ -39,13 +35,13 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
     }
 
     private static Employee maskAddress(final Employee maskedRecord) {
-        Address address = maskedRecord.getAddress();
-        WorkLocation location = maskedRecord.getWorkLocation();
-        Address workAddress = location.getAddress();
-        String zipCode = address.getZipCode();
-        String zipCodeRedacted = zipCode.substring(0, zipCode.length() - 1) + "*";
-        String workZipCode = workAddress.getZipCode();
-        String redactedWorkZipCode = workZipCode.substring(0, workZipCode.length() - 1) + "*";
+        var address = maskedRecord.getAddress();
+        var location = maskedRecord.getWorkLocation();
+        var workAddress = location.getAddress();
+        var zipCode = address.getZipCode();
+        var zipCodeRedacted = zipCode.substring(0, zipCode.length() - 1) + "*";
+        var workZipCode = workAddress.getZipCode();
+        var redactedWorkZipCode = workZipCode.substring(0, workZipCode.length() - 1) + "*";
         address.setStreetAddressNumber(null);
         address.setStreetName(null);
         address.setZipCode(zipCodeRedacted);
@@ -61,7 +57,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         return maskedRecord;
     }
 
-    @SuppressWarnings("java:S1142") // Supress number of returns in method
+    @SuppressWarnings("java:S1142") // Suppress number of returns in method
     public Employee apply(final Employee record, final User user, final Context context) {
         if (null == record) {
             return null;
@@ -75,9 +71,9 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
             return record;
         }
 
-        UserId userId = user.getUserId();
-        Manager[] managers = record.getManager();
-        String purpose = context.getPurpose();
+        var userId = user.getUserId();
+        var managers = record.getManager();
+        var purpose = context.getPurpose();
 
         if (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
             return record;

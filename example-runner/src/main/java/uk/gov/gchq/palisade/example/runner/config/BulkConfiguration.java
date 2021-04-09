@@ -16,8 +16,7 @@
 
 package uk.gov.gchq.palisade.example.runner.config;
 
-
-import uk.gov.gchq.palisade.example.runner.common.Generated;
+import uk.gov.gchq.palisade.service.user.common.Generated;
 
 import java.util.Optional;
 

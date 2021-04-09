@@ -18,10 +18,10 @@ package uk.gov.gchq.palisade.example.library.rule;
 
 import org.junit.jupiter.api.Test;
 
-import uk.gov.gchq.palisade.example.library.common.Context;
 import uk.gov.gchq.palisade.example.library.common.Role;
-import uk.gov.gchq.palisade.example.library.common.User;
-import uk.gov.gchq.palisade.example.library.common.resource.impl.FileResource;
+import uk.gov.gchq.palisade.service.policy.common.Context;
+import uk.gov.gchq.palisade.service.policy.common.User;
+import uk.gov.gchq.palisade.service.policy.common.resource.impl.FileResource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

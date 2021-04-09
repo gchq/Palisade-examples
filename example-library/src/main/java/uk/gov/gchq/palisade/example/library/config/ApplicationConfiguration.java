@@ -21,6 +21,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import uk.gov.gchq.palisade.example.library.user.ExampleUserConfiguration;
+import uk.gov.gchq.palisade.example.library.user.ExampleUserPrepopulationFactory;
+
 @Configuration
 public class ApplicationConfiguration {
     @Bean

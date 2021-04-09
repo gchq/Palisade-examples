@@ -16,13 +16,13 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import uk.gov.gchq.palisade.example.library.common.Context;
-import uk.gov.gchq.palisade.example.library.common.ExampleUser;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
-import uk.gov.gchq.palisade.example.library.common.User;
-import uk.gov.gchq.palisade.example.library.common.rule.Rule;
+import uk.gov.gchq.palisade.example.library.policy.ExampleUser;
+import uk.gov.gchq.palisade.service.policy.common.Context;
+import uk.gov.gchq.palisade.service.policy.common.User;
+import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Set;
@@ -65,4 +65,5 @@ public class BankDetailsRule implements Rule<Employee> {
         }
         return redactRecord(record);
     }
+
 }

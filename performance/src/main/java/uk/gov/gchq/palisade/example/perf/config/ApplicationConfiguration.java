@@ -31,8 +31,8 @@ import uk.gov.gchq.palisade.client.akka.AkkaClient;
 import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
-import uk.gov.gchq.palisade.example.perf.common.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Collection;

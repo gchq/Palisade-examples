@@ -18,24 +18,26 @@ package uk.gov.gchq.palisade.example.library.common;
 
 import org.junit.jupiter.api.Test;
 
-import uk.gov.gchq.palisade.example.library.common.jsonserialisation.JSONSerialiser;
+import uk.gov.gchq.palisade.example.library.user.ExampleUser;
+import uk.gov.gchq.palisade.service.user.common.User;
+import uk.gov.gchq.palisade.service.user.common.jsonserialisation.JSONSerialiser;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ExampleUserTest {
     @Test
     void testDeserialiseExampleUser() {
-        //given
+        // given
         var user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE)
                 .userId("bob")
                 .roles(Role.HR.name(), "another_role")
                 .auths("authorised_person", "more_authorisations");
 
-        //when
+        // when
         byte[] bytesSerialised = JSONSerialiser.serialisePretty(user);
         var newUser = JSONSerialiser.deserialise(bytesSerialised, User.class);
 
-        //then
+        // then
         assertThat(user)
                 .as("Deserialised user should be equal to original user when using recursion")
                 .usingRecursiveComparison()

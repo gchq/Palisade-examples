@@ -37,6 +37,13 @@
     </properties>
 
     <dependencies>
+        <!--Palisade Dependency-->
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>user-service</artifactId>
+            <version>0.5.0-${services.revision}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <!-- Palisade client implementation -->
             <groupId>uk.gov.gchq.palisade</groupId>
