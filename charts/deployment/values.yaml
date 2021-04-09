@@ -16,7 +16,7 @@ replicaCount: 1
 
 image:
   name: deployment
-  tag: SNAPSHOT-35fe85c
+  tag: SNAPSHOT-59cef01
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 

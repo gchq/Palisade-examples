@@ -15,8 +15,7 @@
 
 # Current namespace for pods
 NAMESPACE=$1
-DEPLOYMENT=$2
-REVISION=$3
+TARGET=$2
 
 # Copy the Dockerfile's ROM-like store of example jars and data compiled into the image during `docker build`
 # Once copied to the k8s mountpoints, it will be available to all other services
@@ -26,9 +25,9 @@ echo "Copying Dockerfile data to shared cluster storage paths"
 # Copy example jars that will be loaded onto the classpath
 # These include pre-population configs and example data-types (Employee)
 # These are needed by the user, resource, policy and data services
-mkdir -p /usr/share/classpath/$DEPLOYMENT/$REVISION
-cp -vrf /usr/share/example-jars/* /usr/share/classpath/$DEPLOYMENT/$REVISION/
-echo "Copied example-jars to /usr/share/classpath/$DEPLOYMENT/$REVISION"
+mkdir -p $TARGET
+cp -vrf /usr/share/example-jars/* $TARGET
+echo "Copied example-jars to $TARGET"
 
 # Copy example AVRO data that will be read by the data-service
 # The location of these is dependant on the resource-service pre-population values

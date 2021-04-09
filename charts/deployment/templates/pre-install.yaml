@@ -46,8 +46,7 @@ spec:
         command: [ "/bin/bash", "/bin/copyExampleData.sh" ]
         args:
           - {{ include "palisade.namespace" . | quote }}
-          - {{ .Values.global.deployment }}
-          - {{ .Values.image.codeRelease }}
+          - {{ include "deployment.deployment.path" . | quote }}
         volumeMounts:
         - name: {{ include "deployment.deployment.fullname" . }}
           mountPath: {{ include "deployment.deployment.path" . }}

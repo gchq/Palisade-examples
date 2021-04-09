@@ -17,7 +17,7 @@
 package uk.gov.gchq.palisade.example.library.config;
 
 import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.example.library.common.service.UserConfiguration;
+import uk.gov.gchq.palisade.service.UserConfiguration;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +42,7 @@ public class ExampleUserConfiguration implements UserConfiguration {
      * Constructor with 1 argument for an example implementation
      * of the {@link UserConfiguration} interface
      *
-     * @param users a list of objects implementing the {@link uk.gov.gchq.palisade.example.library.common.service.UserPrepopulationFactory} interface
+     * @param users a list of objects implementing the {@link uk.gov.gchq.palisade.service.UserPrepopulationFactory} interface
      */
     public ExampleUserConfiguration(final List<ExampleUserPrepopulationFactory> users) {
         this.users = users;
