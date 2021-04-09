@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib@feature/PAL-1033-add-synth-data-gen')_
+@Library('jenkinsfile-lib@feature/PAL-999-RemoveCommonLibrary')_
 
 timestamps {
     examples()
