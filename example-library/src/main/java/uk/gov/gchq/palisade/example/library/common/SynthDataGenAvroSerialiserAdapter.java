@@ -27,6 +27,8 @@ import java.io.OutputStream;
 import java.util.stream.Stream;
 
 public class SynthDataGenAvroSerialiserAdapter<T> implements Serialiser<T> {
+    private static final long serialVersionUID = 1L;
+
     private final AvroSerialiser<T> delegate;
 
     public SynthDataGenAvroSerialiserAdapter(@JsonProperty("domainClass") final Class<T> domainClass) {
