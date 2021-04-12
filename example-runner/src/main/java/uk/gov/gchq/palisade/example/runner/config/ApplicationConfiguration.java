@@ -18,7 +18,12 @@ package uk.gov.gchq.palisade.example.runner.config;
 
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +41,6 @@ import uk.gov.gchq.palisade.client.akka.AkkaClient;
 import uk.gov.gchq.palisade.example.runner.runner.BulkTestExample;
 import uk.gov.gchq.palisade.example.runner.runner.CommandLineExample;
 import uk.gov.gchq.palisade.example.runner.runner.RestExample;
-import uk.gov.gchq.palisade.service.user.common.jsonserialisation.JSONSerialiser;
 import uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
@@ -103,6 +107,14 @@ public class ApplicationConfiguration {
     @Bean
     @Primary
     ObjectMapper jacksonObjectMapper() {
-        return JSONSerialiser.createDefaultMapper();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(Include.NON_NULL);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.configure(SerializationFeature.CLOSE_CLOSEABLE, true);
+        mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        mapper.registerModule(new Jdk8Module());
+        mapper.registerModule(new JavaTimeModule());
+        return mapper;
     }
 }

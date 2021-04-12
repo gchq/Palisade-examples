@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.user;
+package uk.gov.gchq.palisade.example.library.rule;
 
-import uk.gov.gchq.palisade.service.user.common.UserId;
+import uk.gov.gchq.palisade.service.policy.common.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
 public final class EmployeeUtils {

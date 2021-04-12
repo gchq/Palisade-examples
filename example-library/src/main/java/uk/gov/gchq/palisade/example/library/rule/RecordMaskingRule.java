@@ -17,7 +17,6 @@
 package uk.gov.gchq.palisade.example.library.rule;
 
 import uk.gov.gchq.palisade.example.library.common.Role;
-import uk.gov.gchq.palisade.example.library.policy.EmployeeUtils;
 import uk.gov.gchq.palisade.service.policy.common.Context;
 import uk.gov.gchq.palisade.service.policy.common.User;
 import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
