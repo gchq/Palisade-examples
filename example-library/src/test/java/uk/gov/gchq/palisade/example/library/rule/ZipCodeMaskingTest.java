@@ -90,7 +90,7 @@ class ZipCodeMaskingTest {
         assertThat(actual.getAddress())
                 .as("Should redact street name and street address number for Estates role")
                 .extracting("streetName", "streetAddressNumber")
-                .isNull();
+                .containsOnlyNulls();
 
         assertThat(originalZipCode.substring(0, originalZipCode.length() - 1))
                 .as("Should not mask first n-1 characters of zip code for Estates role")

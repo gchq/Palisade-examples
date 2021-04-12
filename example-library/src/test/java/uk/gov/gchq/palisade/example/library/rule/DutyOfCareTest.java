@@ -119,7 +119,7 @@ class DutyOfCareTest {
         assertThat(actual)
                 .as("Check that if there is no manager or hr, contactNumbers, emergencyContacts and sex are redacted ")
                 .extracting("contactNumbers", "emergencyContacts", "sex")
-                .isNull();
+                .containsOnlyNulls();
     }
 
     @Test
@@ -133,7 +133,7 @@ class DutyOfCareTest {
         assertThat(actual)
                 .as("Check that if the end manager is in the chain without duty of care, contactNumbers, emergencyContacts and sex are redacted ")
                 .extracting("contactNumbers", "emergencyContacts", "sex")
-                .isNull();
+                .containsOnlyNulls();
     }
 
     @Test
@@ -147,7 +147,7 @@ class DutyOfCareTest {
         assertThat(actual)
                 .as("Check that if the hr role is not duty of care, contactNumbers, emergencyContacts and sex are redacted ")
                 .extracting("contactNumbers", "emergencyContacts", "sex")
-                .isNull();
+                .containsOnlyNulls();
     }
 
     @Test
@@ -161,6 +161,6 @@ class DutyOfCareTest {
         assertThat(actual)
                 .as("Check that if there is no manager or hr with duty of care, contactNumbers, emergencyContacts and sex are redacted ")
                 .extracting("contactNumbers", "emergencyContacts", "sex")
-                .isNull();
+                .containsOnlyNulls();
     }
 }

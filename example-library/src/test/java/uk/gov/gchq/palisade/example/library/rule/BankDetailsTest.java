@@ -77,7 +77,7 @@ class BankDetailsTest {
         // Then
         assertThat(actual.getBankDetails())
                 .as("Bank details should be redacted without salary purpose")
-                .isNotNull();
+                .isNull();
     }
 
     @Test
@@ -90,7 +90,7 @@ class BankDetailsTest {
         // Then
         assertThat(actual.getBankDetails())
                 .as("Bank details should be redacted without payroll training course")
-                .isNotNull();
+                .isNull();
     }
 
     @Test
@@ -103,7 +103,7 @@ class BankDetailsTest {
         // Then
         assertThat(actual.getBankDetails())
                 .as("Bank details should be redacted without HR role")
-                .isNotNull();
+                .isNull();
     }
 
 }

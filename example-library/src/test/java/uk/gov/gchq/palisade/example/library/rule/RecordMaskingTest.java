@@ -52,12 +52,12 @@ class RecordMaskingTest {
 
     @Test
     void testNoRedactionForFirstLevelManager() {
-        //Given - Employee, Role, Reason
+        // Given - Employee, Role, Reason
 
-        //When
+        // When
         var actual = RECORD_MASKING_RULE.apply(testEmployee, FIRST_MANAGER, TEST_CONTEXT);
 
-        //Then
+        // Then
         assertThat(actual)
                 .as("Should not redact record for first manager")
                 .isNotNull();
@@ -67,10 +67,10 @@ class RecordMaskingTest {
     void testNoRedactionForMidLevelManager() {
         //Given - Employee, Role, Reason
 
-        //When
+        // When
         var actual = RECORD_MASKING_RULE.apply(testEmployee, MIDDLE_MANAGER, TEST_CONTEXT);
 
-        //Then
+        // Then
         assertThat(actual)
                 .as("Should not redact record for middle manager")
                 .isNotNull();
@@ -78,12 +78,12 @@ class RecordMaskingTest {
 
     @Test
     void testNoRedactionForEndLevelManager() {
-        //Given - Employee, Role, Reason
+        // Given - Employee, Role, Reason
 
-        //When
+        // When
         var actual = RECORD_MASKING_RULE.apply(testEmployee, END_MANAGER, TEST_CONTEXT);
 
-        //Then
+        // Then
         assertThat(actual)
                 .as("Should not redact record for end manager")
                 .isNotNull();
@@ -91,12 +91,12 @@ class RecordMaskingTest {
 
     @Test
     void testNoRedactionForHrRole() {
-        //Given - Employee, Role, Reason
+        // Given - Employee, Role, Reason
 
-        //When
+        // When
         var actual = RECORD_MASKING_RULE.apply(testEmployee, HR_USER, TEST_CONTEXT);
 
-        //Then
+        // Then
         assertThat(actual)
                 .as("Should not redact record for hr role")
                 .isNotNull();
@@ -104,12 +104,12 @@ class RecordMaskingTest {
 
     @Test
     void testNoRedactionForEstatesRole() {
-        //Given - Employee, Role, Reason
+        // Given - Employee, Role, Reason
 
-        //When
+        // When
         var actual = RECORD_MASKING_RULE.apply(testEmployee, ESTATES_USER, TEST_CONTEXT);
 
-        //Then
+        // Then
         assertThat(actual)
                 .as("Should not redact record for estates role")
                 .isNotNull();
@@ -117,14 +117,14 @@ class RecordMaskingTest {
 
     @Test
     void testRedactionForNonManagerUser() {
-        //Given - Employee, Role, Reason
+        // Given - Employee, Role, Reason
 
-        //When
+        // When
         var actual = RECORD_MASKING_RULE.apply(testEmployee, NON_HR_NON_ESTATES_USER, TEST_CONTEXT);
 
-        //Then
+        // Then
         assertThat(actual)
                 .as("Should redact record for non-manager, non-hr, non-estates user")
-                .isNotNull();
+                .isNull();
     }
 }
