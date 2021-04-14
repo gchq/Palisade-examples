@@ -49,6 +49,12 @@
             <version>0.5.0-${services.revision}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>data-service</artifactId>
+            <version>0.5.0-${services.revision}</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- Dependency used to generate example data-->
         <dependency>
             <groupId>uk.gov.gchq.data-gen</groupId>

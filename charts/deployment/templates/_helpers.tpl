@@ -61,20 +61,28 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
 */}}
 {{- define "deployment.deployment.path" }}
-{{- $revision := .Values.image.codeRelease | lower | replace "." "-" | trunc 63 | trimSuffix "-" }}
-{{- printf "%s/%s/classpath/%s/%s" .Values.global.persistence.classpathJars.mountPath .Chart.Name .Values.global.deployment $revision }}
+{{- printf "%s/%s/classpath/%s" .Values.global.persistence.classpathJars.mountPath .Chart.Name (include "deployment.deployment.revision" .) }}
+{{- end }}
+
+{{- define "deployment.classpathJars.name" }}
+{{- printf "%s-%s-%s" .Values.global.persistence.classpathJars.name (include "deployment.deployment.revision" .) (include "palisade.namespace" .) | replace "/" "-"}}
+{{- end }}
+
+{{/*
+Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
+*/}}
+{{- define "deployment.classpathJars.mounts" }}
+{{- if eq .Values.global.hosting "local" }}
+{{- printf "%s/%s" .Values.global.persistence.classpathJars.local.hostPath (include "deployment.deployment.revision" .) }}
+{{- else if eq .Values.global.hosting "aws" }}
+{{- printf "%s/%s" .Values.global.persistence.classpathJars.aws.volumePath (include "deployment.deployment.revision" .) }}
+{{- end }}
 {{- end }}
 
 {{/*
 Calculate a storage name based on the code release artifact id or the supplied value of codeRelease
 */}}
-{{- define "deployment.deployment.name" }}
-{{- include "deployment.deployment.path" . | base }}
-{{- end }}
-
-{{/*
-Calculate a storage full name based on the code release artifact id or the supplied value of codeRelease
-*/}}
-{{- define "deployment.deployment.fullname" }}
-{{- .Values.global.persistence.classpathJars.name }}-{{- include "deployment.deployment.name" . }}
+{{- define "deployment.deployment.revision" }}
+{{- $revision := .Values.image.codeRelease | lower | replace "." "-" | trunc 63 | trimSuffix "-" }}
+{{- printf "%s/%s" .Values.global.deployment $revision }}
 {{- end }}

@@ -16,7 +16,7 @@
 
 package uk.gov.gchq.palisade.example.perf.config;
 
-import uk.gov.gchq.palisade.client.akka.common.Generated;
+import uk.gov.gchq.palisade.example.perf.common.Generated;
 
 import java.util.ArrayList;
 import java.util.List;

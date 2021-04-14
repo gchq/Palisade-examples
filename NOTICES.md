@@ -7,6 +7,7 @@ List of third-party dependencies grouped by their license type
 * spring-boot-starter ([org.springframework.boot:spring-boot-starter:2.3.1.RELEASE](https://spring.io/projects/spring-boot))
 * GCHQ Synthetic Data Generator ([uk.gov.gchq.data-gen:synthetic-data-generator:0.0.4](https://github.com/gchq/synthetic-data-generator))
 * client-akka ([uk.gov.gchq.palisade:client-akka:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/client-akka))
+* data-service ([uk.gov.gchq.palisade:data-service:0.5.0-SNAPSHOT](no url defined))
 * example-library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
 * policy-service ([uk.gov.gchq.palisade:policy-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/policy-service))
 * resource-service ([uk.gov.gchq.palisade:resource-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/resource-service))

@@ -27,12 +27,16 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |  |  |  +- jakarta.annotation:jakarta.annotation-api:jar:1.3.5:provided
 |  |  |  \- org.yaml:snakeyaml:jar:1.26:provided
 |  |  +- org.springframework.boot:spring-boot-actuator-autoconfigure:jar:2.3.1.RELEASE:provided
-|  |  |  \- org.springframework.boot:spring-boot-actuator:jar:2.3.1.RELEASE:provided
+|  |  |  +- org.springframework.boot:spring-boot-actuator:jar:2.3.1.RELEASE:provided
+|  |  |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.11.0:provided
+|  |  |  |  \- com.fasterxml.jackson.core:jackson-core:jar:2.11.0:provided
+|  |  |  \- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.11.0:provided
 |  |  \- io.micrometer:micrometer-core:jar:1.5.1:provided
 |  |     +- org.hdrhistogram:HdrHistogram:jar:2.1.12:provided
 |  |     \- org.latencyutils:LatencyUtils:jar:2.0.3:provided
 |  +- org.springframework.boot:spring-boot-starter-web:jar:2.3.1.RELEASE:provided
 |  |  +- org.springframework.boot:spring-boot-starter-json:jar:2.3.1.RELEASE:provided
+|  |  |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.11.0:provided
 |  |  |  \- com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.11.0:provided
 |  |  +- org.springframework.boot:spring-boot-starter-tomcat:jar:2.3.1.RELEASE:provided
 |  |  |  +- org.apache.tomcat.embed:tomcat-embed-core:jar:9.0.36:provided
@@ -60,89 +64,9 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |  |     |  +- io.netty:netty-buffer:jar:4.1.50.Final:provided
 |  |     |  \- io.netty:netty-codec:jar:4.1.50.Final:provided
 |  |     \- io.netty:netty-transport:jar:4.1.50.Final:provided
-|  +- commons-io:commons-io:jar:2.6:compile
+|  +- commons-io:commons-io:jar:2.6:provided
 |  \- org.apache.commons:commons-lang3:jar:3.10:compile
 +- uk.gov.gchq.palisade:resource-service:jar:0.5.0-SNAPSHOT:provided
-|  +- org.apache.hadoop:hadoop-common:jar:3.2.1:provided
-|  |  +- org.apache.hadoop:hadoop-annotations:jar:3.2.1:provided
-|  |  +- com.google.guava:guava:jar:28.2-android:provided
-|  |  |  +- com.google.guava:failureaccess:jar:1.0.1:provided
-|  |  |  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:provided
-|  |  |  +- org.checkerframework:checker-compat-qual:jar:2.5.5:provided
-|  |  |  \- com.google.j2objc:j2objc-annotations:jar:1.3:provided
-|  |  +- commons-cli:commons-cli:jar:1.2:provided
-|  |  +- org.apache.commons:commons-math3:jar:3.1.1:provided
-|  |  +- org.apache.httpcomponents:httpclient:jar:4.5.12:provided
-|  |  |  \- org.apache.httpcomponents:httpcore:jar:4.4.13:provided
-|  |  +- commons-codec:commons-codec:jar:1.14:provided
-|  |  +- commons-net:commons-net:jar:3.6:provided
-|  |  +- commons-collections:commons-collections:jar:3.2.2:provided
-|  |  +- javax.servlet:javax.servlet-api:jar:4.0.1:provided
-|  |  +- org.eclipse.jetty:jetty-server:jar:9.4.29.v20200521:provided
-|  |  |  +- org.eclipse.jetty:jetty-http:jar:9.4.29.v20200521:provided
-|  |  |  \- org.eclipse.jetty:jetty-io:jar:9.4.29.v20200521:provided
-|  |  +- org.eclipse.jetty:jetty-util:jar:9.4.29.v20200521:provided
-|  |  +- org.eclipse.jetty:jetty-servlet:jar:9.4.29.v20200521:provided
-|  |  |  \- org.eclipse.jetty:jetty-security:jar:9.4.29.v20200521:provided
-|  |  +- org.eclipse.jetty:jetty-webapp:jar:9.4.29.v20200521:provided
-|  |  |  \- org.eclipse.jetty:jetty-xml:jar:9.4.29.v20200521:provided
-|  |  +- javax.servlet.jsp:jsp-api:jar:2.1:provided
-|  |  +- com.sun.jersey:jersey-core:jar:1.19:provided
-|  |  |  \- javax.ws.rs:jsr311-api:jar:1.1.1:provided
-|  |  +- com.sun.jersey:jersey-servlet:jar:1.19:provided
-|  |  +- com.sun.jersey:jersey-json:jar:1.19:provided
-|  |  |  +- org.codehaus.jettison:jettison:jar:1.1:provided
-|  |  |  +- com.sun.xml.bind:jaxb-impl:jar:2.2.3-1:provided
-|  |  |  |  \- javax.xml.bind:jaxb-api:jar:2.3.1:provided
-|  |  |  |     \- javax.activation:javax.activation-api:jar:1.2.0:provided
-|  |  |  +- org.codehaus.jackson:jackson-jaxrs:jar:1.9.2:provided
-|  |  |  \- org.codehaus.jackson:jackson-xc:jar:1.9.2:provided
-|  |  +- com.sun.jersey:jersey-server:jar:1.19:provided
-|  |  +- commons-logging:commons-logging:jar:1.1.3:provided
-|  |  +- log4j:log4j:jar:1.2.17:provided
-|  |  +- commons-beanutils:commons-beanutils:jar:1.9.3:provided
-|  |  +- org.apache.commons:commons-configuration2:jar:2.1.1:provided
-|  |  +- org.apache.commons:commons-text:jar:1.4:provided
-|  |  +- com.google.re2j:re2j:jar:1.1:provided
-|  |  +- com.google.protobuf:protobuf-java:jar:3.11.4:provided
-|  |  +- com.google.code.gson:gson:jar:2.8.6:provided
-|  |  +- org.apache.hadoop:hadoop-auth:jar:3.2.1:provided
-|  |  |  +- com.nimbusds:nimbus-jose-jwt:jar:4.41.1:provided
-|  |  |  |  \- com.github.stephenc.jcip:jcip-annotations:jar:1.0-1:provided
-|  |  |  +- net.minidev:json-smart:jar:2.3:provided
-|  |  |  |  \- net.minidev:accessors-smart:jar:1.2:provided
-|  |  |  |     \- org.ow2.asm:asm:jar:5.0.4:provided
-|  |  |  \- org.apache.curator:curator-framework:jar:4.0.1:provided
-|  |  +- com.jcraft:jsch:jar:0.1.54:provided
-|  |  +- org.apache.curator:curator-client:jar:2.13.0:provided
-|  |  +- org.apache.curator:curator-recipes:jar:4.0.1:provided
-|  |  +- com.google.code.findbugs:jsr305:jar:3.0.0:provided
-|  |  +- org.apache.htrace:htrace-core4:jar:4.1.0-incubating:provided
-|  |  +- org.apache.zookeeper:zookeeper:jar:3.4.13:provided
-|  |  |  +- jline:jline:jar:0.9.94:provided
-|  |  |  +- org.apache.yetus:audience-annotations:jar:0.5.0:provided
-|  |  |  \- io.netty:netty:jar:3.10.6.Final:provided
-|  |  +- org.apache.commons:commons-compress:jar:1.18:compile
-|  |  +- org.apache.kerby:kerb-simplekdc:jar:1.0.1:provided
-|  |  |  +- org.apache.kerby:kerb-client:jar:1.0.1:provided
-|  |  |  |  +- org.apache.kerby:kerby-config:jar:1.0.1:provided
-|  |  |  |  +- org.apache.kerby:kerb-core:jar:1.0.1:provided
-|  |  |  |  |  \- org.apache.kerby:kerby-pkix:jar:1.0.1:provided
-|  |  |  |  |     +- org.apache.kerby:kerby-asn1:jar:1.0.1:provided
-|  |  |  |  |     \- org.apache.kerby:kerby-util:jar:1.0.1:provided
-|  |  |  |  +- org.apache.kerby:kerb-common:jar:1.0.1:provided
-|  |  |  |  |  \- org.apache.kerby:kerb-crypto:jar:1.0.1:provided
-|  |  |  |  +- org.apache.kerby:kerb-util:jar:1.0.1:provided
-|  |  |  |  \- org.apache.kerby:token-provider:jar:1.0.1:provided
-|  |  |  \- org.apache.kerby:kerb-admin:jar:1.0.1:provided
-|  |  |     +- org.apache.kerby:kerb-server:jar:1.0.1:provided
-|  |  |     |  \- org.apache.kerby:kerb-identity:jar:1.0.1:provided
-|  |  |     \- org.apache.kerby:kerby-xdr:jar:1.0.1:provided
-|  |  +- org.codehaus.woodstox:stax2-api:jar:3.1.4:provided
-|  |  +- com.fasterxml.woodstox:woodstox-core:jar:5.0.3:provided
-|  |  \- dnsjava:dnsjava:jar:2.1.7:provided
-|  +- uk.gov.gchq.palisade:hadoop-resource:jar:0.5.0-SNAPSHOT:provided
-|  +- uk.gov.gchq.palisade:readers-common:jar:0.5.0-SNAPSHOT:provided
 |  +- org.springframework.boot:spring-boot-starter-data-r2dbc:jar:2.3.1.RELEASE:provided
 |  |  +- org.springframework.data:spring-data-r2dbc:jar:1.1.1.RELEASE:provided
 |  |  |  +- org.springframework.data:spring-data-commons:jar:2.3.1.RELEASE:provided
@@ -151,27 +75,50 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |  |  \- io.r2dbc:r2dbc-pool:jar:0.8.3.RELEASE:provided
 |  |     \- io.projectreactor.addons:reactor-pool:jar:0.1.4.RELEASE:provided
 |  +- io.r2dbc:r2dbc-h2:jar:0.8.4.RELEASE:provided
-|  |  +- com.h2database:h2:jar:1.4.200:provided
 |  |  \- io.projectreactor:reactor-core:jar:3.3.6.RELEASE:provided
 |  \- org.springframework.boot:spring-boot-starter-data-redis-reactive:jar:2.3.1.RELEASE:provided
 +- uk.gov.gchq.palisade:policy-service:jar:0.5.0-SNAPSHOT:provided
++- uk.gov.gchq.palisade:data-service:jar:0.5.0-SNAPSHOT:provided
+|  +- org.springframework.boot:spring-boot-starter-data-jpa:jar:2.3.1.RELEASE:provided
+|  |  +- org.springframework.boot:spring-boot-starter-aop:jar:2.3.1.RELEASE:provided
+|  |  |  \- org.aspectj:aspectjweaver:jar:1.9.5:provided
+|  |  +- org.springframework.boot:spring-boot-starter-jdbc:jar:2.3.1.RELEASE:provided
+|  |  |  +- com.zaxxer:HikariCP:jar:3.4.5:provided
+|  |  |  \- org.springframework:spring-jdbc:jar:5.2.7.RELEASE:provided
+|  |  +- jakarta.transaction:jakarta.transaction-api:jar:1.3.3:provided
+|  |  +- jakarta.persistence:jakarta.persistence-api:jar:2.2.3:provided
+|  |  +- org.hibernate:hibernate-core:jar:5.4.17.Final:provided
+|  |  |  +- org.jboss.logging:jboss-logging:jar:3.4.1.Final:provided
+|  |  |  +- org.javassist:javassist:jar:3.24.0-GA:provided
+|  |  |  +- net.bytebuddy:byte-buddy:jar:1.10.11:provided
+|  |  |  +- antlr:antlr:jar:2.7.7:provided
+|  |  |  +- org.jboss:jandex:jar:2.1.3.Final:provided
+|  |  |  +- com.fasterxml:classmate:jar:1.5.1:provided
+|  |  |  +- org.dom4j:dom4j:jar:2.1.3:provided
+|  |  |  +- org.hibernate.common:hibernate-commons-annotations:jar:5.1.0.Final:provided
+|  |  |  \- org.glassfish.jaxb:jaxb-runtime:jar:2.3.3:provided
+|  |  |     +- jakarta.xml.bind:jakarta.xml.bind-api:jar:2.3.3:provided
+|  |  |     +- org.glassfish.jaxb:txw2:jar:2.3.3:provided
+|  |  |     +- com.sun.istack:istack-commons-runtime:jar:3.0.11:provided
+|  |  |     \- com.sun.activation:jakarta.activation:jar:1.2.2:provided
+|  |  +- org.springframework.data:spring-data-jpa:jar:2.3.1.RELEASE:provided
+|  |  |  \- org.springframework:spring-orm:jar:5.2.7.RELEASE:provided
+|  |  \- org.springframework:spring-aspects:jar:5.2.7.RELEASE:provided
+|  \- com.h2database:h2:jar:1.4.200:provided
 +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.4:compile
+|  +- org.slf4j:slf4j-api:jar:1.7.30:compile
+|  +- org.apache.avro:avro:jar:1.8.2:compile
+|  |  +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13:compile
+|  |  +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13:compile
+|  |  +- com.thoughtworks.paranamer:paranamer:jar:2.7:compile
+|  |  +- org.xerial.snappy:snappy-java:jar:1.1.1.3:compile
+|  |  +- org.apache.commons:commons-compress:jar:1.8.1:compile
+|  |  \- org.tukaani:xz:jar:1.5:compile
 |  +- com.github.javafaker:javafaker:jar:1.0.1:compile
 |  |  +- org.yaml:snakeyaml:jar:android:1.23:compile
 |  |  \- com.github.mifmif:generex:jar:1.0.2:compile
 |  |     \- dk.brics.automaton:automaton:jar:1.11-8:compile
-|  +- com.fasterxml.jackson.core:jackson-core:jar:2.11.0:compile
-|  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.11.0:compile
-|  +- com.fasterxml.jackson.core:jackson-databind:jar:2.11.0:compile
-|  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.11.0:compile
-|  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.11.0:compile
-|  +- org.slf4j:slf4j-api:jar:1.7.30:compile
-|  \- org.apache.avro:avro:jar:1.8.2:compile
-|     +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13:compile
-|     +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13:compile
-|     +- com.thoughtworks.paranamer:paranamer:jar:2.7:compile
-|     +- org.xerial.snappy:snappy-java:jar:1.1.1.3:compile
-|     \- org.tukaani:xz:jar:1.5:compile
+|  \- com.fasterxml.jackson.core:jackson-annotations:jar:2.11.0:compile
 +- org.springframework.boot:spring-boot-autoconfigure:jar:2.3.1.RELEASE:provided
 |  \- org.springframework.boot:spring-boot:jar:2.3.1.RELEASE:provided
 |     +- org.springframework:spring-core:jar:5.2.7.RELEASE:provided
@@ -184,5 +131,4 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |  |  \- org.junit.platform:junit-platform-commons:jar:1.6.2:test
 |  \- org.junit.jupiter:junit-jupiter-api:jar:5.6.2:test
 +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:jar-with-dependencies:0.0.4:test
-|  \- org.slf4j:slf4j-simple:jar:1.7.30:test
 \- org.assertj:assertj-core:jar:3.16.1:test

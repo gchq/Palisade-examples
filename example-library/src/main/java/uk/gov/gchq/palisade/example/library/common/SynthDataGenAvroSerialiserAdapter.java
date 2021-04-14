@@ -16,10 +16,8 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import uk.gov.gchq.palisade.service.data.common.data.seralise.Serialiser;
 import uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser;
-import uk.gov.gchq.syntheticdatagenerator.serialise.Serialiser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +29,7 @@ public class SynthDataGenAvroSerialiserAdapter<T> implements Serialiser<T> {
 
     private final AvroSerialiser<T> delegate;
 
-    public SynthDataGenAvroSerialiserAdapter(@JsonProperty("domainClass") final Class<T> domainClass) {
+    public SynthDataGenAvroSerialiserAdapter(final Class<T> domainClass) {
         this.delegate = new AvroSerialiser<>(domainClass);
     }
 
@@ -43,9 +41,5 @@ public class SynthDataGenAvroSerialiserAdapter<T> implements Serialiser<T> {
     @Override
     public void serialise(final Stream<T> objects, final OutputStream output) throws IOException {
         delegate.serialise(objects, output);
-    }
-
-    public Class<T> getDomainClass() {
-        return delegate.getDomainClass();
     }
 }
