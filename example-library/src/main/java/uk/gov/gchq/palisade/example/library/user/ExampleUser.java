@@ -17,7 +17,7 @@ package uk.gov.gchq.palisade.example.library.user;
 
 import uk.gov.gchq.palisade.example.library.common.Generated;
 import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
-import uk.gov.gchq.palisade.service.user.common.User;
+import uk.gov.gchq.palisade.service.user.common.user.User;
 
 import java.util.Arrays;
 import java.util.EnumSet;

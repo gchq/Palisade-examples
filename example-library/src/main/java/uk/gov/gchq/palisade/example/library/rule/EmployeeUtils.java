@@ -16,7 +16,7 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import uk.gov.gchq.palisade.service.policy.common.UserId;
+import uk.gov.gchq.palisade.service.policy.common.user.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
 public final class EmployeeUtils {

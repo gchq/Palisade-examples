@@ -17,8 +17,8 @@
 package uk.gov.gchq.palisade.example.library.rule;
 
 import uk.gov.gchq.palisade.service.policy.common.Context;
-import uk.gov.gchq.palisade.service.policy.common.User;
 import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
+import uk.gov.gchq.palisade.service.policy.common.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 public class EmployeePassThroughRule implements Rule<Employee> {

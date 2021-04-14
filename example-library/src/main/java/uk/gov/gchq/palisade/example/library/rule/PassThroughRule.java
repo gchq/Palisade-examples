@@ -16,10 +16,10 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import uk.gov.gchq.palisade.reader.common.resource.Resource;
 import uk.gov.gchq.palisade.service.policy.common.Context;
-import uk.gov.gchq.palisade.service.policy.common.User;
+import uk.gov.gchq.palisade.service.policy.common.resource.Resource;
 import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
+import uk.gov.gchq.palisade.service.policy.common.user.User;
 
 public class PassThroughRule implements Rule<Resource> {
     private static final long serialVersionUID = 1L;

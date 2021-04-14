@@ -16,35 +16,37 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import uk.gov.gchq.palisade.example.library.user.ExampleUser;
-import uk.gov.gchq.palisade.service.user.common.User;
-import uk.gov.gchq.palisade.service.user.common.jsonserialisation.JSONSerialiser;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ExampleUserTest {
+
     @Test
-    void testDeserialiseExampleUser() {
-        // given
+    void testDeserialiseExampleUser() throws JsonProcessingException {
+        var mapper = new ObjectMapper();
+        // Given
         var user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE)
                 .userId("bob")
                 .roles(Role.HR.name(), "another_role")
                 .auths("authorised_person", "more_authorisations");
 
-        // when
-        byte[] bytesSerialised = JSONSerialiser.serialisePretty(user);
-        var newUser = JSONSerialiser.deserialise(bytesSerialised, User.class);
+        // When
+        var actualJson = mapper.writeValueAsString(user);
+        var actualInstance = mapper.readValue(actualJson, user.getClass());
 
-        // then
+        // Then
         assertThat(user)
                 .as("Deserialised user should be equal to original user when using recursion")
                 .usingRecursiveComparison()
-                .isEqualTo(newUser);
+                .isEqualTo(actualInstance);
 
         assertThat(user)
                 .as("Deserialised user should be equal to original user")
-                .isEqualTo(newUser);
+                .isEqualTo(actualInstance);
     }
 }

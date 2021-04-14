@@ -24,7 +24,7 @@ import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
 import uk.gov.gchq.palisade.example.library.policy.ExampleUser;
 import uk.gov.gchq.palisade.service.policy.common.Context;
-import uk.gov.gchq.palisade.service.policy.common.User;
+import uk.gov.gchq.palisade.service.policy.common.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Random;

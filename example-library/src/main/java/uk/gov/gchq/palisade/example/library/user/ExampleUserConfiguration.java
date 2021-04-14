@@ -17,8 +17,8 @@
 package uk.gov.gchq.palisade.example.library.user;
 
 import uk.gov.gchq.palisade.example.library.common.Generated;
-import uk.gov.gchq.palisade.service.user.common.service.UserConfiguration;
-import uk.gov.gchq.palisade.service.user.common.service.UserPrepopulationFactory;
+import uk.gov.gchq.palisade.service.user.common.user.UserConfiguration;
+import uk.gov.gchq.palisade.service.user.common.user.UserPrepopulationFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
