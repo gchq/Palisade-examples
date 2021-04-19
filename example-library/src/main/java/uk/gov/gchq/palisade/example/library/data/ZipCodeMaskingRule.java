@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library.data;
 
+import uk.gov.gchq.palisade.example.library.EmployeeUtils;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
-import uk.gov.gchq.palisade.service.policy.common.Context;
-import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
-import uk.gov.gchq.palisade.service.policy.common.user.User;
+import uk.gov.gchq.palisade.service.data.common.Context;
+import uk.gov.gchq.palisade.service.data.common.RegisterJsonSubType;
+import uk.gov.gchq.palisade.service.data.common.rule.Rule;
+import uk.gov.gchq.palisade.service.data.common.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Objects;
 import java.util.Set;
 
+@RegisterJsonSubType(Rule.class)
 public class ZipCodeMaskingRule implements Rule<Employee> {
     private static final long serialVersionUID = 1L;
 

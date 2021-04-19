@@ -17,6 +17,7 @@ package uk.gov.gchq.palisade.example.library.policy;
 
 import uk.gov.gchq.palisade.example.library.common.Generated;
 import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
+import uk.gov.gchq.palisade.service.policy.common.RegisterJsonSubType;
 import uk.gov.gchq.palisade.service.policy.common.user.User;
 
 import java.util.Arrays;
@@ -28,6 +29,7 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
+@RegisterJsonSubType(User.class)
 public class ExampleUser extends User {
     private static final long serialVersionUID = 1L;
 

@@ -78,7 +78,7 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |  |  \- io.projectreactor:reactor-core:jar:3.3.6.RELEASE:provided
 |  \- org.springframework.boot:spring-boot-starter-data-redis-reactive:jar:2.3.1.RELEASE:provided
 +- uk.gov.gchq.palisade:policy-service:jar:0.5.0-SNAPSHOT:provided
-+- uk.gov.gchq.palisade:data-service:jar:0.5.0-SNAPSHOT:provided
++- uk.gov.gchq.palisade:attribute-masking-service:jar:0.5.0-SNAPSHOT:provided
 |  +- org.springframework.boot:spring-boot-starter-data-jpa:jar:2.3.1.RELEASE:provided
 |  |  +- org.springframework.boot:spring-boot-starter-aop:jar:2.3.1.RELEASE:provided
 |  |  |  \- org.aspectj:aspectjweaver:jar:1.9.5:provided
@@ -105,6 +105,7 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |  |  |  \- org.springframework:spring-orm:jar:5.2.7.RELEASE:provided
 |  |  \- org.springframework:spring-aspects:jar:5.2.7.RELEASE:provided
 |  \- com.h2database:h2:jar:1.4.200:provided
++- uk.gov.gchq.palisade:data-service:jar:0.5.0-SNAPSHOT:provided
 +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.4:compile
 |  +- org.slf4j:slf4j-api:jar:1.7.30:compile
 |  +- org.apache.avro:avro:jar:1.8.2:compile

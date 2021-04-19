@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library.data;
 
-import uk.gov.gchq.palisade.service.policy.common.Context;
-import uk.gov.gchq.palisade.service.policy.common.resource.Resource;
-import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
-import uk.gov.gchq.palisade.service.policy.common.user.User;
+import uk.gov.gchq.palisade.service.data.common.Context;
+import uk.gov.gchq.palisade.service.data.common.RegisterJsonSubType;
+import uk.gov.gchq.palisade.service.data.common.rule.Rule;
+import uk.gov.gchq.palisade.service.data.common.user.User;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
-public class PassThroughRule implements Rule<Resource> {
+@RegisterJsonSubType(Rule.class)
+public class EmployeePassThroughRule implements Rule<Employee> {
     private static final long serialVersionUID = 1L;
 
-    public Resource apply(final Resource resource, final User user, final Context context) {
-        return resource;
+    public Employee apply(final Employee record, final User user, final Context context) {
+        return record;
     }
 
     @Override
     public boolean isApplicable(final User user, final Context context) {
         return false;
     }
+
 }

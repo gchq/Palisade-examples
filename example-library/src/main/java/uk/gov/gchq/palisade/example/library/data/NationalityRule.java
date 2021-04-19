@@ -14,33 +14,30 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library.data;
 
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
-import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
-import uk.gov.gchq.palisade.example.library.policy.ExampleUser;
-import uk.gov.gchq.palisade.service.policy.common.Context;
-import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
-import uk.gov.gchq.palisade.service.policy.common.user.User;
+import uk.gov.gchq.palisade.service.data.common.Context;
+import uk.gov.gchq.palisade.service.data.common.RegisterJsonSubType;
+import uk.gov.gchq.palisade.service.data.common.rule.Rule;
+import uk.gov.gchq.palisade.service.data.common.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
-public class BankDetailsRule implements Rule<Employee> {
+@RegisterJsonSubType(Rule.class)
+public class NationalityRule implements Rule<Employee> {
     private static final long serialVersionUID = 1L;
 
-    public BankDetailsRule() {
+    public NationalityRule() {
         // Empty Constructor
     }
 
     private static Employee redactRecord(final Employee redactedRecord) {
-        redactedRecord.setBankDetails(null);
-        redactedRecord.setTaxCode(null);
-        redactedRecord.setSalaryAmount(-1);
-        redactedRecord.setSalaryBonus(-1);
+        redactedRecord.setNationality(null);
         return redactedRecord;
     }
 
@@ -48,22 +45,16 @@ public class BankDetailsRule implements Rule<Employee> {
         if (null == record) {
             return null;
         }
+
         requireNonNull(user);
         requireNonNull(context);
 
-        if (user instanceof ExampleUser) {
-            ExampleUser exampleUser = (ExampleUser) user;
-            Set<TrainingCourse> trainingCompleted = exampleUser.getTrainingCompleted();
-            Set<String> roles = exampleUser.getRoles();
-            String purpose = context.getPurpose();
+        Set<String> roles = user.getRoles();
+        String purpose = context.getPurpose();
 
-            if (trainingCompleted.contains(TrainingCourse.PAYROLL_TRAINING_COURSE) &&
-                    purpose.equals(Purpose.SALARY.name()) &&
-                    roles.contains(Role.HR.name())) {
-                return record;
-            }
+        if (roles.contains(Role.HR.name()) && purpose.equals(Purpose.STAFF_REPORT.name())) {
+            return record;
         }
         return redactRecord(record);
     }
-
 }

@@ -14,32 +14,34 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library.data;
 
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
-import uk.gov.gchq.palisade.service.policy.common.Context;
-import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
-import uk.gov.gchq.palisade.service.policy.common.user.User;
-import uk.gov.gchq.palisade.service.policy.common.user.UserId;
+import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
+import uk.gov.gchq.palisade.service.data.common.Context;
+import uk.gov.gchq.palisade.service.data.common.RegisterJsonSubType;
+import uk.gov.gchq.palisade.service.data.common.rule.Rule;
+import uk.gov.gchq.palisade.service.data.common.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
-import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
-public class DutyOfCareRule implements Rule<Employee> {
+@RegisterJsonSubType(Rule.class)
+public class BankDetailsRule implements Rule<Employee> {
     private static final long serialVersionUID = 1L;
 
-    public DutyOfCareRule() {
+    public BankDetailsRule() {
         // Empty Constructor
     }
 
     private static Employee redactRecord(final Employee redactedRecord) {
-        redactedRecord.setContactNumbers(null);
-        redactedRecord.setEmergencyContacts(null);
-        redactedRecord.setSex(null);
+        redactedRecord.setBankDetails(null);
+        redactedRecord.setTaxCode(null);
+        redactedRecord.setSalaryAmount(-1);
+        redactedRecord.setSalaryBonus(-1);
         return redactedRecord;
     }
 
@@ -47,20 +49,22 @@ public class DutyOfCareRule implements Rule<Employee> {
         if (null == record) {
             return null;
         }
-
         requireNonNull(user);
         requireNonNull(context);
-        Set<String> roles = user.getRoles();
-        String purpose = context.getPurpose();
-        UserId userId = user.getUserId();
-        Manager[] managers = record.getManager();
 
-        if (roles.contains(Role.HR.name()) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
-            return record;
-        } else if (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
-            return record;
-        } else {
-            return redactRecord(record);
+        if (user instanceof ExampleUser) {
+            ExampleUser exampleUser = (ExampleUser) user;
+            Set<TrainingCourse> trainingCompleted = exampleUser.getTrainingCompleted();
+            Set<String> roles = exampleUser.getRoles();
+            String purpose = context.getPurpose();
+
+            if (trainingCompleted.contains(TrainingCourse.PAYROLL_TRAINING_COURSE) &&
+                    purpose.equals(Purpose.SALARY.name()) &&
+                    roles.contains(Role.HR.name())) {
+                return record;
+            }
         }
+        return redactRecord(record);
     }
+
 }

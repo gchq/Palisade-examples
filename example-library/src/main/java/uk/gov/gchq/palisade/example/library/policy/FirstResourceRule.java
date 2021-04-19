@@ -14,50 +14,48 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library.policy;
 
 import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.service.policy.common.Context;
+import uk.gov.gchq.palisade.service.policy.common.RegisterJsonSubType;
+import uk.gov.gchq.palisade.service.policy.common.resource.Resource;
 import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
 import uk.gov.gchq.palisade.service.policy.common.user.User;
-import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Objects;
+import java.util.Set;
 
-public class RecordMaskingRule implements Rule<Employee> {
+@RegisterJsonSubType(Rule.class)
+public class FirstResourceRule implements Rule<Resource> {
     private static final long serialVersionUID = 1L;
 
-    public RecordMaskingRule() {
+    public FirstResourceRule() {
         // Empty Constructor
     }
 
-    private static Employee estatesRedactRecord(final Employee maskedRecord) {
-        maskedRecord.setDateOfBirth(null);
-        maskedRecord.setManager(null);
-        maskedRecord.setHireDate(null);
-        maskedRecord.setGrade(null);
-        return maskedRecord;
-    }
-
-    public Employee apply(final Employee record, final User user, final Context context) {
+    public Resource apply(final Resource resource, final User user, final Context context) {
         Objects.requireNonNull(user);
         Objects.requireNonNull(context);
 
-        var roles = user.getRoles();
-        if (roles.contains(Role.HR.name())) {
-            return record;
-        }
+        Set<String> roles = user.getRoles();
+        String fileId = resource.getId();
+        String fileName = removeFileExtension(fileId);
+        String lastChar = fileName.substring(fileName.length() - 1);
 
-        var userId = user.getUserId();
-        var managers = record.getManager();
-
-        if (EmployeeUtils.isManager(managers, userId)) {
-            return record;
+        if ("1".equals(lastChar)) {
+            if (roles.contains(Role.HR.name())) {
+                return resource;
+            } else {
+                return null;
+            }
+        } else {
+            return resource;
         }
-
-        if (roles.contains(Role.ESTATES.name())) {
-            return estatesRedactRecord(record);
-        }
-        return null;
     }
+
+    private static String removeFileExtension(final String fileId) {
+        return fileId.substring(0, fileId.lastIndexOf('.'));
+    }
+
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.config;
+package uk.gov.gchq.palisade.example.library.user;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -22,8 +22,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import uk.gov.gchq.palisade.example.library.user.ExampleUserConfiguration;
-import uk.gov.gchq.palisade.example.library.user.ExampleUserPrepopulationFactory;
 import uk.gov.gchq.palisade.service.user.common.user.UserConfiguration;
 
 @Configuration

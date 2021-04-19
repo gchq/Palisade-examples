@@ -47,13 +47,13 @@ population:
   - resourceId: ${default.rootId}/data/
     owner: Alice
     recordRules:
-      "1-Bank details only visible for the purpose of salary": uk.gov.gchq.palisade.example.library.rule.BankDetailsRule
-      "2-Emergency numbers only available for duty of care purpose": uk.gov.gchq.palisade.example.library.rule.DutyOfCareRule
-      "3-Nationality is only available for staff report": uk.gov.gchq.palisade.example.library.rule.NationalityRule
-      "4-Address masked for estates staff and otherwise only available for duty of care": uk.gov.gchq.palisade.example.library.rule.ZipCodeMaskingRule
-      "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.library.rule.RecordMaskingRule
+      "1-Bank details only visible for the purpose of salary": uk.gov.gchq.palisade.example.library.data.BankDetailsRule
+      "2-Emergency numbers only available for duty of care purpose": uk.gov.gchq.palisade.example.library.data.DutyOfCareRule
+      "3-Nationality is only available for staff report": uk.gov.gchq.palisade.example.library.data.NationalityRule
+      "4-Address masked for estates staff and otherwise only available for duty of care": uk.gov.gchq.palisade.example.library.data.ZipCodeMaskingRule
+      "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.library.data.RecordMaskingRule
     resourceRules:
-      "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.library.rule.FirstResourceRule
+      "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.library.policy.FirstResourceRule
 
   resourceProvider: std
   resources:
@@ -74,5 +74,4 @@ population:
   serialisers:
   - flavourFormat: ${default.format}
     flavourType: ${default.type}
-    serialiserClass: uk.gov.gchq.palisade.example.library.common.SynthDataGenAvroSerialiserAdapter
-
+    serialiserClass: uk.gov.gchq.palisade.example.library.data.SynthDataGenAvroSerialiserAdapter

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library.policy;
 
 import uk.gov.gchq.palisade.service.policy.common.Context;
+import uk.gov.gchq.palisade.service.policy.common.RegisterJsonSubType;
+import uk.gov.gchq.palisade.service.policy.common.resource.Resource;
 import uk.gov.gchq.palisade.service.policy.common.rule.Rule;
 import uk.gov.gchq.palisade.service.policy.common.user.User;
-import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
-public class EmployeePassThroughRule implements Rule<Employee> {
+@RegisterJsonSubType(Rule.class)
+public class PassThroughRule implements Rule<Resource> {
     private static final long serialVersionUID = 1L;
 
-    public Employee apply(final Employee record, final User user, final Context context) {
-        return record;
+    public Resource apply(final Resource resource, final User user, final Context context) {
+        return resource;
     }
 
     @Override
     public boolean isApplicable(final User user, final Context context) {
         return false;
     }
-
 }

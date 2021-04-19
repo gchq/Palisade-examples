@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.gov.gchq.palisade.example.library.user;
+package uk.gov.gchq.palisade.example.library.data;
 
 import uk.gov.gchq.palisade.example.library.common.Generated;
 import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
-import uk.gov.gchq.palisade.service.user.common.RegisterJsonSubType;
-import uk.gov.gchq.palisade.service.user.common.user.User;
+import uk.gov.gchq.palisade.service.data.common.RegisterJsonSubType;
+import uk.gov.gchq.palisade.service.data.common.user.User;
 
 import java.util.Arrays;
 import java.util.EnumSet;

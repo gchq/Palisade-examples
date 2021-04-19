@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.common;
+package uk.gov.gchq.palisade.example.library.data;
 
 import uk.gov.gchq.palisade.service.data.common.data.seralise.Serialiser;
 import uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser;

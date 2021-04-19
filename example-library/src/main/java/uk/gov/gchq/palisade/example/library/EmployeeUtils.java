@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library;
 
-import uk.gov.gchq.palisade.service.policy.common.user.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
 public final class EmployeeUtils {
@@ -24,13 +23,21 @@ public final class EmployeeUtils {
     private EmployeeUtils() {
     }
 
-    public static boolean isManager(final Manager[] managers, final UserId userId) {
+    public static boolean isManager(final Manager[] managers, final uk.gov.gchq.palisade.service.policy.common.user.UserId userId) {
+        return isManager(managers, userId.getId());
+    }
+
+    public static boolean isManager(final Manager[] managers, final uk.gov.gchq.palisade.service.data.common.user.UserId userId) {
+        return isManager(managers, userId.getId());
+    }
+
+    public static boolean isManager(final Manager[] managers, final String userId) {
         if (managers == null) {
             return false;
         }
 
         for (Manager manager : managers) {
-            if (manager.getUid().equals(userId.getId())) {
+            if (manager.getUid().equals(userId)) {
                 return true;
             }
         }
