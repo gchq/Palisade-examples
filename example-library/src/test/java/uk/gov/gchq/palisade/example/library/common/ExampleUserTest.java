@@ -16,22 +16,26 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
-import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
+import uk.gov.gchq.palisade.user.User;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
 public class ExampleUserTest {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     @Test
-    public void shouldDeserialiseExampleUser() {
+    public void shouldDeserialiseExampleUser() throws IOException {
         //given
         User user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("bob").roles(Role.HR.name(), "another_role").auths("authorised_person", "more_authorisations");
 
         //when
-        byte[] bytesSerialised = JSONSerialiser.serialise(user, true);
-        User newUser = JSONSerialiser.deserialise(bytesSerialised, User.class);
+        byte[] bytesSerialised = MAPPER.writeValueAsBytes(user);
+        User newUser = MAPPER.readValue(bytesSerialised, ExampleUser.class);
 
         //then
         assertEquals("Deserialised user should be same class as original user", user.getClass(), newUser.getClass());
