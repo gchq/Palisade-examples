@@ -16,12 +16,16 @@
 
 package uk.gov.gchq.palisade.example.library.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import uk.gov.gchq.palisade.service.UserConfiguration;
+
 @Configuration
+@ConditionalOnClass(UserConfiguration.class)
 public class ApplicationConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")

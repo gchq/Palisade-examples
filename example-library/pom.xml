@@ -30,11 +30,17 @@
     <!--  *********** Artifact ID ***********    -->
 
     <dependencies>
-        <!--Palisade Dependency-->
+        <!-- Palisade Dependency-->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
             <version>0.5.0-${common.revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>user-service</artifactId>
+            <version>0.5.0-${services.revision}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Dependency used to generate example data-->
         <dependency>
