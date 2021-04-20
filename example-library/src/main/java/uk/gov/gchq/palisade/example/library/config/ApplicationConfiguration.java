@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import uk.gov.gchq.palisade.service.user.config.UserConfiguration;
+import uk.gov.gchq.palisade.service.user.config.UserPrepopulationFactory;
 
 @Configuration
 @ConditionalOnClass(UserConfiguration.class)
@@ -30,13 +31,13 @@ public class ApplicationConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
     @ConfigurationProperties(prefix = "population")
-    public ExampleUserConfiguration userConfiguration() {
+    public UserConfiguration userConfiguration() {
         return new ExampleUserConfiguration();
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
-    public ExampleUserPrepopulationFactory userPrepopulationFactory() {
+    public UserPrepopulationFactory userPrepopulationFactory() {
         return new ExampleUserPrepopulationFactory();
     }
 }
