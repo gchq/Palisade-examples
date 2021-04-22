@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib')_
+@Library('jenkinsfile-lib@feature/PAL-999-fix-examples-script')_
 
 timestamps {
     examples()
