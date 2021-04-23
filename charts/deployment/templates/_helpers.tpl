@@ -61,7 +61,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
 */}}
 {{- define "deployment.deployment.path" }}
-{{- printf "%s/%s" (include "deployment.classpathJars.mount") (include "deployment.deployment.revision" .) }}
+{{- printf "%s/%s" (include "deployment.classpathJars.mount" .) (include "deployment.deployment.revision" .) }}
 {{- end }}
 
 {{- define "deployment.classpathJars.name" }}
