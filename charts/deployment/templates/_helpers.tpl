@@ -61,7 +61,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
 */}}
 {{- define "deployment.deployment.path" }}
-{{- printf "%s/%s/classpath/%s" .Values.global.persistence.classpathJars.mountPath .Chart.Name (include "deployment.deployment.revision" .) }}
+{{- printf "%s/%s" (include "deployment.classpathJars.mount") (include "deployment.deployment.revision" .) }}
 {{- end }}
 
 {{- define "deployment.classpathJars.name" }}
@@ -71,12 +71,8 @@ Calculate a storage path based on the code release artifact id or the supplied v
 {{/*
 Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
 */}}
-{{- define "deployment.classpathJars.mounts" }}
-{{- if eq .Values.global.hosting "local" }}
-{{- printf "%s/%s" .Values.global.persistence.classpathJars.local.hostPath (include "deployment.deployment.revision" .) }}
-{{- else if eq .Values.global.hosting "aws" }}
-{{- printf "%s/%s" .Values.global.persistence.classpathJars.aws.volumePath (include "deployment.deployment.revision" .) }}
-{{- end }}
+{{- define "deployment.classpathJars.mount" }}
+{{- printf "%s/%s/classpath" .Values.global.persistence.classpathJars.mountPath .Chart.Name }}
 {{- end }}
 
 {{/*

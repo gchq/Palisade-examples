@@ -46,10 +46,10 @@ spec:
         command: [ "/bin/bash", "/bin/copyExampleData.sh" ]
         args:
           - {{ include "palisade.namespace" . | quote }}
-          - {{ include "deployment.deployment.path" . }}
+          - {{ include "deployment.deployment.path" . | quote }}
         volumeMounts:
         - name: {{ include "deployment.classpathJars.name" . }}
-          mountPath: {{ include "deployment.deployment.path" . }}
+          mountPath: {{ include "deployment.classpathJars.mount" . }}
         {{- range $name, $value := .Values.global.persistence.dataStores }}
         - name: {{ $name }}
           mountPath: {{ $value.mountPath }}
