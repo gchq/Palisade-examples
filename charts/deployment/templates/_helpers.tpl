@@ -65,7 +65,7 @@ Calculate a storage path based on the code release artifact id or the supplied v
 {{- end }}
 
 {{- define "deployment.classpathJars.name" }}
-{{- printf "%s-%s-%s" .Values.global.persistence.classpathJars.name (include "deployment.deployment.revision" .) (include "palisade.namespace" .) | replace "/" "-"}}
+{{- printf "%s-%s-%s" .Values.global.persistence.classpathJars.name (include "deployment.deployment.revision" .) | replace "/" "-"}}
 {{- end }}
 
 {{/*
