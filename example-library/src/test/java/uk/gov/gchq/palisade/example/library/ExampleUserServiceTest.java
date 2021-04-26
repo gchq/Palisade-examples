@@ -18,26 +18,33 @@ package uk.gov.gchq.palisade.example.library;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 
+import uk.gov.gchq.palisade.example.library.common.ExampleUser;
+import uk.gov.gchq.palisade.example.library.config.ExampleUserConfiguration;
 import uk.gov.gchq.palisade.example.library.config.ExampleUserPrepopulationFactory;
-import uk.gov.gchq.palisade.service.user.UserApplication;
+import uk.gov.gchq.palisade.service.user.config.ApplicationConfiguration;
+import uk.gov.gchq.palisade.service.user.config.UserConfiguration;
 import uk.gov.gchq.palisade.service.user.config.UserPrepopulationFactory;
+import uk.gov.gchq.palisade.user.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = UserApplication.class, webEnvironment = WebEnvironment.NONE)
-@ContextConfiguration(classes = {UserApplication.class})
-@ActiveProfiles("example-k8s")
+@SpringBootTest(classes = {ApplicationConfiguration.class})
+@EnableAutoConfiguration
+@ActiveProfiles({"example-k8s"})
 class ExampleUserServiceTest {
     @Autowired
-    UserPrepopulationFactory prepopulationFactory;
+    UserConfiguration userConfiguration;
 
     @Test
     void testContextLoads() {
+        assertThat(userConfiguration).isInstanceOf(ExampleUserConfiguration.class);
+        UserPrepopulationFactory prepopulationFactory = userConfiguration.getUsers().get(0);
         assertThat(prepopulationFactory).isInstanceOf(ExampleUserPrepopulationFactory.class);
+        User user = prepopulationFactory.build();
+        assertThat(user).isInstanceOf(ExampleUser.class);
     }
 }

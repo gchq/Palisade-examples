@@ -55,12 +55,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <!-- Spring Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <scope>provided</scope>
         </dependency>
+
         <!-- Testing Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
