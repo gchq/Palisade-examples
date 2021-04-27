@@ -48,7 +48,7 @@
         <dependency>
             <groupId>uk.gov.gchq.data-gen</groupId>
             <artifactId>synthetic-data-generator</artifactId>
-            <version>0.0.4</version>
+            <version>${synthetic.data.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
