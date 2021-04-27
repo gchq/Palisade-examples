@@ -62,7 +62,7 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |        |  \- io.netty:netty-codec:jar:4.1.50.Final:provided
 |        +- io.netty:netty-transport:jar:4.1.50.Final:provided
 |        \- io.projectreactor:reactor-core:jar:3.3.6.RELEASE:provided
-+- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.2:compile
++- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.4:compile
 |  +- com.github.javafaker:javafaker:jar:1.0.1:compile
 |  |  +- org.apache.commons:commons-lang3:jar:3.10:compile
 |  |  +- org.yaml:snakeyaml:jar:android:1.23:compile
