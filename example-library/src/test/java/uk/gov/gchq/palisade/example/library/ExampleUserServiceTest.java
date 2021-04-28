@@ -41,10 +41,23 @@ class ExampleUserServiceTest {
 
     @Test
     void testContextLoads() {
-        assertThat(userConfiguration).isInstanceOf(ExampleUserConfiguration.class);
+        // Given
+
+        // When
         UserPrepopulationFactory prepopulationFactory = userConfiguration.getUsers().get(0);
-        assertThat(prepopulationFactory).isInstanceOf(ExampleUserPrepopulationFactory.class);
         User user = prepopulationFactory.build();
-        assertThat(user).isInstanceOf(ExampleUser.class);
+
+        // Then
+        assertThat(userConfiguration)
+                .as("Check the instance of the userConfiguration")
+                .isInstanceOf(ExampleUserConfiguration.class);
+
+        assertThat(prepopulationFactory)
+                .as("Check the instance of the prepopulationFactory")
+                .isInstanceOf(ExampleUserPrepopulationFactory.class);
+
+        assertThat(user)
+                .as("Check the instance of the created user")
+                .isInstanceOf(ExampleUser.class);
     }
 }

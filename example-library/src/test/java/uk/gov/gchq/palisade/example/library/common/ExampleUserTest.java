@@ -23,22 +23,27 @@ import uk.gov.gchq.palisade.user.User;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExampleUserTest {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
     public void shouldDeserialiseExampleUser() throws IOException {
-        //given
+        // Given
         User user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("bob").roles(Role.HR.name(), "another_role").auths("authorised_person", "more_authorisations");
 
-        //when
+        // When
         byte[] bytesSerialised = MAPPER.writeValueAsBytes(user);
         User newUser = MAPPER.readValue(bytesSerialised, ExampleUser.class);
 
-        //then
-        assertEquals("Deserialised user should be same class as original user", user.getClass(), newUser.getClass());
-        assertEquals("Deserialised user should be equal to original user", user, newUser);
+        // Then
+        assertThat(user.getClass())
+                .as("Deserialised user should be same class as original user")
+                .isEqualTo(newUser.getClass());
+
+        assertThat(user)
+                .as("Deserialised user should be equal to original user")
+                .isEqualTo(newUser);
     }
 }
