@@ -9,7 +9,7 @@ List of third-party dependencies grouped by their license type
 * client-akka ([uk.gov.gchq.palisade:client-akka:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/client-akka))
 * common ([uk.gov.gchq.palisade:common:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-common))
 * example-library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
-* user-service ([uk.gov.gchq.palisade:user-service:0.5.0-SNAPSHOT](no url defined))
+* user-service ([uk.gov.gchq.palisade:user-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/user-service))
 
 ### [Eclipse Public License 1.0](./licenses/eclipse_public_license_1.0.html):
 * JUnit ([junit:junit:4.12](http://junit.org))
