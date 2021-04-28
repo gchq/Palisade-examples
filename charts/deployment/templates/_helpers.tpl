@@ -61,25 +61,24 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
 */}}
 {{- define "deployment.deployment.path" }}
-{{- if eq .Values.global.deployment "codeRelease" }}
-{{- $path := .Values.image.codeRelease | lower | replace "." "-" | trunc 63 | trimSuffix "-" }}
-{{- printf "%s/%s/classpath/%s" .Values.global.persistence.classpathJars.mountPath .Chart.Name $path }}
-{{- else }}
-{{- $path := .Values.global.deployment | lower | replace "." "-" | trunc 63 | trimSuffix "-" }}
-{{- printf "%s/%s/classpath/%s" .Values.global.persistence.classpathJars.mountPath .Chart.Name $path }}
+{{- printf "%s/%s" (include "deployment.classpathJars.mount" .) (include "deployment.deployment.revision" .) }}
 {{- end }}
+
+{{- define "deployment.classpathJars.name" }}
+{{- printf "%s" .Values.global.persistence.classpathJars.name | replace "/" "-"}}
+{{- end }}
+
+{{/*
+Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
+*/}}
+{{- define "deployment.classpathJars.mount" }}
+{{- printf "%s/%s/classpath" .Values.global.persistence.classpathJars.mountPath .Chart.Name }}
 {{- end }}
 
 {{/*
 Calculate a storage name based on the code release artifact id or the supplied value of codeRelease
 */}}
-{{- define "deployment.deployment.name" }}
-{{- include "deployment.deployment.path" . | base }}
-{{- end }}
-
-{{/*
-Calculate a storage full name based on the code release artifact id or the supplied value of codeRelease
-*/}}
-{{- define "deployment.deployment.fullname" }}
-{{- .Values.global.persistence.classpathJars.name }}-{{- include "deployment.deployment.name" . }}
+{{- define "deployment.deployment.revision" }}
+{{- $revision := .Values.image.codeRelease | lower | replace "." "-" | trunc 63 | trimSuffix "-" }}
+{{- printf "%s/%s" .Values.global.deployment $revision }}
 {{- end }}

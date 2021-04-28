@@ -17,10 +17,10 @@
 package uk.gov.gchq.palisade.example.library.rule;
 
 import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.rule.Rule;
+import uk.gov.gchq.palisade.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Set;

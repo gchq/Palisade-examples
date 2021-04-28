@@ -172,6 +172,7 @@
                                     <artifactId>example-library</artifactId>
                                     <version>${project.version}</version>
                                     <type>${project.packaging}</type>
+                                    <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
                             <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="example" -->
@@ -191,6 +192,7 @@
                                     <artifactId>example-library</artifactId>
                                     <version>${project.version}</version>
                                     <type>${project.packaging}</type>
+                                    <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
                             <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="performance-test" -->
