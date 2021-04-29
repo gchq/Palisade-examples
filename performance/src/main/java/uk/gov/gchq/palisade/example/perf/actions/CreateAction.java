@@ -92,7 +92,7 @@ public class CreateAction implements Runnable {
      * @return whether the operations completed successfully
      */
     private boolean createWithPolicyDataset(final PerfFileSet fileSet) {
-        ExecutorService tasks = Executors.newFixedThreadPool(NUMBER_OF_THREADS, runnable -> {
+        ExecutorService tasks = Executors.newFixedThreadPool(NUMBER_OF_THREADS, (Runnable runnable) -> {
             Thread thread = new Thread(runnable);
             thread.setDaemon(true);
             return thread;
