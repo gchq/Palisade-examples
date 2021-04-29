@@ -24,7 +24,8 @@ import java.io.OutputStream;
 import java.util.stream.Stream;
 
 public class SerialiserAdapter<T> implements Serialiser<T> {
-    uk.gov.gchq.syntheticdatagenerator.serialise.Serialiser<T> delegate;
+    private static final long serialVersionUID = 1L;
+    private final uk.gov.gchq.syntheticdatagenerator.serialise.Serialiser<T> delegate;
 
     public SerialiserAdapter(final uk.gov.gchq.syntheticdatagenerator.serialise.Serialiser<T> delegate) {
         this.delegate = delegate;

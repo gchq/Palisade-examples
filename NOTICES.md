@@ -11,8 +11,5 @@ List of third-party dependencies grouped by their license type
 * example-library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
 * user-service ([uk.gov.gchq.palisade:user-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/user-service))
 
-### [Eclipse Public License 1.0](./licenses/eclipse_public_license_1.0.html):
-* JUnit ([junit:junit:4.12](http://junit.org))
-
 ### [MIT License](./licenses/mit_license.txt):
 * SLF4J API Module ([org.slf4j:slf4j-api:1.7.30](http://www.slf4j.org))

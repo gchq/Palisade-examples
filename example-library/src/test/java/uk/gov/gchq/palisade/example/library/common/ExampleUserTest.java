@@ -17,7 +17,7 @@
 package uk.gov.gchq.palisade.example.library.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import uk.gov.gchq.palisade.user.User;
 
@@ -25,11 +25,11 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ExampleUserTest {
+class ExampleUserTest {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
-    public void shouldDeserialiseExampleUser() throws IOException {
+    void testShouldDeserialiseExampleUser() throws IOException {
         // Given
         User user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("bob").roles(Role.HR.name(), "another_role").auths("authorised_person", "more_authorisations");
 
