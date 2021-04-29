@@ -20,10 +20,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.UserId;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
+import uk.gov.gchq.palisade.user.User;
+import uk.gov.gchq.palisade.user.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Random;

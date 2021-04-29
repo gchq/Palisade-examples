@@ -48,16 +48,16 @@ spec:
           - {{ include "palisade.namespace" . | quote }}
           - {{ include "deployment.deployment.path" . | quote }}
         volumeMounts:
-        - name: {{ include "deployment.deployment.fullname" . }}
-          mountPath: {{ include "deployment.deployment.path" . }}
+        - name: {{ include "deployment.classpathJars.name" . }}
+          mountPath: {{ include "deployment.classpathJars.mount" . }}
         {{- range $name, $value := .Values.global.persistence.dataStores }}
         - name: {{ $name }}
           mountPath: {{ $value.mountPath }}
         {{- end }}
       volumes:
-      - name: {{ include "deployment.deployment.fullname" . }}
+      - name: {{ include "deployment.classpathJars.name" . }}
         persistentVolumeClaim:
-          claimName: {{ include "deployment.deployment.fullname" . }}-{{ include "palisade.namespace" . }}
+          claimName: {{ include "deployment.classpathJars.name" . }}
           readOnly: false
       {{- range $name, $_ := .Values.global.persistence.dataStores }}
       - name: {{ $name }}

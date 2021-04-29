@@ -30,17 +30,24 @@
     <!--  *********** Artifact ID ***********    -->
 
     <dependencies>
-        <!--Palisade Dependency-->
+        <!-- Palisade Dependency-->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
             <version>0.5.0-${common.revision}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>user-service</artifactId>
+            <version>0.5.0-${services.revision}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Dependency used to generate example data-->
         <dependency>
             <groupId>uk.gov.gchq.data-gen</groupId>
             <artifactId>synthetic-data-generator</artifactId>
-            <version>0.0.4</version>
+            <version>${synthetic.data.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -48,24 +55,24 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <!-- Spring Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <scope>provided</scope>
         </dependency>
+
         <!-- Testing Dependency -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>uk.gov.gchq.data-gen</groupId>
-            <artifactId>synthetic-data-generator</artifactId>
-            <version>0.0.4</version>
-            <classifier>jar-with-dependencies</classifier>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -132,6 +139,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <appendAssemblyId>true</appendAssemblyId>
                 </configuration>
             </plugin>
         </plugins>

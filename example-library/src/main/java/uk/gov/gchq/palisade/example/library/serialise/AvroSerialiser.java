@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library.serialise;
 
-import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.resource.Resource;
-import uk.gov.gchq.palisade.rule.Rule;
-import uk.gov.gchq.palisade.user.User;
+import uk.gov.gchq.palisade.example.library.common.SerialiserAdapter;
 
-public class PassThroughRule implements Rule<Resource> {
-    private static final long serialVersionUID = 1L;
-
-    public Resource apply(final Resource resource, final User user, final Context context) {
-        return resource;
-    }
-
-    @Override
-    public boolean isApplicable(final User user, final Context context) {
-        return false;
+public class AvroSerialiser<T> extends SerialiserAdapter<T> {
+    public AvroSerialiser(final Class<T> domainClass) {
+        super(new uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser<>(domainClass));
     }
 }

@@ -33,11 +33,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
+import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.runner.runner.BulkTestExample;
 import uk.gov.gchq.palisade.example.runner.runner.CommandLineExample;
 import uk.gov.gchq.palisade.example.runner.runner.RestExample;
-import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
-import uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 @Configuration
@@ -60,7 +59,6 @@ public class ApplicationConfiguration {
 
     @Bean
     AkkaClientWrapper<Employee> simpleClientWrapper(final AkkaClient client, final ActorSystem actorSystem) {
-        LOGGER.info("Starting AkkaClientWrapper with serialiser {}", AvroSerialiser.class.getSimpleName());
         return new AkkaClientWrapper<>(client, new AvroSerialiser<>(Employee.class), Materializer.createMaterializer(actorSystem));
     }
 
@@ -103,6 +101,6 @@ public class ApplicationConfiguration {
     @Bean
     @Primary
     ObjectMapper jacksonObjectMapper() {
-        return JSONSerialiser.createDefaultMapper();
+        return new ObjectMapper();
     }
 }
