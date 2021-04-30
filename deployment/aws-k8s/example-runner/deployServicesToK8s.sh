@@ -21,11 +21,12 @@ helpFunction() {
    echo -e "\t-h(ostname)      The URL for the (ELB) hostname of the cluster deployment"
    echo -e "\t-d(atastore)     The URL for the (EFS) aws volume handle used as a data-store"
    echo -e "\t-c(lasspathjars) The URL for the (EFS) aws volume handle used for storing classpath JARs"
+   echo -e "\t-t(raefik)       The boolean true/false value for installing traefik"
    echo -e "\t-P(refix)        The topic prefix so we generate unique topic names"
    exit 1 # Exit script after printing help
 }
 
-while getopts "n:r:h:d:c:P:" opt
+while getopts "n:r:h:d:c:t:P:" opt
 do
    case "$opt" in
       n) namespace="$OPTARG" ;;
@@ -33,13 +34,14 @@ do
       h) hostname="$OPTARG" ;;
       d) datastore="$OPTARG" ;;
       c) classpathjars="$OPTARG" ;;
+      t) traefik="$OPTARG" ;;
       P) topicprefix="$OPTARG" ;;
       ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
    esac
 done
 
 # Print helpFunction in case parameters are empty
-if [ -z "$namespace" ] || [ -z "$repository" ] || [ -z "$hostname" ] || [ -z "$datastore" ] || [ -z "$classpathjars" ]; then
+if [ -z "$namespace" ] || [ -z "$repository" ] || [ -z "$hostname" ] || [ -z "$datastore" ] || [ -z "$classpathjars" ] || [ -z "$traefik" ]; then
    echo "Some or all of the parameters are empty";
    helpFunction
 fi
@@ -57,6 +59,7 @@ helm upgrade --install --wait palisade . \
     --set global.deployment=example \
     --set global.kafka.install=false \
     --set global.redis.install=false \
+    --set traefik.install="${traefik}" \
     --set global.topicPrefix="${topicprefix}" \
     --timeout 300s \
     --namespace "${namespace}"

@@ -16,25 +16,34 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
-import org.junit.Test;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 
-import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.jsonserialisation.JSONSerialiser;
+import uk.gov.gchq.palisade.user.User;
 
-import static org.junit.Assert.assertEquals;
+import java.io.IOException;
 
-public class ExampleUserTest {
+import static org.assertj.core.api.Assertions.assertThat;
+
+class ExampleUserTest {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     @Test
-    public void shouldDeserialiseExampleUser() {
-        //given
+    void testShouldDeserialiseExampleUser() throws IOException {
+        // Given
         User user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("bob").roles(Role.HR.name(), "another_role").auths("authorised_person", "more_authorisations");
 
-        //when
-        byte[] bytesSerialised = JSONSerialiser.serialise(user, true);
-        User newUser = JSONSerialiser.deserialise(bytesSerialised, User.class);
+        // When
+        byte[] bytesSerialised = MAPPER.writeValueAsBytes(user);
+        User newUser = MAPPER.readValue(bytesSerialised, ExampleUser.class);
 
-        //then
-        assertEquals("Deserialised user should be same class as original user", user.getClass(), newUser.getClass());
-        assertEquals("Deserialised user should be equal to original user", user, newUser);
+        // Then
+        assertThat(user.getClass())
+                .as("Deserialised user should be same class as original user")
+                .isEqualTo(newUser.getClass());
+
+        assertThat(user)
+                .as("Deserialised user should be equal to original user")
+                .isEqualTo(newUser);
     }
 }

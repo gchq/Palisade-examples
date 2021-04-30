@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.gchq.palisade.example.library.rule;
+package uk.gov.gchq.palisade.example.library.serialise;
 
-import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.rule.Rule;
-import uk.gov.gchq.palisade.user.User;
-import uk.gov.gchq.syntheticdatagenerator.types.Employee;
+import uk.gov.gchq.palisade.example.library.common.SerialiserAdapter;
 
-public class EmployeePassThroughRule implements Rule<Employee> {
+public class AvroSerialiser<T> extends SerialiserAdapter<T> {
     private static final long serialVersionUID = 1L;
 
-    public Employee apply(final Employee record, final User user, final Context context) {
-        return record;
+    public AvroSerialiser(final Class<T> domainClass) {
+        super(new uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser<>(domainClass));
     }
-
-    @Override
-    public boolean isApplicable(final User user, final Context context) {
-        return false;
-    }
-
 }

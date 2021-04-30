@@ -55,7 +55,7 @@ population:
   serialisers:
   - flavourFormat: ${default.format}
     flavourType: ${default.type}
-    serialiserClass: uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser
+    serialiserClass: uk.gov.gchq.palisade.example.library.serialise.AvroSerialiser
 
 # Used by the resource-service to infer the types of the (many thousands of) resources created for the performance test
 resource:

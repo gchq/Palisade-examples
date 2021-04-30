@@ -19,7 +19,6 @@ package uk.gov.gchq.palisade.example.perf.actions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.gov.gchq.palisade.Util;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
 import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
@@ -93,7 +92,11 @@ public class CreateAction implements Runnable {
      * @return whether the operations completed successfully
      */
     private boolean createWithPolicyDataset(final PerfFileSet fileSet) {
-        ExecutorService tasks = Executors.newFixedThreadPool(NUMBER_OF_THREADS, Util.createDaemonThreadFactory());
+        ExecutorService tasks = Executors.newFixedThreadPool(NUMBER_OF_THREADS, (Runnable runnable) -> {
+            Thread thread = new Thread(runnable);
+            thread.setDaemon(true);
+            return thread;
+        });
 
         String smallFile = fileSet.smallFile;
         String largeFile = fileSet.largeFile;

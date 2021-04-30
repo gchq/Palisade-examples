@@ -19,10 +19,10 @@ package uk.gov.gchq.palisade.example.library.rule;
 import org.junit.Test;
 
 import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
+import uk.gov.gchq.palisade.user.User;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

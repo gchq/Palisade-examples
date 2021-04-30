@@ -28,6 +28,8 @@ global:
   # Sets up some mount points in services for example data
   deployment: example
 
+  hosting: local
+
   env:
     example:
     - name: "SPRING_PROFILES_ACTIVE"
@@ -40,24 +42,21 @@ global:
   repository: palisade
 
   # persistent-volume and associated claims configurations
-  # guarantee the data we are expecting is mounted appropriately
   persistence:
     classpathJars:
       local:
-        # must be manually set to an absolute path
-        # the `deployment: example` wil lead to the hostPath being appended to `./deployment/target/example` as intended
-        hostPath: "./deployment/target"
+        hostPath: "/"
 
     dataStores:
       palisade-data-store:
         local:
-          hostPath: "./resources/data"
+          hostPath: "/data"
 
-    redis-master.local.hostPath: "/data"
-    redis-slave.local.hostPath: "/data"
-    redis-cluster.local.hostPath: "/data"
-    kafka.local.hostPath: "/data"
-    zookeeper.local.hostPath: "/data"
+    redis-master.local.hostPath: "/tmp"
+    redis-slave.local.hostPath: "/tmp"
+    redis-cluster.local.hostPath: "/tmp"
+    kafka.local.hostPath: "/tmp"
+    zookeeper.local.hostPath: "/tmp"
 
   # must be last for file to be appended with addresses
   globalIPAddresses:
