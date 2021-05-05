@@ -12,22 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-spring:
-  profiles:
-    include:
-    - example-config
-    - example-users
-    - example-resources
-    - example-policies
-    - example-serialisers
-
----
-
-spring:
-  profiles: example-config
-
-default:
-  rootId: ../Palisade-examples/resources
-  connectionDetail: localhost:8082
-  type: uk.gov.gchq.syntheticdatagenerator.types.Employee
-  format: avro
+population:
+  resourceProvider: std
+  resources:
+  - resourceId: ${default.rootId}/data/employee_file0.avro
+    rootId: ${default.rootId}/
+    connectionDetail: ${default.connectionDetail}
+    attributes:
+      type: ${default.type}
+      serialisedFormat: ${default.format}
+  - resourceId: ${default.rootId}/data/employee_file1.avro
+    rootId: ${default.rootId}/
+    connectionDetail: ${default.connectionDetail}
+    attributes:
+      type: ${default.type}
+      serialisedFormat: ${default.format}

@@ -12,22 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-spring:
-  profiles:
-    include:
-    - example-config
-    - example-users
-    - example-resources
-    - example-policies
-    - example-serialisers
-
----
-
-spring:
-  profiles: example-config
-
-default:
-  rootId: ../Palisade-examples/resources
-  connectionDetail: localhost:8082
-  type: uk.gov.gchq.syntheticdatagenerator.types.Employee
-  format: avro
+population:
+  serialiserProvider: std
+  serialisers:
+  - flavourFormat: ${default.format}
+    flavourType: ${default.type}
+    serialiserClass: uk.gov.gchq.palisade.example.library.serialise.AvroSerialiser
