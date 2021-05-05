@@ -13,35 +13,41 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Example usage
+# ./copyExampleData.sh default example /mnt/shared-classpath-jars /data/local-data-store
+
 # Current namespace for pods
 NAMESPACE=$1
-CLASSPATH=$2
+# Deployment name used as a selector for which jars/data to copy
+DEPLOYMENT=$2
+# Target to copy classpath-jars into
+CLASSPATH=$3
+# Target to copy data-files into
+DATASTORE=$4
 
-# Copy the Dockerfile's ROM-like store of example jars and data compiled into the image during `docker build`
+# Copy the Dockerfile's ROM-like store of classpath jars and data compiled into the image during `docker build`
 # Once copied to the k8s mountpoints, it will be available to all other services
 # This allows upload of data to the cluster independent of storage technology
 echo "Copying Dockerfile data to shared cluster storage paths"
 
-# Copy example jars that will be loaded onto the classpath
+# Copy classpath jars that will be loaded onto the classpath
 # These include pre-population configs and example data-types (Employee)
 # These are needed by the user, resource, policy and data services
-# shellcheck disable=SC2115
-rm -rfv $CLASSPATH
-echo "Removed previous run data for $CLASSPATH"
-mkdir -pv $CLASSPATH
-ls -R $CLASSPATH
-cp -vrf /usr/share/example-jars/* $CLASSPATH
-echo "Copied example-jars to $CLASSPATH"
-ls -R $CLASSPATH
+rm -rfv "$CLASSPATH"
+echo "Removed previous run classpath-jars for $CLASSPATH"
+mkdir -pv "$CLASSPATH"
+ls -R "$CLASSPATH"
+cp -vrf "/usr/share/deployment/classpath-jars/$DEPLOYMENT/*" "$CLASSPATH"
+echo "Copied classpath-jars to $CLASSPATH"
+ls -R "$CLASSPATH"
 
-DATASTORE=/data/local-data-store/
 # Copy example AVRO data that will be read by the data-service
 # The location of these is dependant on the resource-service pre-population values
-echo "Preserving previous run data for $DATASTORE"
-ls -R $DATASTORE
-cp -vrf /usr/share/example-data/resources/data/* $DATASTORE
-echo "Copied all example-data to $DATASTORE"
-ls -R $DATASTORE
+echo "Preserving previous run data-files for $DATASTORE"
+ls -R "$DATASTORE"
+cp -vrf "/usr/share/deployment/data/$DEPLOYMENT/*" "$DATASTORE"
+echo "Copied all data-files to $DATASTORE"
+ls -R "$DATASTORE"
 
 # Restart affected pods and wait until healthy
 echo "Restarting pods"
