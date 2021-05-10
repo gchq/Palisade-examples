@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib')_
+@Library('jenkinsfile-lib@PAL-1040-fix-revision-in-common')_
 
 timestamps {
     examples()
