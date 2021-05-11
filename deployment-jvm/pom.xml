@@ -28,9 +28,16 @@
     </parent>
 
     <!--  *********** Artifact ID ***********    -->
-    <artifactId>deployment</artifactId>
-    <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment</url>
+    <artifactId>deployment-jvm</artifactId>
+    <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment-jvm</url>
     <!--  *********** Artifact ID ***********    -->
+
+    <properties>
+        <!-- Dockerfile-maven-plugin configurable base image - openjdk:11.0 -->
+        <dockerfile.base.image>openjdk@sha256:c1c4bcec5505761f98034d17d0fbfd00b44b79cb472def03d9f1e231f150dc6d</dockerfile.base.image>
+        <!-- Prefix image tag with image type being used -->
+        <dockerfile.base.tag>jdk</dockerfile.base.tag>
+    </properties>
 
     <profiles>
         <!-- Profile used to update image tag used by helm -->
@@ -59,6 +66,22 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <!-- Use a JRE image, mirrors base config -->
+            <id>jrei</id>
+            <properties>
+                <dockerfile.base.image>openjdk@sha256:d9a6b51ec836e6278521678640211544b93272a3df675c915ca01a78c8c18ecd</dockerfile.base.image>
+                <dockerfile.base.tag>jre</dockerfile.base.tag>
+            </properties>
+        </profile>
+        <profile>
+            <!-- Use a JDK image -->
+            <id>jdki</id>
+            <properties>
+                <dockerfile.base.image>openjdk@sha256:c1c4bcec5505761f98034d17d0fbfd00b44b79cb472def03d9f1e231f150dc6d</dockerfile.base.image>
+                <dockerfile.base.tag>jdk</dockerfile.base.tag>
+            </properties>
+        </profile>
     </profiles>
 
     <build>
@@ -80,25 +103,6 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dateFormat>yyyyMMdd-HHmmss</dateFormat>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
-                    <useNativeGit>true</useNativeGit>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>it.ozimov</groupId>
                 <artifactId>yaml-properties-maven-plugin</artifactId>
                 <version>1.1.3</version>
@@ -110,7 +114,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${project.basedir}/../deployment/charts/${project.artifactId}/values.yaml</file>
+                                <file>${project.basedir}/values.yaml</file>
                             </files>
                         </configuration>
                     </execution>
@@ -145,7 +149,7 @@
                             <outputDirectory>target/scripts</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/resources/k8s-bash-scripts</directory>
+                                    <directory>src/main/resources/local-jvm-scripts</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -160,13 +164,97 @@
                 <!-- Currently, these jars are the same (example-lib and hr-data-generator) but could be different in the future -->
                 <executions>
                     <execution>
-                        <id>copy-example-classpath-jars</id>
+                        <id>copy-required-jars</id>
                         <phase>install</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
                         <configuration>
                             <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>attribute-masking-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>audit-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>data-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>filtered-resource-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>palisade-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>policy-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>resource-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>topic-offset-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>user-service</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>services-manager</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>example-runner</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>performance</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>example-library</artifactId>
@@ -176,27 +264,7 @@
                                 </artifactItem>
                             </artifactItems>
                             <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="example" -->
-                            <outputDirectory>target/example</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-performance-classpath-jars</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>example-library</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>${project.packaging}</type>
-                                    <classifier>jar-with-dependencies</classifier>
-                                </artifactItem>
-                            </artifactItems>
-                            <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="performance-test" -->
-                            <outputDirectory>target/performance-test</outputDirectory>
+                            <outputDirectory>target/jvm-jars</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -230,6 +298,9 @@
                     <!--suppress UnresolvedMavenProperty -->
                     <tag>${image.tag}</tag>
                     <finalName>${project.artifactId}</finalName>
+                    <buildArgs>
+                        <BASE_IMG>${dockerfile.base.image}</BASE_IMG>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,9 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-helm dep up
-helm upgrade --install --wait palisade deployment \
---set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
---set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
---set global.deployment=example
+FILE=example-runner-*-exec.jar
+# Run the rest example
+if [ -f $FILE ]; then
+  java -Dspring.profiles.active=rest,static -jar $FILE
+else
+  echo "Cannot find example-runner-<version>-exec.jar - have you run 'mvn install'?"
+fi

@@ -1,0 +1,68 @@
+# Copyright 2018-2021 Crown Copyright
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+{{- if eq .Values.global.deployment "example" }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "deployment-jvm.name" . }}
+  namespace: {{ include "palisade.namespace" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "deployment-jvm.name" . }}
+    helm.sh/chart: {{ include "deployment-jvm.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      name: {{ include "deployment-jvm.name" . }}
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      serviceAccountName: kubectl-delete-pods
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{.Values.global.repository}}/{{.Values.image.name}}:{{.Values.image.tag}}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: [ "/bin/bash", "/bin/copyExampleData.sh" ]
+        args:
+          - {{ include "palisade.namespace" . | quote }}
+          - {{ include "deployment-jvm.deployment.path" . | quote }}
+        volumeMounts:
+        - name: {{ include "deployment-jvm.classpathJars.name" . }}
+          mountPath: {{ include "deployment-jvm.classpathJars.mount" . }}
+        {{- range $name, $value := .Values.global.persistence.dataStores }}
+        - name: {{ $name }}
+          mountPath: {{ $value.mountPath }}
+        {{- end }}
+      volumes:
+      - name: {{ include "deployment-jvm.classpathJars.name" . }}
+        persistentVolumeClaim:
+          claimName: {{ include "deployment-jvm.classpathJars.name" . }}
+          readOnly: false
+      {{- range $name, $_ := .Values.global.persistence.dataStores }}
+      - name: {{ $name }}
+        persistentVolumeClaim:
+          claimName: {{ $name }}-{{ include "palisade.namespace" $ }}
+          readOnly: false
+      {{- end }}
+{{- end }}

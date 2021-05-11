@@ -30,7 +30,7 @@
     <!--  *********** Artifact ID ***********    -->
 
     <properties>
-        <!-- Dockerfile-maven-plugin configurable base image - openjdk:11.0-jre-slim -->
+        <!-- Dockerfile-maven-plugin configurable base image - openjdk:11.0 -->
         <dockerfile.base.image>openjdk@sha256:736dd07fc5cb53060a49d38c86b9e673974510c5a18afc40b1c936475f59aee7</dockerfile.base.image>
         <!-- Prefix image tag with image type being used -->
         <dockerfile.base.tag>jdk</dockerfile.base.tag>
@@ -90,7 +90,7 @@
                                 <configuration>
                                     <tasks>
                                         <copy file="${project.build.outputDirectory}/values.yaml"
-                                              toFile="../charts/${project.artifactId}/values.yaml" overwrite="true"/>
+                                              toFile="../deployment/charts/${project.artifactId}/values.yaml" overwrite="true"/>
                                     </tasks>
                                 </configuration>
                             </execution>
@@ -150,7 +150,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${project.basedir}/../charts/${project.artifactId}/values.yaml</file>
+                                <file>${project.basedir}/../deployment/charts/${project.artifactId}/values.yaml</file>
                             </files>
                         </configuration>
                     </execution>

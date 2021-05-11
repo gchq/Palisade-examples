@@ -85,7 +85,7 @@
                                 <configuration>
                                     <tasks>
                                         <copy file="${project.build.outputDirectory}/values.yaml"
-                                              toFile="../charts/${project.artifactId}/values.yaml" overwrite="true"/>
+                                              toFile="../deployment/charts/${project.artifactId}/values.yaml" overwrite="true"/>
                                     </tasks>
                                 </configuration>
                             </execution>
@@ -145,7 +145,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${project.basedir}/../charts/${project.artifactId}/values.yaml</file>
+                                <file>${project.basedir}/../deployment/charts/${project.artifactId}/values.yaml</file>
                             </files>
                         </configuration>
                     </execution>
