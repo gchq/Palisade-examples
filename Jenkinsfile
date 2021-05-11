@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib@feature/PAL-1044-resolve-jackson-dependency')_
+@Library('jenkinsfile-lib')_
 
 timestamps {
     examples()
