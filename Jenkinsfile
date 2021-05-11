@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib')_
+@Library('jenkinsfile-lib@feature/Pal-822-jvm-example-pipeline')_
 
 timestamps {
     examples()
