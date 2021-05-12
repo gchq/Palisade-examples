@@ -13,6 +13,21 @@
 # limitations under the License.
 
 {{/*
+Modify the namespace if required
+ */}}
+{{- define "palisade.namespace" }}
+{{- if $.Values.global.uniqueNamespace }}
+{{- printf "%s" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- if .Release.Namespace }}
+{{- printf "%s" .Release.Namespace }}
+{{- else }}
+{{- printf "%s" $.Values.global.namespace | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
 Expand the name of the chart.
 */}}
 {{- define "deployment-jvm.name" -}}
@@ -80,5 +95,5 @@ Calculate a storage name based on the code release artifact id or the supplied v
 */}}
 {{- define "deployment-jvm.deployment.revision" }}
 {{- $revision := .Values.image.codeRelease | lower | replace "." "-" | trunc 63 | trimSuffix "-" }}
-{{- printf "%s/%s" .Values.global.deployment-jvm $revision }}
+{{- printf "%s/%s" .Values.global.deployment $revision }}
 {{- end }}

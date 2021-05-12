@@ -149,7 +149,7 @@
                             <outputDirectory>target/scripts</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/resources/local-jvm-scripts</directory>
+                                    <directory>src/main/resources/k8s-bash-scripts</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -174,70 +174,70 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>attribute-masking-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>audit-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>data-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>filtered-resource-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>palisade-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>policy-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>resource-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>topic-offset-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>user-service</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>services-manager</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
                                 </artifactItem>
