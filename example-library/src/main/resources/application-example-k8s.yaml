@@ -15,7 +15,7 @@
 
 # Not interpreted by any java code, simply used by reference in the population.resources section
 default:
-  rootId: /data/local-data-store
+  rootId: file://data/local-data-store
   connectionDetail: data-service
   type: uk.gov.gchq.syntheticdatagenerator.types.Employee
   format: avro
