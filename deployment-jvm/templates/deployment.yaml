@@ -43,6 +43,16 @@ spec:
         args: [ "chmod +x /usr/share/deployment-jvm/*.sh; while true; do sleep 100; done;" ]
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
+        env:
+        - name: "SPRING_CONFIG_ADDITIONAL_LOCATION"
+          value: {{ include "deployment-jvm.config.path" . }}
+        volumeMounts:
+        - name: config-volume
+          mountPath: {{ include "deployment-jvm.config.path" . }}
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ include "deployment-jvm.name" . }}-configmap
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

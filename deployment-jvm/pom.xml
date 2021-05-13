@@ -57,7 +57,7 @@
                                 <configuration>
                                     <tasks>
                                         <copy file="${project.build.outputDirectory}/values.yaml"
-                                              toFile="../charts/${project.artifactId}/values.yaml" overwrite="true"/>
+                                              toFile="${project.basedir}/values.yaml" overwrite="true"/>
                                     </tasks>
                                 </configuration>
                             </execution>
@@ -102,6 +102,25 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dateFormat>yyyyMMdd-HHmmss</dateFormat>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <useNativeGit>true</useNativeGit>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>it.ozimov</groupId>
                 <artifactId>yaml-properties-maven-plugin</artifactId>
@@ -149,7 +168,7 @@
                             <outputDirectory>target/scripts</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/resources/k8s-bash-scripts</directory>
+                                    <directory>local-jvm</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -177,6 +196,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>attribute-masking-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -184,6 +204,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>audit-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -191,6 +212,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>data-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -198,6 +220,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>filtered-resource-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -205,6 +228,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>palisade-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -212,6 +236,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>policy-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -219,6 +244,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>resource-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -226,6 +252,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>topic-offset-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -233,6 +260,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>user-service-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -240,6 +268,7 @@
                                     <version>0.5.0-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
+                                    <destFileName>services-manager-0.5.0-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -296,7 +325,7 @@
                     <repository>${image.repository}${project.artifactId}</repository>
                     <dockerfile>Dockerfile</dockerfile>
                     <!--suppress UnresolvedMavenProperty -->
-                    <tag>${image.tag}</tag>
+                    <tag>${dockerfile.base.tag}-${image.tag}</tag>
                     <finalName>${project.artifactId}</finalName>
                     <buildArgs>
                         <BASE_IMG>${dockerfile.base.image}</BASE_IMG>

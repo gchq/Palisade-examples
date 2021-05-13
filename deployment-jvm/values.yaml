@@ -16,7 +16,8 @@ replicaCount: 1
 
 image:
   name: deployment-jvm
-  tag: SNAPSHOT-61eb004
+  base: jdk
+  tag: SNAPSHOT-836912a
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 

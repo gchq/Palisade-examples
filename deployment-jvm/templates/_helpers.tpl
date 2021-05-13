@@ -73,27 +73,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
-Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
+Calculate the service config location
 */}}
-{{- define "deployment-jvm.deployment.path" }}
-{{- printf "%s/%s" (include "deployment-jvm.classpathJars.mount" .) (include "deployment-jvm.deployment.revision" .) }}
-{{- end }}
-
-{{- define "deployment-jvm.classpathJars.name" }}
-{{- printf "%s" .Values.global.persistence.classpathJars.name | replace "/" "-"}}
-{{- end }}
-
-{{/*
-Calculate a storage path based on the code release artifact id or the supplied value of codeRelease
-*/}}
-{{- define "deployment-jvm.classpathJars.mount" }}
-{{- printf "%s/%s/classpath" .Values.global.persistence.classpathJars.mountPath .Chart.Name }}
-{{- end }}
-
-{{/*
-Calculate a storage name based on the code release artifact id or the supplied value of codeRelease
-*/}}
-{{- define "deployment-jvm.deployment.revision" }}
-{{- $revision := .Values.image.codeRelease | lower | replace "." "-" | trunc 63 | trimSuffix "-" }}
-{{- printf "%s/%s" .Values.global.deployment $revision }}
+{{- define "deployment-jvm.config.path" }}
+{{- printf "/usr/share/%s/config/" .Chart.Name }}
 {{- end }}
