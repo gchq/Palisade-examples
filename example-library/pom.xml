@@ -70,6 +70,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>resource-service</artifactId>
+            <version>0.5.0-${services.revision}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
