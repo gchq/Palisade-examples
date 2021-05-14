@@ -27,9 +27,21 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <developers>
+        <developer>
+            <name>PalisadeDevelopers</name>
+            <organization>GCHQ</organization>
+            <organizationUrl>https://github.com/gchq</organizationUrl>
+        </developer>
+    </developers>
+
     <!--  *********** Artifact ID ***********    -->
     <artifactId>deployment</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment</url>
+    <name>GCHQ Palisade - Example Deployment</name>
+    <description>
+        Copies jars to mounted shared persistent volumes on container start.
+    </description>
     <!--  *********** Artifact ID ***********    -->
 
     <profiles>
