@@ -15,8 +15,7 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -30,8 +29,7 @@
     <groupId>uk.gov.gchq.palisade</groupId>
     <artifactId>example</artifactId>
     <version>0.5.0-${revision}</version>
-    <name>GCHQ Palisade Examples</name>
-    <description>Example data-types, users, resources, rules, data-files and deployments for demonstrating Palisade services</description>
+    <description>Example layer for palisade</description>
     <url>https://github.com/gchq/Palisade-examples</url>
     <packaging>pom</packaging>
 
@@ -46,16 +44,9 @@
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-
-    <scm>
-        <url>${scm.url}</url>
-        <connection>${scm.connection}</connection>
-        <developerConnection>${scm.developer.connection}</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
 
     <properties>
         <!-- Dependency properties -->
@@ -84,13 +75,6 @@
         <javafaker.version>1.0.1</javafaker.version>
         <apache.commons.version>2.6</apache.commons.version>
 
-        <!-- Release plugin versions -->
-        <gpg.plugin.version>1.5</gpg.plugin.version>
-        <nexus.plugin.version>1.6.8</nexus.plugin.version>
-        <release.plugin.version>2.5.3</release.plugin.version>
-        <scm.plugin.version>1.1</scm.plugin.version>
-        <source.plugin.version>3.2.1</source.plugin.version>
-
         <!-- Testing versions -->
         <junit.version>4.12</junit.version>
         <surefire.plugin.version>2.22.1</surefire.plugin.version>
@@ -101,11 +85,6 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.xml</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
-
-        <!-- SCM properties for Release plugin -->
-        <scm.url>https://github.com/gchq/Palisade-common</scm.url>
-        <scm.connection>scm:git:https://github.com/gchq/Palisade-common.git</scm.connection>
-        <scm.developer.connection>scm:git:https://github.com/gchq/Palisade-common.git</scm.developer.connection>
     </properties>
 
     <modules>
@@ -113,7 +92,6 @@
         <module>example-runner</module>
         <module>performance</module>
         <module>deployment</module>
-        <module>deployment-jvm</module>
     </modules>
 
     <profiles>
@@ -128,76 +106,6 @@
                 <license.skipAggregateAddThirdParty>true</license.skipAggregateAddThirdParty>
                 <license.skipAggregateDownloadLicenses>true</license.skipAggregateDownloadLicenses>
             </properties>
-        </profile>
-        <profile>
-            <id>release</id>
-            <properties>
-                <!-- Release configuration -->
-                <releases.repository.id>ossrh</releases.repository.id>
-                <releases.repository.name>Sonatype Nexus release repository</releases.repository.name>
-                <releases.repository.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</releases.repository.url>
-                <snapshots.repository.id>ossrh</snapshots.repository.id>
-                <snapshots.repository.name>Sonatype Nexus snapshot repository</snapshots.repository.name>
-                <snapshots.repository.url>https://oss.sonatype.org/content/repositories/snapshots</snapshots.repository.url>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${nexus.plugin.version}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>${releases.repository.id}</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                            <keepStagingRepositoryOnCloseRuleFailure>true
-                            </keepStagingRepositoryOnCloseRuleFailure>
-                            <stagingProgressTimeoutMinutes>10</stagingProgressTimeoutMinutes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>${source.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${javadoc.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${gpg.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
 
@@ -217,18 +125,15 @@
         <!-- in order to use this, one must have nexus up and running on a given url -->
         <repository>
             <!-- Snapshot repositories can be build on each commit to develop branch -->
-            <id>${releases.repository.id}</id>
-            <name>${releases.repository.name}</name>
-            <!--suppress UnresolvedMavenProperty -->
-            <url>${releases.repository.url}</url>
+            <id>nexus</id>
+            <name>releases</name>
+            <url>${release.url}</url>
         </repository>
         <snapshotRepository>
             <!-- Snapshot repositories can be build on each commit to develop branch -->
-            <id>${snapshots.repository.id}</id>
-            <uniqueVersion>false</uniqueVersion>
-            <name>${snapshots.repository.name}</name>
-            <!--suppress UnresolvedMavenProperty -->
-            <url>${snapshots.repository.url}</url>
+            <id>nexus</id>
+            <name>snapshots</name>
+            <url>${snapshot.url}</url>
         </snapshotRepository>
     </distributionManagement>
 
