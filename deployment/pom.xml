@@ -173,7 +173,7 @@
                 <executions>
                     <execution>
                         <id>copy-example-classpath-jars</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
@@ -193,7 +193,7 @@
                     </execution>
                     <execution>
                         <id>copy-performance-classpath-jars</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
@@ -220,7 +220,7 @@
                 <version>1.4.10</version>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>post-integration-test</phase>
                         <id>cache</id>
                         <goals>
                             <goal>build</goal>
@@ -230,7 +230,6 @@
                         <phase>deploy</phase>
                         <id>ar</id>
                         <goals>
-                            <goal>build</goal>
                             <goal>push</goal>
                         </goals>
                     </execution>
