@@ -21,5 +21,5 @@ then
   kubectl exec $(kubectl get pods | awk '/deployment-jvm/ {print $1}') -- bash -c "cd /usr/share/deployment-jvm/Palisade-examples/ && ./deployment-jvm/local-jvm/example-runner/startServices.sh"
 else
   # If the user passes in a namespace, use the namespace in the kubectl command
-  kubectl exec $(kubectl get pods -n "$NAMESPACE" | awk '/deployment-jvm/ {print $1}') -n "$NAMESPACE"-- bash -c "cd /usr/share/deployment-jvm/Palisade-examples/ && ./deployment-jvm/local-jvm/example-runner/startServices.sh"
+  kubectl exec $(kubectl get pods -n "$NAMESPACE" | awk '/deployment-jvm/ {print $1}') -n "$NAMESPACE" -- bash -c "cd /usr/share/deployment-jvm/Palisade-examples/ && ./deployment-jvm/local-jvm/example-runner/startServices.sh"
 fi
