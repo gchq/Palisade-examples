@@ -50,7 +50,7 @@ fi
 helm dep up
 
 # Added extra params to ensure that AWS deploys use the shared one at 'palisade-shared' DNS
-helm upgrade --install --wait palisade . \
+helm upgrade --install --wait palisade ./deployment \
     --set global.hosting=aws \
     --set global.repository="${repository}" \
     --set global.hostname="${hostname}" \
