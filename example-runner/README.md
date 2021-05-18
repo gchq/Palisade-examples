@@ -18,8 +18,8 @@
 
 ### Rest Example
 
-The example runs the [uk.gov.gchq.palisade.example.runner.runner.RestExample class](/example-runner/src/main/java/uk/gov/gchq/palisade/example.runner/runner/RestExample.java) which executes several different queries by the different users, with different
-purposes. When you run the example you will see the data has been redacted in line with the policy set out in the rules above.
+The example runs the [uk.gov.gchq.palisade.example.runner.runner.RestExample class](/example-runner/src/main/java/uk/gov/gchq/palisade/example.runner/runner/RestExample.java) which executes several different queries by the different users, with different purposes.
+When you run the example you will see the data has been redacted in line with the policy set out in the rules above.
 
 For deployment specific instructions on how to run the example see the [deployment module](/deployment), in particular:
 
