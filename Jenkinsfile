@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib@feature/PAL-1021-S3ResourceService')_
+@Library('jenkinsfile-lib')_
 
 timestamps {
     examples()
