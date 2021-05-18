@@ -50,7 +50,7 @@
                                 <configuration>
                                     <tasks>
                                         <copy file="${project.build.outputDirectory}/values.yaml"
-                                              toFile="../charts/${project.artifactId}/values.yaml" overwrite="true"/>
+                                              toFile="charts/${project.artifactId}/values.yaml" overwrite="true"/>
                                     </tasks>
                                 </configuration>
                             </execution>
