@@ -20,7 +20,7 @@ version: 0.5.0
 dependencies:
   - name: Palisade-services
     version: 0.5.0
-    repository: file://../Palisade-services
+    repository: file://../../Palisade-services
     import-values:
     - child: global.persistence.dataStores
       parent: global.persistence.dataStores

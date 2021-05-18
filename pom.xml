@@ -105,7 +105,9 @@
         <module>example-runner</module>
         <module>performance</module>
         <module>deployment</module>
+        <!-- Commented out due to not being used
         <module>deployment-jvm</module>
+        -->
     </modules>
 
     <profiles>
