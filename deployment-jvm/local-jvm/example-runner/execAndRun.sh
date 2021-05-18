@@ -14,20 +14,17 @@
 # limitations under the License.
 
 NAMESPACE=$1
+START=$2
+RUN=$3
+STOP=$4
+VERIFY=$5
+DIR="/usr/share/deployment-jvm/Palisade-examples"
 
 if [ -z "$NAMESPACE" ];
 then
-  # If the user doesnt pass in a namespace
-  kubectl exec $(kubectl get pods | awk '/deployment-jvm/ {print $1}') -- bash -c "cd /usr/share/deployment-jvm/Palisade-examples/ && " \
-  "./deployment-jvm/local-jvm/example-runner/startServices.sh && " \
-  "./deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh.sh && " \
-  "./deployment-jvm/local-jvm/example-runner/verify.sh && " \
-  "./deployment-jvm/local-jvm/example-runner/stopServices.sh"
+  # If the user doesn't pass in a namespace
+  echo "Please provide the deployment namespace"
 else
   # If the user passes in a namespace, use the namespace in the kubectl command
-  kubectl exec $(kubectl get pods -n "$NAMESPACE" | awk '/deployment-jvm/ {print $1}') -n "$NAMESPACE" -- bash -c "cd /usr/share/deployment-jvm/Palisade-examples/ && " \
-  "./deployment-jvm/local-jvm/example-runner/startServices.sh && " \
-  "./deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh.sh && " \
-  "./deployment-jvm/local-jvm/example-runner/verify.sh && " \
-  "./deployment-jvm/local-jvm/example-runner/stopServices.sh"
+  kubectl exec $(kubectl get pods -n "$NAMESPACE" | awk '/deployment-jvm/ {print $1}') -n "$NAMESPACE" -- bash -c "cd $DIR && $START && $RUN && $STOP && $VERIFY"
 fi
