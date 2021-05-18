@@ -27,7 +27,7 @@ spring:
 
 default:
   rootId: file:../Palisade-examples/resources
-  connectionDetail: data-service
+  connectionDetail: localhost:8082
   type: uk.gov.gchq.syntheticdatagenerator.types.Employee
   format: avro
 
