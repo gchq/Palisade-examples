@@ -27,9 +27,21 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <developers>
+        <developer>
+            <name>PalisadeDevelopers</name>
+            <organization>GCHQ</organization>
+            <organizationUrl>https://github.com/gchq</organizationUrl>
+        </developer>
+    </developers>
+
     <!--  *********** Artifact ID ***********    -->
     <artifactId>deployment</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment</url>
+    <name>GCHQ Palisade - Example Deployment</name>
+    <description>
+        Copies jars to mounted shared persistent volumes on container start.
+    </description>
     <!--  *********** Artifact ID ***********    -->
 
     <profiles>
@@ -161,7 +173,7 @@
                 <executions>
                     <execution>
                         <id>copy-example-classpath-jars</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
@@ -181,7 +193,7 @@
                     </execution>
                     <execution>
                         <id>copy-performance-classpath-jars</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
@@ -208,7 +220,7 @@
                 <version>1.4.10</version>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>post-integration-test</phase>
                         <id>cache</id>
                         <goals>
                             <goal>build</goal>
@@ -218,7 +230,6 @@
                         <phase>deploy</phase>
                         <id>ar</id>
                         <goals>
-                            <goal>build</goal>
                             <goal>push</goal>
                         </goals>
                     </execution>
