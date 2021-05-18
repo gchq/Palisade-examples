@@ -51,7 +51,6 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |  \- org.springframework.boot:spring-boot-starter-data-redis:jar:2.3.1.RELEASE:provided
 |     +- org.springframework.data:spring-data-redis:jar:2.3.1.RELEASE:provided
 |     |  +- org.springframework.data:spring-data-keyvalue:jar:2.3.1.RELEASE:provided
-|     |  |  \- org.springframework.data:spring-data-commons:jar:2.3.1.RELEASE:provided
 |     |  +- org.springframework:spring-tx:jar:5.2.7.RELEASE:provided
 |     |  \- org.springframework:spring-oxm:jar:5.2.7.RELEASE:provided
 |     \- io.lettuce:lettuce-core:jar:5.3.1.RELEASE:provided
@@ -60,8 +59,7 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |        |  +- io.netty:netty-resolver:jar:4.1.50.Final:provided
 |        |  +- io.netty:netty-buffer:jar:4.1.50.Final:provided
 |        |  \- io.netty:netty-codec:jar:4.1.50.Final:provided
-|        +- io.netty:netty-transport:jar:4.1.50.Final:provided
-|        \- io.projectreactor:reactor-core:jar:3.3.6.RELEASE:provided
+|        \- io.netty:netty-transport:jar:4.1.50.Final:provided
 +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.4:compile
 |  +- com.github.javafaker:javafaker:jar:1.0.1:compile
 |  |  +- org.apache.commons:commons-lang3:jar:3.10:compile
@@ -77,44 +75,56 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 +- org.springframework.boot:spring-boot-autoconfigure:jar:2.3.1.RELEASE:provided
 |  \- org.springframework.boot:spring-boot:jar:2.3.1.RELEASE:provided
 |     \- org.springframework:spring-context:jar:5.2.7.RELEASE:provided
-\- org.springframework.boot:spring-boot-starter-test:jar:2.3.1.RELEASE:test
-   +- org.springframework.boot:spring-boot-starter:jar:2.3.1.RELEASE:provided
-   |  +- org.springframework.boot:spring-boot-starter-logging:jar:2.3.1.RELEASE:provided
-   |  |  +- ch.qos.logback:logback-classic:jar:1.2.3:provided
-   |  |  |  \- ch.qos.logback:logback-core:jar:1.2.3:provided
-   |  |  +- org.apache.logging.log4j:log4j-to-slf4j:jar:2.13.3:provided
-   |  |  |  \- org.apache.logging.log4j:log4j-api:jar:2.13.3:provided
-   |  |  \- org.slf4j:jul-to-slf4j:jar:1.7.30:provided
-   |  +- jakarta.annotation:jakarta.annotation-api:jar:1.3.5:provided
-   |  \- org.yaml:snakeyaml:jar:1.26:provided
-   +- org.springframework.boot:spring-boot-test:jar:2.3.1.RELEASE:test
-   +- org.springframework.boot:spring-boot-test-autoconfigure:jar:2.3.1.RELEASE:test
-   +- com.jayway.jsonpath:json-path:jar:2.4.0:test
-   |  \- net.minidev:json-smart:jar:2.3:test
-   |     \- net.minidev:accessors-smart:jar:1.2:test
-   |        \- org.ow2.asm:asm:jar:5.0.4:test
-   +- jakarta.xml.bind:jakarta.xml.bind-api:jar:2.3.3:test
-   |  \- jakarta.activation:jakarta.activation-api:jar:1.2.2:test
-   +- org.assertj:assertj-core:jar:3.16.1:test
-   +- org.hamcrest:hamcrest:jar:2.2:test
-   +- org.junit.jupiter:junit-jupiter:jar:5.6.2:test
-   |  +- org.junit.jupiter:junit-jupiter-api:jar:5.6.2:test
-   |  |  +- org.opentest4j:opentest4j:jar:1.2.0:test
-   |  |  \- org.junit.platform:junit-platform-commons:jar:1.6.2:test
-   |  +- org.junit.jupiter:junit-jupiter-params:jar:5.6.2:test
-   |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.6.2:test
-   +- org.junit.vintage:junit-vintage-engine:jar:5.6.2:test
-   |  +- org.apiguardian:apiguardian-api:jar:1.1.0:test
-   |  +- org.junit.platform:junit-platform-engine:jar:1.6.2:test
-   |  \- junit:junit:jar:4.12:test
-   +- org.mockito:mockito-core:jar:3.3.3:test
-   |  +- net.bytebuddy:byte-buddy:jar:1.10.11:test
-   |  +- net.bytebuddy:byte-buddy-agent:jar:1.10.11:test
-   |  \- org.objenesis:objenesis:jar:2.6:test
-   +- org.mockito:mockito-junit-jupiter:jar:3.3.3:test
-   +- org.skyscreamer:jsonassert:jar:1.5.0:test
-   |  \- com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:test
-   +- org.springframework:spring-core:jar:5.2.7.RELEASE:provided
-   |  \- org.springframework:spring-jcl:jar:5.2.7.RELEASE:provided
-   +- org.springframework:spring-test:jar:5.2.7.RELEASE:test
-   \- org.xmlunit:xmlunit-core:jar:2.7.0:test
++- org.springframework.boot:spring-boot-starter-test:jar:2.3.1.RELEASE:test
+|  +- org.springframework.boot:spring-boot-starter:jar:2.3.1.RELEASE:provided
+|  |  +- org.springframework.boot:spring-boot-starter-logging:jar:2.3.1.RELEASE:provided
+|  |  |  +- ch.qos.logback:logback-classic:jar:1.2.3:provided
+|  |  |  |  \- ch.qos.logback:logback-core:jar:1.2.3:provided
+|  |  |  +- org.apache.logging.log4j:log4j-to-slf4j:jar:2.13.3:provided
+|  |  |  |  \- org.apache.logging.log4j:log4j-api:jar:2.13.3:provided
+|  |  |  \- org.slf4j:jul-to-slf4j:jar:1.7.30:provided
+|  |  +- jakarta.annotation:jakarta.annotation-api:jar:1.3.5:provided
+|  |  \- org.yaml:snakeyaml:jar:1.26:provided
+|  +- org.springframework.boot:spring-boot-test:jar:2.3.1.RELEASE:test
+|  +- org.springframework.boot:spring-boot-test-autoconfigure:jar:2.3.1.RELEASE:test
+|  +- com.jayway.jsonpath:json-path:jar:2.4.0:test
+|  |  \- net.minidev:json-smart:jar:2.3:test
+|  |     \- net.minidev:accessors-smart:jar:1.2:test
+|  |        \- org.ow2.asm:asm:jar:5.0.4:test
+|  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:2.3.3:test
+|  |  \- jakarta.activation:jakarta.activation-api:jar:1.2.2:test
+|  +- org.assertj:assertj-core:jar:3.16.1:test
+|  +- org.hamcrest:hamcrest:jar:2.2:test
+|  +- org.junit.jupiter:junit-jupiter:jar:5.6.2:test
+|  |  +- org.junit.jupiter:junit-jupiter-api:jar:5.6.2:test
+|  |  |  +- org.opentest4j:opentest4j:jar:1.2.0:test
+|  |  |  \- org.junit.platform:junit-platform-commons:jar:1.6.2:test
+|  |  +- org.junit.jupiter:junit-jupiter-params:jar:5.6.2:test
+|  |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.6.2:test
+|  +- org.junit.vintage:junit-vintage-engine:jar:5.6.2:test
+|  |  +- org.apiguardian:apiguardian-api:jar:1.1.0:test
+|  |  +- org.junit.platform:junit-platform-engine:jar:1.6.2:test
+|  |  \- junit:junit:jar:4.12:test
+|  +- org.mockito:mockito-core:jar:3.3.3:test
+|  |  +- net.bytebuddy:byte-buddy:jar:1.10.11:test
+|  |  +- net.bytebuddy:byte-buddy-agent:jar:1.10.11:test
+|  |  \- org.objenesis:objenesis:jar:2.6:test
+|  +- org.mockito:mockito-junit-jupiter:jar:3.3.3:test
+|  +- org.skyscreamer:jsonassert:jar:1.5.0:test
+|  |  \- com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:test
+|  +- org.springframework:spring-core:jar:5.2.7.RELEASE:provided
+|  |  \- org.springframework:spring-jcl:jar:5.2.7.RELEASE:provided
+|  +- org.springframework:spring-test:jar:5.2.7.RELEASE:test
+|  \- org.xmlunit:xmlunit-core:jar:2.7.0:test
+\- uk.gov.gchq.palisade:resource-service:jar:0.5.0-SNAPSHOT:test
+   +- org.springframework.boot:spring-boot-starter-data-r2dbc:jar:2.3.1.RELEASE:test
+   |  +- org.springframework.data:spring-data-r2dbc:jar:1.1.1.RELEASE:test
+   |  |  +- org.springframework.data:spring-data-commons:jar:2.3.1.RELEASE:provided
+   |  |  \- org.springframework.data:spring-data-relational:jar:2.0.1.RELEASE:test
+   |  +- io.r2dbc:r2dbc-spi:jar:0.8.2.RELEASE:test
+   |  \- io.r2dbc:r2dbc-pool:jar:0.8.3.RELEASE:test
+   |     \- io.projectreactor.addons:reactor-pool:jar:0.1.4.RELEASE:test
+   +- io.r2dbc:r2dbc-h2:jar:0.8.4.RELEASE:test
+   |  +- com.h2database:h2:jar:1.4.200:test
+   |  \- io.projectreactor:reactor-core:jar:3.3.6.RELEASE:provided
+   \- org.springframework.boot:spring-boot-starter-data-redis-reactive:jar:2.3.1.RELEASE:test
