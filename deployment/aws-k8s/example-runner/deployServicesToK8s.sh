@@ -59,7 +59,7 @@ helm upgrade --install --wait palisade . \
     --set global.deployment=example \
     --set global.kafka.install=false \
     --set global.redis.install=false \
-    --set traefik.install="${traefik}" \
+    --set Palisade-services.traefik.install="${traefik}" \
     --set global.topicPrefix="${topicprefix}" \
     --timeout 300s \
     --namespace "${namespace}"
