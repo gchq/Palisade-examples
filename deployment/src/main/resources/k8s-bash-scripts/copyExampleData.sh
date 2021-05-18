@@ -16,6 +16,8 @@
 # Example usage
 # ./copyExampleData.sh default example /mnt/shared-classpath-jars /data/local-data-store
 
+set -e
+
 # Current namespace for pods
 NAMESPACE=$1
 # Deployment name used as a selector for which jars/data to copy
@@ -24,6 +26,11 @@ DEPLOYMENT=$2
 CLASSPATH=$3
 # Target to copy data-files into
 DATASTORE=$4
+
+if [ -z "$NAMESPACE" ] || [ -z "$DEPLOYMENT" ] || [ -z "$CLASSPATH" ] || [ -z "$DATASTORE" ]; then
+   echo "Some or all of the parameters are empty";
+   helpFunction
+fi
 
 # Copy the Dockerfile's ROM-like store of classpath jars and data compiled into the image during `docker build`
 # Once copied to the k8s mountpoints, it will be available to all other services
@@ -37,7 +44,7 @@ rm -rfv "$CLASSPATH"
 echo "Removed previous run classpath-jars for $CLASSPATH"
 mkdir -pv "$CLASSPATH"
 ls -R "$CLASSPATH"
-cp -vrf "/usr/share/deployment/classpath-jars/$DEPLOYMENT/*" "$CLASSPATH"
+cp -vrf /usr/share/deployment/classpath-jars/"$DEPLOYMENT"/* "$CLASSPATH"
 echo "Copied classpath-jars to $CLASSPATH"
 ls -R "$CLASSPATH"
 
@@ -45,13 +52,13 @@ ls -R "$CLASSPATH"
 # The location of these is dependant on the resource-service pre-population values
 echo "Preserving previous run data-files for $DATASTORE"
 ls -R "$DATASTORE"
-cp -vrf "/usr/share/deployment/data/$DEPLOYMENT/*" "$DATASTORE"
+cp -vrf /usr/share/deployment/data/"$DEPLOYMENT"/* "$DATASTORE"
 echo "Copied all data-files to $DATASTORE"
 ls -R "$DATASTORE"
 
 # Restart affected pods and wait until healthy
 echo "Restarting pods"
 for service in {attribute-masking,audit,data,filtered-resource,palisade,policy,resource,topic-offset,user}-service; do
-  eval "kubectl get pods --namespace=\"$NAMESPACE\" | awk '/$service-[-a-z0-9]+/ {print \$1}' | xargs kubectl delete pods";
+  eval "kubectl get pods --namespace=\"$NAMESPACE\" | awk '/$service-[-a-z0-9]+/ {print \$1}' | xargs kubectl delete pods || true";
   echo "Restarted all pods for '$service'"
 done

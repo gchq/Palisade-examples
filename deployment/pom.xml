@@ -191,7 +191,6 @@
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>example-library</artifactId>
                                     <version>${project.version}</version>
-                                    <type>${project.packaging}</type>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
@@ -210,21 +209,18 @@
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>example-library</artifactId>
                                     <version>${project.version}</version>
-                                    <type>${project.packaging}</type>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>s3-resource-service</artifactId>
-                                    <version>${readers.revision}</version>
-                                    <type>${project.packaging}</type>
+                                    <version>0.5.0-${readers.revision}</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>s3-data-reader</artifactId>
-                                    <version>${readers.revision}</version>
-                                    <type>${project.packaging}</type>
+                                    <version>0.5.0-${readers.revision}</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>

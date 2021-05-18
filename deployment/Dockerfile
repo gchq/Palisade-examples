@@ -24,7 +24,6 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERS
       chmod +x ./kubectl && \
       mv ./kubectl /usr/local/bin/kubectl
 
-# 'Entrypoint', requires runtime arguments (namespace, deployment, classpath-jars target, data-store target)
 COPY target/scripts/copyExampleData.sh /bin/copyExampleData.sh
 
 # Force UNIX line-endings
@@ -37,5 +36,8 @@ COPY target/resources/data /usr/share/deployment/data/s3
 # Classpath-jars for configured deployments
 COPY target/example /usr/share/deployment/classpath-jars/example
 COPY target/s3 /usr/share/deployment/classpath-jars/s3
+
+# Make everything readable
+RUN chmod ugo+r -R /usr/share/deployment
 
 LABEL service="deployment" project="palisade"
