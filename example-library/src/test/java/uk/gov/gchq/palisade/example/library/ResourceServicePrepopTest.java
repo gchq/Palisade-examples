@@ -60,7 +60,7 @@ class ResourceServicePrepopTest {
         // Given
 
         // When
-        ResourcePrepopulationFactory prepopulationFactory = resourceConfiguration.getResources().get(0);
+        var prepopulationFactory = resourceConfiguration.getResources().get(0);
         var resourceEntry = prepopulationFactory.build(conn -> new SimpleConnectionDetail().serviceName(conn));
 
         // Then
@@ -81,7 +81,9 @@ class ResourceServicePrepopTest {
                 .map(Entry::getValue)
                 .map(Resource::getId)
                 .collect(Collectors.toSet());
+
         assertThat(leafResourceIds)
+                .as("Check that the leafResourceIds have been set successfully")
                 .isEqualTo(Set.of(
                         "file:/data/local-data-store/employee_file0.avro",
                         "file:/data/local-data-store/employee_file1.avro"
@@ -92,7 +94,9 @@ class ResourceServicePrepopTest {
                 .map(Entry::getKey)
                 .map(Resource::getId)
                 .collect(Collectors.toSet());
+
         assertThat(rootResourceIds)
+                .as("Check that the rootResourceIds have been set successfully")
                 .isEqualTo(Set.of(
                         "file:/data/local-data-store/"
                 ));
