@@ -33,7 +33,6 @@ import uk.gov.gchq.palisade.resource.impl.SimpleConnectionDetail;
 import uk.gov.gchq.palisade.service.resource.config.ApplicationConfiguration;
 import uk.gov.gchq.palisade.service.resource.config.R2dbcConfiguration;
 import uk.gov.gchq.palisade.service.resource.config.ResourceConfiguration;
-import uk.gov.gchq.palisade.service.resource.config.ResourcePrepopulationFactory;
 import uk.gov.gchq.palisade.service.resource.config.StdResourceConfiguration;
 import uk.gov.gchq.palisade.service.resource.config.StdResourcePrepopulationFactory;
 import uk.gov.gchq.palisade.service.resource.stream.config.AkkaSystemConfig;
