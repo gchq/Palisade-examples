@@ -16,6 +16,7 @@
 
 package uk.gov.gchq.palisade.example.library;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -37,6 +38,7 @@ import uk.gov.gchq.palisade.service.resource.config.StdResourceConfiguration;
 import uk.gov.gchq.palisade.service.resource.config.StdResourcePrepopulationFactory;
 import uk.gov.gchq.palisade.service.resource.stream.config.AkkaSystemConfig;
 
+import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,7 +46,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @EnableAutoConfiguration
-@ActiveProfiles({"example-k8s"})
+@ActiveProfiles({"example-test"})
 @DataR2dbcTest
 @ContextConfiguration(classes = {ApplicationConfiguration.class, R2dbcConfiguration.class, AkkaSystemConfig.class})
 @EntityScan(basePackages = {"uk.gov.gchq.palisade.service.resource.domain"})
@@ -53,6 +55,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ResourceServicePrepopTest {
     @Autowired
     ResourceConfiguration resourceConfiguration;
+
+    Set<String> resourceIdSet = new HashSet<>();
+    Set<String> rootIdSet = new HashSet<>();
+
+    @BeforeEach
+    void setup() {
+        resourceIdSet = resourceConfiguration.getResources().stream()
+                .map(factory -> factory.build(conn -> new SimpleConnectionDetail().serviceName(conn)))
+                .map(Entry::getValue)
+                .map(Resource::getId)
+                .collect(Collectors.toSet());
+
+        rootIdSet = resourceConfiguration.getResources().stream()
+                .map(factory -> factory.build(conn -> new SimpleConnectionDetail().serviceName(conn)))
+                .map(Entry::getKey)
+                .map(Resource::getId)
+                .collect(Collectors.toSet());
+    }
 
     @Test
     void testContextLoads() {
@@ -82,10 +102,7 @@ class ResourceServicePrepopTest {
                 .collect(Collectors.toSet());
         assertThat(leafResourceIds)
                 .as("Check that the leafResourceIds have been set successfully")
-                .isEqualTo(Set.of(
-                        "file:/data/local-data-store/employee_file0.avro",
-                        "file:/data/local-data-store/employee_file1.avro"
-                ));
+                .isEqualTo(resourceIdSet);
 
         var rootResourceIds = resourceConfiguration.getResources().stream()
                 .map(factory -> factory.build(conn -> new SimpleConnectionDetail().serviceName(conn)))
@@ -94,8 +111,6 @@ class ResourceServicePrepopTest {
                 .collect(Collectors.toSet());
         assertThat(rootResourceIds)
                 .as("Check that the rootResourceIds have been set successfully")
-                .isEqualTo(Set.of(
-                        "file:/data/local-data-store/"
-                ));
+                .isEqualTo(rootIdSet);
     }
 }

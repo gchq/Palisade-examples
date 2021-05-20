@@ -15,7 +15,7 @@
 #
 
 FILE=example-runner/target/example-runner-*-exec.jar
-FORMATTER=deployment/local-jvm/example-runner/formatOutput.sh
+FORMATTER=deployment-jvm/local-jvm/example-runner/formatOutput.sh
 
 # Run the formatted rest example
 if [ -f $FILE ]; then
