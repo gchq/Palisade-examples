@@ -96,20 +96,20 @@ The above steps can be automated using the provided , all of which are intended 
 1. Run one or more of the available scripts.
 
 #### Rest Example ([example-runner](../../example-runner/README.md))
-To run the example and verify its output, use the [local-jvm example-runner scripts](./example-runner):
+To run the example and verify its output, use the [local-jvm example-runner scripts](local-jvm/example-runner):
 ```bash
-deployment/local-jvm/example-runner/startServices.sh
-deployment/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
-deployment/local-jvm/example-runner/verify.sh
-deployment/local-jvm/example-runner/stopServices.sh
+deployment-jvm/local-jvm/example-runner/startServices.sh
+deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+deployment-jvm/local-jvm/example-runner/verify.sh
+deployment-jvm/local-jvm/example-runner/stopServices.sh
 ```
 
 #### Performance Tests ([performance](../../performance/README.md))
-To run the performance tests, use the [local-jvm performance scripts](./performance):
+To run the performance tests, use the [local-jvm performance scripts](performance):
 ```bash
-deployment/local-jvm/performance/startServices.sh
-deployment/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
-deployment/local-jvm/performance/stopServices.sh
+deployment-jvm/local-jvm/performance/startServices.sh
+deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+deployment-jvm/local-jvm/performance/stopServices.sh
 ```
 
 

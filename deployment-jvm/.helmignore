@@ -1,4 +1,3 @@
-#! /usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,9 +11,37 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-helm dep up
-helm upgrade --install --wait palisade deployment \
---set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
---set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
---set global.deployment=example
+#
+# Patterns to ignore when building packages.
+# This supports shell glob matching, relative path matching, and
+# negation (prefixed with !). Only one pattern per line.
+.DS_Store
+# Common VCS dirs
+.git/
+.gitignore
+*.tmp
+*~
+Jenkinsfile
+mvn_dependency_tree.txt
+.hadolint.yaml
+pom.xml
+*.md
+velocity*
+# Various IDEs
+.project
+.idea/
+*.iml
+*.tmproj
+.vscode/
+# Non-service directories
+/logos/
+/target/
+/licenses/
+/code-style/
+*.lock
+# Previous helm packages
+Palisade-examples-*.tgz
+# Add the directory for every service module here
+/src/
+/target/
+/licenses/

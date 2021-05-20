@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,28 +12,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-replicaCount: 1
 
-service:
-  port: 80
-  type: ClusterIP
+NAMESPACE=$1
+START=$2
+RUN=$3
+STOP=$4
+VERIFY=$5
+DIR="/usr/share/deployment-jvm/Palisade-examples"
 
-image:
-  name: example-runner
-  base: jdk
-  tag: SNAPSHOT-61eb004
-  pullPolicy: IfNotPresent
-  codeRelease: 0.5.0-SNAPSHOT
-
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 500Mi
-
-nodeSelector: { }
-tolerations: [ ]
-affinity: { }
+if [ -z "$NAMESPACE" ];
+then
+  # If the user doesn't pass in a namespace
+  echo "Please provide the deployment namespace"
+else
+  # If the user passes in a namespace, use the namespace in the kubectl command
+  kubectl exec $(kubectl get pods -n "$NAMESPACE" | awk '/deployment-jvm/ {print $1}') -n "$NAMESPACE" -- bash -c "cd $DIR && $START && $RUN && $STOP && $VERIFY"
+fi

@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,9 +12,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-helm dep up
-helm upgrade --install --wait palisade deployment \
---set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
---set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
---set global.deployment=example
+FILE=example-runner/target/example-runner-*-exec.jar
+FORMATTER=deployment-jvm/local-jvm/example-runner/formatOutput.sh
+
+# Run the formatted rest example
+if [ -f $FILE ]; then
+  if [ -f $FORMATTER ]; then
+    java -Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.runner.runner.RestExample=INFO -Dspring.profiles.active=static,rest -jar $FILE | $FORMATTER
+  else
+    echo "Cannot find formatter script -- check your 'git status'"
+  fi
+else
+  echo "Cannot find example-runner-<version>-exec.jar - have you run 'mvn install'?"
+fi
