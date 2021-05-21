@@ -20,7 +20,8 @@ This example demonstrates different users querying an avro file over a REST api 
 
 The example runs different queries by different users, with different purposes.
 When you run the example, you will see the data has been redacted in line with the rules.
-For an overview of the [example data](../../hr-data-generator/README.md) and [example policies](../../example-library/README.md), see the [repo root](../../README.md).
+For an overview of the example data see the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator/blob/main/README.md).
+For an overview of the [example policies](../../example-library/README.md), see the [repo root](../../README.md).
 
 In order to successfully run the Local JVM example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) repository has been cloned from GitHub to the intended project location.
 A parent directory should at minimum hold the repos [Palisade-services](https://github.com/gchq/Palisade-services) and [Palisade-examples](https://github.com/gchq/Palisade-examples), but [Palisade-common](https://github.com/gchq/Palisade-common), [Palisade-readers](https://github.com/gchq/Palisade-readers) and [Palisade-clients](https://github.com/gchq/Palisade-clients) may be needed to build maven dependencies.
@@ -74,7 +75,7 @@ To run the example locally in JVMs, follow these steps (running commands from th
 
 ### Running using the Bash Scripts
 
-The above steps can be automated using the provided , all of which are intended to be run from the Palisade-examples root directory:
+The above steps can be automated using the provided scripts, all of which are intended to be run from the Palisade-examples root directory:
 
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
@@ -96,7 +97,7 @@ The above steps can be automated using the provided , all of which are intended 
 1. Run one or more of the available scripts.
 
 #### Rest Example ([example-runner](../../example-runner/README.md))
-To run the example and verify its output, use the [local-jvm example-runner scripts](local-jvm/example-runner):
+To run the example and verify its output, use the [local-jvm example-runner scripts](example-runner):
 ```bash
 deployment-jvm/local-jvm/example-runner/startServices.sh
 deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
@@ -114,7 +115,7 @@ deployment-jvm/local-jvm/performance/stopServices.sh
 
 
 ### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
-See the [services-manager/README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
+See the [README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
 #### Rest Example ([example-runner](../../example-runner/README.md))
 When using the services-manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
