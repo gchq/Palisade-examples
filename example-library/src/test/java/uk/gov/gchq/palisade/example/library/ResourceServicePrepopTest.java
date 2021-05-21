@@ -100,6 +100,7 @@ class ResourceServicePrepopTest {
                 .map(Entry::getValue)
                 .map(Resource::getId)
                 .collect(Collectors.toSet());
+
         assertThat(leafResourceIds)
                 .as("Check that the leafResourceIds have been set successfully")
                 .isEqualTo(resourceIdSet);
@@ -109,6 +110,7 @@ class ResourceServicePrepopTest {
                 .map(Entry::getKey)
                 .map(Resource::getId)
                 .collect(Collectors.toSet());
+
         assertThat(rootResourceIds)
                 .as("Check that the rootResourceIds have been set successfully")
                 .isEqualTo(rootIdSet);
