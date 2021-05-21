@@ -26,14 +26,14 @@ In particular, the example deals with the following users:
 
 ### BankDetailsRule  
 The bankDetails field should be returned:
-- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE and the purpose of the query is SALARY
+- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE, and the purpose of the query is SALARY
 
 In all other cases the bankDetails field should be redacted.
 
 ### DutyOfCareRule  
 This rule is concerned with the contactNumber, emergencyContacts and sex fields. These fields should be returned:
-- if the user querying the file has the HR role and the purpose of the query is DUTY_OF_CARE
-- if the user querying the file is the line manager of the Employee record being queried and the purpose of the query is DUTY_OF_CARE  
+- if the user querying the file has the HR role, and the purpose of the query is DUTY_OF_CARE
+- if the user querying the file is the line manager of the Employee record being queried, and the purpose of the query is DUTY_OF_CARE  
 
 In all other cases these fields should be redacted.
 
@@ -45,7 +45,7 @@ In all other cases the first resource will not be returned to the user.
 
 ### NationalityRule  
 The nationality field should be returned:
-- if the user querying the file has the HR role and the purpose of the query is STAFF_REPORT
+- if the user querying the file has the HR role, and the purpose of the query is STAFF_REPORT
 
 In all other cases the nationality field should be redacted.
 

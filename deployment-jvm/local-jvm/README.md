@@ -30,7 +30,7 @@ To run the example locally in JVMs, follow these steps (running commands from th
 ## Prerequisites
 
 1. Start **Kafka** and **Redis** on localhost using default ports by your preferred means:
-   * Try the [docker-compose](./docker-compose.yaml) file if you have docker available - `docker-compose -f ./docker-compose.yml up`  
+   * Try the [docker-compose](./docker-compose.yaml) file if you have docker available - `docker-compose -f ./docker-compose.yml up -d`  
      ***or***
    * Kafka must be listening to `http://localhost:9092`, see the [Kafka Quickstart Guide](https://kafka.apache.org/quickstart)
    * Redis must be listening to `http://localhost:6379`, see the [Redis Quickstart Guide](https://redis.io/topics/quickstart)
@@ -87,9 +87,9 @@ The above steps can be automated using the provided , all of which are intended 
    >> cd Palisade-examples
    >> ls
      drwxrwxrwx deployment
+     drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
-     drwxrwxrwx hr-data-generator
      drwxrwxrwx performance
    ```
 
@@ -99,7 +99,7 @@ The above steps can be automated using the provided , all of which are intended 
 To run the example and verify its output, use the [local-jvm example-runner scripts](local-jvm/example-runner):
 ```bash
 deployment-jvm/local-jvm/example-runner/startServices.sh
-deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
 deployment-jvm/local-jvm/example-runner/verify.sh
 deployment-jvm/local-jvm/example-runner/stopServices.sh
 ```
@@ -108,7 +108,7 @@ deployment-jvm/local-jvm/example-runner/stopServices.sh
 To run the performance tests, use the [local-jvm performance scripts](performance):
 ```bash
 deployment-jvm/local-jvm/performance/startServices.sh
-deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment/local-jvm/example-runner/exampleOutput.txt
+deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
 deployment-jvm/local-jvm/performance/stopServices.sh
 ```
 
@@ -117,7 +117,7 @@ deployment-jvm/local-jvm/performance/stopServices.sh
 See the [services-manager/README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
 #### Rest Example ([example-runner](../../example-runner/README.md))
-When using the services manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
+When using the services-manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
 
 1. Start the palisade services and run the example using the services manager.
    ```bash
