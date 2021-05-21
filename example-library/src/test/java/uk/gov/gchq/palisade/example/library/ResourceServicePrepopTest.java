@@ -83,8 +83,8 @@ class ResourceServicePrepopTest {
                 .collect(Collectors.toSet());
         assertThat(leafResourceIds)
                 .isEqualTo(Set.of(
-                        "file:/data/local-data-store/employee_file0.avro",
-                        "file:/data/local-data-store/employee_file1.avro"
+                        "file:/data/local-data-store/data/employee_file0.avro",
+                        "file:/data/local-data-store/data/employee_file1.avro"
                 ));
 
         var rootResourceIds = resourceConfiguration.getResources().stream()

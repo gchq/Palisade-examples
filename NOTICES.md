@@ -8,8 +8,9 @@ List of third-party dependencies grouped by their license type
 * GCHQ Synthetic Data Generator ([uk.gov.gchq.data-gen:synthetic-data-generator:0.0.4](https://github.com/gchq/synthetic-data-generator))
 * client-akka ([uk.gov.gchq.palisade:client-akka:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/client-akka))
 * common ([uk.gov.gchq.palisade:common:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-common))
-* example-library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
-* user-service ([uk.gov.gchq.palisade:user-service:0.5.0-SNAPSHOT](no url defined))
+* GCHQ Palisade - Example Library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
+* GCHQ Palisade - Resource Service ([uk.gov.gchq.palisade:resource-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/resource-service))
+* GCHQ Palisade - User Service ([uk.gov.gchq.palisade:user-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/user-service))
 
 ### [MIT License](./licenses/mit_license.txt):
 * SLF4J API Module ([org.slf4j:slf4j-api:1.7.30](http://www.slf4j.org))

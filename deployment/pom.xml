@@ -211,7 +211,7 @@
                     </execution>
                     <execution>
                         <id>copy-s3-classpath-jars</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
