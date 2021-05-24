@@ -38,21 +38,41 @@ import java.util.stream.Stream;
 @Component
 public class ReadManyNativeTrial extends PerfTrial {
     protected static final String NAME = "read_many_native";
+
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
+    /**
+     * Default constructor
+     */
     public ReadManyNativeTrial() {
         normal = NAME;
     }
 
+    /**
+     * Gets the name of the trial
+     *
+     * @return the name value of the trial
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * Gets the description of the trial
+     *
+     * @return the description value of the trial
+     */
     public String description() {
         return "performs a native read and deserialise of many files";
     }
 
+    /**
+     * Run the trial using the provided file sets
+     *
+     * @param fileSet     a collection of resources in a location that do have a number of attached policies
+     * @param noPolicySet a collection of resources in a location that do not have any attached policies in palisade
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Path> manyFiles = Files.walk(Path.of(fileSet.manyDir))) {
             // collect all records of all resources into a single stream

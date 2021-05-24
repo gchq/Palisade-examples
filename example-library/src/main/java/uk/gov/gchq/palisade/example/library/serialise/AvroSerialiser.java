@@ -18,9 +18,20 @@ package uk.gov.gchq.palisade.example.library.serialise;
 
 import uk.gov.gchq.palisade.example.library.common.SerialiserAdapter;
 
+/**
+ * An avro serialiser class for the example
+ *
+ * @param <T> the type of the avro serialiser
+ */
 public class AvroSerialiser<T> extends SerialiserAdapter<T> {
+
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Constructor for the serialiser
+     *
+     * @param domainClass the class for the serialiser
+     */
     public AvroSerialiser(final Class<T> domainClass) {
         super(new uk.gov.gchq.syntheticdatagenerator.serialise.AvroSerialiser<>(domainClass));
     }

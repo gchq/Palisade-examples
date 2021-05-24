@@ -26,6 +26,11 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Implementation of a {@link UserConfiguration} that uses Spring to configure a list of users from a yaml file
+ * A container for a number of {@link ExampleUserConfiguration} builders used for creating {@link uk.gov.gchq.palisade.user.User}s
+ * These users will be used for pre-populating the {@link uk.gov.gchq.palisade.service.user.service.UserService}
+ */
 public class ExampleUserConfiguration implements UserConfiguration {
 
     private List<ExampleUserPrepopulationFactory> users;

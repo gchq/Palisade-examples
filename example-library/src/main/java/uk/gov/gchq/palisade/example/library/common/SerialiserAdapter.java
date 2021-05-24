@@ -23,6 +23,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.stream.Stream;
 
+/**
+ * An adapter for the serialiser required for the examples
+ *
+ * @param <T> the type of serialiser
+ */
 public class SerialiserAdapter<T> implements Serialiser<T> {
     private static final long serialVersionUID = 1L;
     private final uk.gov.gchq.syntheticdatagenerator.serialise.Serialiser<T> delegate;

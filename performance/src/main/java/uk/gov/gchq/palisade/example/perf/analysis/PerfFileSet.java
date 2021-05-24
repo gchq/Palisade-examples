@@ -23,14 +23,17 @@ import static java.util.Objects.requireNonNull;
  * A triple of {@link String}s
  */
 public class PerfFileSet {
+
     /**
      * Small file of data.
      */
     public final String smallFile;
+
     /**
      * Large file of data.
      */
     public final String largeFile;
+
     /**
      * Directory containing many small files of data
      */

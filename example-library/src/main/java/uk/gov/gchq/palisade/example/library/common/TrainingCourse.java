@@ -15,6 +15,9 @@
  */
 package uk.gov.gchq.palisade.example.library.common;
 
+/**
+ * A set of enums of training courses
+ */
 public enum TrainingCourse {
     PAYROLL_TRAINING_COURSE
 }

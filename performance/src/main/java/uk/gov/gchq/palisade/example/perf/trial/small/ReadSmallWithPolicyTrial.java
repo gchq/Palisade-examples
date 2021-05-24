@@ -28,18 +28,37 @@ import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 public class ReadSmallWithPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_small_with_policy";
 
+    /**
+     * Default constructor
+     */
     public ReadSmallWithPolicyTrial() {
         normal = ReadSmallNativeTrial.NAME;
     }
 
+    /**
+     * Gets the name of the trial
+     *
+     * @return the name value of the trial
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * Gets the description of the trial
+     *
+     * @return the description value of the trial
+     */
     public String description() {
         return "reads the small file with an example policy set";
     }
 
+    /**
+     * Run the trial using the provided file sets
+     *
+     * @param fileSet     a collection of resources in a location that do have a number of attached policies
+     * @param noPolicySet a collection of resources in a location that do not have any attached policies in palisade
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         read(fileSet.smallFile);
     }

@@ -25,17 +25,28 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * An example user class that extends the {@link User} to include the training courses
+ */
 public class ExampleUser extends User {
     private static final long serialVersionUID = 1L;
 
     private EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
+    /**
+     * Constructor using a {@link User}
+     *
+     * @param user the user used to create the {@link ExampleUser}
+     */
     public ExampleUser(final User user) {
         setUserId(user.getUserId());
         setAuths(user.getAuths());
         setRoles(user.getRoles());
     }
 
+    /**
+     * Constructor with 0 arguments
+     */
     public ExampleUser() {
     }
 
@@ -46,6 +57,12 @@ public class ExampleUser extends User {
         return this;
     }
 
+    /**
+     * Adds the completed training courses to the {@link ExampleUser}
+     *
+     * @param trainingCompleted an EnumSet of the completed training courses
+     * @return the {@link ExampleUser} including the added training courses
+     */
     public ExampleUser trainingCompleted(final EnumSet<TrainingCourse> trainingCompleted) {
         requireNonNull(trainingCompleted, "cannot add null training completed");
         trainingCourses.clear();
@@ -53,10 +70,20 @@ public class ExampleUser extends User {
         return this;
     }
 
+    /**
+     * Get the set of training courses for the {@link ExampleUser}
+     *
+     * @return the {@link EnumSet} of training courses
+     */
     public EnumSet<TrainingCourse> getTrainingCompleted() {
         return trainingCourses;
     }
 
+    /**
+     * Set the training courses for the {@link ExampleUser}
+     *
+     * @param trainingCompleted an array of training courses to be added
+     */
     public void setTrainingCompleted(final TrainingCourse... trainingCompleted) {
         trainingCompleted(trainingCompleted);
     }

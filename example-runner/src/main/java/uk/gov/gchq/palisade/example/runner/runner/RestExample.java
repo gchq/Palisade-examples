@@ -30,6 +30,9 @@ import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
 
+/**
+ * A class to run the rest example
+ */
 public class RestExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
 

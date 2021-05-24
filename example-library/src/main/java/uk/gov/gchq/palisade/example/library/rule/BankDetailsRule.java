@@ -30,8 +30,16 @@ import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * A specific rule implementation for the {@link Employee} bank detail fields
+ */
 public class BankDetailsRule implements Rule<Employee> {
+
+    /**
+     * Constructor with 0 arguments
+     */
     public BankDetailsRule() {
+        // no-args constructor
     }
 
     private Employee redactRecord(final Employee redactedRecord) {
@@ -42,6 +50,14 @@ public class BankDetailsRule implements Rule<Employee> {
         return redactedRecord;
     }
 
+    /**
+     * Applies the rule to a record
+     *
+     * @param record the record being processed
+     * @param user the user making the request
+     * @param context the context, including the purpose, of the request
+     * @return the {@link Employee} record after the rule has been applied
+     */
     public Employee apply(final Employee record, final User user, final Context context) {
         if (null == record) {
             return null;

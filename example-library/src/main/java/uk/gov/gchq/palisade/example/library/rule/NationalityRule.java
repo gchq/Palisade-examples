@@ -27,9 +27,16 @@ import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * A specific rule implementation for the {@link Employee} nationality field
+ */
 public class NationalityRule implements Rule<Employee> {
 
+    /**
+     * Constructor with 0 arguments
+     */
     public NationalityRule() {
+        // no-args constructor
     }
 
     private Employee redactRecord(final Employee redactedRecord) {

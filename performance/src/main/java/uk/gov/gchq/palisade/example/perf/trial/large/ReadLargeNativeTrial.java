@@ -41,18 +41,37 @@ public class ReadLargeNativeTrial extends PerfTrial {
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
+    /**
+     * Default constructor
+     */
     public ReadLargeNativeTrial() {
         normal = NAME;
     }
 
+    /**
+     * Gets the name of the trial
+     *
+     * @return the name value of the trial
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * Gets the description of the trial
+     *
+     * @return the description value of the trial
+     */
     public String description() {
         return "performs a native read and deserialise of the large file";
     }
 
+    /**
+     * Run the trial using the provided file sets
+     *
+     * @param fileSet     a collection of resources in a location that do have a number of attached policies
+     * @param noPolicySet a collection of resources in a location that do not have any attached policies in palisade
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //get file URI
         //read from file
