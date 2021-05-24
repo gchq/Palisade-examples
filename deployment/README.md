@@ -18,7 +18,7 @@
 
 A collection of scripts for making life easier.
 
-## [hr-data-generator](https://github.com/gchq/synthetic-data-generator/blob/main/README.md)
+## [synthetic-data-generator](https://github.com/gchq/synthetic-data-generator/blob/main/README.md)
 Script for running the synthetic data generator bundled in the example library/runner
 
 ## [local-jvm](local-jvm/README.md)
