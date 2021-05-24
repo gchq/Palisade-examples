@@ -33,7 +33,6 @@ import uk.gov.gchq.palisade.resource.impl.SimpleConnectionDetail;
 import uk.gov.gchq.palisade.service.resource.config.ApplicationConfiguration;
 import uk.gov.gchq.palisade.service.resource.config.R2dbcConfiguration;
 import uk.gov.gchq.palisade.service.resource.config.ResourceConfiguration;
-import uk.gov.gchq.palisade.service.resource.config.ResourcePrepopulationFactory;
 import uk.gov.gchq.palisade.service.resource.config.StdResourceConfiguration;
 import uk.gov.gchq.palisade.service.resource.config.StdResourcePrepopulationFactory;
 import uk.gov.gchq.palisade.service.resource.stream.config.AkkaSystemConfig;
@@ -60,7 +59,7 @@ class ResourceServicePrepopTest {
         // Given
 
         // When
-        ResourcePrepopulationFactory prepopulationFactory = resourceConfiguration.getResources().get(0);
+        var prepopulationFactory = resourceConfiguration.getResources().get(0);
         var resourceEntry = prepopulationFactory.build(conn -> new SimpleConnectionDetail().serviceName(conn));
 
         // Then
@@ -81,7 +80,9 @@ class ResourceServicePrepopTest {
                 .map(Entry::getValue)
                 .map(Resource::getId)
                 .collect(Collectors.toSet());
+
         assertThat(leafResourceIds)
+                .as("Check that the leafResourceIds have been set successfully")
                 .isEqualTo(Set.of(
                         "file:/data/local-data-store/data/employee_file0.avro",
                         "file:/data/local-data-store/data/employee_file1.avro"
@@ -92,7 +93,9 @@ class ResourceServicePrepopTest {
                 .map(Entry::getKey)
                 .map(Resource::getId)
                 .collect(Collectors.toSet());
+
         assertThat(rootResourceIds)
+                .as("Check that the rootResourceIds have been set successfully")
                 .isEqualTo(Set.of(
                         "file:/data/local-data-store/"
                 ));
