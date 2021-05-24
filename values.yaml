@@ -55,7 +55,6 @@ global:
         implementation: s3
       data:
         implementation: s3
-      logging.level.uk.gov.gchq.palisade: TRACE
 
   # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
   repository: palisade
