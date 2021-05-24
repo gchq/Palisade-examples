@@ -19,6 +19,7 @@ VOLUME /tmp
 
 #ARG CURL_VERSION=7.52.1-5+deb9u9
 
+RUN apt-get update -y
 RUN apt-get install -y curl --no-install-recommends
 RUN apt show versions curl
 
