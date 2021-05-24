@@ -19,8 +19,9 @@ VOLUME /tmp
 
 ARG CURL_VERSION=7.64.0-4+deb10u2
 
-RUN apt-get update -y
-RUN apt-get install -y curl=${CURL_VERSION} --no-install-recommends
+RUN apt-get update -y && apt-get install -y curl=${CURL_VERSION} --no-install-recommends \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 ARG K8_VERSION=v1.15.3
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
