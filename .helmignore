@@ -42,6 +42,9 @@ velocity*
 # Previous helm packages
 Palisade-examples-*.tgz
 # Add the directory for every service module here
-/src/
-/target/
-/licenses/
+/deployment/
+/example-library/
+/example-runner/
+/hr-data-generator/
+/performance/
+/resources/

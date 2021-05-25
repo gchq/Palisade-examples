@@ -18,7 +18,7 @@ resources/data/no-policy
 
 # Build artifacts
 target/
-deployment/charts/*.tgz
+*.tgz
 
 # Other common patterns to ignore
 *.iml
