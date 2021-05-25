@@ -45,5 +45,10 @@ class ExampleUserTest {
         assertThat(user)
                 .as("Deserialised user should be equal to original user")
                 .isEqualTo(newUser);
+
+        assertThat(user)
+                .as("Deserialised user should be equal to original user when using recursion")
+                .usingRecursiveComparison()
+                .isEqualTo(newUser);
     }
 }

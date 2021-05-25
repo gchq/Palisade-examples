@@ -20,9 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 
-/**
- * Runs the configured actions
- */
 public class ActionRunner implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ActionRunner.class);
 

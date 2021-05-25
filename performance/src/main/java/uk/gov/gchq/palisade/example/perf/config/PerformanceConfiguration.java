@@ -22,9 +22,6 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-/**
- * Configuration class for the performance tests
- */
 public class PerformanceConfiguration {
     private String action = "run";
     private String directory;
