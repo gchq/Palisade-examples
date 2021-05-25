@@ -15,3 +15,9 @@
 ================================
 You have installed {{ .Chart.Name }} as release {{ .Release.Name }} into namespace {{ include "palisade.namespace" . }}
 ================================
+
+Please note:
+If there are issues with resolving Kafka Bootstrap URLs or Redis URLs then try running the helm command again but include the following extra parameters
+--set global.redis.exports.nameOverride=redis
+--set global.kafka.exports.nameOverride=kafka
+--set global.zookeeper.exports.nameOverride=zookeeper
