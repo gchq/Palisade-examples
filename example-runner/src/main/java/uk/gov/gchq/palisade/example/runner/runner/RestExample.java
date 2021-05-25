@@ -39,6 +39,12 @@ public class RestExample implements CommandLineRunner {
     private final RestConfiguration configuration;
     private final AkkaClientWrapper<Employee> client;
 
+    /**
+     * Default constructor with 2 arguments
+     *
+     * @param configuration the configuration for the rest example
+     * @param client the akka client being used
+     */
     public RestExample(final RestConfiguration configuration, final AkkaClientWrapper<Employee> client) {
         this.configuration = configuration;
         this.client = client;

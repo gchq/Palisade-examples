@@ -28,7 +28,7 @@ public class AvroSerialiser<T> extends SerialiserAdapter<T> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructor for the serialiser
+     * Default constructor for the serialiser
      *
      * @param domainClass the class for the serialiser
      */

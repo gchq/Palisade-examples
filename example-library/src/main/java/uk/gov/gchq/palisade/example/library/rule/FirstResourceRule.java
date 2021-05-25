@@ -32,7 +32,7 @@ import java.util.Set;
 public class FirstResourceRule implements Rule<Resource> {
 
     /**
-     * Constructor with 0 arguments
+     * Default constructor
      */
     public FirstResourceRule() {
         // no-args constructor

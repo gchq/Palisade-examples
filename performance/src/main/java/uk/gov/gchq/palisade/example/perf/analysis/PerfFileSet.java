@@ -40,7 +40,7 @@ public class PerfFileSet {
     public final String manyDir;
 
     /**
-     * Default constructor
+     * Default constructor with 3 arguments
      *
      * @param smallFile location of the 'small' file
      * @param largeFile location of the 'large' file

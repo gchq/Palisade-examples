@@ -54,7 +54,7 @@ public final class BulkTestExample implements CommandLineRunner {
     private final AkkaClientWrapper<Employee> client;
 
     /**
-     * Constructor with 2 arguments
+     * Default constructor with 2 arguments
      *
      * @param configuration the configuration details
      * @param client the akka client being used

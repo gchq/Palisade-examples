@@ -33,7 +33,7 @@ import static java.util.Objects.requireNonNull;
 public class NationalityRule implements Rule<Employee> {
 
     /**
-     * Constructor with 0 arguments
+     * Default constructor
      */
     public NationalityRule() {
         // no-args constructor

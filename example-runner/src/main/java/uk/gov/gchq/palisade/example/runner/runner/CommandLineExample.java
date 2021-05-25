@@ -36,7 +36,8 @@ public class CommandLineExample implements CommandLineRunner {
     private final AkkaClientWrapper<Employee> client;
 
     /**
-     * Constructor with 1 argument
+     * Default constructor with 1 argument
+     *
      * @param client the akka client being used
      */
     public CommandLineExample(final AkkaClientWrapper<Employee> client) {

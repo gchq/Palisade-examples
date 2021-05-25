@@ -45,9 +45,10 @@ public class ExampleUser extends User {
     }
 
     /**
-     * Constructor with 0 arguments
+     * Default constructor
      */
     public ExampleUser() {
+        //no-args constructor
     }
 
     public ExampleUser trainingCompleted(final TrainingCourse... trainingCompleted) {

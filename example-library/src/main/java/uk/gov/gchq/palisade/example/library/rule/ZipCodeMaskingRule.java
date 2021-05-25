@@ -37,7 +37,7 @@ import java.util.Set;
 public class ZipCodeMaskingRule implements Rule<Employee> {
 
     /**
-     * Constructor with 0 arguments
+     * Default constructor
      */
     public ZipCodeMaskingRule() {
         // no-args constructor

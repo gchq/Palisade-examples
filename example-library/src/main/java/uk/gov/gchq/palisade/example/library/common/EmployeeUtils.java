@@ -24,7 +24,11 @@ import uk.gov.gchq.syntheticdatagenerator.types.Manager;
  */
 public final class EmployeeUtils {
 
+    /**
+     * Default constructor
+     */
     private EmployeeUtils() {
+        //no-args constructor
     }
 
     /**

@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
 public class DutyOfCareRule implements Rule<Employee> {
 
     /**
-     * Constructor with 0 arguments
+     * Default constructor
      */
     public DutyOfCareRule() {
         // no-args constructor

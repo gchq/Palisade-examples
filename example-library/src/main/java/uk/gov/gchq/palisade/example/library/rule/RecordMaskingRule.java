@@ -34,7 +34,7 @@ import java.util.Set;
 public class RecordMaskingRule implements Rule<Employee> {
 
     /**
-     * Constructor with 0 arguments
+     * Default constructor
      */
     public RecordMaskingRule() {
         // no-args constructor

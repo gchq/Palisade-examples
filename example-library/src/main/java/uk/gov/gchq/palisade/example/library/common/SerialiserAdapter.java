@@ -32,6 +32,11 @@ public class SerialiserAdapter<T> implements Serialiser<T> {
     private static final long serialVersionUID = 1L;
     private final uk.gov.gchq.syntheticdatagenerator.serialise.Serialiser<T> delegate;
 
+    /**
+     * Default constructor
+     *
+     * @param delegate the serialiser used for the adapter
+     */
     public SerialiserAdapter(final uk.gov.gchq.syntheticdatagenerator.serialise.Serialiser<T> delegate) {
         this.delegate = delegate;
     }
