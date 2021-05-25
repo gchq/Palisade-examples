@@ -43,6 +43,7 @@ velocity*
 Palisade-examples-*.tgz
 # Add the directory for every service module here
 /deployment/
+/deployment-jvm/
 /example-library/
 /example-runner/
 /hr-data-generator/
