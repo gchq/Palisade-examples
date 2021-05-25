@@ -14,10 +14,10 @@
 # limitations under the License.
 
 NAMESPACE=$1
-START=$2
-RUN=$3
-STOP=$4
-VERIFY=$5
+START="./deployment-jvm/local-jvm/example-runner/startServices.sh"
+RUN="./deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh"
+STOP="./deployment-jvm/local-jvm/example-runner/stopServices.sh"
+VERIFY="./deployment-jvm/local-jvm/example-runner/verify.sh"
 DIR="/usr/share/deployment-jvm/Palisade-examples"
 
 if [ -z "$NAMESPACE" ];
