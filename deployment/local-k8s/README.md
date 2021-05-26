@@ -32,7 +32,7 @@ Kubernetes is now bundled as part of Docker.
 
 Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services README](https://github.com/gchq/Palisade-services/tree/develop/README.md).
 
-Otherwise, follow the [local-jvm prerequisites](../local-jvm/README.md).
+Otherwise, follow the [local-jvm prerequisites](../../deployment-jvm/local-jvm/README.md).
 
 
 ## Running using the Bash Scripts

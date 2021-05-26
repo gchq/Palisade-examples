@@ -14,25 +14,21 @@
 #
 replicaCount: 1
 
-service:
-  port: 80
-  type: ClusterIP
-
 image:
-  name: performance
-  base: jdk
-  tag: SNAPSHOT-61eb004
+  name: @artifactId@
+  base: @dockerfile.base.tag@
+  tag: @revision@-@git.commit.id.abbrev@
   pullPolicy: IfNotPresent
-  codeRelease: 0.5.0-SNAPSHOT
+  codeRelease: @project.parent.version@
 
 resources:
   limits:
-    cpu: 750m
-    memory: 1Gi
+    cpu: 3000m
+    memory: 8Gi
   requests:
-    cpu: 250m
-    memory: 500Mi
+    cpu: 900m
+    memory: 1500Mi
 
-nodeSelector: { }
-tolerations: [ ]
-affinity: { }
+nodeSelector: {}
+tolerations: []
+affinity: {}
