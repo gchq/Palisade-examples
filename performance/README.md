@@ -44,9 +44,9 @@ All above values and more can be tweaked through the [config yaml](src/main/reso
 
 ### Automated
 
-For an automated way to perform these tests, see the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
+For an automated way to perform these tests, see the [Services Manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
 
-Create some test data for the performance-test, start all the palisade services and run the performance-test:  
+Creates some test data for the performance tests, starts all the Palisade-services and runs the performance tests:  
 `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task`
 
 * The services will start up with their cache/persistence-store prepopulated with example data

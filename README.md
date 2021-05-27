@@ -15,9 +15,14 @@
 -->
 # Examples
 
-The example demonstrates different users querying an avro file over a REST api.
+The example demonstrates different users querying an avro file over a REST api. These examples are run in 3 different scenarios as described in the [Deployment](deployment) and [Deployment-jvm](deployment-jvm) modules:
+- [local-jvm](./deployment-jvm/local-jvm/README.md)
+- [local-k8s](./deployment/local-k8s/README.md)
+- [aws-k8s](./deployment/aws-k8s/README.md)
 
-The Examples module contains all example specific modules as follows:
+The rest of the modules contain all the necessary classes and objects required for running the examples in those environment
+
+The Palisade-examples repository contains all the example specific modules as follows:
 
 ### [Deployment](deployment)
 Contains the deployment specific code and scripts for running the example within a Kubernetes environment. Current deployment targets are:
@@ -25,13 +30,14 @@ Contains the deployment specific code and scripts for running the example within
 * [Local Docker/Kubernetes Containers](./deployment/local-k8s/README.md)
 
 ### [Deployment-jvm](deployment-jvm)
-Contains the deployment specific code and scripts for running the example within a locl JVM environment. This can only be run locally
+Contains the deployment specific code and scripts for running the example within a local JVM environment. This can only be run locally
 * [Local JVM Processes](./deployment-jvm/local-jvm/README.md)
 
 ### [Example Library](example-library/README.md)
-The policies applied when running the example are a collection of static coarse-grained (resource-level) and fine-grained (record-level) rules that can be found in the *Example Library*, and are used for prepopulating the palisade services with data.
+The Example Library is a collection of Java classes that are required for running the example. For example, the `ExampleUser` class, as well as a number of fine-grained and coarse-grained policies that will be applied to the returned records.
+The `ExampleUser` datatype is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common) `User` class and contains specific extra fields. 
+The policies applied when running the example are a collection of static coarse-grained (resource-level) and fine-grained (record-level) rules that can be found in the *Example Library*, and are used for pre-populating the palisade services with data.
 This collection of example-specific rules, types and configurations is based around the possible policies a company might set out for users accessing sensitive employee data, depending upon their role in the company.
-Provides the `ExampleUser` datatype specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common) `User`, as well as Rules to be used for policy setting.
 
 ### [Example Runner](example-runner/README.md)
 The example scenarios can be run using the Spring Boot REST client application in the *Example Runner*, requesting and reading for a number of different users, resources and contexts.
@@ -40,5 +46,3 @@ This simple Spring Boot application has a number of different runners for such R
 ### [Performance](performance/README.md)
 The performance of the palisade services compared to native file reads (and other metrics) can be measured using the *Performance* testing suite.
 This performance-testing suite has a number of different trial types, datasets and policy variants to cover a reasonable number of common use-cases.
-
-Since scripts are all `.sh` files, the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) may be preferred for cross-platform compatibility.

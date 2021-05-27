@@ -31,7 +31,7 @@ import java.util.Set;
 import static java.util.Objects.requireNonNull;
 
 /**
- * A specific rule implementation for the {@link Employee} duty of care role
+ * A specific {@code Rule} implementation for the {@link Employee} duty of care role
  */
 public class DutyOfCareRule implements Rule<Employee> {
 
@@ -50,11 +50,11 @@ public class DutyOfCareRule implements Rule<Employee> {
     }
 
     /**
-     * Applies the rule to a record
+     * Applies the {@code Rule} to a record
      *
      * @param record the record being processed
-     * @param user the user making the request
-     * @param context the context, including the purpose, of the request
+     * @param user the {@code User} making the request
+     * @param context the {@code Context}, including the purpose, of the request
      * @return the {@link Employee} record after the rule has been applied
      */
     public Employee apply(final Employee record, final User user, final Context context) {

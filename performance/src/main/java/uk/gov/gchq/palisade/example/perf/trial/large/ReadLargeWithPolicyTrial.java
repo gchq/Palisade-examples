@@ -56,7 +56,7 @@ public class ReadLargeWithPolicyTrial extends PalisadeTrial {
     /**
      * Run the trial using the provided file sets
      *
-     * @param fileSet     a collection of resources in a location that do have a number of attached policies
+     * @param fileSet     a collection of resources in a location that have a number of attached policies
      * @param noPolicySet a collection of resources in a location that do not have any attached policies in palisade
      */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {

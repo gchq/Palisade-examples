@@ -23,7 +23,7 @@ When you run the example, you will see the data has been redacted in line with t
 For an overview of the example data see the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator/blob/main/README.md).
 For an overview of the [example policies](../../example-library/README.md), see the [repo root](../../README.md).
 
-In order to successfully run the Local JVM example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) repository has been cloned from GitHub to the intended project location.
+In order to successfully run the Local JVM example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) repository has been cloned from GitHub to your local system in the intended project location.
 A parent directory should at minimum hold the repos [Palisade-services](https://github.com/gchq/Palisade-services) and [Palisade-examples](https://github.com/gchq/Palisade-examples), but [Palisade-common](https://github.com/gchq/Palisade-common), [Palisade-readers](https://github.com/gchq/Palisade-readers) and [Palisade-clients](https://github.com/gchq/Palisade-clients) may be needed to build maven dependencies.
 
 To run the example locally in JVMs, follow these steps (running commands from the root [Palisade-examples](../..) directory):
@@ -31,7 +31,7 @@ To run the example locally in JVMs, follow these steps (running commands from th
 ## Prerequisites
 
 1. Start **Kafka** and **Redis** on localhost using default ports by your preferred means:
-   * Try the [docker-compose](./docker-compose.yaml) file if you have docker available - `docker-compose -f ./docker-compose.yml up -d`  
+   * Try the [docker-compose](docker-compose.yml) file if you have docker available - `docker-compose -f deployment-jvm/local-jvm/docker-compose.yml up -d`  
      ***or***
    * Kafka must be listening to `http://localhost:9092`, see the [Kafka Quickstart Guide](https://kafka.apache.org/quickstart)
    * Redis must be listening to `http://localhost:6379`, see the [Redis Quickstart Guide](https://redis.io/topics/quickstart)
@@ -118,7 +118,7 @@ deployment-jvm/local-jvm/performance/stopServices.sh
 See the [README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
 #### Rest Example ([example-runner](../../example-runner/README.md))
-When using the services-manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
+When using the Services Manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
 
 1. Start the palisade services and run the example using the services manager.
    ```bash
@@ -128,30 +128,30 @@ When using the services-manager, follow these steps (running commands from anywh
 1. It will take a couple of minutes for the Spring Boot services to start up.  
    The status of this can be checked by following the output of the services-manager.  
    There should be 9 services in total running in separate JVM instances:
-    - attribute-masking-service
-    - audit-service
-    - data-service
-    - filtered-resource-service
-    - palisade-service
-    - policy-service
-    - resource-service
-    - topic-offset-service
-    - user-service
+    - Attribute Masking Service
+    - Audit Service
+    - Data Service
+    - Filtered Resource Service
+    - Palisade Service
+    - Policy Service
+    - Resource Service
+    - Topic Offset Service
+    - User Service
     
 1. The RestExample example-runner runner (in particular, with the *rest* profile from the *application-rest.yaml*) will be run immediately afterwards
     * The stdout and stderr will by default be stored in `Palisade-services/rest-example.log` and `Palisade-service/rest-example.err` respectively.  
     
    There will briefly be 10 JVM instances running during the example:
-   - attribute-masking-service
-   - audit-service
-   - data-service
-   - *example-runner*
-   - filtered-resource-service
-   - palisade-service
-   - policy-service
-   - resource-service
-   - topic-offset-service
-   - user-service
+   - Attribute Masking Service
+   - Audit Service
+   - Data Service
+   - *Example Runner*
+   - Filtered Resource Service
+   - Palisade Service
+   - Policy Service
+   - Resource Service
+   - Topic Offset Service
+   - User Service
 
 1. Stop the services.
    ```bash
@@ -170,30 +170,30 @@ Run as above, but substitute using the `example-runner` profile for the `example
    It will then take a couple of minutes for the Spring Boot services to start up.  
    The status of this can be checked by following the output of the services-manager.  
    There should be 9 services in total running in separate JVM instances:
-   - attribute-masking-service
-   - audit-service
-   - data-service
-   - filtered-resource-service
-   - palisade-service
-   - policy-service
-   - resource-service
-   - topic-offset-service
-   - user-service
+   - Attribute Masking Service
+   - Audit Service
+   - Data Service
+   - Filtered Resource Service
+   - Palisade Service
+   - Policy Service
+   - Resource Service
+   - Topic Offset Service
+   - User Service
 
 1. The performance runner will be run immediately afterwards
     * The stdout will by default be stored in `Palisade-services/performance-test.log`.  
 
    There will briefly be 10 JVM instances running during the performance-test:
-   - attribute-masking-service
-   - audit-service
-   - data-service
-   - filtered-resource-service
-   - palisade-service
-   - *performance*
-   - policy-service
-   - resource-service
-   - topic-offset-service
-   - user-service
+   - Attribute Masking Service
+   - Audit Service
+   - Data Service
+   - Filtered Resource Service
+   - Palisade Service
+   - *Performance*
+   - Policy Service
+   - Resource Service
+   - Topic Offset Service
+   - User Service
 
 1. Stop the services.
     
