@@ -26,7 +26,7 @@ public class ActionRunner implements CommandLineRunner {
     private final Runnable action;
 
     /**
-     * Default constructor with 1 argument
+     * Default constructor.
      *
      * @param action the action to run
      */
