@@ -21,7 +21,7 @@ This example demonstrates different users querying an avro file over a REST api 
 The example runs different queries by different users, with different purposes.
 When you run the example, you will see the data has been redacted in line with the rules.
 For an overview of the example data see the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator/blob/main/README.md).
-For an overview of the [example policies](../../example-library/README.md), see the [repo root](../../README.md).
+For an overview of the example policies, see the [Example Library](../../example-library/README.md).
 
 In order to successfully run the Local JVM example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) repository has been cloned from GitHub to your local system in the intended project location.
 A parent directory should at minimum hold the repos [Palisade-services](https://github.com/gchq/Palisade-services) and [Palisade-examples](https://github.com/gchq/Palisade-examples), but [Palisade-common](https://github.com/gchq/Palisade-common), [Palisade-readers](https://github.com/gchq/Palisade-readers) and [Palisade-clients](https://github.com/gchq/Palisade-clients) may be needed to build maven dependencies.
@@ -37,7 +37,7 @@ To run the example locally in JVMs, follow these steps (running commands from th
    * Redis must be listening to `http://localhost:6379`, see the [Redis Quickstart Guide](https://redis.io/topics/quickstart)
 
 
-1. Do a Maven Install for each cloned repo:
+1. Run `mvn clean install` for each cloned repo:
    ```bash
     >> ls
       drwxrwxrwx Palisade-common
@@ -45,7 +45,7 @@ To run the example locally in JVMs, follow these steps (running commands from th
       drwxrwxrwx Palisade-services
       drwxrwxrwx Palisade-clients
       drwxrwxrwx Palisade-examples
-    >> for dir in Palisade-{common,readers,services,clients,examples}; do (cd $dir && mvn clean install); done
+    >> for dir in Palisade-{common,services,readers,clients,examples}; do (cd $dir && mvn clean install); done
    ```
  
 1. Make sure you are within the Palisade-services directory:  

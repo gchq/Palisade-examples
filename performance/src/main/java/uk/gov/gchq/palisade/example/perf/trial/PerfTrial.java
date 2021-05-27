@@ -57,7 +57,7 @@ public abstract class PerfTrial {
      * methods to ensure meaningful and useful results (we don't want to be timing JVM object constructor times etc...)
      *
      * @param fileSet     a collection of resources in a location that have a number of attached policies
-     * @param noPolicySet a collection of resources in a location that do not have any attached policies in palisade
+     * @param noPolicySet a collection of resources in a location that do not have any attached policies in Palisade
      */
     public abstract void runTrial(PerfFileSet fileSet, PerfFileSet noPolicySet);
 

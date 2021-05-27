@@ -40,7 +40,7 @@ These are intended to be run locally, but there are provided dockerfiles and cha
 The Example Library is a collection of Java classes that are required for running the example. 
 For example, the `ExampleUser` class, as well as a number of fine-grained and coarse-grained policies that will be applied to the returned records.
 The `ExampleUser` datatype is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common) `User` class and contains specific extra fields. 
-The policies applied when running the example are a collection of static coarse-grained (resource-level) and fine-grained (record-level) rules that can be found in the *Example Library*, and are used for pre-populating the palisade services with data.
+The policies applied when running the example are a collection of static coarse-grained (resource-level) and fine-grained (record-level) rules that can be found in the [Example Library](example-library/README.md), and are used for pre-populating the Palisade services with data.
 This collection of example-specific rules, types and configurations is based around the possible policies a company might set out for users accessing sensitive employee data, depending upon their role in the company.
 
 ### [Example Runner](example-runner/README.md)
