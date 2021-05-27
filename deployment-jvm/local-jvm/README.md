@@ -128,29 +128,29 @@ When using the Services Manager, follow these steps (running commands from anywh
 1. It will take a couple of minutes for the Spring Boot services to start up.  
    The status of this can be checked by following the output of the services-manager.  
    There should be 9 services in total running in separate JVM instances:
-    - Attribute Masking Service
+    - Attribute-Masking Service
     - Audit Service
     - Data Service
-    - Filtered Resource Service
+    - Filtered-Resource Service
     - Palisade Service
     - Policy Service
     - Resource Service
-    - Topic Offset Service
+    - Topic-Offset Service
     - User Service
     
 1. The RestExample example-runner runner (in particular, with the *rest* profile from the *application-rest.yaml*) will be run immediately afterwards
     * The stdout and stderr will by default be stored in `Palisade-services/rest-example.log` and `Palisade-service/rest-example.err` respectively.  
     
    There will briefly be 10 JVM instances running during the example:
-   - Attribute Masking Service
+   - Attribute-Masking Service
    - Audit Service
    - Data Service
    - *Example Runner*
-   - Filtered Resource Service
+   - Filtered-Resource Service
    - Palisade Service
    - Policy Service
    - Resource Service
-   - Topic Offset Service
+   - Topic-Offset Service
    - User Service
 
 1. Stop the services.
@@ -170,29 +170,29 @@ Run as above, but substitute using the `example-runner` profile for the `example
    It will then take a couple of minutes for the Spring Boot services to start up.  
    The status of this can be checked by following the output of the services-manager.  
    There should be 9 services in total running in separate JVM instances:
-   - Attribute Masking Service
+   - Attribute-Masking Service
    - Audit Service
    - Data Service
-   - Filtered Resource Service
+   - Filtered-Resource Service
    - Palisade Service
    - Policy Service
    - Resource Service
-   - Topic Offset Service
+   - Topic-Offset Service
    - User Service
 
 1. The performance runner will be run immediately afterwards
     * The stdout will by default be stored in `Palisade-services/performance-test.log`.  
 
    There will briefly be 10 JVM instances running during the performance-test:
-   - Attribute Masking Service
+   - Attribute-Masking Service
    - Audit Service
    - Data Service
-   - Filtered Resource Service
+   - Filtered-Resource Service
    - Palisade Service
    - *Performance*
    - Policy Service
    - Resource Service
-   - Topic Offset Service
+   - Topic-Offset Service
    - User Service
 
 1. Stop the services.

@@ -50,28 +50,21 @@ public class ReadManyNativeTrial extends PerfTrial {
     }
 
     /**
-     * Gets the name of the trial
-     *
-     * @return the name value of the trial
+     * {@inheritDoc}
      */
     public String name() {
         return NAME;
     }
 
     /**
-     * Gets the description of the trial
-     *
-     * @return the description value of the trial
+     * {@inheritDoc}
      */
     public String description() {
         return "performs a native read and deserialise of many files";
     }
 
     /**
-     * Run the trial using the provided file sets
-     *
-     * @param fileSet     a collection of resources in a location that have a number of attached policies
-     * @param noPolicySet a collection of resources in a location that do not have any attached policies in palisade
+     * {@inheritDoc}
      */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Path> manyFiles = Files.walk(Path.of(fileSet.manyDir))) {

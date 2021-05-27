@@ -15,26 +15,30 @@
 -->
 # Examples
 
-The example demonstrates different users querying an avro file over a REST api. These examples are run in 3 different scenarios as described in the [Deployment](deployment) and [Deployment-jvm](deployment-jvm) modules:
+The example demonstrates different users querying an avro file over a REST api. 
+These examples are run in 3 different scenarios as described in the [Deployment](deployment) and [Deployment-jvm](deployment-jvm) modules:
 - [local-jvm](./deployment-jvm/local-jvm/README.md)
 - [local-k8s](./deployment/local-k8s/README.md)
 - [aws-k8s](./deployment/aws-k8s/README.md)
 
-The rest of the modules contain all the necessary classes and objects required for running the examples in those environment
+The rest of the modules contain all the necessary classes and objects required for running the examples in those environments.
 
 The Palisade-examples repository contains all the example specific modules as follows:
 
 ### [Deployment](deployment)
-Contains the deployment specific code and scripts for running the example within a Kubernetes environment. Current deployment targets are:
+Contains the deployment specific code and scripts for running the example within a Kubernetes environment. 
+Current deployment targets are:
 * [AWS Docker/Kubernetes Containers](./deployment/aws-k8s/README.md)
 * [Local Docker/Kubernetes Containers](./deployment/local-k8s/README.md)
 
 ### [Deployment-jvm](deployment-jvm)
-Contains the deployment specific code and scripts for running the example within a local JVM environment. This can only be run locally
+Contains the deployment specific code and scripts for running the example within a local JVM environment.
+These are intended to be run locally, but there are provided dockerfiles and charts to run in K8s.
 * [Local JVM Processes](./deployment-jvm/local-jvm/README.md)
 
 ### [Example Library](example-library/README.md)
-The Example Library is a collection of Java classes that are required for running the example. For example, the `ExampleUser` class, as well as a number of fine-grained and coarse-grained policies that will be applied to the returned records.
+The Example Library is a collection of Java classes that are required for running the example. 
+For example, the `ExampleUser` class, as well as a number of fine-grained and coarse-grained policies that will be applied to the returned records.
 The `ExampleUser` datatype is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common) `User` class and contains specific extra fields. 
 The policies applied when running the example are a collection of static coarse-grained (resource-level) and fine-grained (record-level) rules that can be found in the *Example Library*, and are used for pre-populating the palisade services with data.
 This collection of example-specific rules, types and configurations is based around the possible policies a company might set out for users accessing sensitive employee data, depending upon their role in the company.

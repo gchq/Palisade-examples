@@ -36,28 +36,21 @@ public class ReadManyNoPolicyTrial extends PalisadeTrial {
     }
 
     /**
-     * Gets the name of the trial
-     *
-     * @return the name value of the trial
+     * {@inheritDoc}
      */
     public String name() {
         return NAME;
     }
 
     /**
-     * Gets the description of the trial
-     *
-     * @return the description value of the trial
+     * {@inheritDoc}
      */
     public String description() {
         return "reads many data files with no policy set";
     }
 
     /**
-     * Run the trial using the provided file sets
-     *
-     * @param fileSet     a collection of resources in a location that have a number of attached policies
-     * @param noPolicySet a collection of resources in a location that do not have any attached policies in palisade
+     * {@inheritDoc}
      */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         read(noPolicySet.manyDir);
