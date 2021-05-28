@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,27 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-replicaCount: 1
 
-service:
-  port: 80
-  type: ClusterIP
+FILE=example-runner/target/example-runner-*-exec.jar
+FORMATTER=deployment-jvm/local-jvm/example-runner/formatOutput.sh
 
-image:
-  name: example-runner
-  base: jdk
-  tag: SNAPSHOT-61eb004
-  pullPolicy: IfNotPresent
-  codeRelease: 0.5.0-SNAPSHOT
-
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 500Mi
-
-nodeSelector: { }
-tolerations: [ ]
-affinity: { }
+# Run the formatted rest example
+if [ -f $FILE ]; then
+  if [ -f $FORMATTER ]; then
+    java -Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.runner.runner.RestExample=INFO -Dspring.profiles.active=static,rest -jar $FILE | $FORMATTER
+  else
+    echo "Cannot find formatter script -- check your 'git status'"
+  fi
+else
+  echo "Cannot find example-runner-<version>-exec.jar - have you run 'mvn install'?"
+fi

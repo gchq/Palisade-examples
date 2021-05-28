@@ -27,22 +27,17 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <developers>
-        <developer>
-            <name>PalisadeDevelopers</name>
-            <organization>GCHQ</organization>
-            <organizationUrl>https://github.com/gchq</organizationUrl>
-        </developer>
-    </developers>
+    <!--  *********** Artifact ID ***********    -->
+    <artifactId>deployment-jvm</artifactId>
+    <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment-jvm</url>
+    <!--  *********** Artifact ID ***********    -->
 
-    <!--  *********** Artifact ID ***********    -->
-    <artifactId>deployment</artifactId>
-    <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment</url>
-    <name>GCHQ Palisade - Example Deployment</name>
-    <description>
-        Copies jars to mounted shared persistent volumes on container start.
-    </description>
-    <!--  *********** Artifact ID ***********    -->
+    <properties>
+        <!-- Dockerfile-maven-plugin configurable base image - openjdk:11.0 -->
+        <dockerfile.base.image>openjdk@sha256:c1c4bcec5505761f98034d17d0fbfd00b44b79cb472def03d9f1e231f150dc6d</dockerfile.base.image>
+        <!-- Prefix image tag with image type being used -->
+        <dockerfile.base.tag>jdk</dockerfile.base.tag>
+    </properties>
 
     <profiles>
         <!-- Profile used to update image tag used by helm -->
@@ -62,7 +57,7 @@
                                 <configuration>
                                     <tasks>
                                         <copy file="${project.build.outputDirectory}/values.yaml"
-                                              toFile="charts/${project.artifactId}/values.yaml" overwrite="true"/>
+                                              toFile="${project.basedir}/values.yaml" overwrite="true"/>
                                     </tasks>
                                 </configuration>
                             </execution>
@@ -70,6 +65,22 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <!-- Use a JRE image, mirrors base config -->
+            <id>jrei</id>
+            <properties>
+                <dockerfile.base.image>openjdk@sha256:d9a6b51ec836e6278521678640211544b93272a3df675c915ca01a78c8c18ecd</dockerfile.base.image>
+                <dockerfile.base.tag>jre</dockerfile.base.tag>
+            </properties>
+        </profile>
+        <profile>
+            <!-- Use a JDK image -->
+            <id>jdki</id>
+            <properties>
+                <dockerfile.base.image>openjdk@sha256:c1c4bcec5505761f98034d17d0fbfd00b44b79cb472def03d9f1e231f150dc6d</dockerfile.base.image>
+                <dockerfile.base.tag>jdk</dockerfile.base.tag>
+            </properties>
         </profile>
     </profiles>
 
@@ -122,7 +133,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${project.basedir}/../deployment/charts/${project.artifactId}/values.yaml</file>
+                                <file>${project.basedir}/values.yaml</file>
                             </files>
                         </configuration>
                     </execution>
@@ -157,7 +168,7 @@
                             <outputDirectory>target/scripts</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/resources/k8s-bash-scripts</directory>
+                                    <directory>local-jvm</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -172,13 +183,107 @@
                 <!-- Currently, these jars are the same (example-lib and hr-data-generator) but could be different in the future -->
                 <executions>
                     <execution>
-                        <id>copy-example-classpath-jars</id>
-                        <phase>package</phase>
+                        <id>copy-required-jars</id>
+                        <phase>install</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
                         <configuration>
                             <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>attribute-masking-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>attribute-masking-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>audit-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>audit-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>data-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>data-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>filtered-resource-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>filtered-resource-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>palisade-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>palisade-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>policy-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>policy-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>resource-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>resource-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>topic-offset-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>topic-offset-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>user-service</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>user-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>services-manager</artifactId>
+                                    <version>0.5.0-${services.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                    <destFileName>services-manager-0.5.0-${services.revision}-exec.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>example-runner</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>performance</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>exec</classifier>
+                                </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>example-library</artifactId>
@@ -188,55 +293,7 @@
                                 </artifactItem>
                             </artifactItems>
                             <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="example" -->
-                            <outputDirectory>target/example</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-performance-classpath-jars</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>example-library</artifactId>
-                                    <version>${project.version}</version>
-                                    <classifier>jar-with-dependencies</classifier>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>target/performance-test</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-s3-classpath-jars</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>example-library</artifactId>
-                                    <version>${project.version}</version>
-                                    <classifier>jar-with-dependencies</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>s3-resource-service</artifactId>
-                                    <version>0.5.0-${readers.revision}</version>
-                                    <classifier>jar-with-dependencies</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>s3-data-reader</artifactId>
-                                    <version>0.5.0-${readers.revision}</version>
-                                    <classifier>jar-with-dependencies</classifier>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>target/s3</outputDirectory>
+                            <outputDirectory>target/jvm-jars</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -248,7 +305,7 @@
                 <version>1.4.10</version>
                 <executions>
                     <execution>
-                        <phase>post-integration-test</phase>
+                        <phase>install</phase>
                         <id>cache</id>
                         <goals>
                             <goal>build</goal>
@@ -258,6 +315,7 @@
                         <phase>deploy</phase>
                         <id>ar</id>
                         <goals>
+                            <goal>build</goal>
                             <goal>push</goal>
                         </goals>
                     </execution>
@@ -267,8 +325,11 @@
                     <repository>${image.repository}${project.artifactId}</repository>
                     <dockerfile>Dockerfile</dockerfile>
                     <!--suppress UnresolvedMavenProperty -->
-                    <tag>${image.tag}</tag>
+                    <tag>${dockerfile.base.tag}-${image.tag}</tag>
                     <finalName>${project.artifactId}</finalName>
+                    <buildArgs>
+                        <BASE_IMG>${dockerfile.base.image}</BASE_IMG>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>
