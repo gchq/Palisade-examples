@@ -29,7 +29,7 @@ public class ReadSmallWithPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_small_with_policy";
 
     /**
-     * {@inheritDoc}
+     * Default constructor
      */
     public ReadSmallWithPolicyTrial() {
         normal = ReadSmallNativeTrial.NAME;
