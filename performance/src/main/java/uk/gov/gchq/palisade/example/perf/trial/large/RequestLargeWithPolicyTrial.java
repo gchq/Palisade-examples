@@ -28,18 +28,30 @@ import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 public class RequestLargeWithPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "request_large_with_policy";
 
+    /**
+     * Default constructor
+     */
     public RequestLargeWithPolicyTrial() {
         normal = RequestLargeNoPolicyTrial.NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
         return "makes a request for the large file without reading data";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         query(fileSet.largeFile);
     }

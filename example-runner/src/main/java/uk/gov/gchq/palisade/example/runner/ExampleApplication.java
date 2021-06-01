@@ -18,9 +18,17 @@ package uk.gov.gchq.palisade.example.runner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
+/**
+ * Application entrypoint and main process runner
+ */
 @SpringBootApplication
 public class ExampleApplication {
 
+    /**
+     * Application entrypoint, creates and runs a spring application, passing in the given command-line args
+     *
+     * @param args command-line arguments passed to the application
+     */
     public static void main(final String[] args) {
         new SpringApplicationBuilder(ExampleApplication.class).run(args);
     }

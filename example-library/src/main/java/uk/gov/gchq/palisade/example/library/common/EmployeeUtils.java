@@ -19,11 +19,25 @@ package uk.gov.gchq.palisade.example.library.common;
 import uk.gov.gchq.palisade.user.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
+/**
+ * Contains utility methods for an {@link uk.gov.gchq.syntheticdatagenerator.types.Employee}
+ */
 public final class EmployeeUtils {
 
+    /**
+     * Default constructor
+     */
     private EmployeeUtils() {
+        //no-args constructor
     }
 
+    /**
+     * Checks if the user is in the management chain of an {@link uk.gov.gchq.syntheticdatagenerator.types.Employee}
+     *
+     * @param managers the manager array for an Employee
+     * @param userId the ID of the user making the request
+     * @return a boolean value
+     */
     public static boolean isManager(final Manager[] managers, final UserId userId) {
         if (managers == null) {
             return false;

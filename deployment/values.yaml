@@ -37,6 +37,24 @@ global:
     performance-test:
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,example-perf-k8s"
+    s3:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,s3,example-s3"
+    - name: "AWS_ACCESS_KEY_ID"
+      value: ""
+    - name: "AWS_SECRET_ACCESS_KEY"
+      value: ""
+    - name: "AWS_SESSION_TOKEN"
+      value: ""
+    - name: "AWS_REGION"
+      value: "eu-west-2"
+
+  additionalConfigMaps:
+    application-s3.yaml: |
+      resource:
+        implementation: s3
+      data:
+        implementation: s3
 
   # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
   repository: palisade
