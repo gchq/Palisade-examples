@@ -30,12 +30,21 @@ import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
 
+/**
+ * A class to run the rest example
+ */
 public class RestExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
 
     private final RestConfiguration configuration;
     private final AkkaClientWrapper<Employee> client;
 
+    /**
+     * Default constructor with 2 arguments
+     *
+     * @param configuration the configuration for the rest example
+     * @param client the akka client being used
+     */
     public RestExample(final RestConfiguration configuration, final AkkaClientWrapper<Employee> client) {
         this.configuration = configuration;
         this.client = client;

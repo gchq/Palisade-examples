@@ -33,6 +33,7 @@ import static java.util.Objects.requireNonNull;
  * summary statistics to various outputs.
  */
 public class PerfCollector {
+
     /**
      * Number of nanoseconds in a second.
      */
@@ -43,10 +44,12 @@ public class PerfCollector {
     public static final int NINETY_NINE_PERCENT = 99;
     public static final int ONE_HUNDRED_PERCENT = 100;
     public static final double ONE_HUNDRED_DOUBLE = 100D;
+
     /**
      * Column headers.
      */
     protected static final String[] COLUMN_HEADERS = {"Test", "# trials", "Min", "Max", "Mean", "Std.dev.", "25%", "50%", "75%", "99%", "Norm"};
+
     /**
      * Details of all the times.
      */

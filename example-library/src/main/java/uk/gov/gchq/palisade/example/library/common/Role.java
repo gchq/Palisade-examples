@@ -16,6 +16,9 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
+/**
+ * A set of enums used as the role
+ */
 public enum Role {
     HR,
     ESTATES,

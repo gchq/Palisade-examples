@@ -60,10 +60,22 @@ public class PerfUtils {
         );
     }
 
+    /**
+     * Get the directory that has policies
+     *
+     * @param directoryName the directory path
+     * @return the {@link Path} for the directory with policies
+     */
     public static Path getWithPolicyDir(final Path directoryName) {
         return directoryName.resolve(WITH_POLICY_DIR);
     }
 
+    /**
+     * Get the directory that has no policies
+     *
+     * @param directoryName the directory path
+     * @return the {@link Path} for the directory with no policies
+     */
     public static Path getNoPolicyDir(final Path directoryName) {
         return directoryName.resolve(NO_POLICY_DIR);
     }

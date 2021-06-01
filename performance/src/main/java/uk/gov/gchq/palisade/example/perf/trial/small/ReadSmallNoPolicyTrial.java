@@ -28,18 +28,30 @@ import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 public class ReadSmallNoPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_small_no_policy";
 
+    /**
+     * Default constructor
+     */
     public ReadSmallNoPolicyTrial() {
         normal = ReadSmallNativeTrial.NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
         return "reads the small data file with no policy set";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         read(noPolicySet.smallFile);
     }

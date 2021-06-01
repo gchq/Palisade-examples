@@ -48,6 +48,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    ```bash
    >> ls
      drwxrwxrwx deployment
+     drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
      drwxrwxrwx performance
@@ -84,6 +85,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    ```bash
    >> ls
      drwxrwxrwx deployment
+     drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
      drwxrwxrwx performance

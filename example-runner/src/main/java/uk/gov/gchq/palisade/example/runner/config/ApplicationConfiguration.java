@@ -39,6 +39,9 @@ import uk.gov.gchq.palisade.example.runner.runner.CommandLineExample;
 import uk.gov.gchq.palisade.example.runner.runner.RestExample;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
+/**
+ * Spring bean configuration to run the example
+ */
 @Configuration
 @EnableConfigurationProperties
 public class ApplicationConfiguration {

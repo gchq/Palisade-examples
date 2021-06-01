@@ -23,6 +23,9 @@ import org.springframework.boot.CommandLineRunner;
 import uk.gov.gchq.palisade.example.runner.config.AkkaClientWrapper;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
+/**
+ * A class to run the example from the command line
+ */
 public class CommandLineExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandLineExample.class);
 
@@ -32,6 +35,11 @@ public class CommandLineExample implements CommandLineRunner {
 
     private final AkkaClientWrapper<Employee> client;
 
+    /**
+     * Default constructor with 1 argument
+     *
+     * @param client the akka client being used
+     */
     public CommandLineExample(final AkkaClientWrapper<Employee> client) {
         this.client = client;
     }

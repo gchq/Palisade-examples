@@ -20,6 +20,9 @@ import uk.gov.gchq.palisade.Generated;
 
 import java.util.Optional;
 
+/**
+ * Configuration for creating resources in bulk
+ */
 public class BulkConfiguration {
     private String directory;
     private Integer quantity;
