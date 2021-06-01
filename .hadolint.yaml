@@ -17,6 +17,9 @@
 #and add in this format: - DL3000
 ignored:
 - DL3006
+- DL3018
+- DL3008
+
 
 trustedRegistries:
 - docker.io
