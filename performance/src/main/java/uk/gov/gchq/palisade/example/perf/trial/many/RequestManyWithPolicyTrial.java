@@ -28,18 +28,30 @@ import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 public class RequestManyWithPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "request_many_with_policy";
 
+    /**
+     * Default constructor
+     */
     public RequestManyWithPolicyTrial() {
         normal = RequestManyNoPolicyTrial.NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
         return "makes a request for many files without reading data";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         query(fileSet.manyDir);
     }

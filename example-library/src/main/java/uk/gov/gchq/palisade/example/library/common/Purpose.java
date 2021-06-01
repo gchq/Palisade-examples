@@ -16,6 +16,9 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
+/**
+ * A set of enums used as the purpose
+ */
 public enum Purpose {
     SALARY,
     DUTY_OF_CARE,

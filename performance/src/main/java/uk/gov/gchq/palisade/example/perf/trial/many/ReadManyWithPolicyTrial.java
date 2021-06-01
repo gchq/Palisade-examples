@@ -28,18 +28,30 @@ import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
 public class ReadManyWithPolicyTrial extends PalisadeTrial {
     protected static final String NAME = "read_many_with_policy";
 
+    /**
+     * Default constructor
+     */
     public ReadManyWithPolicyTrial() {
         normal = ReadManyNativeTrial.NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
         return "reads many files with an example policy set";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         read(fileSet.manyDir);
     }

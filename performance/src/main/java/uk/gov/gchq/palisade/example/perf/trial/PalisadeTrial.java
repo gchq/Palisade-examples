@@ -33,6 +33,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * Abstract class for all Palisade specific trials
+ */
 public abstract class PalisadeTrial extends PerfTrial {
     private static final Logger LOGGER = LoggerFactory.getLogger(PalisadeTrial.class);
     private static final long TIMEOUT_SECONDS = 30;

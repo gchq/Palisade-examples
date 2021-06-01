@@ -21,9 +21,20 @@ import uk.gov.gchq.palisade.rule.Rule;
 import uk.gov.gchq.palisade.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
+/**
+ * A simple {@link Rule} implementation that does not redact any record fields
+ */
 public class EmployeePassThroughRule implements Rule<Employee> {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Applies the {@link Rule} to a record
+     *
+     * @param record the record being processed
+     * @param user the user making the request
+     * @param context the {@link Context}, including the purpose, of the request
+     * @return the {@link Employee} record after the rule has been applied
+     */
     public Employee apply(final Employee record, final User user, final Context context) {
         return record;
     }

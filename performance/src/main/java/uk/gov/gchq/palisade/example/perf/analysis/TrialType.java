@@ -20,10 +20,12 @@ package uk.gov.gchq.palisade.example.perf.analysis;
  * What sort of performance test is being run?
  */
 public enum TrialType {
+
     /**
      * A warm up test where results will be discarded.
      */
     DRY_RUN,
+
     /**
      * A live trial.
      */
