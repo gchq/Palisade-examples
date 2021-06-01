@@ -15,7 +15,7 @@
 spring:
   profiles:
     include:
-    - example-k8s-config
+    - example-s3-config
     - example-users
     - example-resources
     - example-policies
@@ -24,7 +24,7 @@ spring:
 ---
 
 spring:
-  profiles: example-k8s-config
+  profiles: example-s3-config
 
 default:
   rootId: s3://palisade-application-dev/data/remote-data-store
