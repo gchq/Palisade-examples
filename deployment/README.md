@@ -16,7 +16,7 @@
 
 # Deployment
 
-A collection of scripts for making life easier.
+A collection of scripts to allow the example to be run in a Kubernetes environment, and a script for creating the HR example data. 
 
 ## [hr-data-generator](hr-data-generator/createHRData.sh)
 Script for running the synthetic data generator bundled in the example library/runner, see the [synthetic-data-generator](https://github.com/gchq/synthetic-data-generator/blob/main/README.md) repo for more info

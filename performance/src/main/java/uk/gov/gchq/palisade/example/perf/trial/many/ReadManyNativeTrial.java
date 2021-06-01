@@ -38,21 +38,34 @@ import java.util.stream.Stream;
 @Component
 public class ReadManyNativeTrial extends PerfTrial {
     protected static final String NAME = "read_many_native";
+
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
+    /**
+     * Default constructor
+     */
     public ReadManyNativeTrial() {
         normal = NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
         return "performs a native read and deserialise of many files";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         try (Stream<Path> manyFiles = Files.walk(Path.of(fileSet.manyDir))) {
             // collect all records of all resources into a single stream

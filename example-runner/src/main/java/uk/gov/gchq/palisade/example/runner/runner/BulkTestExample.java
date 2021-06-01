@@ -44,6 +44,7 @@ import java.util.stream.Stream;
 public final class BulkTestExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(BulkTestExample.class);
     private static final Integer NUMBER_OF_EMPLOYEES = 10;
+
     /**
      * Set by the destruct method to ensure this doesn't happen via a shutdown thread as well.
      */
@@ -52,6 +53,12 @@ public final class BulkTestExample implements CommandLineRunner {
     private final BulkConfiguration configuration;
     private final AkkaClientWrapper<Employee> client;
 
+    /**
+     * Default constructor with 2 arguments
+     *
+     * @param configuration the configuration details
+     * @param client the akka client being used
+     */
     public BulkTestExample(final BulkConfiguration configuration, final AkkaClientWrapper<Employee> client) {
         this.configuration = configuration;
         this.client = client;
