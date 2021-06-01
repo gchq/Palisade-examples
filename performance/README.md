@@ -33,8 +33,8 @@ Each data-set is then duplicated as the following variants:
 The following trials are tested for each size and variant of data-set:
 
 * *read-native* - baseline test of a native file-read and deserialise, used for normalisation
-* *request* - test of just palisade service with no data read or deserialise, providing an indication of palisade latency
-* *read* - test of palisade and data services read, deserialise and coarse/fine-grain rule application, providing an indication of palisade overhead
+* *request* - tests the client request without any deserialisation or rule application within the Data Service
+* *read* - tests the full process, including the read, deserialise and coarse/fine-grain rule application within the Data Service, providing an indication of Palisade overhead
 
 The general naming scheme is "trial_size_variant".
 
@@ -44,12 +44,12 @@ All above values and more can be tweaked through the [config yaml](src/main/reso
 
 ### Automated
 
-For an automated way to perform these tests, see the [services-manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
+For an automated way to perform these tests, see the [Services Manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
 
-Create some test data for the performance-test, start the palisade-services and run the performance-test:  
+Creates some test data for the performance tests, starts all the Palisade services and runs the performance tests:  
 `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task`
 
-* Services will start up with their cache/persistence-store prepopulated with example data
+* The services will start up with their cache/persistence stores pre-populated with example data
 * The performance-test will run once all services have started
 * Check `performance-test.log` for output data
 

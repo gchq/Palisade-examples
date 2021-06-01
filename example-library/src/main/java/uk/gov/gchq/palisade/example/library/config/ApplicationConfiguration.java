@@ -25,9 +25,18 @@ import org.springframework.context.annotation.Configuration;
 import uk.gov.gchq.palisade.service.user.config.UserConfiguration;
 import uk.gov.gchq.palisade.service.user.config.UserPrepopulationFactory;
 
+/**
+ * Configuration class for example specific data that is added to service caches
+ */
 @Configuration
 @ConditionalOnClass(UserConfiguration.class)
 public class ApplicationConfiguration {
+
+    /**
+     * Overrides the {@link UserConfiguration} Spring bean for the example user pre-population
+     *
+     * @return an {@link ExampleUserConfiguration}
+     */
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
     @ConfigurationProperties(prefix = "population")
@@ -35,6 +44,11 @@ public class ApplicationConfiguration {
         return new ExampleUserConfiguration();
     }
 
+    /**
+     * Overrides the {@link UserPrepopulationFactory} Spring bean for the example user pre-population
+     *
+     * @return an {@link ExampleUserPrepopulationFactory}
+     */
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
     public UserPrepopulationFactory userPrepopulationFactory() {

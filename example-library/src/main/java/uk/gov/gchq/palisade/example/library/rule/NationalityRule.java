@@ -27,9 +27,16 @@ import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * A specific {@link Rule} implementation for the {@link Employee} nationality field
+ */
 public class NationalityRule implements Rule<Employee> {
 
+    /**
+     * Default constructor
+     */
     public NationalityRule() {
+        // no-args constructor
     }
 
     private Employee redactRecord(final Employee redactedRecord) {
@@ -37,6 +44,14 @@ public class NationalityRule implements Rule<Employee> {
         return redactedRecord;
     }
 
+    /**
+     * Applies the {@link Rule} to a record
+     *
+     * @param record the record being processed
+     * @param user the {@link User} making the request
+     * @param context the {@link Context}, including the purpose, of the request
+     * @return the {@link Employee} record after the rule has been applied
+     */
     public Employee apply(final Employee record, final User user, final Context context) {
         if (null == record) {
             return null;

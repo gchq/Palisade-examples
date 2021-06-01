@@ -38,6 +38,7 @@ import static java.util.Objects.requireNonNull;
  * Runs a series of performance tests under various circumstances and then reports the metrics to a collector.
  */
 public class RunAction implements Runnable {
+
     /**
      * Amount of time to wait between each trial.
      */

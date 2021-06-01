@@ -23,21 +23,24 @@ import static java.util.Objects.requireNonNull;
  * A triple of {@link String}s
  */
 public class PerfFileSet {
+
     /**
      * Small file of data.
      */
     public final String smallFile;
+
     /**
      * Large file of data.
      */
     public final String largeFile;
+
     /**
      * Directory containing many small files of data
      */
     public final String manyDir;
 
     /**
-     * Default constructor
+     * Default constructor with 3 arguments
      *
      * @param smallFile location of the 'small' file
      * @param largeFile location of the 'large' file
