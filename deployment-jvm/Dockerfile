@@ -37,6 +37,5 @@ COPY target/jvm-jars/example-library-*.jar /usr/share/deployment-jvm/Palisade-ex
 # Copy the resources and scripts
 COPY target/resources /usr/share/deployment-jvm/Palisade-examples/resources/
 COPY target/scripts /usr/share/deployment-jvm/Palisade-examples/deployment-jvm/local-jvm/
-RUN sed -i 's/\r$//' /usr/share/deployment-jvm/Palisade-examples/deployment-jvm/local-jvm/*/*.sh
 
 LABEL service="deployment-jvm" project="palisade"
