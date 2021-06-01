@@ -20,6 +20,9 @@ import uk.gov.gchq.palisade.Generated;
 
 import java.util.Optional;
 
+/**
+ * Configuration for the rest example
+ */
 public class RestConfiguration {
     private String filename;
 

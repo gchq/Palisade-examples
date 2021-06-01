@@ -38,21 +38,34 @@ import java.util.stream.Stream;
 @Component
 public class ReadSmallNativeTrial extends PerfTrial {
     protected static final String NAME = "read_small_native";
+
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
+    /**
+     * Default constructor
+     */
     public ReadSmallNativeTrial() {
         normal = NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
         return "performs a native read and deserialise of the small file";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //read from file
         try (InputStream bis = Files.newInputStream(Path.of(fileSet.smallFile));

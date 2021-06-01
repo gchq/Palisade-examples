@@ -41,18 +41,30 @@ public class ReadLargeNativeTrial extends PerfTrial {
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
 
+    /**
+     * Default constructor
+     */
     public ReadLargeNativeTrial() {
         normal = NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
         return "performs a native read and deserialise of the large file";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //get file URI
         //read from file

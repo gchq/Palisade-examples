@@ -23,10 +23,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 /**
  * Main class for the performance testing tool.
  */
-
 @SpringBootApplication
 public class PerfApplication {
 
+    /**
+     * Application entrypoint, creates and runs a spring application, passing in the given command-line args
+     *
+     * @param args command-line arguments passed to the application
+     */
     public static void main(final String[] args) {
         new SpringApplicationBuilder(PerfApplication.class).web(WebApplicationType.NONE).run(args);
     }
