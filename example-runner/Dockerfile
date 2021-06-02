@@ -18,7 +18,7 @@ FROM $BASE_IMG
 VOLUME /tmp
 
 RUN apt-get update -y && apt-get install -y curl --no-install-recommends \
- && apt show versions curl
+ && apt show versions curl \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
