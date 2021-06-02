@@ -17,8 +17,10 @@ VOLUME /tmp
 
 ARG K8_VERSION=v1.15.3
 
-RUN apk --no-cache add curl=~7.77.0-r0
+RUN apk --no-cache add curl=~7.80.0-r0
 RUN apk --no-cache add bash=~5.0.17-r0
+
+RUN apk info curl
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \
