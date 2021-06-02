@@ -17,8 +17,9 @@ FROM $BASE_IMG
 
 VOLUME /tmp
 
-RUN apt-get update -y && apt-get install -y curl --no-install-recommends \
- && apt show versions curl \
+ARG CURL_VERSION=7.64.0-4+deb10u2
+
+RUN apt-get update -y && apt-get install -y curl=~${CURL_VERSION} --no-install-recommends \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
