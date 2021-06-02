@@ -17,8 +17,8 @@ VOLUME /tmp
 
 ARG K8_VERSION=v1.15.3
 
-RUN apk --no-cache add curl
-RUN apk --no-cache add bash
+RUN apk --no-cache add curl=~7.77.0-r0
+RUN apk --no-cache add bash=~5.0.17-r0
 
 RUN apk info curl
 RUN apk info bash
