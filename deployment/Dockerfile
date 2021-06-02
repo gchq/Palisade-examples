@@ -13,13 +13,12 @@
 # limitations under the License.
 
 FROM alpine:3.12.0@sha256:90baa0922fe90624b05cb5766fa5da4e337921656c2f8e2b13bd3c052a0baac1
-
 VOLUME /tmp
 
 ARG K8_VERSION=v1.15.3
 
-RUN apk --no-cache add curl
-RUN apk --no-cache add bash
+RUN apk add --no-cache curl~=7
+RUN apk add --no-cache bash~=5
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \
