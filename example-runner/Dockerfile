@@ -17,7 +17,7 @@ FROM $BASE_IMG
 
 VOLUME /tmp
 
-ARG CURL_VERSION=7.6*
+ARG CURL_VERSION=7.*
 
 RUN apt-get update -y && apt-get install -y curl=${CURL_VERSION} --no-install-recommends \
  && apt-get clean \
