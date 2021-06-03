@@ -17,13 +17,13 @@ FROM $BASE_IMG
 
 VOLUME /tmp
 
-ARG CURL_VERSION=7.64.0-4+deb10u2
+ARG K8_VERSION=v1.15.3
+ARG CURL_VERSION=7.*
 
 RUN apt-get update -y && apt-get install -y curl=${CURL_VERSION} --no-install-recommends \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-ARG K8_VERSION=v1.15.3
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERSION}/bin/linux/amd64/kubectl && \
       chmod +x ./kubectl && \
       mv ./kubectl /usr/local/bin/kubectl
@@ -31,8 +31,5 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERS
 ARG JAR_FILE
 COPY target/classes/k8s-bash-scripts /usr/share/example-runner
 COPY $JAR_FILE /usr/share/example-runner/example-runner.jar
-
-# Needed for converting all bash scripts windows line endings into unix
-RUN sed -i 's/\r$//' /usr/share/example-runner/*.sh
 
 LABEL service="example-runner" project="palisade"

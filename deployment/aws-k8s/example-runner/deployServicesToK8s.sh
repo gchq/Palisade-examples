@@ -46,7 +46,7 @@ if [ -z "$namespace" ] || [ -z "$repository" ] || [ -z "$hostname" ] || [ -z "$d
    helpFunction
 fi
 
-cd deployment
+cd deployment || exit
 
 # Begin script in case all parameters are correct
 helm dep up
@@ -54,7 +54,7 @@ helm dep up
 # Added extra params to ensure that AWS deploys use the shared one at 'palisade-shared' DNS
 helm upgrade --install --wait palisade . \
     --set global.hosting=aws \
-    --set global.repository="${repository}" \
+    --set global.repository="${repository}/" \
     --set global.hostname="${hostname}" \
     --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle="${datastore}" \
     --set global.persistence.classpathJars.aws.volumeHandle="${classpathjars}" \
