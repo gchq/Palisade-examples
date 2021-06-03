@@ -32,7 +32,4 @@ ARG JAR_FILE
 COPY target/classes/k8s-bash-scripts /usr/share/example-runner
 COPY $JAR_FILE /usr/share/example-runner/example-runner.jar
 
-# Needed for converting all bash scripts windows line endings into unix
-RUN sed -i 's/\r$//' /usr/share/example-runner/*.sh
-
 LABEL service="example-runner" project="palisade"
