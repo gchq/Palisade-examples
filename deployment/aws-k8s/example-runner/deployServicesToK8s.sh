@@ -54,7 +54,7 @@ helm dep up
 # Added extra params to ensure that AWS deploys use the shared one at 'palisade-shared' DNS
 helm upgrade --install --wait palisade . \
     --set global.hosting=aws \
-    --set global.repository="${repository}/" \
+    --set global.repository="${repository}/palisade/" \
     --set global.hostname="${hostname}" \
     --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle="${datastore}" \
     --set global.persistence.classpathJars.aws.volumeHandle="${classpathjars}" \
