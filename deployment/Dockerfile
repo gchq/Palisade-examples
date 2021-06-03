@@ -31,10 +31,12 @@ RUN sed -i 's/\r$//' /bin/copyExampleData.sh
 
 # Data-files for configured deployments
 COPY target/resources/data /usr/share/deployment/data/example
+COPY target/resources/data /usr/share/deployment/data/performance-test
 COPY target/resources/data /usr/share/deployment/data/s3
 
 # Classpath-jars for configured deployments
 COPY target/example /usr/share/deployment/classpath-jars/example
+COPY target/example /usr/share/deployment/classpath-jars/performance-test
 COPY target/s3 /usr/share/deployment/classpath-jars/s3
 
 # Make everything readable
