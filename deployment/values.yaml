@@ -39,7 +39,7 @@ global:
       value: "k8s,example-perf-k8s"
 
   # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
-  repository: palisade
+  repository: "gchq/palisade-"
 
   # persistent-volume and associated claims configurations
   persistence:
