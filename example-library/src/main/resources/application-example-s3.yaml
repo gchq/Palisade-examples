@@ -15,23 +15,19 @@
 spring:
   profiles:
     include:
-    - example-perf-config
+    - example-s3-config
     - example-users
-    - example-perf-policies
+    - example-resources
+    - example-policies
     - example-serialisers
 
 ---
 
 spring:
-  profiles: example-perf-config
+  profiles: example-s3-config
 
 default:
-  rootId: file:../Palisade-examples/resources
-  connectionDetail: localhost:8082
+  rootId: s3://palisade-application-dev/data/remote-data-store
+  connectionDetail: data-service
   type: uk.gov.gchq.syntheticdatagenerator.types.Employee
   format: avro
-
-# Locally, we use the SimpleResourceService which does a Files.walk(...) so no need to prepopulate
-# Used by the Resource Service to infer the types of the (many thousands of) resources created for the performance test
-resource:
-  defaultType: ${default.type}

@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 
-{{- if or (eq .Values.global.deployment "example") (eq .Values.global.deployment "performance-test") }}
+{{- if or (or (eq .Values.global.deployment "example") (eq .Values.global.deployment "performance-test")) (eq .Values.global.deployment "s3") }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -46,7 +46,9 @@ spec:
         command: [ "/bin/bash", "/bin/copyExampleData.sh" ]
         args:
           - {{ include "palisade.namespace" . | quote }}
+          - {{ .Values.global.deployment }}
           - {{ include "deployment.deployment.path" . | quote }}
+          - "/data/local-data-store/"
         volumeMounts:
         - name: {{ include "deployment.classpathJars.name" . }}
           mountPath: {{ include "deployment.classpathJars.mount" . }}

@@ -12,22 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-spring:
-  profiles:
-    include:
-    - example-perf-k8s-config
-    - example-users
-    - example-perf-resources
-    - example-perf-policies
-    - example-serialisers
-
----
-
-spring:
-  profiles: example-perf-k8s-config
-
-default:
-  rootId: file:/data/local-data-store
-  connectionDetail: data-service
-  type: uk.gov.gchq.syntheticdatagenerator.types.Employee
-  format: avro
+population:
+  resourceProvider: std
+  resources:
+  - resourceId: ${default.rootId}/employee_file0.avro
+    rootId: ${default.rootId}/
+    connectionDetail: ${default.connectionDetail}
+    attributes:
+      type: ${default.type}
+      serialisedFormat: ${default.format}
+  - resourceId: ${default.rootId}/employee_file1.avro
+    rootId: ${default.rootId}/
+    connectionDetail: ${default.connectionDetail}
+    attributes:
+      type: ${default.type}
+      serialisedFormat: ${default.format}

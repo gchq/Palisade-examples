@@ -35,6 +35,48 @@ Windows Subsystem for Linux (WSL) users may have to make special considerations 
 Otherwise, follow the [local-jvm prerequisites](../../deployment-jvm/local-jvm/README.md).
 
 
+## Deployment Types
+On running `helm install`, there are a number of variables that can be set in the [values.yaml](values.yaml).
+In particular, the `global.deployment` field controls what sort of services and configurations are deployed.
+
+### `example` Deployment
+* Deploy a pair of `employee_fileN.avro` files to the Data Service.
+* Prepopulate the services' caching layers, or otherwise configure them, with users, resources and serialisers matching the data files, and policies.
+* Deploy an `example-runner` pod.
+
+These resources are requested by the smoketest (using the `example-runner` pod).
+Be aware that most data only exists in a cache and has a TTL - when this cache expires, the data will be gone until redeploying.
+
+### `performance-test` Deployment
+* Deploy hundreds of `employee_fileN.avro` files to the Data Service.
+* Prepopulate the services' caching layers, or otherwise configure them, with users, resources matching the data files, and policies.
+* Deploy a `performance` pod.
+
+The performance test measures the time to request and read resources in a synthetic scenario.
+
+### `s3` Deployment
+* Deploy the [S3 Resource Service](https://github.com/gchq/Palisade-readers/tree/develop/s3-resource) and [S3 Data Reader](https://github.com/gchq/Palisade-readers/tree/develop/s3-reader) modules.
+* Prepopulate the services' caching layers, or otherwise configure them, with users, serialisers, and policies only.
+
+This allows requesting and reading resources using an S3 URI, which follows the scheme `s3://bucketname/objectprefix`.
+
+You must additionally supply your AWS S3 credentials in the `values.yaml` as follows (substituting for the appropriate values):
+```yaml
+global:
+  env:
+    s3:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,s3,example-s3"
+    - name: "AWS_ACCESS_KEY_ID"
+      value: "your-access-key-id-here"
+    - name: "AWS_SECRET_ACCESS_KEY"
+      value: "your-secret-access-key-here"
+    - name: "AWS_SESSION_TOKEN"
+      value: "your-session-token-here"
+    - name: "AWS_REGION"
+      value: "your-aws-region-here"
+```
+
 ## Running using the Bash Scripts
 
 Ensure Line Endings are correct for the environment you are using. If running on Windows, checked out in CRLF, be aware that Docker will be expecting LF endings in any scripts inside containers.

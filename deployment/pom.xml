@@ -210,12 +210,40 @@
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>example-library</artifactId>
                                     <version>${project.version}</version>
-                                    <type>${project.packaging}</type>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
-                            <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="performance-test" -->
                             <outputDirectory>target/performance-test</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-s3-classpath-jars</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>example-library</artifactId>
+                                    <version>${project.version}</version>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>s3-resource-service</artifactId>
+                                    <version>0.5.0-${readers.revision}</version>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>s3-data-reader</artifactId>
+                                    <version>0.5.0-${readers.revision}</version>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>target/s3</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
