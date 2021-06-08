@@ -15,13 +15,13 @@
 population:
   resourceProvider: std
   resources:
-  - resourceId: ${default.rootId}/data/employee_file0.avro
+  - resourceId: ${default.rootId}/employee_file0.avro
     rootId: ${default.rootId}/
     connectionDetail: ${default.connectionDetail}
     attributes:
       type: ${default.type}
       serialisedFormat: ${default.format}
-  - resourceId: ${default.rootId}/data/employee_file1.avro
+  - resourceId: ${default.rootId}/employee_file1.avro
     rootId: ${default.rootId}/
     connectionDetail: ${default.connectionDetail}
     attributes:
