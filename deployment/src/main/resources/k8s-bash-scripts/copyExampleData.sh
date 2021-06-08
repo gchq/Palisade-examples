@@ -16,6 +16,7 @@
 # Example usage
 # ./copyExampleData.sh default example /mnt/shared-classpath-jars /data/local-data-store
 
+# Stops the execution of a script if a command or pipeline has an error
 set -e
 
 # Current namespace for pods
