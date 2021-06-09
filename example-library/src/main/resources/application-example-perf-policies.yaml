@@ -15,7 +15,7 @@
 population:
   policyProvider: std
   policies:
-  - resourceId: ${default.rootId}/data/with-policy/
+  - resourceId: ${default.rootId}/with-policy/
     owner: Alice
     recordRules:
       "1-Bank details only visible for the purpose of salary": uk.gov.gchq.palisade.example.library.rule.BankDetailsRule
@@ -25,7 +25,7 @@ population:
       "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.library.rule.RecordMaskingRule
     resourceRules:
       "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.library.rule.FirstResourceRule
-  - resourceId: ${default.rootId}/data/no-policy/
+  - resourceId: ${default.rootId}/no-policy/
     owner: Alice
     recordRules:
       "1-Pass through rule for no-policy directory": uk.gov.gchq.palisade.example.library.rule.EmployeePassThroughRule
