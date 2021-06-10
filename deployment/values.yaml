@@ -36,7 +36,7 @@ global:
       value: "k8s,example-k8s"
     performance-test:
     - name: "SPRING_PROFILES_ACTIVE"
-      value: "k8s,example-perf-k8s,debug"
+      value: "k8s,example-perf-k8s"
     s3:
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,s3,example-s3"
@@ -50,10 +50,6 @@ global:
       value: "eu-west-2"
 
   additionalConfigMaps:
-    application-debug.yaml: |
-      logging.level.uk.gov.gchq.palisade: DEBUG
-    application-nologs.yaml: |
-      logging.level.root: ERROR
     application-s3.yaml: |
       resource:
         implementation: s3
