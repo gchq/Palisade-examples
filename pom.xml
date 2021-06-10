@@ -58,7 +58,7 @@
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <synthetic.data.version>0.0.4</synthetic.data.version>
-        <image.repository/>
+        <image.repository>gchq/palisade-</image.repository>
 
         <!-- Revisions -->
         <revision>SNAPSHOT</revision>
