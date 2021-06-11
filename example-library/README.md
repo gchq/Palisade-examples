@@ -17,7 +17,7 @@
 # Example Library
 
 The users, resources and policies to be used in the example are configured in the [configuration yaml](/example-library/src/main/resources/application-example.yaml).
-Each of these pre-population values are loaded into the appropriate service on service start-up, see the [run-example scripts](/deployment/local-jvm/example-runner).
+Each of these pre-population values are loaded into the appropriate service on service start-up, see the [run-example scripts](/deployment-k8s/local-jvm/example-runner).
 
 In particular, the example deals with the following users:
 - User Alice has the role HR and completed the PAYROLL_TRAINING_COURSE

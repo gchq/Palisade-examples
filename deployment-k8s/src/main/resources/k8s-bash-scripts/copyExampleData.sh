@@ -45,7 +45,7 @@ rm -rfv "$CLASSPATH"
 echo "Removed previous run classpath-jars for $CLASSPATH"
 mkdir -pv "$CLASSPATH"
 ls -R "$CLASSPATH"
-cp -vrf /usr/share/deployment/classpath-jars/"$DEPLOYMENT"/* "$CLASSPATH"
+cp -vrf /usr/share/deployment-k8s/classpath-jars/"$DEPLOYMENT"/* "$CLASSPATH"
 echo "Copied classpath-jars to $CLASSPATH"
 ls -R "$CLASSPATH"
 
@@ -53,7 +53,7 @@ ls -R "$CLASSPATH"
 # The location of these is dependant on the resource-service pre-population values
 echo "Preserving previous run data-files for $DATASTORE"
 ls -R "$DATASTORE"
-cp -vrf /usr/share/deployment/data/"$DEPLOYMENT"/* "$DATASTORE"
+cp -vrf /usr/share/deployment-k8s/data/"$DEPLOYMENT"/* "$DATASTORE"
 echo "Copied all data-files to $DATASTORE"
 ls -R "$DATASTORE"
 

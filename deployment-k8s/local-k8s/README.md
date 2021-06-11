@@ -98,7 +98,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 
 1. To deploy the example, run:
    ```bash
-   bash deployment/local-k8s/example-runner/deployServicesToK8s.sh
+   bash deployment-k8s/local-k8s/example-runner/deployServicesToK8s.sh
    ```
    You can check the pods are available:
    ```bash
@@ -107,14 +107,14 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    
 1. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
    ```bash
-   bash deployment/local-k8s/example-runner/runFormattedK8sExample.sh
+   bash deployment-k8s/local-k8s/example-runner/runFormattedK8sExample.sh
    <or>
-   bash deployment/local-k8s/example-runner/runK8sExample.sh
+   bash deployment-k8s/local-k8s/example-runner/runK8sExample.sh
    ```
    
 1. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
-   bash deployment/local-k8s/example-runner/verify.sh
+   bash deployment-k8s/local-k8s/example-runner/verify.sh
     ```
 
 1. Delete the deployed services:
@@ -135,12 +135,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 
 1. Create the performance test dataset locally, run:
    ```bash
-   bash deployment/local-k8s/performance/createPerformanceData.sh
+   bash deployment-k8s/local-k8s/performance/createPerformanceData.sh
    ```
 
 1. To deploy the performance tests, run:
    ```bash
-   bash deployment/local-k8s/performance/deployServicesToK8s.sh
+   bash deployment-k8s/local-k8s/performance/deployServicesToK8s.sh
    ```
    You can check the pods are available:
    ```bash
@@ -149,7 +149,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    
 1. After the pods have started, you can run the performance tests:
    ```bash
-   bash deployment/local-k8s/runK8sPerformanceTest.sh
+   bash deployment-k8s/local-k8s/runK8sPerformanceTest.sh
    ```
 
 1. Delete the deployed services:

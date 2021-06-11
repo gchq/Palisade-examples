@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,24 +12,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-replicaCount: 1
 
-image:
-  name: deployment
-  base: jdk
-  tag: SNAPSHOT-a84ff5e
-  pullPolicy: IfNotPresent
-  codeRelease: 0.5.0-SNAPSHOT
-
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 500Mi
-
-nodeSelector: {}
-tolerations: []
-affinity: {}
+helm dep up
+helm upgrade --install --wait palisade . \
+--set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
+--set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
+--set global.deployment=performance-test

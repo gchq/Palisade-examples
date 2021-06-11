@@ -13,8 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+cd deployment-k8s || exit
 helm dep up
 helm upgrade --install --wait palisade . \
 --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
---set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
---set global.deployment=performance-test
+--set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
+--set global.deployment=example

@@ -37,7 +37,7 @@ When running the script a number of AWS values will have to be passed in as argu
 ```
 ```
 e.g.
-bash deployment/aws-k8s/example-runner/deployServicesToK8s.sh \
+bash deployment-k8s/aws-k8s/example-runner/deployServicesToK8s.sh \
     -n namespace-value \
     -r aws-repository-handle \
     -h deployment-hostname-handle \
