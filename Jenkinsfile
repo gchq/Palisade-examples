@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib@feature/PAL-1077-fix-local-k8s-deployment')_
+@Library('jenkinsfile-lib')_
 
 timestamps {
     examples()
