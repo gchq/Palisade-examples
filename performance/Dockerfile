@@ -22,7 +22,4 @@ ARG JAR_FILE
 COPY target/classes/k8s-bash-scripts /usr/share/performance
 COPY $JAR_FILE /usr/share/performance/performance.jar
 
-# Needed for converting all bash scripts windows line endings into unix
-RUN sed -i 's/\r$//' /usr/share/performance/*.sh
-
 LABEL service="performance" project="palisade"
