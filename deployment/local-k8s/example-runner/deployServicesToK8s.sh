@@ -18,9 +18,17 @@ NAMESPACE=$1
 cd deployment
 helm dep up
 
-if [[ ! -z "$NAMESPACE" ]]
+if [ -z "$NAMESPACE" ]
 then
-  # If the user passes in a namespace:
+  # If no namespace value is provided, deploy to the default namespace
+  helm upgrade --install --wait palisade . \
+  --set global.hosting=local \
+  --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data \
+  --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
+  --set global.deployment=example \
+  --set Palisade-services.traefik.install=false
+else
+  # If the user provides a namespace value:
   # 1) create the namespace
   echo "Creating the namespace $NAMESPACE"
   kubectl create namespace $NAMESPACE
@@ -33,12 +41,4 @@ then
   --set global.deployment=example \
   --set Palisade-services.traefik.install=false \
   --namespace $NAMESPACE
-else
-  # Otherwise deploy to the default namespace
-  helm upgrade --install --wait palisade . \
-  --set global.hosting=local \
-  --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data \
-  --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
-  --set global.deployment=example \
-  --set Palisade-services.traefik.install=false
 fi
