@@ -57,19 +57,18 @@ helm upgrade --install palisade . \
     --set global.hosting=aws \
     --timeout 300s
 ```
-When deploying Palisade into AWS for the purpose of running the example we need to make sure that the persistent volumes have
-the expected data and jars in order for the example to run successfully. This is done using a helm job, this job will run as a `post-install` job
-and will run the script `copyExampleData.sh`.
+When deploying Palisade into AWS for the purpose of running the example we need to make sure that the persistent volumes have the expected data and jars in order for the example to run successfully. 
+This is done using a helm job, this job will run as a `post-install` job and will run the script `copyExampleData.sh`.
 
 This takes the example employee files, and the example jars from the [deployment](../Dockerfile) Docker image and copies them to the expected location on the persistent volumes within the AWS environment.
 
 #### Running the example
 
-The example can be run by using either the `runK8sExample.sh` or the `runFormattedK8sExample.sh` scripts. These will run through the scenario presented above, however the "Formatted" script will output
-a readable version of the output. These are run from within the `example-runner` pod of the Palisade deployment in AWS.
+The example can be run by using either the `runK8sExample.sh` or the `runFormattedK8sExample.sh` scripts from the root Palisade-examples repository. 
+These will run through the scenario presented above, however the "Formatted" script will output a readable version of the output. 
+These are run from within the `example-runner` pod of the Palisade deployment in AWS.
 
-The following command will 'exec' into the example-runner pod and then run the formatted
-script (replace the `"$NAMESPACE"` placeholder for the appropriate namespace value):
+The following command will 'exec' into the example-runner pod and then run the formatted script (replace the `"$NAMESPACE"` placeholder for the appropriate namespace value):
 ```
 kubectl exec $(kubectl get pods --namespace="$NAMESPACE" | awk '/example-runner/ {print $1}') --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-runner && bash ./runFormattedK8sExample.sh"
 ```

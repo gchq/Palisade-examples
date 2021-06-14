@@ -36,27 +36,27 @@ Otherwise, follow the [local-jvm prerequisites](../../deployment-jvm/local-jvm/R
 
 
 ## Deployment Types
-On running `helm install`, there are a number of variables that can be set in the [values.yaml](values.yaml).
+On running `helm install`, there are a number of variables that can be set in the [values.yaml](../values.yaml).
 In particular, the `global.deployment` field controls what sort of services and configurations are deployed.
 
 ### `example` Deployment
 * Deploy a pair of `employee_fileN.avro` files to the Data Service.
-* Prepopulate the services' caching layers, or otherwise configure them, with users, resources and serialisers matching the data files, and policies.
+* Pre-populate the services' caching layers, or otherwise configure them, with users, resources and serialisers matching the data files, and policies.
 * Deploy an `example-runner` pod.
 
-These resources are requested by the smoketest (using the `example-runner` pod).
-Be aware that most data only exists in a cache and has a TTL - when this cache expires, the data will be gone until redeploying.
+These resources are requested by the smoke test (using the `example-runner` pod).
+Be aware that most data only exists in a cache and has a TTL - when this cache expires, the data will be gone until redeployed.
 
 ### `performance-test` Deployment
 * Deploy hundreds of `employee_fileN.avro` files to the Data Service.
-* Prepopulate the services' caching layers, or otherwise configure them, with users, resources matching the data files, and policies.
+* Pre-populate the services' caching layers, or otherwise configure them, with users, resources matching the data files, and policies.
 * Deploy a `performance` pod.
 
 The performance test measures the time to request and read resources in a synthetic scenario.
 
-### `s3` Deployment
+### `S3` Deployment
 * Deploy the [S3 Resource Service](https://github.com/gchq/Palisade-readers/tree/develop/s3-resource) and [S3 Data Reader](https://github.com/gchq/Palisade-readers/tree/develop/s3-reader) modules.
-* Prepopulate the services' caching layers, or otherwise configure them, with users, serialisers, and policies only.
+* Pre-populate the services' caching layers, or otherwise configure them, with users, serialisers, and policies only.
 
 This allows requesting and reading resources using an S3 URI, which follows the scheme `s3://bucketname/objectprefix`.
 
@@ -89,14 +89,14 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
-     drwxrwxrwx deployment
+     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
      drwxrwxrwx performance
    ```
 
-1. To deploy the example, run:
+1. To deploy the example, from the root Palisade-examples repository, run:
    ```bash
    bash deployment-k8s/local-k8s/example-runner/deployServicesToK8s.sh
    ```
@@ -126,7 +126,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
-     drwxrwxrwx deployment
+     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
@@ -135,7 +135,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 
 1. Create the performance test dataset locally, run:
    ```bash
-   bash deployment-k8s/local-k8s/performance/createPerformanceData.sh
+   bash performance/src/main/resources/k8s-bash-scripts/createPerformanceData.sh
    ```
 
 1. To deploy the performance tests, run:

@@ -17,7 +17,7 @@ replicaCount: 1
 image:
   name: deployment-k8s
   base: jdk
-  tag: SNAPSHOT-a84ff5e
+  tag: SNAPSHOT-4122406
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 

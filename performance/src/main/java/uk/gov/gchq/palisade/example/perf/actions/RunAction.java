@@ -25,6 +25,7 @@ import uk.gov.gchq.palisade.example.perf.analysis.TrialType;
 import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
 import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
 
+import java.net.URI;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Map;
@@ -74,7 +75,9 @@ public class RunAction implements Runnable {
      * @throws RuntimeException if an error occurred
      */
     public void run() {
-        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(Path.of(directoryName));
+        URI directoryUri = URI.create(directoryName);
+        Path directory = Path.of(directoryUri);
+        Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
 
         // create the output collector
         PerfCollector collector = new PerfCollector();

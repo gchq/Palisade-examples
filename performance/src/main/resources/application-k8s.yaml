@@ -14,7 +14,7 @@
 #
 
 performance:
-  directory: "/data/local-data-store/"
+  directory: "file:/data/local-data-store/"
 
 web:
   client:
