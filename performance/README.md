@@ -17,7 +17,7 @@ limitations under the License.
 # Performance
 
 Palisade includes a performance tool for testing some simple scenarios.
-It uses the example rules and generates some fake HR data using the [sythethic data generator](https://github.com/gchq/synthetic-data-generator).
+It uses the example rules and generates some fake HR data using the [synthetic data generator](https://github.com/gchq/synthetic-data-generator).
 
 The tool works on the following data-set sizes:
 
@@ -46,8 +46,26 @@ All above values and more can be tweaked through the [config yaml](src/main/reso
 
 For an automated way to perform these tests, see the [Services Manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
 
-Creates some test data for the performance tests, starts all the Palisade services and runs the performance tests:  
-`java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task`
+Creates some test data for the performance tests, starts all the Palisade services and runs the performance tests:
+
+1. Make sure you are within the Palisade-services directory
+   ```bash
+   >> ls
+     drwxrwxrwx attribute-masking-service
+     drwxrwxrwx audit-service
+     drwxrwxrwx data-service
+     drwxrwxrwx filtered-resource-service
+     drwxrwxrwx palisade-service
+     drwxrwxrwx policy-service
+     drwxrwxrwx resource-service
+     drwxrwxrwx services-manager
+     drwxrwxrwx topic-offset-service
+     drwxrwxrwx user-service
+   ```
+1. Then run the services manager:
+    ```bash
+    >> java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task
+    ```
 
 * The services will start up with their cache/persistence stores pre-populated with example data
 * The performance-test will run once all services have started
@@ -57,7 +75,7 @@ Once the create-perf-data task has been run once, it does not need to be re-run:
 
 * If running the performance tests repeatedly, the above command can be sped up to the default configuration of:  
   `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar`
-* If the palisade services are also still running, the above command can be sped up again to exclude starting the already-running services:  
+* If the Palisade services are also still running, the above command can be sped up again to exclude starting the already-running services:  
   `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-test-task`  
   Or run just the performance-test manually as below...
 
@@ -65,7 +83,7 @@ Once the create-perf-data task has been run once, it does not need to be re-run:
 
 #### Creation of test data
 
-Create a collection of Employee records in the [resources directory](/resources/data)
+Create a collection of Employee records in the [resources directory](../resources/data)
 
 ```bash
 java -jar performance/target/performance-*-exec.jar --performance.action=create

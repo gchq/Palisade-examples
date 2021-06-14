@@ -85,7 +85,7 @@ Both the [example-runner](../../example-runner) and the [performance tests](../.
 The deployment steps can be automated using the provided local bash scripts, which are intended to be run from the [Palisade-examples](../..) root directory.
 These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner/src/main/resources/k8s-bash-scripts), which are intended to be run from the `/usr/share/example-runner` or `/usr/share/performance` directory inside the pod:
 
-### Rest Example ([example-runner](../../example-runner/README.md))
+### Local K8s Example ([example-runner](../../example-runner/README.md))
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
@@ -105,14 +105,14 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    kubectl get pods
    ```
    
-1. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
+1. After the pods have started, you can run the example, either choosing formatted or un-formatted by running the relevant bash script:
    ```bash
    bash deployment-k8s/local-k8s/example-runner/runFormattedK8sExample.sh
    <or>
    bash deployment-k8s/local-k8s/example-runner/runK8sExample.sh
    ```
    
-1. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
+1. If you have run the formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
    bash deployment-k8s/local-k8s/example-runner/verify.sh
     ```
@@ -123,7 +123,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
     ```
 
 ### Performance Tests ([performance](../../performance/README.md))
-1. Make sure you are within the Palisade-examples directory:  
+1. Make sure you are running from the root Palisade-examples directory:  
    ```bash
    >> ls
      drwxrwxrwx deployment-k8s
@@ -149,7 +149,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    
 1. After the pods have started, you can run the performance tests:
    ```bash
-   bash deployment-k8s/local-k8s/runK8sPerformanceTest.sh
+   bash deployment-k8s/local-k8s/performance/runK8sPerformanceTest.sh
    ```
 
 1. Delete the deployed services:

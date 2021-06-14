@@ -96,22 +96,46 @@ The above steps can be automated using the provided scripts, all of which are in
 
 1. Run one or more of the available scripts.
 
-#### Rest Example ([example-runner](../../example-runner/README.md))
+#### Local JVM Example ([example-runner](../../example-runner/README.md))
 To run the example and verify its output, use the [local-jvm example-runner scripts](example-runner):
-```bash
-deployment-jvm/local-jvm/example-runner/startServices.sh
-deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
-deployment-jvm/local-jvm/example-runner/verify.sh
-deployment-jvm/local-jvm/example-runner/stopServices.sh
-```
+
+1. Start all the relevant services:
+   ```bash
+   bash deployment-jvm/local-jvm/example-runner/startServices.sh
+   ```
+   
+1. Then run the example and pipe the output to a text file:
+   ```bash
+   bash deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
+   ```
+   
+1. Verify that the example has run successfully by running the verify script:
+   ```bash
+   bash deployment-jvm/local-jvm/example-runner/verify.sh
+   ```
+   
+1. Finally, stop the services:
+   ```bash
+   bash deployment-jvm/local-jvm/example-runner/stopServices.sh
+   ```
 
 #### Performance Tests ([performance](../../performance/README.md))
 To run the performance tests, use the [local-jvm performance scripts](performance):
-```bash
-deployment-jvm/local-jvm/performance/startServices.sh
-deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
-deployment-jvm/local-jvm/performance/stopServices.sh
-```
+
+1. Start all the relevant services:
+   ```bash
+   bash deployment-jvm/local-jvm/performance/startServices.sh
+   ```
+
+1. Then run the performance test and pipe the output to a text file:
+   ```bash
+   bash deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
+   ```
+
+1. Finally, stop the services:
+   ```bash
+   bash deployment-jvm/local-jvm/performance/stopServices.sh
+   ```
 
 
 ### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
@@ -120,7 +144,22 @@ See the [README](https://github.com/gchq/Palisade-services/tree/develop/services
 #### Rest Example ([example-runner](../../example-runner/README.md))
 When using the Services Manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
 
-1. Start the palisade services and run the example using the services manager.
+1. Make sure you are within the Palisade-services directory
+   ```bash
+   >> ls
+     drwxrwxrwx attribute-masking-service
+     drwxrwxrwx audit-service
+     drwxrwxrwx data-service
+     drwxrwxrwx filtered-resource-service
+     drwxrwxrwx palisade-service
+     drwxrwxrwx policy-service
+     drwxrwxrwx resource-service
+     drwxrwxrwx services-manager
+     drwxrwxrwx topic-offset-service
+     drwxrwxrwx user-service
+   ```
+
+1. Start the Palisade services and run the example using the services manager.
    ```bash
    >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
    ```
@@ -160,6 +199,21 @@ When using the Services Manager, follow these steps (running commands from anywh
 
 #### Performance Tests ([performance](../../performance/README.md))
 Run as above, but substitute using the `example-runner` profile for the `example-perf` profile
+
+1. Make sure you are within the Palisade-services directory
+   ```bash
+   >> ls
+     drwxrwxrwx attribute-masking-service
+     drwxrwxrwx audit-service
+     drwxrwxrwx data-service
+     drwxrwxrwx filtered-resource-service
+     drwxrwxrwx palisade-service
+     drwxrwxrwx policy-service
+     drwxrwxrwx resource-service
+     drwxrwxrwx services-manager
+     drwxrwxrwx topic-offset-service
+     drwxrwxrwx user-service
+   ```
 
 1. Create the performance test data, start the palisade services and run the performance tests using the services manager.
    ```bash
