@@ -294,7 +294,7 @@
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
-                            <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment-k8s/target, $deployment="example" -->
+                            <!-- Move classpath jars to $hostPath/$deployment-jvm dir, in this case $hostPath=deployment-jvm/target, $deployment-jvm="example" -->
                             <outputDirectory>target/jvm-jars</outputDirectory>
                         </configuration>
                     </execution>
