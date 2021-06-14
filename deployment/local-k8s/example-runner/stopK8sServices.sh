@@ -17,21 +17,24 @@ NAMESPACE=$1
 
 cd deployment
 
-if [[ ! -z "$NAMESPACE" ]]
+if [ -z "$NAMESPACE" ]
 then
-    echo "Delete all the resources in the $NAMESPACE namespace"
-    # Delete the existing helm deployment
-    helm delete palisade
-
-    # Delete all the resources on the created namespace
-    kubectl delete namespace $NAMESPACE
-else
     echo "Delete all the resources in the default namespace"
-  # Delete the existing helm deployment
+    # Delete the existing helm deployment
     helm delete palisade
 
     # Delete all the resources
     kubectl delete jobs --all
     kubectl delete pods --all
     kubectl delete pvc --all
+    kubectl delete pv --all
+else
+    echo "Delete all the resources in the $NAMESPACE namespace"
+    # Delete the existing helm deployment
+    helm delete palisade
+
+    # Delete all the resources in the namespace
+    kubectl delete namespace $NAMESPACE
+    kubectl delete pv -n $NAMESPACE --all
+
 fi
