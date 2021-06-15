@@ -96,14 +96,14 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
      drwxrwxrwx performance
    ```
 
-1. To deploy the example, run:
+1. To deploy the example, use the `deployServicesToK8s.sh` script using either of the following commands:
    ```bash
    bash deployment/local-k8s/example-runner/deployServicesToK8s.sh
-   ```
-   To deploy the example to a specific kubernetes namespace add the namespace value at the end of the command
-   ```bash
+   <or>
    bash deployment/local-k8s/example-runner/deployServicesToK8s.sh namespace
    ```
+   The 1st command will deploy all the Palisade resources to the Kubernetes default namespace, the 2nd command wil deploy the Palisade resources to the specified namespace.
+   
    You can check the pods are available using either of the following commands:
    ```bash
    kubectl get pods
@@ -127,6 +127,8 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 1. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
    bash deployment/local-k8s/example-runner/verify.sh
+   <or>
+   bash deployment/local-k8s/example-runner/verify.sh namespace
     ```
 
 1. To delete the example deployment use the `stopK8sServices.sh` script:
