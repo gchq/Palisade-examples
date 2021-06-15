@@ -27,16 +27,16 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${K8_VERS
 COPY target/scripts/copyExampleData.sh /bin/copyExampleData.sh
 
 # Data-files for configured deployments
-COPY target/resources/data /usr/share/deployment-k8s/data/example
-COPY target/resources/data /usr/share/deployment-k8s/data/performance-test
-COPY target/resources/data /usr/share/deployment-k8s/data/s3
+COPY target/resources/data /usr/share/deployment/data/example
+COPY target/resources/data /usr/share/deployment/data/performance-test
+COPY target/resources/data /usr/share/deployment/data/s3
 
 # Classpath-jars for configured deployments
-COPY target/example /usr/share/deployment-k8s/classpath-jars/example
-COPY target/example /usr/share/deployment-k8s/classpath-jars/performance-test
-COPY target/s3 /usr/share/deployment-k8s/classpath-jars/s3
+COPY target/example /usr/share/deployment/classpath-jars/example
+COPY target/example /usr/share/deployment/classpath-jars/performance-test
+COPY target/s3 /usr/share/deployment/classpath-jars/s3
 
 # Make everything readable
-RUN chmod ugo+r -R /usr/share/deployment-k8s
+RUN chmod ugo+r -R /usr/share/deployment
 
 LABEL service="deployment-k8s" project="palisade"

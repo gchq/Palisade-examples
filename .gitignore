@@ -42,7 +42,7 @@ terraform.tfstate
 terraform.tfstate.backup
 dependency-reduced-pom.xml
 *.ipr
-*iws
+*.iws
 
 ##VSCODE default files that dont need to be tracked
 eclipse-formatter.xml

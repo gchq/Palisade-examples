@@ -96,7 +96,7 @@ The above steps can be automated using the provided scripts, all of which are in
 
 1. Run one or more of the available scripts.
 
-#### Local JVM Example ([example-runner](../../example-runner/README.md))
+#### [Local JVM Example](../../example-runner/README.md)
 To run the example and verify its output, use the [local-jvm example-runner scripts](example-runner):
 
 1. Start all the relevant services:
@@ -119,7 +119,7 @@ To run the example and verify its output, use the [local-jvm example-runner scri
    bash deployment-jvm/local-jvm/example-runner/stopServices.sh
    ```
 
-#### Performance Tests ([performance](../../performance/README.md))
+#### [Performance Tests](../../performance/README.md)
 To run the performance tests, use the [local-jvm performance scripts](performance):
 
 1. Start all the relevant services:
@@ -141,7 +141,7 @@ To run the performance tests, use the [local-jvm performance scripts](performanc
 ### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
 See the [README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
-#### Rest Example ([example-runner](../../example-runner/README.md))
+#### [JVM Example](../../example-runner/README.md)
 When using the Services Manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
 
 1. Make sure you are within the Palisade-services directory
@@ -177,7 +177,7 @@ When using the Services Manager, follow these steps (running commands from anywh
     - Topic-Offset Service
     - User Service
     
-1. The RestExample example-runner runner (in particular, with the *rest* profile from the *application-rest.yaml*) will be run immediately afterwards
+1. The Rest Example example-runner (in particular, with the *rest* profile from the *application-rest.yaml*) will be run immediately afterwards
     * The stdout and stderr will by default be stored in `Palisade-services/rest-example.log` and `Palisade-service/rest-example.err` respectively.  
     
    There will briefly be 10 JVM instances running during the example:
@@ -197,7 +197,7 @@ When using the Services Manager, follow these steps (running commands from anywh
    >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```
 
-#### Performance Tests ([performance](../../performance/README.md))
+#### [Performance Tests](../../performance/README.md)
 Run as above, but substitute using the `example-runner` profile for the `example-perf` profile
 
 1. Make sure you are within the Palisade-services directory
@@ -215,7 +215,7 @@ Run as above, but substitute using the `example-runner` profile for the `example
      drwxrwxrwx user-service
    ```
 
-1. Create the performance test data, start the palisade services and run the performance tests using the services manager.
+1. Create the performance test data, start the Palisade services and run the performance tests using the services manager.
    ```bash
    >> java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run --manager.schedule=performance-create-task,palisade-task,performance-test-task
    ```
