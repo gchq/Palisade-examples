@@ -86,30 +86,30 @@ Once the create-perf-data task has been run once, it does not need to be re-run:
 Create a collection of Employee records in the [resources directory](../resources/data)
 
 ```bash
-java -jar performance/target/performance-*-exec.jar --performance.action=create
+>> java -jar performance/target/performance-*-exec.jar --performance.action=create
 # or similarly
-java -Dspring.profiles.active=create -jar performance/target/performance-*-exec.jar
+>> java -Dspring.profiles.active=create -jar performance/target/performance-*-exec.jar
 ```
 
 This may take a long time to run, depending upon the requested sizes of the test data (up to 5 minutes).
 
 #### Running performance tests
 
-Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data. The profile for prepopulating the services can be
-found [here](../example-library/src/main/resources/application-example-perf.yaml).
+Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data. The profile for pre-populating the services can be found [here](../example-library/src/main/resources/application-example-perf.yaml).
 
 Once all services have started, run the following:
 
 ```bash
-java -jar performance/target/performance-*-exec.jar
+>> java -jar performance/target/performance-*-exec.jar
 ```
 
 Again, this may take some time, depending upon test data size. Be aware of any running antivirus software that may scan files in real time - eg. McAfee will contribute a factor of ~5x slow-down to bulk file tests.
 
 ### Analysis of results
 
-The tool reports several statistics, but the most useful are the norm, mean and standard deviation. The percentage columns are the various percentile levels. The "Norm" column is the normalised column, showing how long various tests took compared to
-reading the files natively (without Palisade). Reads of `large`, `small` and `many` files are normalised against their corresponding native read. Requests for `with-policy` are normalised against their corresponding `no-policy` requests.
+The tool reports several statistics, but the most useful are the norm, mean and standard deviation. The percentage columns are the various percentile levels. The "Norm" column is the normalised column, showing how long various tests took compared to reading the files natively (without Palisade). 
+Reads of `large`, `small` and `many` files are normalised against their corresponding native read. 
+Requests for `with-policy` are normalised against their corresponding `no-policy` requests.
 
 ### Sample of performance test results (small=1000, large=10000, many=100)
 

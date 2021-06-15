@@ -35,13 +35,14 @@ bin/
 _book
 node_modules/
 .extract/
-.project/
 .settings/
 .terraform/
 terraform.tfvars
 terraform.tfstate
 terraform.tfstate.backup
 dependency-reduced-pom.xml
+*.ipr
+*iws
 
 ##VSCODE default files that dont need to be tracked
 eclipse-formatter.xml
