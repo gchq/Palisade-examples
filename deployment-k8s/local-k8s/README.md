@@ -105,7 +105,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    kubectl get pods
    ```
    
-1. After the pods have started, you can run the example, either choosing formatted or un-formatted by running the relevant bash script:
+1. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
    ```bash
    bash deployment-k8s/local-k8s/example-runner/runFormattedK8sExample.sh
    <or>

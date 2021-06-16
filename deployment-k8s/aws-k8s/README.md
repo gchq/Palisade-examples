@@ -58,7 +58,7 @@ helm upgrade --install palisade . \
     --timeout 300s
 ```
 When deploying Palisade into AWS for the purpose of running the example we need to make sure that the persistent volumes have the expected data and jars in order for the example to run successfully. 
-This is done using a helm job, this job will run as a `post-install` job and will run the script `copyExampleData.sh`.
+This is done using a helm job, this job will run as a `pre-install` job and will run the script `copyExampleData.sh`.
 
 This takes the example employee files, and the example jars from the [deployment](../Dockerfile) Docker image and copies them to the expected location on the persistent volumes within the AWS environment.
 
