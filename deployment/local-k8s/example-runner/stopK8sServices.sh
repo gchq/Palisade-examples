@@ -25,7 +25,6 @@ then
 
     # Delete all the resources
     kubectl delete jobs --all
-    kubectl delete pods --all
     kubectl delete pvc $(kubectl get pvc | awk '/palisade/ {print $1}')
     kubectl delete pv $(kubectl get pv | awk '/palisade/ {print $1}')
 else

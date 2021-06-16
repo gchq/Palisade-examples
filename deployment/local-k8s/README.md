@@ -100,7 +100,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    ```bash
    bash deployment/local-k8s/example-runner/deployServicesToK8s.sh
    <or>
-   bash deployment/local-k8s/example-runner/deployServicesToK8s.sh namespace
+   bash deployment/local-k8s/example-runner/deployServicesToK8s.sh {NAMESPACE}
    ```
    The 1st command will deploy all the Palisade resources to the Kubernetes default namespace, the 2nd command wil deploy the Palisade resources to the specified namespace.
    
@@ -108,7 +108,7 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    ```bash
    kubectl get pods
    <or>
-   kubectl get pods -n namespace
+   kubectl get pods -n {NAMESPACE}
    ```
    
 1. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
@@ -119,23 +119,23 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    ```
    If the example is deployed into a specific namespace then add the value to the end of the command:
    ```bash
-   bash deployment/local-k8s/example-runner/runFormattedK8sExample.sh namespace
+   bash deployment/local-k8s/example-runner/runFormattedK8sExample.sh {NAMESPACE}
    <or>
-   bash deployment/local-k8s/example-runner/runK8sExample.sh namespace
+   bash deployment/local-k8s/example-runner/runK8sExample.sh {NAMESPACE}
    ```
    
 1. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
    bash deployment/local-k8s/example-runner/verify.sh
    <or>
-   bash deployment/local-k8s/example-runner/verify.sh namespace
+   bash deployment/local-k8s/example-runner/verify.sh {NAMESPACE}
     ```
 
 1. To delete the example deployment use the `stopK8sServices.sh` script:
    ```bash
    bash deployment/local-k8s/example-runner/stopK8sServices.sh
    <or>
-   bash deployment/local-k8s/example-runner/stopK8sServices.sh namespace
+   bash deployment/local-k8s/example-runner/stopK8sServices.sh {NAMESPACE}
    ```
 
 ### Performance Tests ([performance](../../performance/README.md))
