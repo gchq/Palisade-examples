@@ -23,11 +23,14 @@ uk.gov.gchq.palisade:example-runner:jar:0.5.0-SNAPSHOT
 |     \- org.tukaani:xz:jar:1.5:compile
 +- uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT:compile
 |  \- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.4:compile
-|     \- com.github.javafaker:javafaker:jar:1.0.1:compile
-|        +- org.apache.commons:commons-lang3:jar:3.10:compile
-|        +- org.yaml:snakeyaml:jar:android:1.23:compile
-|        \- com.github.mifmif:generex:jar:1.0.2:compile
-|           \- dk.brics.automaton:automaton:jar:1.11-8:compile
+|     +- com.github.javafaker:javafaker:jar:1.0.1:compile
+|     |  +- org.apache.commons:commons-lang3:jar:3.10:compile
+|     |  +- org.yaml:snakeyaml:jar:android:1.23:compile
+|     |  \- com.github.mifmif:generex:jar:1.0.2:compile
+|     |     \- dk.brics.automaton:automaton:jar:1.11-8:compile
+|     +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.11.0:compile
+|     +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.11.0:compile
+|     \- commons-io:commons-io:jar:2.6:compile
 +- org.springframework.boot:spring-boot-starter:jar:2.3.1.RELEASE:compile
 |  +- org.springframework.boot:spring-boot:jar:2.3.1.RELEASE:compile
 |  |  \- org.springframework:spring-context:jar:5.2.7.RELEASE:compile

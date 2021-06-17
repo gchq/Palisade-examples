@@ -59,7 +59,7 @@
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <synthetic.data.version>0.0.4</synthetic.data.version>
-        <image.repository/>
+        <image.repository>gchq/palisade-</image.repository>
 
         <!-- Revisions -->
         <revision>SNAPSHOT</revision>
@@ -133,7 +133,6 @@
                 <snapshots.repository.name>Sonatype Nexus snapshot repository</snapshots.repository.name>
                 <snapshots.repository.url>https://oss.sonatype.org/content/repositories/snapshots</snapshots.repository.url>
                 <!-- Build configuration for release -->
-                <image.repository>gchq/palisade-</image.repository>
                 <revision>RELEASE</revision>
                 <common.revision>RELEASE</common.revision>
                 <clients.revision>RELEASE</clients.revision>
