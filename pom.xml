@@ -48,7 +48,6 @@
         <developerConnection>${scm.developer.connection}</developerConnection>
         <tag>HEAD</tag>
     </scm>
-
     <properties>
         <!-- Dependency properties -->
         <java.version>11</java.version>
@@ -59,7 +58,7 @@
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <synthetic.data.version>0.0.4</synthetic.data.version>
-        <image.repository>gchq/palisade-</image.repository>
+        <image.repository/>
 
         <!-- Revisions -->
         <revision>SNAPSHOT</revision>
@@ -133,6 +132,7 @@
                 <snapshots.repository.name>Sonatype Nexus snapshot repository</snapshots.repository.name>
                 <snapshots.repository.url>https://oss.sonatype.org/content/repositories/snapshots</snapshots.repository.url>
                 <!-- Build configuration for release -->
+                <image.repository>gchq/palisade-</image.repository>
                 <revision>RELEASE</revision>
                 <common.revision>RELEASE</common.revision>
                 <clients.revision>RELEASE</clients.revision>
