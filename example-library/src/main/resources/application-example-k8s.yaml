@@ -30,4 +30,4 @@ default:
   rootId: file:/data/local-data-store
   connectionDetail: data-service
   type: uk.gov.gchq.syntheticdatagenerator.types.Employee
-  format: avro
+  format: "application/*+avro"

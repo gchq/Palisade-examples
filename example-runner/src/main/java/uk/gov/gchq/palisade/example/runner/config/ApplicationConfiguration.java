@@ -33,11 +33,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
+import uk.gov.gchq.palisade.client.akka.AkkaClient.SSLMode;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.runner.runner.BulkTestExample;
 import uk.gov.gchq.palisade.example.runner.runner.CommandLineExample;
 import uk.gov.gchq.palisade.example.runner.runner.RestExample;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
+
+import java.util.Map;
 
 /**
  * Spring bean configuration to run the example
@@ -56,8 +59,9 @@ public class ApplicationConfiguration {
     @Bean
     AkkaClient client(final @Value("${web.client.palisade-service}") String palisadeService,
                       final @Value("${web.client.filtered-resource-service}") String filteredResourceService,
+                      final @Value("${web.client}") Map<String, String> urlMap,
                       final ActorSystem actorSystem) {
-        return new AkkaClient(palisadeService, filteredResourceService, actorSystem);
+        return new AkkaClient(palisadeService, filteredResourceService, urlMap, actorSystem, SSLMode.NONE);
     }
 
     @Bean
