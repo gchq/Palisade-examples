@@ -34,6 +34,7 @@ global:
   env:
     example:
     - name: "SPRING_PROFILES_ACTIVE"
+      # Debug-level logging for the 'example' deployment can be enabled by adding a 'debug' profile here
       value: "k8s,example-k8s"
     performance-test:
     - name: "SPRING_PROFILES_ACTIVE"
@@ -51,6 +52,7 @@ global:
       value: "eu-west-2"
 
   additionalConfigMaps:
+    # Debug-level logging can be enabled across services at start-time by configuring here and adding a 'debug' profile for the selected deployment (see above)
     application-debug.yaml: |
       logging.level.uk.gov.gchq.palisade: DEBUG
     application-nologs.yaml: |
