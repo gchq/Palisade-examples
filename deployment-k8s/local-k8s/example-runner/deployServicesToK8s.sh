@@ -13,9 +13,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+NAMESPACE=$1
+
 cd deployment-k8s || exit
 helm dep up
-helm upgrade --install --wait palisade . \
---set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
---set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
---set global.deployment=example
+
+if [ -z "$NAMESPACE" ]
+then
+  # If no namespace value is provided, deploy to the default namespace
+  helm upgrade --install --wait palisade . \
+  --set global.hosting=local \
+  --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data \
+  --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
+  --set global.deployment=example \
+  --set Palisade-services.traefik.install=false
+else
+  # If the user provides a namespace value:
+  # 1) create the namespace
+  echo "Creating the namespace $NAMESPACE"
+  kubectl create namespace $NAMESPACE
+
+  # 2) use the namespace in the helm command
+  helm upgrade --install --wait palisade . \
+  --set global.hosting=local \
+  --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data \
+  --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
+  --set global.deployment=example \
+  --set Palisade-services.traefik.install=false \
+  --namespace $NAMESPACE
+fi
