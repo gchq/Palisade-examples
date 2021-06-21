@@ -8,7 +8,9 @@ List of third-party dependencies grouped by their license type
 * GCHQ Synthetic Data Generator ([uk.gov.gchq.data-gen:synthetic-data-generator:0.0.4](https://github.com/gchq/synthetic-data-generator))
 * GCHQ Palisade - Akka Client ([uk.gov.gchq.palisade:client-akka:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-clients/tree/develop/client-akka))
 * GCHQ Palisade Common Library ([uk.gov.gchq.palisade:common:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-common))
+* GCHQ Palisade - Example Employee Library ([uk.gov.gchq.palisade:example-employee-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
 * GCHQ Palisade - Example Library ([uk.gov.gchq.palisade:example-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
+* GCHQ Palisade - Example User Library ([uk.gov.gchq.palisade:example-user-library:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-examples/tree/develop/example-library))
 * GCHQ Palisade - Resource Service ([uk.gov.gchq.palisade:resource-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/resource-service))
 * GCHQ Palisade - User Service ([uk.gov.gchq.palisade:user-service:0.5.0-SNAPSHOT](https://github.com/gchq/Palisade-services/tree/develop/user-service))
 

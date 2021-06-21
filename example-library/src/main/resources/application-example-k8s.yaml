@@ -20,6 +20,7 @@ spring:
     - example-resources
     - example-policies
     - example-serialisers
+    - example-data-type
 
 ---
 
@@ -29,5 +30,3 @@ spring:
 default:
   rootId: file:/data/local-data-store
   connectionDetail: data-service
-  type: uk.gov.gchq.syntheticdatagenerator.types.Employee
-  format: avro

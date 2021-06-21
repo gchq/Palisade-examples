@@ -21,7 +21,7 @@ service:
 image:
   name: performance
   base: jdk
-  tag: SNAPSHOT-773f081
+  tag: SNAPSHOT-db207a7
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 
