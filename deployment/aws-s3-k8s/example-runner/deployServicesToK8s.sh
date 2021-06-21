@@ -51,7 +51,6 @@ cd deployment || exit
 # Begin script in case all parameters are correct
 helm dep up
 
-# Added extra params to ensure that AWS deploys use the shared one at 'palisade-shared' DNS
 helm upgrade --install --wait palisade . \
     --set global.hosting=aws \
     --set global.repository="${repository}/" \
