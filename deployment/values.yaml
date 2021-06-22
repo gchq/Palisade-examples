@@ -28,7 +28,8 @@ global:
   # Sets up some mount points in services for example data
   deployment: example
 
-  hosting: local
+  # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
+  repository: "gchq/palisade-"
 
   env:
     example:
@@ -36,7 +37,7 @@ global:
       value: "k8s,example-k8s"
     performance-test:
     - name: "SPRING_PROFILES_ACTIVE"
-      value: "k8s,example-perf-k8s"
+      value: "k8s,example-perf-k8s,nologs"
     s3:
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,s3,example-s3"
@@ -50,14 +51,15 @@ global:
       value: "eu-west-2"
 
   additionalConfigMaps:
+    application-debug.yaml: |
+      logging.level.uk.gov.gchq.palisade: DEBUG
+    application-nologs.yaml: |
+      logging.level.root: ERROR
     application-s3.yaml: |
       resource:
         implementation: s3
       data:
         implementation: s3
-
-  # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
-  repository: "gchq/palisade-"
 
   # persistent-volume and associated claims configurations
   persistence:

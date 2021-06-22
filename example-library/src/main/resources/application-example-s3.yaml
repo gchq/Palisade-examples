@@ -30,8 +30,4 @@ default:
   rootId: s3://palisade-application-dev/data/remote-data-store
   connectionDetail: data-service
   type: uk.gov.gchq.syntheticdatagenerator.types.Employee
-<<<<<<< Updated upstream
-  format: avro
-=======
   format: "avro/binary"
->>>>>>> Stashed changes

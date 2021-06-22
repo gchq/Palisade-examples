@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+cd deployment || exit
 helm dep up
 helm upgrade --install --wait palisade . \
 --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
