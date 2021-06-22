@@ -17,7 +17,6 @@
 package uk.gov.gchq.palisade.example.perf.util;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.util.ResourceBuilder;
 
 import java.net.URI;
 import java.nio.file.Path;
