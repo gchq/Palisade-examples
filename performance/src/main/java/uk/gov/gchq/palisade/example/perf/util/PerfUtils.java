@@ -17,6 +17,7 @@
 package uk.gov.gchq.palisade.example.perf.util;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.util.ResourceBuilder;
 
 import java.net.URI;
 import java.nio.file.Path;
@@ -66,8 +67,8 @@ public class PerfUtils {
             URI directoryUri = URI.create(directoryName);
             return Path.of(directoryUri);
         } catch (IllegalArgumentException ex) {
-            URI directoryUri = URI.create("file:" + System.getProperty("user.dir") + "/")
-                    .resolve(directoryName);
+            URI directoryUri = Path.of(System.getProperty("user.dir") + "/" + directoryName)
+                    .toUri().normalize();
             return Path.of(directoryUri);
         }
     }
