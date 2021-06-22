@@ -57,7 +57,7 @@ helm upgrade --install --wait palisade . \
     --set global.hostname="${hostname}" \
     --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle="${datastore}" \
     --set global.persistence.classpathJars.aws.volumeHandle="${classpathjars}" \
-    --set global.deployment=s3 \
+    --set global.deployment=s3example \
     --set global.kafka.install=true \
     --set global.redis.install=true \
     --set Palisade-services.traefik.install="${traefik}" \

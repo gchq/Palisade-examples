@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 
-{{- if or (or (eq .Values.global.deployment "example") (eq .Values.global.deployment "performance-test")) (eq .Values.global.deployment "s3") }}
+{{- if or (or (eq .Values.global.deployment "example") (eq .Values.global.deployment "performance-test")) (eq .Values.global.deployment "s3example") }}
 apiVersion: batch/v1
 kind: Job
 metadata:
