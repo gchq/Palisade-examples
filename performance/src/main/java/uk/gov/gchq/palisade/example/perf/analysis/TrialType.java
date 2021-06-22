@@ -29,5 +29,5 @@ public enum TrialType {
     /**
      * A live trial.
      */
-    LIVE;
+    LIVE
 }
