@@ -67,7 +67,7 @@ public class PerfUtils {
             return Path.of(directoryUri);
         } catch (IllegalArgumentException ex) {
             URI directoryUri = URI.create("file:" + System.getProperty("user.dir"))
-                    .resolve(directoryName));
+                    .resolve(directoryName);
             return Path.of(directoryUri);
         }
     }
