@@ -28,11 +28,11 @@ COPY target/scripts/copyExampleData.sh /bin/copyExampleData.sh
 
 # Data-files for configured deployments
 COPY target/resources/data /usr/share/deployment/data/example
-COPY target/resources/data /usr/share/deployment/data/s3
+COPY target/resources/data /usr/share/deployment/data/s3example
 
 # Classpath-jars for configured deployments
 COPY target/example /usr/share/deployment/classpath-jars/example
-COPY target/s3 /usr/share/deployment/classpath-jars/s3
+COPY target/s3example /usr/share/deployment/classpath-jars/s3example
 
 # Make everything readable
 RUN chmod ugo+r -R /usr/share/deployment
