@@ -28,9 +28,6 @@ global:
   # Sets up some mount points in services for example data
   deployment: example
 
-  # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
-  repository: "gchq/palisade-"
-
   env:
     example:
     - name: "SPRING_PROFILES_ACTIVE"
@@ -62,6 +59,9 @@ global:
         implementation: s3
       data:
         implementation: s3
+
+  # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
+  repository: "gchq/palisade-"
 
   # persistent-volume and associated claims configurations
   persistence:

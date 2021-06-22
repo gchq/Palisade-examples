@@ -74,11 +74,6 @@
             <artifactId>client-akka</artifactId>
             <version>0.5.0-${clients.revision}</version>
         </dependency>
-        <!-- Logging Dependency -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
         <!-- Spring Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -75,8 +75,7 @@ public class RunAction implements Runnable {
      * @throws RuntimeException if an error occurred
      */
     public void run() {
-        URI directoryUri = URI.create(directoryName);
-        Path directory = Path.of(directoryUri);
+        Path directory = PerfUtils.getDirectory(directoryName);
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
 
         // create the output collector

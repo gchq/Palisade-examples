@@ -14,7 +14,7 @@
 #
 
 performance:
-  directory: "file:../Palisade-examples/resources/data/"
+  directory: "../Palisade-examples/resources/data/"
 
 web:
   client:
