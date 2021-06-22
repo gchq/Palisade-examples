@@ -16,7 +16,7 @@
 # Examples
 
 The example demonstrates different users querying an avro file over a REST api. 
-These examples are run in 3 different scenarios as described in the [deployment-k8s](deployment-k8s) and [deployment-jvm](deployment-jvm) modules:
+These examples are run in 3 different scenarios as described in the [Deployment-K8s](deployment-k8s) and [Deployment-JVM](deployment-jvm) modules:
 - [local-jvm](./deployment-jvm/local-jvm/README.md)
 - [local-k8s](./deployment-k8s/local-k8s/README.md)
 - [aws-k8s](./deployment-k8s/aws-k8s/README.md)
@@ -25,7 +25,7 @@ The rest of the modules contain all the necessary classes and objects required f
 
 The Palisade-examples repository contains all the example specific modules as follows:
 
-### [Deployment-k8s](deployment-k8s)
+### [Deployment-K8s](deployment-k8s)
 Contains the deployment specific code and scripts for running the example within a Kubernetes environment. 
 Current deployment targets are:
 * [AWS Docker/Kubernetes Containers](./deployment-k8s/aws-k8s/README.md)
