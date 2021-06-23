@@ -32,6 +32,7 @@ import java.util.Set;
  * A specific {@link Rule} implementation for specific {@link Employee} fields
  */
 public class RecordMaskingRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor

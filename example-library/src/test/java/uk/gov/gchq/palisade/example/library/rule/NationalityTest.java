@@ -26,6 +26,7 @@ import uk.gov.gchq.palisade.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 import uk.gov.gchq.syntheticdatagenerator.types.Nationality;
 
+import java.util.Collections;
 import java.util.Random;
 
 import static org.junit.Assert.assertNotNull;
@@ -33,8 +34,8 @@ import static org.junit.Assert.assertNull;
 
 public class NationalityTest {
 
-    private static final User TEST_USER_NOT_HR = new User().roles("Not HR"); // Role not in HR
-    private static final User TEST_USER_HR = new User().roles(Role.HR.name()); // Role is HR
+    private static final User TEST_USER_NOT_HR = new User().roles(Collections.singleton("Not HR")); // Role not in HR
+    private static final User TEST_USER_HR = new User().roles(Collections.singleton(Role.HR.name())); // Role is HR
     private static final NationalityRule NATIONALITY_RULE = new NationalityRule();
     private static final Context STAFF_REPORT_CONTEXT = new Context().purpose(Purpose.STAFF_REPORT.name());
     private static final Context NOT_STAFF_REPORT_CONTEXT = new Context().purpose("Not Staff Report");

@@ -31,6 +31,8 @@ import java.util.Set;
  */
 public class FirstResourceRule implements Rule<Resource> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Default constructor
      */

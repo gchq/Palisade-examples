@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import uk.gov.gchq.palisade.user.User;
 
 import java.io.IOException;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +32,11 @@ class ExampleUserTest {
     @Test
     void testShouldDeserialiseExampleUser() throws IOException {
         // Given
-        User user = new ExampleUser().trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE).userId("bob").roles(Role.HR.name(), "another_role").auths("authorised_person", "more_authorisations");
+        User user = new ExampleUser()
+                .trainingCompleted(Set.of(TrainingCourse.PAYROLL_TRAINING_COURSE))
+                .userId("bob")
+                .roles(Set.of(Role.HR.name(), "another_role"))
+                .auths(Set.of("authorised_person", "more_authorisations"));
 
         // When
         byte[] bytesSerialised = MAPPER.writeValueAsBytes(user);

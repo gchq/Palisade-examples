@@ -28,6 +28,7 @@ import uk.gov.gchq.palisade.user.User;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Random;
+import java.util.Set;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -35,14 +36,14 @@ import static org.junit.Assert.assertNull;
 public class BankDetailsTest {
 
     private static final User HR_USER_WITHOUT_PAYROLL = new ExampleUser()
-            .roles(Role.HR.name())
+            .roles(Set.of(Role.HR.name()))
             .userId("UserId");
     private static final User HR_USER_WITH_PAYROLL = new ExampleUser()
-            .trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE)
-            .roles(Role.HR.name())
+            .trainingCompleted(Set.of(TrainingCourse.PAYROLL_TRAINING_COURSE))
+            .roles(Set.of(Role.HR.name()))
             .userId("UserId");
     private static final User USER_WITH_PAYROLL = new User()
-            .roles(Role.HR.name())
+            .roles(Set.of(Role.HR.name()))
             .userId("UserId");
     private static final BankDetailsRule BANK_DETAILS_RULE = new BankDetailsRule();
     private static final Context SALARY_CONTEXT = new Context().purpose(Purpose.SALARY.name());

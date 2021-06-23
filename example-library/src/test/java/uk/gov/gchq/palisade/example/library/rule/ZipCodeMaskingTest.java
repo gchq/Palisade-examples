@@ -26,6 +26,7 @@ import uk.gov.gchq.palisade.user.User;
 import uk.gov.gchq.palisade.user.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
+import java.util.Collections;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
@@ -35,9 +36,9 @@ import static org.junit.Assert.assertNull;
 
 public class ZipCodeMaskingTest {
     private static final UserId TEST_USERID = new UserId().id("an id");
-    private static final User TEST_USER_NOT_ESTATES_OR_HR = new User().roles("Not Estates").userId(TEST_USERID); // Role not in Estates or HR
-    private static final User TEST_USER_ESTATES = new User().roles(Role.ESTATES.name()).userId(TEST_USERID); // Role is Estates
-    private static final User TEST_USER_HR = new User().roles(Role.HR.name()).userId(TEST_USERID); // Role is HR
+    private static final User TEST_USER_NOT_ESTATES_OR_HR = new User().roles(Collections.singleton("Not Estates")).userId(TEST_USERID); // Role not in Estates or HR
+    private static final User TEST_USER_ESTATES = new User().roles(Collections.singleton(Role.ESTATES.name())).userId(TEST_USERID); // Role is Estates
+    private static final User TEST_USER_HR = new User().roles(Collections.singleton(Role.HR.name())).userId(TEST_USERID); // Role is HR
     private static final ZipCodeMaskingRule ZIP_CODE_MASKING_RULE = new ZipCodeMaskingRule();
     private static final Context STAFF_REPORT_CONTEXT = new Context().purpose(Purpose.STAFF_REPORT.name());
 

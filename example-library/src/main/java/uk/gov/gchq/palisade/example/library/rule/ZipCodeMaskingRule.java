@@ -35,6 +35,7 @@ import java.util.Set;
  * A specific {@link Rule} implementation for the {@link Employee} address fields
  */
 public class ZipCodeMaskingRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor

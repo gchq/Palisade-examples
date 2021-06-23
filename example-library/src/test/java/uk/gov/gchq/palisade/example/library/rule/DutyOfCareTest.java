@@ -26,6 +26,7 @@ import uk.gov.gchq.palisade.user.User;
 import uk.gov.gchq.palisade.user.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
+import java.util.Collections;
 import java.util.Random;
 
 import static org.junit.Assert.assertNotNull;
@@ -33,11 +34,11 @@ import static org.junit.Assert.assertNull;
 
 public class DutyOfCareTest {
 
-    private static final User FIRST_MANAGER = new User().userId(new UserId().id("1962720332")).roles("Not HR"); // Start of chain and not in HR
-    private static final User MIDDLE_MANAGER = new User().userId(new UserId().id("1816031731")).roles("Not HR"); // Middle of chain and not HR
-    private static final User END_MANAGER = new User().userId(new UserId().id("1501105288")).roles("Not HR"); // End of chain and not HR
-    private static final User HR_USER = new User().userId(new UserId().id("1")).roles(Role.HR.name()); // Not in chain and HR
-    private static final User NON_HR_USER = new User().userId(new UserId().id("1")).roles("Not HR"); // Not in chain and not HR
+    private static final User FIRST_MANAGER = new User().userId(new UserId().id("1962720332")).roles(Collections.singleton("Not HR")); // Start of chain and not in HR
+    private static final User MIDDLE_MANAGER = new User().userId(new UserId().id("1816031731")).roles(Collections.singleton("Not HR")); // Middle of chain and not HR
+    private static final User END_MANAGER = new User().userId(new UserId().id("1501105288")).roles(Collections.singleton("Not HR")); // End of chain and not HR
+    private static final User HR_USER = new User().userId(new UserId().id("1")).roles(Collections.singleton(Role.HR.name())); // Not in chain and HR
+    private static final User NON_HR_USER = new User().userId(new UserId().id("1")).roles(Collections.singleton("Not HR")); // Not in chain and not HR
     private static final DutyOfCareRule DUTY_OF_CARE_RULE = new DutyOfCareRule();
     private static final Context DUTY_OF_CARE_CONTEXT = new Context().purpose(Purpose.DUTY_OF_CARE.name());
     private static final Context NOT_DUTY_OF_CARE_CONTEXT = new Context().purpose("Not Duty of Care");

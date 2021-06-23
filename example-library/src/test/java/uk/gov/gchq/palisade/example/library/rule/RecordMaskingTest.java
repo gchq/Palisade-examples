@@ -25,6 +25,7 @@ import uk.gov.gchq.palisade.user.User;
 import uk.gov.gchq.palisade.user.UserId;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
+import java.util.Collections;
 import java.util.Random;
 
 import static org.junit.Assert.assertNotNull;
@@ -32,12 +33,12 @@ import static org.junit.Assert.assertNull;
 
 public class RecordMaskingTest {
 
-    private static final User FIRST_MANAGER = new User().userId(new UserId().id("1962720332")).roles("Not HR"); // Start of chain and not in HR or Estates
-    private static final User MIDDLE_MANAGER = new User().userId(new UserId().id("1816031731")).roles("Not HR"); // Middle of chain and not HR or Estates
-    private static final User END_MANAGER = new User().userId(new UserId().id("1501105288")).roles("Not HR"); // End of chain and not HR or Estates
-    private static final User HR_USER = new User().userId(new UserId().id("1")).roles(Role.HR.name()); // Not in chain and has HR role
-    private static final User ESTATES_USER = new User().userId(new UserId().id("1")).roles(Role.HR.name()); // Not in chain and has Estates role
-    private static final User NON_HR_NON_ESTATES_USER = new User().userId(new UserId().id("1")).roles("Not HR"); // Not in chain and not HR or Estates
+    private static final User FIRST_MANAGER = new User().userId(new UserId().id("1962720332")).roles(Collections.singleton("Not HR")); // Start of chain and not in HR or Estates
+    private static final User MIDDLE_MANAGER = new User().userId(new UserId().id("1816031731")).roles(Collections.singleton("Not HR")); // Middle of chain and not HR or Estates
+    private static final User END_MANAGER = new User().userId(new UserId().id("1501105288")).roles(Collections.singleton("Not HR")); // End of chain and not HR or Estates
+    private static final User HR_USER = new User().userId(new UserId().id("1")).roles(Collections.singleton(Role.HR.name())); // Not in chain and has HR role
+    private static final User ESTATES_USER = new User().userId(new UserId().id("1")).roles(Collections.singleton(Role.HR.name())); // Not in chain and has Estates role
+    private static final User NON_HR_NON_ESTATES_USER = new User().userId(new UserId().id("1")).roles(Collections.singleton("Not HR")); // Not in chain and not HR or Estates
     private static final Context TEST_CONTEXT = new Context().purpose("A purpose");
     private static final RecordMaskingRule RECORD_MASKING_RULE = new RecordMaskingRule();
 

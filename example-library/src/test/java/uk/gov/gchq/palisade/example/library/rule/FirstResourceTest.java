@@ -24,13 +24,15 @@ import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
 import uk.gov.gchq.palisade.user.User;
 
+import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class FirstResourceTest {
 
-    private static final User TEST_USER_HR = new User().userId("1").roles(Role.HR.name());
-    private static final User TEST_USER_NOT_HR = new User().userId("1").roles("Not HR");
+    private static final User TEST_USER_HR = new User().userId("1").roles(Collections.singleton(Role.HR.name()));
+    private static final User TEST_USER_NOT_HR = new User().userId("1").roles(Collections.singleton("Not HR"));
     private static final Context TEST_CONTEXT = new Context().purpose("purpose");
     private static final FileResource TEST_RESOURCE = new FileResource();
     private static final String FILE_ID_1 = "file1.avro";
