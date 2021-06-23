@@ -48,7 +48,7 @@ spec:
           - {{ include "palisade.namespace" . | quote }}
           - {{ .Values.global.deployment }}
           - {{ include "deployment.deployment.path" . | quote }}
-          - "/data/local-data-store/"
+          - "/data/local-data-store/data/"
         volumeMounts:
         - name: {{ include "deployment.classpathJars.name" . }}
           mountPath: {{ include "deployment.classpathJars.mount" . }}

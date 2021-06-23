@@ -15,11 +15,25 @@
 
 NAMESPACE=$1
 
+cd deployment
+
 if [ -z "$NAMESPACE" ]
 then
-  # If the user doesnt pass in a namespace
-  kubectl exec "$(kubectl get pods | awk '/performance/ {print $1}')" -- bash -c "cd /usr/share/performance && bash ./runK8sPerformanceTest.sh"
+    echo "Delete all the resources in the default namespace"
+    # Delete the existing helm deployment
+    helm delete palisade
+
+    # Delete all the resources
+    kubectl delete jobs --all
+    kubectl delete pvc $(kubectl get pvc | awk '/palisade/ {print $1}')
+    kubectl delete pv $(kubectl get pv | awk '/palisade/ {print $1}')
 else
-  # If the user passes in a namespace, use the namespace in the kubectl command
-  kubectl exec "$(kubectl get pods --namespace="$NAMESPACE" | awk '/performance/ {print $1}')" --namespace="$NAMESPACE" -- bash -c "cd /usr/share/performance && bash ./runK8sPerformanceTest.sh"
+    echo "Delete all the resources in the $NAMESPACE namespace"
+    # Delete the existing helm deployment
+    helm delete palisade
+
+    # Delete all the resources in the namespace
+    kubectl delete namespace $NAMESPACE
+    kubectl delete pv -n $NAMESPACE --all
+
 fi
