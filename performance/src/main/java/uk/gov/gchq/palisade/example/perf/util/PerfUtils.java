@@ -16,6 +16,9 @@
 
 package uk.gov.gchq.palisade.example.perf.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
 import java.net.URI;
@@ -27,6 +30,7 @@ import java.util.Map;
  * Utility methods for the performance tests.
  */
 public class PerfUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PerfUtils.class);
     public static final String WITH_POLICY_DIR = "with-policy";
     public static final String NO_POLICY_DIR = "no-policy";
     public static final String SMALL_FILE_NAME = "employee_small.avro";
@@ -66,7 +70,9 @@ public class PerfUtils {
             URI directoryUri = URI.create(directoryName);
             return Path.of(directoryUri);
         } catch (IllegalArgumentException ex) {
-            URI directoryUri = Path.of(System.getProperty("user.dir") + "/" + directoryName)
+            String userDir = System.getProperty("user.dir") + "/";
+            LOGGER.debug("Caught {}, suspect {} is a relative-path so trying with user.dir '{}' property ", ex.getClass(), directoryName, userDir);
+            URI directoryUri = Path.of(userDir + directoryName)
                     .toUri().normalize();
             return Path.of(directoryUri);
         }
