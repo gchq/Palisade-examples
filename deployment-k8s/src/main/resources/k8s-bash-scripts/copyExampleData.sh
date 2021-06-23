@@ -52,6 +52,7 @@ ls -R "$CLASSPATH"
 # Copy example AVRO data that will be read by the data-service
 # The location of these is dependant on the resource-service pre-population values
 echo "Preserving previous run data-files for $DATASTORE"
+mkdir -pv "$DATASTORE"
 ls -R "$DATASTORE"
 cp -vrf /usr/share/deployment-k8s/data/"$DEPLOYMENT"/* "$DATASTORE"
 echo "Copied all data-files to $DATASTORE"

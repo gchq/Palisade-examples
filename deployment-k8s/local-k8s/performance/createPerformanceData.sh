@@ -13,11 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cd deployment-k8s || exit
+NAMESPACE=$1
 
-helm dep up
-
-helm upgrade --install --wait palisade . \
---set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
---set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
---set global.deployment=performance-test
+if [ -z "$NAMESPACE" ]
+then
+  # If the user doesnt pass in a namespace
+  kubectl exec "$(kubectl get pods | awk '/performance/ {print $1}')" -- bash -c "cd /usr/share/performance && bash ./createPerformanceData.sh"
+else
+  # If the user passes in a namespace, use the namespace in the kubectl command
+  kubectl exec "$(kubectl get pods --namespace="$NAMESPACE" | awk '/performance/ {print $1}')" --namespace="$NAMESPACE" -- bash -c "cd /usr/share/performance && bash ./createPerformanceData.sh"
+fi

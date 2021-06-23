@@ -13,11 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo "Delete all the resources in the default namespace"
-# Delete the existing helm deployment
-helm delete palisade
+NAMESPACE=$1
 
-# Delete all the resources
-kubectl delete jobs --all
-kubectl delete pvc $(kubectl get pvc | awk '/palisade/ {print $1}')
-kubectl delete pv $(kubectl get pv | awk '/palisade/ {print $1}')
+cd deployment
+
+if [ -z "$NAMESPACE" ]
+then
+    echo "Delete all the resources in the default namespace"
+    # Delete the existing helm deployment
+    helm delete palisade
+
+    # Delete all the resources
+    kubectl delete jobs --all
+    kubectl delete pvc $(kubectl get pvc | awk '/palisade/ {print $1}')
+    kubectl delete pv $(kubectl get pv | awk '/palisade/ {print $1}')
+else
+    echo "Delete all the resources in the $NAMESPACE namespace"
+    # Delete the existing helm deployment
+    helm delete palisade
+
+    # Delete all the resources in the namespace
+    kubectl delete namespace $NAMESPACE
+    kubectl delete pv -n $NAMESPACE --all
+
+fi
