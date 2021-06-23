@@ -61,18 +61,22 @@ public class RecordMaskingRule implements Rule<Employee> {
         Objects.requireNonNull(user);
         Objects.requireNonNull(context);
         Set<String> roles = user.getRoles();
-        UserId userId = user.getUserId();
-        Manager[] managers = record.getManager();
 
         if (roles.contains(Role.HR.name())) {
             return record;
         }
+
+        UserId userId = user.getUserId();
+        Manager[] managers = record.getManager();
+
         if (EmployeeUtils.isManager(managers, userId)) {
             return record;
         }
+
         if (roles.contains(Role.ESTATES.name())) {
             return estatesRedactRecord(record);
         }
+        
         return null;
     }
 }
