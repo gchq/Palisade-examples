@@ -58,9 +58,9 @@ public class ApplicationConfiguration {
     @Bean
     AkkaClient client(final @Value("${web.client.palisade-service}") String palisadeService,
                       final @Value("${web.client.filtered-resource-service}") String filteredResourceService,
-                      final @Value("${web.client}") Map<String, String> urlMap,
+                      final @Value("${web.client.data-service}") String dataService,
                       final ActorSystem actorSystem) {
-        return new AkkaClient(palisadeService, filteredResourceService, urlMap, actorSystem, SSLMode.NONE);
+        return new AkkaClient(palisadeService, filteredResourceService, Map.of("data-service", dataService), actorSystem, SSLMode.NONE);
     }
 
     @Bean
