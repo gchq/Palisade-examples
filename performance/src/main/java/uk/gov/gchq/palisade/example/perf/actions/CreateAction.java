@@ -169,7 +169,7 @@ public class CreateAction implements Runnable {
      */
     public void run() {
         // get the sizes and paths
-        Path directory = Path.of(directoryName);
+        Path directory = PerfUtils.getDirectory(directoryName);
         Path withPolicy = PerfUtils.getWithPolicyDir(directory);
         Path noPolicy = PerfUtils.getNoPolicyDir(directory);
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);

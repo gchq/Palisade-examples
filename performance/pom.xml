@@ -68,21 +68,22 @@
             <groupId>uk.gov.gchq.data-gen</groupId>
             <artifactId>synthetic-data-generator</artifactId>
             <version>${synthetic.data.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>client-akka</artifactId>
             <version>0.5.0-${clients.revision}</version>
         </dependency>
-        <!-- Logging Dependency -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
         <!-- Spring Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 
