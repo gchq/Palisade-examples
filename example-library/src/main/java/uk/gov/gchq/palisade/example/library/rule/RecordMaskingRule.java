@@ -76,7 +76,7 @@ public class RecordMaskingRule implements Rule<Employee> {
         if (roles.contains(Role.ESTATES.name())) {
             return estatesRedactRecord(record);
         }
-        
+
         return null;
     }
 }
