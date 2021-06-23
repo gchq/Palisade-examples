@@ -41,6 +41,7 @@ public class ExampleUser extends User {
      * @param user the user used to create the {@link ExampleUser}
      */
     public ExampleUser(final User user) {
+
         setUserId(user.getUserId());
         setAuths(user.getAuths());
         setRoles(user.getRoles());

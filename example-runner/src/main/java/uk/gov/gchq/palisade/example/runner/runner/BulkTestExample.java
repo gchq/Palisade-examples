@@ -202,7 +202,7 @@ public final class BulkTestExample implements CommandLineRunner {
      * @param args command-line arguments
      * @throws IOException for any file system error
      */
-    public void run(final String... args) throws IOException {
+    public void run(final String[] args) throws IOException {
         // Ensure we clean up if a SIGTERM occurs
         configureShutdownHook(configuration.isShouldDelete(), configuration.getDirectory());
 

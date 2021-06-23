@@ -16,8 +16,8 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
@@ -29,10 +29,9 @@ import uk.gov.gchq.syntheticdatagenerator.types.Nationality;
 import java.util.Collections;
 import java.util.Random;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class NationalityTest {
+class NationalityTest {
 
     private static final User TEST_USER_NOT_HR = new User().roles(Collections.singleton("Not HR")); // Role not in HR
     private static final User TEST_USER_HR = new User().roles(Collections.singleton(Role.HR.name())); // Role is HR
@@ -42,13 +41,13 @@ public class NationalityTest {
 
     private Employee testEmployee;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         testEmployee = Employee.generate(new Random(1));
     }
 
     @Test
-    public void shouldNotRedactForHRAndStaffReport() {
+    void shouldNotRedactForHRAndStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
@@ -56,39 +55,47 @@ public class NationalityTest {
         Nationality actualNationality = actual.getNationality();
 
         // Then
-        assertNotNull("Should not redact nationality for hr role and staff report purpose", actualNationality);
+        assertThat(actualNationality)
+                .as("Should not redact nationality for hr role and staff report purpose")
+                .isNotNull();
     }
 
     @Test
-    public void shouldRedactForHRAndNotStaffReport() {
+    void shouldRedactForHRAndNotStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
         Employee actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_HR, NOT_STAFF_REPORT_CONTEXT);
 
         // Then
-        assertNull("Should redact nationality for hr role without staff report purpose", actual.getNationality());
+        assertThat(actual.getNationality())
+                .as("Should redact nationality for hr role without staff report purpose")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactForNotHRAndStaffReport() {
+    void shouldRedactForNotHRAndStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
         Employee actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_NOT_HR, STAFF_REPORT_CONTEXT);
 
         // Then
-        assertNull("Should redact nationality for staff report purpose without hr role", actual.getNationality());
+        assertThat(actual.getNationality())
+                .as("Should redact nationality for staff report purpose without hr role")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactForNotHRAndNotStaffReport() {
+    void shouldRedactForNotHRAndNotStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
         Employee actual = NATIONALITY_RULE.apply(testEmployee, TEST_USER_NOT_HR, NOT_STAFF_REPORT_CONTEXT);
 
         // Then
-        assertNull("Should redact nationality without staff report purpose and without hr role", actual.getNationality());
+        assertThat(actual.getNationality())
+                .as("Should redact nationality without staff report purpose and without hr role")
+                .isNull();
     }
 }

@@ -16,8 +16,8 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.example.library.common.ExampleUser;
@@ -30,10 +30,9 @@ import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 import java.util.Random;
 import java.util.Set;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class BankDetailsTest {
+class BankDetailsTest {
 
     private static final User HR_USER_WITHOUT_PAYROLL = new ExampleUser()
             .roles(Set.of(Role.HR.name()))
@@ -51,53 +50,60 @@ public class BankDetailsTest {
 
     private Employee testEmployee;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         testEmployee = Employee.generate(new Random(1));
     }
 
     @Test
-    public void shouldNotRedactForPayrollAndSalary() {
+    void shouldNotRedactForPayrollAndSalary() {
         // Given - Employee, Role, Reason
 
         // When
         Employee actual = BANK_DETAILS_RULE.apply(testEmployee, HR_USER_WITH_PAYROLL, SALARY_CONTEXT);
 
         // Then
-        assertNotNull("Bank details should not be redacted with HR role, payroll training course and salary purpose", actual.getBankDetails());
+        assertThat(actual.getBankDetails())
+                .as("Bank details should not be redacted with HR role, payroll training course and salary purpose")
+                .isNotNull();
     }
 
     @Test
-    public void shouldRedactIfNotSalaryPurpose() {
+    void shouldRedactIfNotSalaryPurpose() {
         // Given - Employee, Role, Reason
 
         // When
         Employee actual = BANK_DETAILS_RULE.apply(testEmployee, HR_USER_WITH_PAYROLL, NOT_SALARY_CONTEXT);
 
         // Then
-        assertNull("Bank details should be redacted without salary purpose", actual.getBankDetails());
+        assertThat(actual.getBankDetails())
+                .as("Bank details should be redacted without salary purpose")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactIfNotPayrollTrained() {
+    void shouldRedactIfNotPayrollTrained() {
         // Given - Employee, Role, Reason
 
         // When
         Employee actual = BANK_DETAILS_RULE.apply(testEmployee, HR_USER_WITHOUT_PAYROLL, SALARY_CONTEXT);
 
         // Then
-        assertNull("Bank details should be redacted without payroll training course", actual.getBankDetails());
+        assertThat(actual.getBankDetails())
+                .as("Bank details should be redacted without payroll training course")
+                .isNull();
     }
 
     @Test
-    public void shouldRedactIfNotHRRole() {
+    void shouldRedactIfNotHRRole() {
         // Given - Employee, Role, Reason
 
         // When
         Employee actual = BANK_DETAILS_RULE.apply(testEmployee, USER_WITH_PAYROLL, NOT_SALARY_CONTEXT);
 
         // Then
-        assertNull("Bank details should be redacted without HR role", actual.getBankDetails());
+        assertThat(actual.getBankDetails())
+                .as("Bank details should be redacted without HR role")
+                .isNull();
     }
-
 }
