@@ -68,7 +68,7 @@ public class FirstResourceRule implements Rule<Resource> {
         }
     }
 
-    private String removeFileExtension(final String fileId) {
+    private static String removeFileExtension(final String fileId) {
         return fileId.substring(0, fileId.lastIndexOf('.'));
     }
 

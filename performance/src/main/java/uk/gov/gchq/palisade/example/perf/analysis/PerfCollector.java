@@ -98,16 +98,14 @@ public class PerfCollector {
 
         // compute mean and standard deviation
         double total = 0;
-        for (double seconds : resultList) {
-            total += seconds;
-        }
-        stats.setMean(total / stats.getNumTrials());
         // std.dev. requires mean computing first
         double totalDiff = 0;
         for (double seconds : resultList) {
             double difFromMean = seconds - stats.getMean();
+            total += seconds;
             totalDiff += (difFromMean * difFromMean);
         }
+        stats.setMean(total / stats.getNumTrials());
         stats.setStdDev(Math.sqrt(totalDiff / stats.getNumTrials()));
 
         // compute percentiles

@@ -41,7 +41,7 @@ public class RecordMaskingRule implements Rule<Employee> {
         // no-args constructor
     }
 
-    private Employee estatesRedactRecord(final Employee maskedRecord) {
+    private static Employee estatesRedactRecord(final Employee maskedRecord) {
         maskedRecord.setDateOfBirth(null);
         maskedRecord.setManager(null);
         maskedRecord.setHireDate(null);
@@ -60,9 +60,9 @@ public class RecordMaskingRule implements Rule<Employee> {
     public Employee apply(final Employee record, final User user, final Context context) {
         Objects.requireNonNull(user);
         Objects.requireNonNull(context);
+        Set<String> roles = user.getRoles();
         UserId userId = user.getUserId();
         Manager[] managers = record.getManager();
-        Set<String> roles = user.getRoles();
 
         if (roles.contains(Role.HR.name())) {
             return record;

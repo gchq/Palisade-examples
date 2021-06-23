@@ -43,7 +43,7 @@ public class DutyOfCareRule implements Rule<Employee> {
         // no-args constructor
     }
 
-    private Employee redactRecord(final Employee redactedRecord) {
+    private static Employee redactRecord(final Employee redactedRecord) {
         redactedRecord.setContactNumbers(null);
         redactedRecord.setEmergencyContacts(null);
         redactedRecord.setSex(null);

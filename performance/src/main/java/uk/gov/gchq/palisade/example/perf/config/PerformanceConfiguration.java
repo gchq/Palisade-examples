@@ -125,13 +125,13 @@ public class PerformanceConfiguration {
 
     @Generated
     public List<String> getSkipTests() {
-        return skipTests;
+        return List.copyOf(skipTests);
     }
 
     @Generated
     public void setSkipTests(final List<String> skipTests) {
         requireNonNull(skipTests);
-        this.skipTests = skipTests;
+        this.skipTests = List.copyOf(skipTests);
     }
 
     @Generated

@@ -94,7 +94,6 @@ public final class BulkTestExample implements CommandLineRunner {
     private static void removeBulkData(final String directory) throws IOException {
         if (HAS_DESTRUCTION_OCCURRED.compareAndSet(false, true)) {
             Path dir = Paths.get(directory);
-            Path newLocation = generateNewDirectoryName(dir);
 
             //remove existing files
             try (Stream<Path> paths = Files.list(dir)) {
@@ -107,6 +106,7 @@ public final class BulkTestExample implements CommandLineRunner {
                 });
             }
 
+            Path newLocation = generateNewDirectoryName(dir);
             //remove original
             Files.deleteIfExists(dir);
             LOGGER.info("Deleted {}", dir);
@@ -126,10 +126,12 @@ public final class BulkTestExample implements CommandLineRunner {
      */
     private void createBulkData() throws IOException {
         Path dir = Paths.get(configuration.getDirectory());
-        Path newLocation = generateNewDirectoryName(dir);
+
         if (Files.exists(dir) && !Files.isDirectory(dir)) {
             throw new IllegalArgumentException(configuration.getDirectory() + " is not a directory");
         }
+
+        Path newLocation = generateNewDirectoryName(dir);
         moveDataDir(dir, newLocation);
 
         //call the HR Data generator

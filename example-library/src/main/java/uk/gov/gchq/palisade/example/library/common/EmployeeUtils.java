@@ -44,16 +44,11 @@ public final class EmployeeUtils {
         }
 
         for (Manager manager : managers) {
-            if (manager.getUid().equals(userId.getId())) {
+            if (manager.getUid().equals(userId.getId()) || isManager(manager.getManager(), userId)) {
                 return true;
             }
         }
 
-        for (Manager manager : managers) {
-            if (isManager(manager.getManager(), userId)) {
-                return true;
-            }
-        }
         return false;
     }
 }

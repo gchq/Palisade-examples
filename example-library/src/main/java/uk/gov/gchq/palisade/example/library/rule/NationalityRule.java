@@ -40,7 +40,7 @@ public class NationalityRule implements Rule<Employee> {
         // no-args constructor
     }
 
-    private Employee redactRecord(final Employee redactedRecord) {
+    private static Employee redactRecord(final Employee redactedRecord) {
         redactedRecord.setNationality(null);
         return redactedRecord;
     }

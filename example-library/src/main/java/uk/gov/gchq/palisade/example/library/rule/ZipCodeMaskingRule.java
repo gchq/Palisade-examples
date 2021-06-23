@@ -44,7 +44,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         // no-args constructor
     }
 
-    private Employee maskAddress(final Employee maskedRecord) {
+    private static Employee maskAddress(final Employee maskedRecord) {
         Address address = maskedRecord.getAddress();
         WorkLocation location = maskedRecord.getWorkLocation();
         Address workAddress = location.getAddress();
@@ -62,7 +62,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         return maskedRecord;
     }
 
-    private Employee redactAddress(final Employee maskedRecord) {
+    private static Employee redactAddress(final Employee maskedRecord) {
         maskedRecord.setAddress(null);
         return maskedRecord;
     }
