@@ -39,7 +39,7 @@ class FirstResourceTest {
     private static final FirstResourceRule RESOURCE_RULE = new FirstResourceRule();
 
     @Test
-    void hrGetFirstFile() {
+    void testHrGetFirstFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_1);
 
@@ -53,7 +53,7 @@ class FirstResourceTest {
     }
 
     @Test
-    void nonHrGetFirstFile() {
+    void testNonHrGetFirstFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_1);
 
@@ -67,7 +67,7 @@ class FirstResourceTest {
     }
 
     @Test
-    void hrGetSecondFile() {
+    void testHrGetSecondFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_2);
 
@@ -81,7 +81,7 @@ class FirstResourceTest {
     }
 
     @Test
-    void nonHrGetSecondFile() {
+    void testNonHrGetSecondFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_2);
 

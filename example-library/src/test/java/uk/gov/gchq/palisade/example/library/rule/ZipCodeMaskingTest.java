@@ -48,7 +48,7 @@ class ZipCodeMaskingTest {
     }
 
     @Test
-    void shouldNotRedactOrMaskForHR() {
+    void testShouldNotRedactOrMaskForHR() {
         // Given - Employee, Role, Reason
         String originalZipCode = testEmployee.getAddress().getZipCode();
 
@@ -73,7 +73,7 @@ class ZipCodeMaskingTest {
     }
 
     @Test
-    void shouldMaskZipCodeForEstates() {
+    void testShouldMaskZipCodeForEstates() {
         // Given - Employee, Role, Reason
         String originalZipCode = testEmployee.getAddress().getZipCode();
 
@@ -102,7 +102,7 @@ class ZipCodeMaskingTest {
     }
 
     @Test
-    void shouldRedactForNotEstatesAndNotHR() {
+    void testShouldRedactForNotEstatesAndNotHR() {
         // Given - Employee, Role, Reason
 
         // When

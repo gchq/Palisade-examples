@@ -47,7 +47,7 @@ class NationalityTest {
     }
 
     @Test
-    void shouldNotRedactForHRAndStaffReport() {
+    void testShouldNotRedactForHRAndStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
@@ -61,7 +61,7 @@ class NationalityTest {
     }
 
     @Test
-    void shouldRedactForHRAndNotStaffReport() {
+    void testShouldRedactForHRAndNotStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
@@ -74,7 +74,7 @@ class NationalityTest {
     }
 
     @Test
-    void shouldRedactForNotHRAndStaffReport() {
+    void testShouldRedactForNotHRAndStaffReport() {
         // Given - Employee, Role, Reason
 
         // When
@@ -87,7 +87,7 @@ class NationalityTest {
     }
 
     @Test
-    void shouldRedactForNotHRAndNotStaffReport() {
+    void testShouldRedactForNotHRAndNotStaffReport() {
         // Given - Employee, Role, Reason
 
         // When

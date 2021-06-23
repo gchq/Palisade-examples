@@ -53,7 +53,7 @@ class DutyOfCareTest {
     }
 
     @Test
-    void shouldNotRedactForStartOfManagerInChain() {
+    void testShouldNotRedactForStartOfManagerInChain() {
         // Given - Employee, Role, Reason
 
         // When
@@ -72,7 +72,7 @@ class DutyOfCareTest {
     }
 
     @Test
-    void shouldNotRedactForMiddleManagerInChain() {
+    void testShouldNotRedactForMiddleManagerInChain() {
         // Given - Nothing
 
         // When
@@ -91,7 +91,7 @@ class DutyOfCareTest {
     }
 
     @Test
-    void shouldNotRedactForEndManagerInChain() {
+    void testShouldNotRedactForEndManagerInChain() {
         // Given - Nothing
 
         // When
@@ -110,7 +110,7 @@ class DutyOfCareTest {
     }
 
     @Test
-    void shouldNotRedactForHRAndDutyOfCare() {
+    void testShouldNotRedactForHRAndDutyOfCare() {
         // Given - Nothing
 
         // When
@@ -129,7 +129,7 @@ class DutyOfCareTest {
     }
 
     @Test
-    void shouldRedactForNotManagerAndNotHR() {
+    void testShouldRedactForNotManagerAndNotHR() {
         // Given - Nothing
 
         // When
@@ -148,7 +148,7 @@ class DutyOfCareTest {
     }
 
     @Test
-    void shouldRedactForEndManagerInChainNotDutyOfCare() {
+    void testShouldRedactForEndManagerInChainNotDutyOfCare() {
         // Given - Nothing
 
         // When
@@ -167,7 +167,7 @@ class DutyOfCareTest {
     }
 
     @Test
-    void shouldRedactForHRAndNotDutyOfCare() {
+    void testShouldRedactForHRAndNotDutyOfCare() {
         // Given - Nothing
 
         // When
@@ -186,7 +186,7 @@ class DutyOfCareTest {
     }
 
     @Test
-    void shouldRedactForNotManagerAndNotHRAndNotDutyOfCare() {
+    void testShouldRedactForNotManagerAndNotHRAndNotDutyOfCare() {
         // Given - Nothing
 
         // When

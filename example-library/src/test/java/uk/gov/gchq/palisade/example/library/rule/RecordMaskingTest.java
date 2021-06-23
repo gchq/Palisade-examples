@@ -52,7 +52,7 @@ class RecordMaskingTest {
     }
 
     @Test
-    void noRedactionForFirstLevelManager() {
+    void testNoRedactionForFirstLevelManager() {
         //Given - Employee, Role, Reason
 
         //When
@@ -65,7 +65,7 @@ class RecordMaskingTest {
     }
 
     @Test
-    void noRedactionForMidLevelManager() {
+    void testNoRedactionForMidLevelManager() {
         //Given - Employee, Role, Reason
 
         //When
@@ -78,7 +78,7 @@ class RecordMaskingTest {
     }
 
     @Test
-    void noRedactionForEndLevelManager() {
+    void testNoRedactionForEndLevelManager() {
         //Given - Employee, Role, Reason
 
         //When
@@ -91,7 +91,7 @@ class RecordMaskingTest {
     }
 
     @Test
-    void noRedactionForHrRole() {
+    void testNoRedactionForHrRole() {
         //Given - Employee, Role, Reason
 
         //When
@@ -104,7 +104,7 @@ class RecordMaskingTest {
     }
 
     @Test
-    void noRedactionForEstatesRole() {
+    void testNoRedactionForEstatesRole() {
         //Given - Employee, Role, Reason
 
         //When
@@ -117,7 +117,7 @@ class RecordMaskingTest {
     }
 
     @Test
-    void redactionForNonManagerUser() {
+    void testRedactionForNonManagerUser() {
         //Given - Employee, Role, Reason
 
         //When
