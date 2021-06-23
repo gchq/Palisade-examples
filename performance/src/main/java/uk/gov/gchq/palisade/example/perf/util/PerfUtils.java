@@ -71,7 +71,8 @@ public class PerfUtils {
             return Path.of(directoryUri);
         } catch (IllegalArgumentException ex) {
             String userDir = System.getProperty("user.dir") + "/";
-            LOGGER.debug("Caught {}, suspect {} is a relative-path so trying with user.dir '{}' property ", ex.getClass(), directoryName, userDir);
+            LOGGER.debug("Caught exception while creating URI", ex);
+            LOGGER.debug("Suspect {} is a relative-path so trying with user.dir '{}' property", directoryName, userDir);
             URI directoryUri = Path.of(userDir + directoryName)
                     .toUri().normalize();
             return Path.of(directoryUri);
