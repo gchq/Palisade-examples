@@ -44,6 +44,7 @@ import java.util.stream.Stream;
 public final class BulkTestExample implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(BulkTestExample.class);
     private static final Integer NUMBER_OF_EMPLOYEES = 10;
+    private static final int DIVIDER = 10;
 
     /**
      * Set by the destruct method to ensure this doesn't happen via a shutdown thread as well.
@@ -169,7 +170,7 @@ public final class BulkTestExample implements CommandLineRunner {
         for (int i = 1; i < numCopies; i++) {
             Path newFile = originalFile.resolveSibling("employee_file" + i + ".avro");
             Files.copy(originalFile, newFile);
-            if (i % 10 == 0) {
+            if (i % DIVIDER == 0) {
                 LOGGER.info("Wrote {}", newFile);
             }
         }

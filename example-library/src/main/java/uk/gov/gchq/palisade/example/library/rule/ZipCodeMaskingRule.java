@@ -86,11 +86,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         Set<String> roles = user.getRoles();
         String purpose = context.getPurpose();
 
-        if (roles.contains(Role.HR.name())) {
-            return record;
-        }
-
-        if (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
+        if (roles.contains(Role.HR.name()) || (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name()))) {
             return record;
         }
 

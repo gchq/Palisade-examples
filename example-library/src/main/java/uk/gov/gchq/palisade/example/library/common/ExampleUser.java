@@ -36,18 +36,6 @@ public class ExampleUser extends User {
     private final EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     /**
-     * Constructor using a {@link User}
-     *
-     * @param user the user used to create the {@link ExampleUser}
-     */
-    public ExampleUser(final User user) {
-
-        setUserId(user.getUserId());
-        setAuths(user.getAuths());
-        setRoles(user.getRoles());
-    }
-
-    /**
      * Default constructor
      */
     public ExampleUser() {
