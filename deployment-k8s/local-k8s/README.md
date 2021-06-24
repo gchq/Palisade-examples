@@ -36,27 +36,27 @@ Otherwise, follow the [local-jvm prerequisites](../../deployment-jvm/local-jvm/R
 
 
 ## Deployment Types
-On running `helm install`, there are a number of variables that can be set in the [values.yaml](values.yaml).
+On running `helm install`, there are a number of variables that can be set in the [values.yaml](../values.yaml).
 In particular, the `global.deployment` field controls what sort of services and configurations are deployed.
 
 ### `example` Deployment
 * Deploy a pair of `employee_fileN.avro` files to the Data Service.
-* Prepopulate the services' caching layers, or otherwise configure them, with users, resources and serialisers matching the data files, and policies.
+* Pre-populate the services' caching layers, or otherwise configure them, with users, resources and serialisers matching the data files, and policies.
 * Deploy an `example-runner` pod.
 
-These resources are requested by the smoketest (using the `example-runner` pod).
-Be aware that most data only exists in a cache and has a TTL - when this cache expires, the data will be gone until redeploying.
+These resources are requested by the smoke test (using the `example-runner` pod).
+Be aware that most data only exists in a cache and has a TTL - when this cache expires, the data will be gone until redeployed.
 
 ### `performance-test` Deployment
 * Deploy hundreds of `employee_fileN.avro` files to the Data Service.
-* Prepopulate the services' caching layers, or otherwise configure them, with users, resources matching the data files, and policies.
+* Pre-populate the services' caching layers, or otherwise configure them, with users, resources matching the data files, and policies.
 * Deploy a `performance` pod.
 
 The performance test measures the time to request and read resources in a synthetic scenario.
 
-### `s3` Deployment
+### `S3` Deployment
 * Deploy the [S3 Resource Service](https://github.com/gchq/Palisade-readers/tree/develop/s3-resource) and [S3 Data Reader](https://github.com/gchq/Palisade-readers/tree/develop/s3-reader) modules.
-* Prepopulate the services' caching layers, or otherwise configure them, with users, serialisers, and policies only.
+* Pre-populate the services' caching layers, or otherwise configure them, with users, serialisers, and policies only.
 
 This allows requesting and reading resources using an S3 URI, which follows the scheme `s3://bucketname/objectprefix`.
 
@@ -79,17 +79,17 @@ global:
 
 ## Running using the Bash Scripts
 
-Ensure Line Endings are correct for the environment you are using. If running on Windows, checked out in CRLF, be aware that Docker will be expecting LF endings in any scripts inside containers.
+Ensure line endings are correct for the environment you are using. If running on Windows, checked out in CRLF, be aware that Docker will be expecting LF endings in any scripts inside containers.
 
 Both the [example-runner](../../example-runner) and the [performance tests](../../performance) have two sets of scripts, one local set outside of the cluster ([here](./example-runner) and [here](./performance) respectively) and one set inside the containers ([here](../../example-runner/src/main/resources/k8s-bash-scripts) and [here](../../performance/src/main/resources/k8s-bash-scripts) respectively).
 The deployment steps can be automated using the provided local bash scripts, which are intended to be run from the [Palisade-examples](../..) root directory.
 These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner/src/main/resources/k8s-bash-scripts), which are intended to be run from the `/usr/share/example-runner` or `/usr/share/performance` directory inside the pod:
 
-### Rest Example ([example-runner](../../example-runner/README.md))
+### Local K8s Example ([example-runner](../../example-runner/README.md))
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
-     drwxrwxrwx deployment
+     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
@@ -98,11 +98,11 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 
 1. To deploy the example, use the `deployServicesToK8s.sh` script using either of the following commands:
    ```bash
-   bash deployment/local-k8s/example-runner/deployServicesToK8s.sh
+   bash deployment-k8s/local-k8s/example-runner/deployServicesToK8s.sh
    <or>
-   bash deployment/local-k8s/example-runner/deployServicesToK8s.sh {NAMESPACE}
+   bash deployment-k8s/local-k8s/example-runner/deployServicesToK8s.sh {NAMESPACE}
    ```
-   The 1st command will deploy all the Palisade resources to the Kubernetes default namespace, the 2nd command wil deploy the Palisade resources to the specified namespace.
+   The first command will deploy all the Palisade resources to the Kubernetes default namespace, the second command wil deploy the Palisade resources to the specified namespace.
    
    You can check the pods are available using either of the following commands:
    ```bash
@@ -113,36 +113,36 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    
 1. After the pods have started, you can run the example, either choosing formatted or unformatted by running the relevant bash script:
    ```bash
-   bash deployment/local-k8s/example-runner/runFormattedK8sExample.sh
+   bash deployment-k8s/local-k8s/example-runner/runFormattedK8sExample.sh
    <or>
-   bash deployment/local-k8s/example-runner/runK8sExample.sh
+   bash deployment-k8s/local-k8s/example-runner/runK8sExample.sh
    ```
-   If the example is deployed into a specific namespace then add the value to the end of the command:
+   If the example has been deployed to a specific namespace then add the value to the end of the command:
    ```bash
-   bash deployment/local-k8s/example-runner/runFormattedK8sExample.sh {NAMESPACE}
+   bash deployment-k8s/local-k8s/example-runner/runFormattedK8sExample.sh {NAMESPACE}
    <or>
-   bash deployment/local-k8s/example-runner/runK8sExample.sh {NAMESPACE}
+   bash deployment-k8s/local-k8s/example-runner/runK8sExample.sh {NAMESPACE}
    ```
    
-1. If you have run the Formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
+1. If you have run the formatted example, and want to verify that everything has run as expected, Palisade has a validation script:
     ```bash
-   bash deployment/local-k8s/example-runner/verify.sh
+   bash deployment-k8s/local-k8s/example-runner/verify.sh
    <or>
-   bash deployment/local-k8s/example-runner/verify.sh {NAMESPACE}
+   bash deployment-k8s/local-k8s/example-runner/verify.sh {NAMESPACE}
     ```
 
 1. To delete the example deployment use the `stopK8sServices.sh` script:
    ```bash
-   bash deployment/local-k8s/example-runner/stopK8sServices.sh
+   bash deployment-k8s/local-k8s/example-runner/stopK8sServices.sh
    <or>
-   bash deployment/local-k8s/example-runner/stopK8sServices.sh {NAMESPACE}
+   bash deployment-k8s/local-k8s/example-runner/stopK8sServices.sh {NAMESPACE}
    ```
 
 ### Performance Tests ([performance](../../performance/README.md))
-1. Make sure you are within the Palisade-examples directory:  
+1. Make sure you are running from the root Palisade-examples directory:  
    ```bash
    >> ls
-     drwxrwxrwx deployment
+     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
@@ -151,12 +151,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 
 1. Create the performance test dataset locally, run:
    ```bash
-   bash deployment/local-k8s/performance/createPerformanceData.sh
+   bash performance/src/main/resources/k8s-bash-scripts/createPerformanceData.sh
    ```
 
 1. To deploy the performance tests, run:
    ```bash
-   bash deployment/local-k8s/performance/deployServicesToK8s.sh
+   bash deployment-k8s/local-k8s/performance/deployServicesToK8s.sh
    ```
    You can check the pods are available:
    ```bash
@@ -165,10 +165,10 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    
 1. After the pods have started, you can run the performance tests:
    ```bash
-   bash deployment/local-k8s/runK8sPerformanceTest.sh
+   bash deployment-k8s/local-k8s/performance/runK8sPerformanceTest.sh
    ```
 
-1. Delete the deployed services:
-    ```bash
-    helm delete palisade
-    ```
+1. To delete the example deployment use the `stopK8sServices.sh` script:
+   ```bash
+   bash deployment-k8s/local-k8s/performance/stopK8sServices.sh
+   ```

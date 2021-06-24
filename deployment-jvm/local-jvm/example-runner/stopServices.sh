@@ -19,7 +19,7 @@ DIR=../Palisade-services/
 
 if [ -d $DIR ]; then
   # Important to cd before running the jar - the working directory must be somewhere under Palisade-services
-  cd $DIR
+  cd $DIR || exit
   # Stop all the services using the service manager from Palisade-services
   if [ -f $FILE ]; then
     java -jar -Dspring.profiles.active=example-libs,debug $FILE --manager.mode=shutdown

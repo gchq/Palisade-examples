@@ -16,20 +16,20 @@
 # Examples
 
 The example demonstrates different users querying an avro file over a REST api. 
-These examples are run in 3 different scenarios as described in the [Deployment](deployment) and [Deployment-jvm](deployment-jvm) modules:
+These examples are run in 3 different scenarios as described in the [Deployment-K8s](deployment-k8s) and [Deployment-JVM](deployment-jvm) modules:
 - [local-jvm](./deployment-jvm/local-jvm/README.md)
-- [local-k8s](./deployment/local-k8s/README.md)
-- [aws-k8s](./deployment/aws-k8s/README.md)
+- [local-k8s](./deployment-k8s/local-k8s/README.md)
+- [aws-k8s](./deployment-k8s/aws-k8s/README.md)
 
 The rest of the modules contain all the necessary classes and objects required for running the examples in those environments.
 
 The Palisade-examples repository contains all the example specific modules as follows:
 
-### [Deployment](deployment)
+### [Deployment-K8s](deployment-k8s)
 Contains the deployment specific code and scripts for running the example within a Kubernetes environment. 
 Current deployment targets are:
-* [AWS Docker/Kubernetes Containers](./deployment/aws-k8s/README.md)
-* [Local Docker/Kubernetes Containers](./deployment/local-k8s/README.md)
+* [AWS Docker/Kubernetes Containers](./deployment-k8s/aws-k8s/README.md)
+* [Local Docker/Kubernetes Containers](./deployment-k8s/local-k8s/README.md)
 
 ### [Deployment-jvm](deployment-jvm)
 Contains the deployment specific code and scripts for running the example within a local JVM environment.
@@ -45,8 +45,8 @@ This collection of example-specific rules, types and configurations is based aro
 
 ### [Example Runner](example-runner/README.md)
 The example scenarios can be run using the Spring Boot REST client application in the *Example Runner*, requesting and reading for a number of different users, resources and contexts.
-This simple Spring Boot application has a number of different runners for such REST clients, which also manage using the palisade-service response to connect to the appropriate data-service.
+This simple Spring Boot application has a number of different runners for such REST clients, which also manage using the Palisade Service response to connect to the appropriate Data Service.
 
 ### [Performance](performance/README.md)
-The performance of the palisade services compared to native file reads (and other metrics) can be measured using the *Performance* testing suite.
+The performance of the Palisade Services compared to native file reads (and other metrics) can be measured using the *Performance* testing suite.
 This performance-testing suite has a number of different trial types, datasets and policy variants to cover a reasonable number of common use-cases.
