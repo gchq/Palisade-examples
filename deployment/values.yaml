@@ -28,15 +28,14 @@ global:
   # Sets up some mount points in services for example data
   deployment: example
 
-  hosting: local
-
   env:
     example:
     - name: "SPRING_PROFILES_ACTIVE"
+      # Debug-level logging for the 'example' deployment can be enabled by adding a 'debug' profile here
       value: "k8s,example-k8s"
     performance-test:
     - name: "SPRING_PROFILES_ACTIVE"
-      value: "k8s,example-perf-k8s"
+      value: "k8s,example-perf-k8s,nologs"
     s3:
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,s3,example-s3"
@@ -50,6 +49,11 @@ global:
       value: "eu-west-2"
 
   additionalConfigMaps:
+    # Debug-level logging can be enabled across services at start-time by configuring here and adding a 'debug' profile for the selected deployment (see above)
+    application-debug.yaml: |
+      logging.level.uk.gov.gchq.palisade: DEBUG
+    application-nologs.yaml: |
+      logging.level.root: ERROR
     application-s3.yaml: |
       resource:
         implementation: s3
