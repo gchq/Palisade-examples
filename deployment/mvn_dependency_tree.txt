@@ -1,1 +1,0 @@
-uk.gov.gchq.palisade:deployment:jar:0.5.0-SNAPSHOT

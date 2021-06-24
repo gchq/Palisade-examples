@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,9 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-apiVersion: v2
-appVersion: "1.0"
-description: A Helm chart to mount the jars required by the example
-name: deployment
-version: 0.5.0
+
+cd deployment-k8s || exit
+
+helm dep up
+
+helm upgrade --install --wait palisade . \
+--set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
+--set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
+--set global.deployment=performance-test

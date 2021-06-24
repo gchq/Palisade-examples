@@ -36,7 +36,7 @@
     </developers>
 
     <!--  *********** Artifact ID ***********    -->
-    <artifactId>deployment</artifactId>
+    <artifactId>deployment-k8s</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment</url>
     <name>GCHQ Palisade - Example Deployment</name>
     <description>
@@ -129,7 +129,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${project.basedir}/../deployment/charts/${project.artifactId}/values.yaml</file>
+                                <file>${project.basedir}/../deployment-k8s/charts/${project.artifactId}/values.yaml</file>
                             </files>
                         </configuration>
                     </execution>
@@ -194,7 +194,7 @@
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
-                            <!-- Move classpath jars to $hostPath/$deployment dir, in this case $hostPath=deployment/target, $deployment="example" -->
+                            <!-- Move classpath jars to $hostPath/$deployment-k8s dir, in this case $hostPath=deployment-k8s/target, $deployment="example" -->
                             <outputDirectory>target/example</outputDirectory>
                         </configuration>
                     </execution>

@@ -15,7 +15,7 @@
 
 NAMESPACE=$1
 
-cd deployment
+cd deployment-k8s || exit
 helm dep up
 
 if [ -z "$NAMESPACE" ]
@@ -24,7 +24,7 @@ then
   helm upgrade --install --wait palisade . \
   --set global.hosting=local \
   --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data \
-  --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
+  --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
   --set global.deployment=example \
   --set Palisade-services.traefik.install=false
 else
@@ -37,7 +37,7 @@ else
   helm upgrade --install --wait palisade . \
   --set global.hosting=local \
   --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data \
-  --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment/target \
+  --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
   --set global.deployment=example \
   --set Palisade-services.traefik.install=false \
   --namespace $NAMESPACE

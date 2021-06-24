@@ -46,7 +46,7 @@ if [ -z "$namespace" ] || [ -z "$repository" ] || [ -z "$hostname" ] || [ -z "$d
    helpFunction
 fi
 
-cd deployment || exit
+cd deployment-k8s || exit
 
 # Begin script in case all parameters are correct
 helm dep up
