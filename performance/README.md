@@ -17,7 +17,7 @@ limitations under the License.
 # Performance
 
 Palisade includes a performance tool for testing some simple scenarios.
-It uses the example rules and generates some fake HR data using the [sythethic data generator](https://github.com/gchq/synthetic-data-generator).
+It uses the example rules and generates some fake HR data using the [synthetic data generator](https://github.com/gchq/synthetic-data-generator).
 
 The tool works on the following data-set sizes:
 
@@ -46,8 +46,26 @@ All above values and more can be tweaked through the [config yaml](src/main/reso
 
 For an automated way to perform these tests, see the [Services Manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
 
-Creates some test data for the performance tests, starts all the Palisade services and runs the performance tests:  
-`java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task`
+Creates some test data for the performance tests, starts all the Palisade services and runs the performance tests:
+
+1. Make sure you are within the Palisade-services directory
+   ```bash
+   >> ls
+     drwxrwxrwx attribute-masking-service
+     drwxrwxrwx audit-service
+     drwxrwxrwx data-service
+     drwxrwxrwx filtered-resource-service
+     drwxrwxrwx palisade-service
+     drwxrwxrwx policy-service
+     drwxrwxrwx resource-service
+     drwxrwxrwx services-manager
+     drwxrwxrwx topic-offset-service
+     drwxrwxrwx user-service
+   ```
+1. Then run the services manager:
+    ```bash
+    >> java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task
+    ```
 
 * The services will start up with their cache/persistence stores pre-populated with example data
 * The performance-test will run once all services have started
@@ -57,7 +75,7 @@ Once the create-perf-data task has been run once, it does not need to be re-run:
 
 * If running the performance tests repeatedly, the above command can be sped up to the default configuration of:  
   `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar`
-* If the palisade services are also still running, the above command can be sped up again to exclude starting the already-running services:  
+* If the Palisade services are also still running, the above command can be sped up again to exclude starting the already-running services:  
   `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-test-task`  
   Or run just the performance-test manually as below...
 
@@ -65,33 +83,39 @@ Once the create-perf-data task has been run once, it does not need to be re-run:
 
 #### Creation of test data
 
-Create a collection of Employee records in the [resources directory](/resources/data)
+Create a collection of Employee records in the [resources directory](../resources/data)
 
 ```bash
-java -jar performance/target/performance-*-exec.jar --performance.action=create
+>> java -jar performance/target/performance-*-exec.jar --performance.action=create
 # or similarly
-java -Dspring.profiles.active=create -jar performance/target/performance-*-exec.jar
+>> java -Dspring.profiles.active=create -jar performance/target/performance-*-exec.jar
 ```
 
 This may take a long time to run, depending upon the requested sizes of the test data (up to 5 minutes).
 
 #### Running performance tests
 
-Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data. The profile for prepopulating the services can be
-found [here](../example-library/src/main/resources/application-example-perf.yaml).
+Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data.
+This also includes ensuring Kafka and Redis are running and ready.
+The profile for prepopulating the services can be found [here](../example-library/src/main/resources/application-example-perf.yaml).
+The procedure for starting services can be followed from the [deployment-jvm](../deployment-jvm/README.md), which includes pre-populating and starting Kafka/Redis with docker-compose.
 
 Once all services have started, run the following:
 
 ```bash
-java -jar performance/target/performance-*-exec.jar
+>> java -jar performance/target/performance-*-exec.jar
 ```
 
-Again, this may take some time, depending upon test data size. Be aware of any running antivirus software that may scan files in real time - eg. McAfee will contribute a factor of ~5x slow-down to bulk file tests.
+Again, this may take some time, depending upon test data size.
+Be aware of any running antivirus software that may scan files in real time - eg. McAfee will contribute a factor of ~5x slow-down to bulk file tests.
 
 ### Analysis of results
 
-The tool reports several statistics, but the most useful are the norm, mean and standard deviation. The percentage columns are the various percentile levels. The "Norm" column is the normalised column, showing how long various tests took compared to
-reading the files natively (without Palisade). Reads of `large`, `small` and `many` files are normalised against their corresponding native read. Requests for `with-policy` are normalised against their corresponding `no-policy` requests.
+The tool reports several statistics, but the most useful are the norm, mean and standard deviation.
+The percentage columns are the various percentile levels.
+The "Norm" column is the normalised column, showing how long various tests took compared to reading the files natively (without Palisade).
+Reads of `large`, `small` and `many` files are normalised against their corresponding native read.
+Requests for `with-policy` are normalised against their corresponding `no-policy` requests.
 
 ### Sample of performance test results (small = 1000 records in 1 resource, large = 10000 records in 1 resource, many = 1 record in each of 100 resources)
 

@@ -26,7 +26,6 @@ import uk.gov.gchq.syntheticdatagenerator.CreateDataFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -170,8 +169,7 @@ public class CreateAction implements Runnable {
      */
     public void run() {
         // get the sizes and paths
-        URI directoryUri = URI.create(directoryName);
-        Path directory = Path.of(directoryUri);
+        Path directory = PerfUtils.getDirectory(directoryName);
         Path withPolicy = PerfUtils.getWithPolicyDir(directory);
         Path noPolicy = PerfUtils.getNoPolicyDir(directory);
         Map.Entry<PerfFileSet, PerfFileSet> fileSet = PerfUtils.getFileSet(directory);
