@@ -19,9 +19,9 @@ service:
   type: ClusterIP
 
 image:
-  name: performance
+  name: example-runner
   base: jdk
-  tag: SNAPSHOT-063af8a
+  tag: SNAPSHOT-8f6d523
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 

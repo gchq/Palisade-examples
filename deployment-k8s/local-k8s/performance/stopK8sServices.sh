@@ -15,8 +15,6 @@
 
 NAMESPACE=$1
 
-cd deployment
-
 if [ -z "$NAMESPACE" ]
 then
     echo "Delete all the resources in the default namespace"

@@ -23,7 +23,7 @@ When you run the example you will see the data has been redacted in line with th
 
 For deployment specific instructions on how to run the example please refer to the following documentation:
 - [Local JVM](../deployment-jvm/local-jvm/README.md) - Runs the example in separate JVMs on the local machine
-- [Local Kubernetes](../deployment/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
+- [Local Kubernetes](../deployment-k8s/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
 
 ### Bulk Retrieval Test (developer/maintenance only)
 

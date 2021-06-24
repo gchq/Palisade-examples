@@ -14,10 +14,14 @@
 #
 replicaCount: 1
 
+service:
+  port: 80
+  type: ClusterIP
+
 image:
-  name: deployment
+  name: performance
   base: jdk
-  tag: SNAPSHOT-063af8a
+  tag: SNAPSHOT-4122406
   pullPolicy: IfNotPresent
   codeRelease: 0.5.0-SNAPSHOT
 
@@ -29,6 +33,6 @@ resources:
     cpu: 250m
     memory: 500Mi
 
-nodeSelector: {}
-tolerations: []
-affinity: {}
+nodeSelector: { }
+tolerations: [ ]
+affinity: { }
