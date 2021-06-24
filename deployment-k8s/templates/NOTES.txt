@@ -12,12 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+================================
+You have installed {{ .Chart.Name }} as release {{ .Release.Name }} into namespace {{ include "palisade.namespace" . }}
+================================
+The deployment type is {{ .Values.global.deployment }}
 
-example:
-  directory: "/data/local-data-store/data/"
-  filename: "/data/local-data-store/data/employee_file0.avro"
-
-web:
-  client:
-    palisade-service: "palisade-service"
-    filtered-resource-service: "filtered-resource-service"
+Please note:
+If there are issues with resolving Kafka Bootstrap URLs or Redis URLs then try running the helm command again but include the following extra parameters
+--set global.redis.exports.nameOverride=redis
+--set global.kafka.exports.nameOverride=kafka
+--set global.zookeeper.exports.nameOverride=zookeeper

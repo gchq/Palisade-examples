@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,13 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-example:
-  directory: "/data/local-data-store/data/"
-  filename: "/data/local-data-store/data/employee_file0.avro"
+cd deployment-k8s || exit
 
-web:
-  client:
-    palisade-service: "palisade-service"
-    filtered-resource-service: "filtered-resource-service"
+helm dep up
+
+helm upgrade --install --wait palisade . \
+--set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
+--set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
+--set global.deployment=performance-test

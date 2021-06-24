@@ -21,7 +21,7 @@ spring:
 performance:
   # create|run - create test data, run tests on data
   action: run
-  directory: ../Palisade-examples/resources/data/
+  directory: "../Palisade-examples/resources/data/"
   # number of employees in single resource "employee_small.avro"
   small: 1000
   # number of employees in single resource "employee_large.avro"

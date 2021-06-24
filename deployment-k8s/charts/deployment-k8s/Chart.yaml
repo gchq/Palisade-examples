@@ -12,12 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-example:
-  directory: "/data/local-data-store/data/"
-  filename: "/data/local-data-store/data/employee_file0.avro"
-
-web:
-  client:
-    palisade-service: "palisade-service"
-    filtered-resource-service: "filtered-resource-service"
+apiVersion: v2
+appVersion: "1.0"
+description: A Helm chart to mount the jars required by the example
+name: deployment-k8s
+version: 0.5.0

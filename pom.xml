@@ -105,7 +105,7 @@
         <module>example-library</module>
         <module>example-runner</module>
         <module>performance</module>
-        <module>deployment</module>
+        <module>deployment-k8s</module>
     </modules>
 
     <profiles>

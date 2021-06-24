@@ -12,12 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+replicaCount: 1
 
-example:
-  directory: "/data/local-data-store/data/"
-  filename: "/data/local-data-store/data/employee_file0.avro"
+service:
+  port: 80
+  type: ClusterIP
 
-web:
-  client:
-    palisade-service: "palisade-service"
-    filtered-resource-service: "filtered-resource-service"
+image:
+  name: performance
+  base: jdk
+  tag: SNAPSHOT-4122406
+  pullPolicy: IfNotPresent
+  codeRelease: 0.5.0-SNAPSHOT
+
+resources:
+  limits:
+    cpu: 750m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 500Mi
+
+nodeSelector: { }
+tolerations: [ ]
+affinity: { }

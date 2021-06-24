@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,13 +12,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-example:
-  directory: "/data/local-data-store/data/"
-  filename: "/data/local-data-store/data/employee_file0.avro"
+NAMESPACE=$1
 
-web:
-  client:
-    palisade-service: "palisade-service"
-    filtered-resource-service: "filtered-resource-service"
+if [ -z "$NAMESPACE" ]
+then
+  # If the user doesnt pass in a namespace
+  kubectl exec "$(kubectl get pods | awk '/performance/ {print $1}')" -- bash -c "cd /usr/share/performance && bash ./createPerformanceData.sh"
+else
+  # If the user passes in a namespace, use the namespace in the kubectl command
+  kubectl exec "$(kubectl get pods --namespace="$NAMESPACE" | awk '/performance/ {print $1}')" --namespace="$NAMESPACE" -- bash -c "cd /usr/share/performance && bash ./createPerformanceData.sh"
+fi
