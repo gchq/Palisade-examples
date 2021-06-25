@@ -18,6 +18,7 @@ package uk.gov.gchq.palisade.example.perf.config;
 
 import uk.gov.gchq.palisade.Generated;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -131,7 +132,7 @@ public class PerformanceConfiguration {
     @Generated
     public void setSkipTests(final List<String> skipTests) {
         requireNonNull(skipTests);
-        this.skipTests = List.copyOf(skipTests);
+        this.skipTests = Collections.unmodifiableList(skipTests);
     }
 
     @Generated

@@ -50,19 +50,19 @@ public class ExampleUserConfiguration implements UserConfiguration {
      * @param users a list of objects implementing the {@link uk.gov.gchq.palisade.service.user.config.UserPrepopulationFactory} interface
      */
     public ExampleUserConfiguration(final List<ExampleUserPrepopulationFactory> users) {
-        this.users = List.copyOf(users);
+        this.users = Collections.unmodifiableList(users);
     }
 
     @Override
     @Generated
     public List<ExampleUserPrepopulationFactory> getUsers() {
-        return Collections.unmodifiableList(users);
+        return List.copyOf(users);
     }
 
     @Generated
     public void setUsers(final List<ExampleUserPrepopulationFactory> users) {
         requireNonNull(users);
-        this.users = List.copyOf(users);
+        this.users = Collections.unmodifiableList(users);
     }
 
     @Override

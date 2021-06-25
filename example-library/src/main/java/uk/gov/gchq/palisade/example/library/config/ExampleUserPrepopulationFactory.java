@@ -59,9 +59,9 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
      */
     public ExampleUserPrepopulationFactory(final String userId, final Set<String> auths, final Set<String> roles, final Set<TrainingCourse> trainingCourses) {
         this.userId = userId;
-        this.auths = Set.copyOf(auths);
-        this.roles = Set.copyOf(roles);
-        this.trainingCourses = Set.copyOf(trainingCourses);
+        this.auths = Collections.unmodifiableSet(auths);
+        this.roles = Collections.unmodifiableSet(roles);
+        this.trainingCourses = Collections.unmodifiableSet(trainingCourses);
     }
 
     @Generated
@@ -77,29 +77,29 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
 
     @Generated
     public Set<String> getAuths() {
-        return Collections.unmodifiableSet(auths);
+        return Set.copyOf(auths);
     }
 
     @Generated
     public void setAuths(final Set<String> auths) {
         requireNonNull(auths);
-        this.auths = Set.copyOf(auths);
+        this.auths = Collections.unmodifiableSet(auths);
     }
 
     @Generated
     public Set<String> getRoles() {
-        return Collections.unmodifiableSet(roles);
+        return Set.copyOf(roles);
     }
 
     @Generated
     public void setRoles(final Set<String> roles) {
         requireNonNull(roles);
-        this.roles = Set.copyOf(roles);
+        this.roles = Collections.unmodifiableSet(roles);
     }
 
     @Generated
     public Set<TrainingCourse> getTrainingCourses() {
-        return Collections.unmodifiableSet(trainingCourses);
+        return Set.copyOf(trainingCourses);
     }
 
     @Generated

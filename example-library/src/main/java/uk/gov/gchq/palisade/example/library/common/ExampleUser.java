@@ -21,6 +21,7 @@ import uk.gov.gchq.palisade.user.User;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -43,7 +44,7 @@ public class ExampleUser extends User {
     }
 
     /**
-     * Adds the completed training courses to the {@link ExampleUser}
+     * Replaces the completed training courses to the {@link ExampleUser}
      *
      * @param trainingCompleted an array of the completed training courses
      * @return the {@link ExampleUser} including the added training courses
@@ -51,12 +52,12 @@ public class ExampleUser extends User {
     public ExampleUser trainingCompleted(final TrainingCourse[] trainingCompleted) {
         requireNonNull(trainingCompleted, "cannot add null training completed");
         trainingCourses.clear();
-        trainingCourses.addAll(Arrays.asList(trainingCompleted));
+        trainingCourses.addAll(List.of(trainingCompleted));
         return this;
     }
 
     /**
-     * Adds the completed training courses to the {@link ExampleUser}
+     * Replaces the completed training courses to the {@link ExampleUser}
      *
      * @param trainingCompleted a {@link Set} of the completed training courses
      * @return the {@link ExampleUser} including the added training courses
@@ -64,7 +65,7 @@ public class ExampleUser extends User {
     public ExampleUser trainingCompleted(final Set<TrainingCourse> trainingCompleted) {
         requireNonNull(trainingCompleted, "cannot add null training completed");
         trainingCourses.clear();
-        trainingCourses.addAll(trainingCompleted);
+        trainingCourses.addAll(Collections.unmodifiableSet(trainingCompleted));
         return this;
     }
 
@@ -74,7 +75,7 @@ public class ExampleUser extends User {
      * @return the {@link EnumSet} of training courses
      */
     public Set<TrainingCourse> getTrainingCompleted() {
-        return Collections.unmodifiableSet(trainingCourses);
+        return Set.copyOf(trainingCourses);
     }
 
     /**
