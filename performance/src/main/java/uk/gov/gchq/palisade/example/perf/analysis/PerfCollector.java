@@ -73,6 +73,7 @@ public class PerfCollector {
      * @param results the list of results
      * @return performance statistics data
      */
+    @SuppressWarnings("java:S3047")
     public static PerfStats computePerfStats(final List<Long> results) {
         requireNonNull(results, "results");
         // deal with zero length results
