@@ -20,7 +20,6 @@ import uk.gov.gchq.palisade.Context;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.rule.Rule;
 import uk.gov.gchq.palisade.user.User;
-import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 /**
  * A simple {@link Rule} implementation that does not make any resource redactions
@@ -34,7 +33,7 @@ public class PassThroughRule implements Rule<Resource> {
      * @param resource the resource being processed
      * @param user the {@link User} making the request
      * @param context the {@link Context}, including the purpose, of the request
-     * @return the {@link Employee} record after the rule has been applied
+     * @return the {@link Resource} after the rule has been applied
      */
     public Resource apply(final Resource resource, final User user, final Context context) {
         return resource;
