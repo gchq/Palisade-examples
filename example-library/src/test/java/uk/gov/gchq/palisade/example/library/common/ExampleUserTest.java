@@ -33,7 +33,7 @@ class ExampleUserTest {
     void testShouldDeserialiseExampleUser() throws IOException {
         // Given
         User user = new ExampleUser()
-                .trainingCompleted(Set.of(TrainingCourse.PAYROLL_TRAINING_COURSE))
+                .trainingCourses(Set.of(TrainingCourse.PAYROLL_TRAINING_COURSE))
                 .userId("bob")
                 .roles(Set.of(Role.HR.name(), "another_role"))
                 .auths(Set.of("authorised_person", "more_authorisations"));

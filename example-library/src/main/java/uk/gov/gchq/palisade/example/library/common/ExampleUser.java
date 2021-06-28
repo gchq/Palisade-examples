@@ -20,7 +20,6 @@ import uk.gov.gchq.palisade.user.User;
 
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -33,7 +32,7 @@ import static java.util.Objects.requireNonNull;
 public class ExampleUser extends User {
     private static final long serialVersionUID = 1L;
 
-    private final EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
+    private final Set<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     /**
      * Default constructor
@@ -45,26 +44,13 @@ public class ExampleUser extends User {
     /**
      * Replaces the completed training courses to the {@link ExampleUser}
      *
-     * @param trainingCompleted an array of the completed training courses
+     * @param trainingCourses a {@link Set} of the completed training courses
      * @return the {@link ExampleUser} including the added training courses
      */
-    public ExampleUser trainingCompleted(final TrainingCourse[] trainingCompleted) {
-        requireNonNull(trainingCompleted, "cannot add null training completed");
-        trainingCourses.clear();
-        trainingCourses.addAll(List.of(trainingCompleted));
-        return this;
-    }
-
-    /**
-     * Replaces the completed training courses to the {@link ExampleUser}
-     *
-     * @param trainingCompleted a {@link Set} of the completed training courses
-     * @return the {@link ExampleUser} including the added training courses
-     */
-    public ExampleUser trainingCompleted(final Set<TrainingCourse> trainingCompleted) {
-        requireNonNull(trainingCompleted, "cannot add null training completed");
-        trainingCourses.clear();
-        trainingCourses.addAll(Collections.unmodifiableSet(trainingCompleted));
+    public ExampleUser trainingCourses(final Set<TrainingCourse> trainingCourses) {
+        requireNonNull(trainingCourses, "cannot add null training completed");
+        this.trainingCourses.clear();
+        this.trainingCourses.addAll(Collections.unmodifiableSet(trainingCourses));
         return this;
     }
 
@@ -73,17 +59,17 @@ public class ExampleUser extends User {
      *
      * @return the {@link EnumSet} of training courses
      */
-    public Set<TrainingCourse> getTrainingCompleted() {
+    public Set<TrainingCourse> getTrainingCourses() {
         return Set.copyOf(trainingCourses);
     }
 
     /**
      * Set the training courses for the {@link ExampleUser}
      *
-     * @param trainingCompleted an array of training courses to be added
+     * @param trainingCourses a set of training courses to be added
      */
-    public void setTrainingCompleted(final TrainingCourse[] trainingCompleted) {
-        trainingCompleted(trainingCompleted);
+    public void setTrainingCourses(final Set<TrainingCourse> trainingCourses) {
+        trainingCourses(trainingCourses);
     }
 
     @Override

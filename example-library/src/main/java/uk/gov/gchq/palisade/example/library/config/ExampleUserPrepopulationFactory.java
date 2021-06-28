@@ -113,7 +113,7 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
     @Override
     public User build() {
         return new ExampleUser()
-                .trainingCompleted(trainingCourses)
+                .trainingCourses(trainingCourses)
                 .userId(this.getUserId())
                 .auths(this.getAuths())
                 .roles(this.getRoles());
