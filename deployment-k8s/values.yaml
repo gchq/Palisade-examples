@@ -36,7 +36,7 @@ global:
     performance-test:
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,example-perf-k8s,nologs"
-    s3:
+    example-s3:
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,s3,example-s3"
     - name: "AWS_ACCESS_KEY_ID"

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if or (eq .Values.global.deployment "example") (eq .Values.global.deployment "examples3") }}
+{{- if or (eq .Values.global.deployment "example") (eq .Values.global.deployment "example-s3") }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
