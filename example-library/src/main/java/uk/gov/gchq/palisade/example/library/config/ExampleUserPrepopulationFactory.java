@@ -39,7 +39,7 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
     private String userId = "";
     private Set<String> auths = Collections.emptySet();
     private Set<String> roles = Collections.emptySet();
-    private Set<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
+    private EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     /**
      * Constructor with 0 arguments for an example implementation
@@ -55,13 +55,13 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
      * @param userId          a {@link String} value of a user.
      * @param auths           a {@link Set} of {@link String} auth values for the user.
      * @param roles           a {@link Set} of {@link String} role values for the user.
-     * @param trainingCourses an {@link Set} of {@link TrainingCourse}s for the user.
+     * @param trainingCourses an {@link EnumSet} of {@link TrainingCourse}s for the user.
      */
-    public ExampleUserPrepopulationFactory(final String userId, final Set<String> auths, final Set<String> roles, final Set<TrainingCourse> trainingCourses) {
+    public ExampleUserPrepopulationFactory(final String userId, final Set<String> auths, final Set<String> roles, final EnumSet<TrainingCourse> trainingCourses) {
         this.userId = userId;
-        this.auths = Collections.unmodifiableSet(auths);
-        this.roles = Collections.unmodifiableSet(roles);
-        this.trainingCourses = Collections.unmodifiableSet(trainingCourses);
+        this.auths = auths;
+        this.roles = roles;
+        this.trainingCourses = trainingCourses;
     }
 
     @Generated
@@ -77,33 +77,33 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
 
     @Generated
     public Set<String> getAuths() {
-        return Set.copyOf(auths);
+        return auths;
     }
 
     @Generated
     public void setAuths(final Set<String> auths) {
         requireNonNull(auths);
-        this.auths = Collections.unmodifiableSet(auths);
+        this.auths = auths;
     }
 
     @Generated
     public Set<String> getRoles() {
-        return Set.copyOf(roles);
+        return roles;
     }
 
     @Generated
     public void setRoles(final Set<String> roles) {
         requireNonNull(roles);
-        this.roles = Collections.unmodifiableSet(roles);
+        this.roles = roles;
     }
 
     @Generated
-    public Set<TrainingCourse> getTrainingCourses() {
-        return Set.copyOf(trainingCourses);
+    public EnumSet<TrainingCourse> getTrainingCourses() {
+        return trainingCourses;
     }
 
     @Generated
-    public void setTrainingCourses(final String[] trainingCourse) {
+    public void setTrainingCourses(final String... trainingCourse) {
         requireNonNull(trainingCourse);
         for (String course : trainingCourse) {
             trainingCourses.add(TrainingCourse.valueOf(course));
@@ -113,7 +113,7 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
     @Override
     public User build() {
         return new ExampleUser()
-                .trainingCourses(trainingCourses)
+                .trainingCompleted(trainingCourses)
                 .userId(this.getUserId())
                 .auths(this.getAuths())
                 .roles(this.getRoles());

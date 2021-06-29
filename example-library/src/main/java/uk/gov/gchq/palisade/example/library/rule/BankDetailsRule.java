@@ -67,7 +67,7 @@ public class BankDetailsRule implements Rule<Employee> {
 
         if (user instanceof ExampleUser) {
             ExampleUser exampleUser = (ExampleUser) user;
-            Set<TrainingCourse> trainingCompleted = exampleUser.getTrainingCourses();
+            Set<TrainingCourse> trainingCompleted = Set.copyOf(exampleUser.getTrainingCompleted());
             Set<String> roles = exampleUser.getRoles();
             String purpose = context.getPurpose();
 
