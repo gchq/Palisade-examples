@@ -37,6 +37,7 @@ global:
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,example-perf-k8s,nologs"
     example-s3:
+    # The order of these properties is important, they are addressed by index in the aws-s3-k8s deployServicesToK8s.sh script
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,s3,example-s3"
     - name: "AWS_ACCESS_KEY_ID"
