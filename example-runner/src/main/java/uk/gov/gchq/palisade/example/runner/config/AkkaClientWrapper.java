@@ -27,8 +27,8 @@ import uk.gov.gchq.palisade.client.akka.AkkaClient;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.resource.LeafResource;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.concurrent.CompletionStage;
@@ -68,22 +68,14 @@ public class AkkaClientWrapper<T> {
     }
 
     private static String fileNameToResourceId(final String fileName) {
-        File file;
-        if (!Path.of(fileName).isAbsolute()) {
-            try {
-                file = new File(fileName).getCanonicalFile();
-            } catch (IOException ex) {
-                LOGGER.warn("Failed to get CanonicalFile for '{}', using AbsoluteFile instead", fileName, ex);
-                file = new File(fileName).getAbsoluteFile();
-            }
-        } else {
-            file = new File(fileName);
+        try {
+            return URI.create(fileName).toString();
+        } catch (IllegalArgumentException ex) {
+            String userDir = System.getProperty("user.dir") + "/";
+            LOGGER.debug("Caught exception while creating URI", ex);
+            LOGGER.debug("Suspect {} is a relative-path so trying with user.dir '{}' property", fileName, userDir);
+            return Path.of(userDir + fileName)
+                    .toUri().normalize().toString();
         }
-
-        String resourceId = file.toURI().toString();
-        if ((fileName.endsWith("/") || fileName.endsWith("\\")) && !resourceId.endsWith("/")) {
-            resourceId += "/";
-        }
-        return resourceId;
     }
 }

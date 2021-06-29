@@ -14,8 +14,8 @@
 #
 
 example:
-  directory: "file:/data/local-data-store/data/"
-  filename: "file:/data/local-data-store/data/employee_file0.avro"
+  directory: "s3://data/remote-data-store/data/"
+  filename: "s3://data/remote-data-store/data/employee_file0.avro"
 
 web:
   client:
