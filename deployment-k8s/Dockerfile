@@ -29,12 +29,12 @@ COPY target/scripts/copyExampleData.sh /bin/copyExampleData.sh
 # Data-files for configured deployments
 COPY target/resources/data /usr/share/deployment-k8s/data/example
 COPY target/resources/data /usr/share/deployment-k8s/data/performance-test
-COPY target/resources/data /usr/share/deployment-k8s/data/s3example
+COPY target/resources/data /usr/share/deployment-k8s/data/examples3
 
 # Classpath-jars for configured deployments
 COPY target/example /usr/share/deployment-k8s/classpath-jars/example
 COPY target/example /usr/share/deployment-k8s/classpath-jars/performance-test
-COPY target/s3example /usr/share/deployment-k8s/classpath-jars/s3example
+COPY target/examples3 /usr/share/deployment-k8s/classpath-jars/examples3
 
 # Make everything readable
 RUN chmod ugo+r -R /usr/share/deployment-k8s
