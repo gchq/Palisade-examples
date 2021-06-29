@@ -16,17 +16,20 @@
 helpFunction() {
    echo ""
    echo "Usage: $(basename "$0") [OPTIONS]"
-   echo -e "\t-n(amespace)     The name for the K8s namespace to deploy to"
-   echo -e "\t-r(epository)    The URL for the (ECR) repository"
-   echo -e "\t-h(ostname)      The URL for the (ELB) hostname of the cluster deployment"
-   echo -e "\t-d(atastore)     The URL for the (EFS) aws volume handle used as a data-store"
-   echo -e "\t-c(lasspathjars) The URL for the (EFS) aws volume handle used for storing classpath JARs"
-   echo -e "\t-t(raefik)       The boolean true/false value for installing traefik"
-   echo -e "\t-P(refix)        The topic prefix so we generate unique topic names"
+   echo -e "\t-n(amespace)                The name for the K8s namespace to deploy to"
+   echo -e "\t-r(epository)               The URL for the (ECR) repository"
+   echo -e "\t-h(ostname)                 The URL for the (ELB) hostname of the cluster deployment"
+   echo -e "\t-d(atastore)                The URL for the (EFS) aws volume handle used as a data-store"
+   echo -e "\t-c(lasspathjars)            The URL for the (EFS) aws volume handle used for storing classpath JARs"
+   echo -e "\t-t(raefik)                  The boolean true/false value for installing traefik"
+   echo -e "\t-P(refix)                   The topic prefix so we generate unique topic names"
+   echo -e "\t-A(ccess key id)            AWS_ACCESS_KEY_ID"
+   echo -e "\t-S(ecret access key)        AWS_SECRET_ACCESS_KEY"
+   echo -e "\t-s(ession token)            AWS SESSION TOKEN"
    exit 1 # Exit script after printing help
 }
 
-while getopts "n:r:h:d:c:t:P:" opt
+while getopts "n:r:h:d:c:t:P:A:S:s" opt
 do
    case "$opt" in
       n) namespace="$OPTARG" ;;
@@ -36,12 +39,15 @@ do
       c) classpathjars="$OPTARG" ;;
       t) traefik="$OPTARG" ;;
       P) topicprefix="$OPTARG" ;;
+      A) access_key_id="$OPTARG" ;;
+      S) secret_access_key="$OPTARG" ;;
+      s) session_token="$OPTARG" ;;
       ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
    esac
 done
 
 # Print helpFunction in case parameters are empty
-if [ -z "$namespace" ] || [ -z "$repository" ] || [ -z "$hostname" ] || [ -z "$datastore" ] || [ -z "$classpathjars" ] || [ -z "$traefik" ]; then
+if [ -z "$namespace" ] || [ -z "$repository" ] || [ -z "$hostname" ] || [ -z "$datastore" ] || [ -z "$classpathjars" ] || [ -z "$traefik" ] || [ -z "$access_key_id" ] || [ -z "$secret_access_key" ]; then
    echo "Some or all of the parameters are empty";
    helpFunction
 fi
@@ -62,8 +68,8 @@ helm upgrade --install --wait palisade . \
     --set global.redis.install=true \
     --set Palisade-services.traefik.install="${traefik}" \
     --set global.topicPrefix="${topicprefix}" \
-    --set global.env.example-s3[0].value="$(aws configure get aws_access_key_id)" \
-    --set global.env.example-s3[1].value="$(aws configure get aws_secret_access_key)" \
-    --set global.env.example-s3[2].value="$(aws configure get aws_session_token)" \
+    --set global.env.example-s3[1].value="${access_key_id}" \
+    --set global.env.example-s3[2].value="${secret_access_key}" \
+    --set global.env.example-s3[3].value="${session_token}" \
     --timeout 300s \
     --namespace "${namespace}"
