@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,18 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+spring:
+  profiles:
+    include:
+    - example-s3-config
+    - k8s
+    - rest
 
-JARFILE=./example-runner.jar
-OUTPUT=./exampleOutput.txt
-FORMATTER=./formatOutput.sh
+---
 
-# Run the formatted rest example
-if [ -f $JARFILE ]; then
-  if [ -f $FORMATTER ]; then
-    java -Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.runner.runner.RestExample=INFO -jar $JARFILE | $FORMATTER | tee $OUTPUT
-  else
-    echo "Cannot find formatter script -- check your 'git status'"
-  fi
-else
-  echo "Cannot find example-runner-<version>-exec.jar - have you run 'mvn install'?"
-fi
+spring:
+  profiles: example-s3-config
+
+example:
+  directory: "s3://data/remote-data-store/data/"
+  filename: "s3://data/remote-data-store/data/employee_file0.avro"
