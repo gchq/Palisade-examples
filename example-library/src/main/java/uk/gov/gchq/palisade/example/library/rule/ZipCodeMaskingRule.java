@@ -35,6 +35,7 @@ import java.util.Set;
  * A specific {@link Rule} implementation for the {@link Employee} address fields
  */
 public class ZipCodeMaskingRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor
@@ -43,7 +44,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         // no-args constructor
     }
 
-    private Employee maskAddress(final Employee maskedRecord) {
+    private static Employee maskAddress(final Employee maskedRecord) {
         Address address = maskedRecord.getAddress();
         WorkLocation location = maskedRecord.getWorkLocation();
         Address workAddress = location.getAddress();
@@ -61,7 +62,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         return maskedRecord;
     }
 
-    private Employee redactAddress(final Employee maskedRecord) {
+    private static Employee redactAddress(final Employee maskedRecord) {
         maskedRecord.setAddress(null);
         return maskedRecord;
     }
@@ -85,11 +86,7 @@ public class ZipCodeMaskingRule implements Rule<Employee> {
         Set<String> roles = user.getRoles();
         String purpose = context.getPurpose();
 
-        if (roles.contains(Role.HR.name())) {
-            return record;
-        }
-
-        if (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name())) {
+        if (roles.contains(Role.HR.name()) || (EmployeeUtils.isManager(managers, userId) && purpose.equals(Purpose.DUTY_OF_CARE.name()))) {
             return record;
         }
 

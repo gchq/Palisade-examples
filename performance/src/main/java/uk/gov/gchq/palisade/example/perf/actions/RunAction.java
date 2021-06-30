@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfCollector;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.analysis.TrialType;
-import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPerfTrial;
 import uk.gov.gchq.palisade.example.perf.util.PerfUtils;
 
 import java.nio.file.Path;
@@ -48,7 +48,7 @@ public class RunAction implements Runnable {
     private final String directoryName;
     private final int dryRuns;
     private final int liveRuns;
-    private final Map<String, PerfTrial> testsToRun;
+    private final Map<String, AbstractPerfTrial> testsToRun;
     private final Set<String> skipTests;
 
     /**
@@ -60,12 +60,12 @@ public class RunAction implements Runnable {
      * @param trialsToRun   collection of different named trials to test
      * @param skipTests     names of trials to skip from the above collection
      */
-    public RunAction(final String directoryName, final int dryRuns, final int liveRuns, final Map<String, PerfTrial> trialsToRun, final Set<String> skipTests) {
+    public RunAction(final String directoryName, final int dryRuns, final int liveRuns, final Map<String, AbstractPerfTrial> trialsToRun, final Set<String> skipTests) {
         this.directoryName = directoryName;
         this.dryRuns = dryRuns;
         this.liveRuns = liveRuns;
         this.testsToRun = trialsToRun;
-        this.skipTests = skipTests;
+        this.skipTests = Set.copyOf(skipTests);
     }
 
     /**
@@ -114,7 +114,7 @@ public class RunAction implements Runnable {
         requireNonNull(testsToSkip, "testsToSkip");
 
         // iterate over each test to run and execute the given number of trials
-        for (Map.Entry<String, PerfTrial> e : testsToRun.entrySet()) {
+        for (Map.Entry<String, AbstractPerfTrial> e : testsToRun.entrySet()) {
             // do we need to skip this one?
             if (testsToSkip.contains(e.getKey())) {
                 LOGGER.info("Skipping test {}", e.getKey());
@@ -141,7 +141,7 @@ public class RunAction implements Runnable {
      * @param type        the type of test being run
      * @throws IllegalArgumentException {@code trialCount} is less than 1
      */
-    private static void performSingleTrial(final int trialCount, final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
+    private static void performSingleTrial(final int trialCount, final AbstractPerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
         requireNonNull(trial, "trial");
         requireNonNull(collector, COLLECTOR);
         if (trialCount < 1) {
@@ -170,7 +170,7 @@ public class RunAction implements Runnable {
      * @param collector   the output collector
      * @param type        test type being run
      */
-    private static void runTrial(final PerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
+    private static void runTrial(final AbstractPerfTrial trial, final PerfFileSet fileSet, final PerfFileSet noPolicySet, final PerfCollector collector, final TrialType type) {
         requireNonNull(trial, "trial");
         requireNonNull(collector, COLLECTOR);
 
@@ -185,7 +185,7 @@ public class RunAction implements Runnable {
             if (type == TrialType.LIVE) {
                 collector.logTime(trial.name(), time);
             }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             LOGGER.warn("Performance test \"{}\" failed", trial.name());
             LOGGER.warn("Exception was :", e);
         }

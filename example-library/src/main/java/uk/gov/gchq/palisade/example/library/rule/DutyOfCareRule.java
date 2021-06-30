@@ -34,6 +34,7 @@ import static java.util.Objects.requireNonNull;
  * A specific {@link Rule} implementation for the {@link Employee} duty of care role
  */
 public class DutyOfCareRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor
@@ -42,7 +43,7 @@ public class DutyOfCareRule implements Rule<Employee> {
         // no-args constructor
     }
 
-    private Employee redactRecord(final Employee redactedRecord) {
+    private static Employee redactRecord(final Employee redactedRecord) {
         redactedRecord.setContactNumbers(null);
         redactedRecord.setEmergencyContacts(null);
         redactedRecord.setSex(null);
