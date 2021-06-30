@@ -55,13 +55,13 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
      * @param userId          a {@link String} value of a user.
      * @param auths           a {@link Set} of {@link String} auth values for the user.
      * @param roles           a {@link Set} of {@link String} role values for the user.
-     * @param trainingCourses an {@link EnumSet} of {@link TrainingCourse}s for the user.
+     * @param trainingCourses an {@link Set} of {@link TrainingCourse}s for the user.
      */
     public ExampleUserPrepopulationFactory(final String userId, final Set<String> auths, final Set<String> roles, final Set<TrainingCourse> trainingCourses) {
         this.userId = userId;
-        this.auths = auths;
-        this.roles = roles;
-        this.trainingCourses = trainingCourses;
+        this.auths = Set.copyOf(auths);
+        this.roles = Set.copyOf(roles);
+        this.trainingCourses = Set.copyOf(trainingCourses);
     }
 
     @Generated
