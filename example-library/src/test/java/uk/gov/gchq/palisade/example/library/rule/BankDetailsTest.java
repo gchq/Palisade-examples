@@ -38,7 +38,7 @@ class BankDetailsTest {
             .roles(Set.of(Role.HR.name()))
             .userId("UserId");
     private static final User HR_USER_WITH_PAYROLL = new ExampleUser()
-            .trainingCompleted(TrainingCourse.PAYROLL_TRAINING_COURSE)
+            .trainingCompleted(new TrainingCourse[]{TrainingCourse.PAYROLL_TRAINING_COURSE})
             .roles(Set.of(Role.HR.name()))
             .userId("UserId");
     private static final User USER_WITH_PAYROLL = new User()

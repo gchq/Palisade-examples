@@ -41,7 +41,7 @@ public class ExampleUser extends User {
         //no-args constructor
     }
 
-    public ExampleUser trainingCompleted(final TrainingCourse... trainingCompleted) {
+    public ExampleUser trainingCompleted(final TrainingCourse[] trainingCompleted) {
         requireNonNull(trainingCompleted, "cannot add null training completed");
         trainingCourses.clear();
         trainingCourses.addAll(Arrays.asList(trainingCompleted));
@@ -64,7 +64,7 @@ public class ExampleUser extends User {
     /**
      * Get the set of training courses for the {@link ExampleUser}
      *
-     * @return the {@link EnumSet} of training courses
+     * @return the {@link Set} of training courses
      */
     public Set<TrainingCourse> getTrainingCompleted() {
         return EnumSet.copyOf(trainingCourses);
@@ -75,7 +75,7 @@ public class ExampleUser extends User {
      *
      * @param trainingCompleted an array of training courses to be added
      */
-    public void setTrainingCompleted(final TrainingCourse... trainingCompleted) {
+    public void setTrainingCompleted(final TrainingCourse[] trainingCompleted) {
         trainingCompleted(trainingCompleted);
     }
 
