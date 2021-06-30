@@ -21,7 +21,6 @@ import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.rule.Rule;
 import uk.gov.gchq.palisade.user.User;
-import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Objects;
 import java.util.Set;
@@ -46,7 +45,7 @@ public class FirstResourceRule implements Rule<Resource> {
      * @param resource the resource being processed
      * @param user the {@link User} making the request
      * @param context the {@link Context}, including the purpose, of the request
-     * @return the {@link Employee} record after the rule has been applied
+     * @return the {@link Resource} after the rule has been applied
      */
     public Resource apply(final Resource resource, final User user, final Context context) {
 
