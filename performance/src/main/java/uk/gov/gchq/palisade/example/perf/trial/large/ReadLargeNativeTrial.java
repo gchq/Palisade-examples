@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPerfTrial;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
@@ -36,10 +36,11 @@ import java.util.stream.Stream;
  * does try to deserialise the data.
  */
 @Component
-public class ReadLargeNativeTrial extends PerfTrial {
+public class ReadLargeNativeTrial extends AbstractPerfTrial {
     protected static final String NAME = "read_large_native";
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
+    private static final String DESCRIPTION = "performs a native read and deserialise of the large file";
 
     /**
      * Default constructor
@@ -59,7 +60,7 @@ public class ReadLargeNativeTrial extends PerfTrial {
      * {@inheritDoc}
      */
     public String description() {
-        return "performs a native read and deserialise of the large file";
+        return DESCRIPTION;
     }
 
     /**

@@ -19,14 +19,15 @@ package uk.gov.gchq.palisade.example.perf.trial.large;
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPalisadeTrial;
 
 /**
  * Test that reads the large data file from Palisade with an example policy and times entire Palisade interaction.
  */
 @Component
-public class ReadLargeWithPolicyTrial extends PalisadeTrial {
+public class ReadLargeWithPolicyTrial extends AbstractPalisadeTrial {
     protected static final String NAME = "read_large_with_policy";
+    private static final String DESCRIPTION = "reads the large data file with an example policy set";
 
     /**
      * Default constructor
@@ -46,7 +47,7 @@ public class ReadLargeWithPolicyTrial extends PalisadeTrial {
      * {@inheritDoc}
      */
     public String description() {
-        return "reads the large data file with an example policy set";
+        return DESCRIPTION;
     }
 
     /**

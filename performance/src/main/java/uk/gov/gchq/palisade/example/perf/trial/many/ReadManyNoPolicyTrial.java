@@ -19,14 +19,15 @@ package uk.gov.gchq.palisade.example.perf.trial.many;
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPalisadeTrial;
 
 /**
  * Test that reads many data files from Palisade with no policy and times entire Palisade interaction.
  */
 @Component
-public class ReadManyNoPolicyTrial extends PalisadeTrial {
+public class ReadManyNoPolicyTrial extends AbstractPalisadeTrial {
     protected static final String NAME = "read_many_no_policy";
+    private static final String DESCRIPTION = "reads many data files with no policy set";
 
     /**
      * Default constructor
@@ -46,7 +47,7 @@ public class ReadManyNoPolicyTrial extends PalisadeTrial {
      * {@inheritDoc}
      */
     public String description() {
-        return "reads many data files with no policy set";
+        return DESCRIPTION;
     }
 
     /**
