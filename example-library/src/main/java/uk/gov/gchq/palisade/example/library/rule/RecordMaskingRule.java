@@ -32,6 +32,7 @@ import java.util.Set;
  * A specific {@link Rule} implementation for specific {@link Employee} fields
  */
 public class RecordMaskingRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor
@@ -40,7 +41,7 @@ public class RecordMaskingRule implements Rule<Employee> {
         // no-args constructor
     }
 
-    private Employee estatesRedactRecord(final Employee maskedRecord) {
+    private static Employee estatesRedactRecord(final Employee maskedRecord) {
         maskedRecord.setDateOfBirth(null);
         maskedRecord.setManager(null);
         maskedRecord.setHireDate(null);
@@ -59,19 +60,23 @@ public class RecordMaskingRule implements Rule<Employee> {
     public Employee apply(final Employee record, final User user, final Context context) {
         Objects.requireNonNull(user);
         Objects.requireNonNull(context);
-        UserId userId = user.getUserId();
-        Manager[] managers = record.getManager();
         Set<String> roles = user.getRoles();
 
         if (roles.contains(Role.HR.name())) {
             return record;
         }
+
+        UserId userId = user.getUserId();
+        Manager[] managers = record.getManager();
+
         if (EmployeeUtils.isManager(managers, userId)) {
             return record;
         }
+
         if (roles.contains(Role.ESTATES.name())) {
             return estatesRedactRecord(record);
         }
+
         return null;
     }
 }

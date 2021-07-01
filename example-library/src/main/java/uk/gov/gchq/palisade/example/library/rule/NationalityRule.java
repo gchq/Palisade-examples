@@ -31,6 +31,7 @@ import static java.util.Objects.requireNonNull;
  * A specific {@link Rule} implementation for the {@link Employee} nationality field
  */
 public class NationalityRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor
@@ -39,7 +40,7 @@ public class NationalityRule implements Rule<Employee> {
         // no-args constructor
     }
 
-    private Employee redactRecord(final Employee redactedRecord) {
+    private static Employee redactRecord(final Employee redactedRecord) {
         redactedRecord.setNationality(null);
         return redactedRecord;
     }

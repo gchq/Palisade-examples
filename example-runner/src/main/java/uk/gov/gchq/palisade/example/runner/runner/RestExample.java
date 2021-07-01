@@ -66,7 +66,7 @@ public class RestExample implements CommandLineRunner {
      * @throws IOException for any file system error
      */
     @Override
-    public void run(final String... args) throws IOException {
+    public void run(final String[] args) throws IOException {
         String alice = "Alice";
         String bob = "Bob";
         String eve = "Eve";

@@ -40,7 +40,7 @@ public class ActionRunner implements CommandLineRunner {
      * @param args Command-line arguments
      */
     @Override
-    public void run(final String... args) {
+    public void run(final String[] args) {
         // call the action and exit with some return code
         try {
             action.run();
