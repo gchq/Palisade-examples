@@ -23,13 +23,11 @@ helpFunction() {
    echo -e "\t-c(lasspathjars)            The URL for the (EFS) aws volume handle used for storing classpath JARs"
    echo -e "\t-t(raefik)                  The boolean true/false value for installing traefik"
    echo -e "\t-P(refix)                   The topic prefix so we generate unique topic names"
-   echo -e "\t-A(ccess key id)            AWS_ACCESS_KEY_ID"
-   echo -e "\t-S(ecret access key)        AWS_SECRET_ACCESS_KEY"
-   echo -e "\t-s(ession token)            AWS SESSION TOKEN"
+   echo -e "\t-R(ole)                     Aws iam role name"
    exit 1 # Exit script after printing help
 }
 
-while getopts "n:r:h:d:c:t:P:A:S:s" opt
+while getopts "n:r:h:d:c:t:P:R" opt
 do
    case "$opt" in
       n) namespace="$OPTARG" ;;
@@ -39,17 +37,26 @@ do
       c) classpathjars="$OPTARG" ;;
       t) traefik="$OPTARG" ;;
       P) topicprefix="$OPTARG" ;;
-      A) access_key_id="$OPTARG" ;;
-      S) secret_access_key="$OPTARG" ;;
-      s) session_token="$OPTARG" ;;
+      R) role="$OPTARG" ;;
       ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
    esac
 done
 
 # Print helpFunction in case parameters are empty
-if [ -z "$namespace" ] || [ -z "$repository" ] || [ -z "$hostname" ] || [ -z "$datastore" ] || [ -z "$classpathjars" ] || [ -z "$traefik" ] || [ -z "$access_key_id" ] || [ -z "$secret_access_key" ]; then
+if [ -z "$namespace" ] || [ -z "$repository" ] || [ -z "$hostname" ] || [ -z "$datastore" ] || [ -z "$classpathjars" ] || [ -z "$traefik" ] || [ -z "$role" ]; then
    echo "Some or all of the parameters are empty";
    helpFunction
+fi
+
+# get iam-role from command-line args, groovy-scripts does ./deployServicesToK8s.sh -r palisade-pipeline-prod-worker
+# get security credentials from instance metadata
+if curl --fail --connect-timeout 5 -o security-credentials.json http://169.254.169.254/latest/meta-data/iam/security-credentials/${role}/; then
+    AWS_ACCESS_KEY_ID=$(jq -r '.AccessKeyId' < security-credentials.json)
+    AWS_SECRET_ACCESS_KEY=$(jq -r '.SecretAccessKey' < security-credentials.json)
+    AWS_SESSION_TOKEN=$(jq -r '.Token' < security-credentials.json)
+else
+    echo "failed to get sec credentials"
+    exit 1
 fi
 
 cd deployment-k8s || exit
@@ -68,8 +75,8 @@ helm upgrade --install --wait palisade . \
     --set global.redis.install=true \
     --set Palisade-services.traefik.install="${traefik}" \
     --set global.topicPrefix="${topicprefix}" \
-    --set global.env.example-s3[1].value="${access_key_id}" \
-    --set global.env.example-s3[2].value="${secret_access_key}" \
-    --set global.env.example-s3[3].value="${session_token}" \
+    --set global.env.example-s3[1].value="${AWS_ACCESS_KEY_ID}" \
+    --set global.env.example-s3[2].value="${AWS_SECRET_ACCESS_KEY}" \
+    --set global.env.example-s3[3].value="${AWS_SESSION_TOKEN}" \
     --timeout 300s \
     --namespace "${namespace}"
