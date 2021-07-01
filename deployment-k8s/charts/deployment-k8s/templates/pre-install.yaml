@@ -41,7 +41,7 @@ spec:
       serviceAccountName: kubectl-delete-pods
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{.Values.global.repository}}{{.Values.image.name}}:{{ .Values.image.base }}-{{.Values.image.tag}}"
+        image: {{ include "deployment.image.name" .}}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: [ "/bin/bash", "/bin/copyExampleData.sh" ]
         args:
