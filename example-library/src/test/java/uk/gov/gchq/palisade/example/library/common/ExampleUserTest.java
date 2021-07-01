@@ -32,7 +32,7 @@ class ExampleUserTest {
     @Test
     void testShouldDeserialiseExampleUser() throws IOException {
         // Given
-        User user = new ExampleUser()
+        var user = new ExampleUser()
                 .trainingCompleted(new TrainingCourse[]{TrainingCourse.PAYROLL_TRAINING_COURSE})
                 .userId("bob")
                 .roles(Set.of(Role.HR.name(), "another_role"))
@@ -40,7 +40,7 @@ class ExampleUserTest {
 
         // When
         byte[] bytesSerialised = MAPPER.writeValueAsBytes(user);
-        User newUser = MAPPER.readValue(bytesSerialised, ExampleUser.class);
+        var newUser = MAPPER.readValue(bytesSerialised, ExampleUser.class);
 
         // Then
         assertThat(user.getClass())

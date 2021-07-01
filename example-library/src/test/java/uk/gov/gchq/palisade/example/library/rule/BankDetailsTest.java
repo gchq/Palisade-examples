@@ -73,7 +73,7 @@ class BankDetailsTest {
         // Given - Employee, Role, Reason
 
         // When
-        Employee actual = BANK_DETAILS_RULE.apply(testEmployee, HR_USER_WITH_PAYROLL, NOT_SALARY_CONTEXT);
+        var actual = BANK_DETAILS_RULE.apply(testEmployee, HR_USER_WITH_PAYROLL, NOT_SALARY_CONTEXT);
 
         // Then
         assertThat(actual.getBankDetails())
