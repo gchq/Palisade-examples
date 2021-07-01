@@ -19,14 +19,15 @@ package uk.gov.gchq.palisade.example.perf.trial.many;
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPalisadeTrial;
 
 /**
  * Reads many files a repeated number of times. This measures the entire interaction with Palisade.
  */
 @Component
-public class ReadManyWithPolicyTrial extends PalisadeTrial {
+public class ReadManyWithPolicyTrial extends AbstractPalisadeTrial {
     protected static final String NAME = "read_many_with_policy";
+    private static final String DESCRIPTION = "reads many files with an example policy set";
 
     /**
      * Default constructor
@@ -46,7 +47,7 @@ public class ReadManyWithPolicyTrial extends PalisadeTrial {
      * {@inheritDoc}
      */
     public String description() {
-        return "reads many files with an example policy set";
+        return DESCRIPTION;
     }
 
     /**

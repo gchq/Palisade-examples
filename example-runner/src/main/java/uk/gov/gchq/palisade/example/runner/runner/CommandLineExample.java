@@ -51,7 +51,7 @@ public class CommandLineExample implements CommandLineRunner {
      * @throws Exception if not enough command-line arguments are given
      */
     @Override
-    public void run(final String... args) throws Exception {
+    public void run(final String[] args) throws Exception {
         try {
             String userId = args[USERID_ARGS];
             String fileName = args[FILENAME_ARGS];

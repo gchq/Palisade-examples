@@ -19,14 +19,15 @@ package uk.gov.gchq.palisade.example.perf.trial.small;
 import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPalisadeTrial;
 
 /**
  * Reads the small file a repeated number of times. This measures the entire interaction with Palisade.
  */
 @Component
-public class ReadSmallWithPolicyTrial extends PalisadeTrial {
+public class ReadSmallWithPolicyTrial extends AbstractPalisadeTrial {
     protected static final String NAME = "read_small_with_policy";
+    private static final String DESCRIPTION = "reads the small file with an example policy set";
 
     /**
      * Default constructor
@@ -46,7 +47,7 @@ public class ReadSmallWithPolicyTrial extends PalisadeTrial {
      * {@inheritDoc}
      */
     public String description() {
-        return "reads the small file with an example policy set";
+        return DESCRIPTION;
     }
 
     /**

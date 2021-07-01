@@ -21,7 +21,6 @@ import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.rule.Rule;
 import uk.gov.gchq.palisade.user.User;
-import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Objects;
 import java.util.Set;
@@ -30,6 +29,8 @@ import java.util.Set;
  * A specific {@link Rule} implementation for the first returned resource
  */
 public class FirstResourceRule implements Rule<Resource> {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor
@@ -44,7 +45,7 @@ public class FirstResourceRule implements Rule<Resource> {
      * @param resource the resource being processed
      * @param user the {@link User} making the request
      * @param context the {@link Context}, including the purpose, of the request
-     * @return the {@link Employee} record after the rule has been applied
+     * @return the {@link Resource} after the rule has been applied
      */
     public Resource apply(final Resource resource, final User user, final Context context) {
 
@@ -66,7 +67,7 @@ public class FirstResourceRule implements Rule<Resource> {
         }
     }
 
-    private String removeFileExtension(final String fileId) {
+    private static String removeFileExtension(final String fileId) {
         return fileId.substring(0, fileId.lastIndexOf('.'));
     }
 

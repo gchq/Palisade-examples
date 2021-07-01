@@ -73,6 +73,7 @@ public class PerfCollector {
      * @param results the list of results
      * @return performance statistics data
      */
+    @SuppressWarnings("java:S3047")
     public static PerfStats computePerfStats(final List<Long> results) {
         requireNonNull(results, "results");
         // deal with zero length results
@@ -101,11 +102,13 @@ public class PerfCollector {
         for (double seconds : resultList) {
             total += seconds;
         }
+
         stats.setMean(total / stats.getNumTrials());
+
         // std.dev. requires mean computing first
         double totalDiff = 0;
-        for (double seconds : resultList) {
-            double difFromMean = seconds - stats.getMean();
+        for (double result : resultList) {
+            double difFromMean = result - stats.getMean();
             totalDiff += (difFromMean * difFromMean);
         }
         stats.setStdDev(Math.sqrt(totalDiff / stats.getNumTrials()));

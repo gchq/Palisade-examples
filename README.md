@@ -13,7 +13,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-# Examples
+# <img src="logos/logo.svg" width="180">
+
+## A Tool for Complex and Scalable Data Access Policy Enforcement
+
+# Palisade Examples
 
 The example demonstrates different users querying an avro file over a REST api. 
 These examples are run in 3 different scenarios as described in the [Deployment-K8s](deployment-k8s) and [Deployment-JVM](deployment-jvm) modules:
