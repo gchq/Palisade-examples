@@ -85,6 +85,7 @@
         <source.plugin.version>3.2.1</source.plugin.version>
 
         <!-- Testing versions -->
+        <junit.version>4.12</junit.version>
         <surefire.plugin.version>2.22.1</surefire.plugin.version>
         <failsafe.version>2.22.1</failsafe.version>
 
