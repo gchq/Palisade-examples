@@ -27,7 +27,7 @@ helpFunction() {
    exit 1 # Exit script after printing help
 }
 
-while getopts "n:r:h:d:c:t:P:R" opt
+while getopts "n:r:h:d:c:t:P:R:" opt
 do
    case "$opt" in
       n) namespace="$OPTARG" ;;
