@@ -75,8 +75,11 @@ helm upgrade --install --wait palisade . \
     --set global.redis.install=true \
     --set Palisade-services.traefik.install="${traefik}" \
     --set global.topicPrefix="${topicprefix}" \
+    --set global.env.example-s3[1].name="AWS_ACCESS_KEY_ID" \
     --set global.env.example-s3[1].value="${AWS_ACCESS_KEY_ID}" \
+    --set global.env.example-s3[2].name="AWS_SECRET_ACCESS_KEY" \
     --set global.env.example-s3[2].value="${AWS_SECRET_ACCESS_KEY}" \
+    --set global.env.example-s3[3].name="AWS_SESSION_TOKEN" \
     --set global.env.example-s3[3].value="${AWS_SESSION_TOKEN}" \
     --timeout 300s \
     --namespace "${namespace}"
