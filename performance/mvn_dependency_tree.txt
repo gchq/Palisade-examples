@@ -18,6 +18,7 @@ uk.gov.gchq.palisade:performance:jar:0.5.0-SNAPSHOT
 |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.11.0:compile
 |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.11.0:compile
 |  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.11.0:compile
+|  +- org.slf4j:slf4j-api:jar:1.7.30:compile
 |  \- commons-io:commons-io:jar:2.6:compile
 +- uk.gov.gchq.palisade:client-akka:jar:0.5.0-SNAPSHOT:compile
 |  +- com.typesafe.akka:akka-stream_2.13:jar:2.6.10:compile
@@ -32,7 +33,6 @@ uk.gov.gchq.palisade:performance:jar:0.5.0-SNAPSHOT
 |  \- com.typesafe.akka:akka-http_2.13:jar:10.2.1:compile
 |     \- com.typesafe.akka:akka-http-core_2.13:jar:10.2.1:compile
 |        \- com.typesafe.akka:akka-parsing_2.13:jar:10.2.1:compile
-+- org.slf4j:slf4j-api:jar:1.7.30:compile
 \- org.springframework.boot:spring-boot-starter:jar:2.3.1.RELEASE:compile
    +- org.springframework.boot:spring-boot:jar:2.3.1.RELEASE:compile
    |  \- org.springframework:spring-context:jar:5.2.7.RELEASE:compile
