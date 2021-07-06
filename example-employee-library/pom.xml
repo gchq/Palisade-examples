@@ -33,11 +33,11 @@
     </developers>
 
     <!--  *********** Artifact ID ***********    -->
-    <artifactId>example-library</artifactId>
+    <artifactId>example-employee-library</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/example-library</url>
-    <name>GCHQ Palisade - Example Library</name>
+    <name>GCHQ Palisade - Example Employee Library</name>
     <description>
-        The users, resources and policies to be used in the example, as well as pre-population configuration for services.
+        The files required to use the Employee data type in the example
     </description>
     <!--  *********** Artifact ID ***********    -->
 
@@ -58,12 +58,6 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>user-service</artifactId>
-            <version>0.5.0-${services.revision}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>uk.gov.gchq.palisade</groupId>
             <artifactId>example-user-library</artifactId>
             <version>0.5.0-${revision}</version>
         </dependency>
@@ -80,25 +74,12 @@
             </exclusions>
         </dependency>
 
-        <!-- Spring Dependency -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Testing Dependency -->
         <dependency>
             <!-- JUnit, Jupiter, SpringBootTest etc... -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
