@@ -50,19 +50,41 @@ fi
 
 # get iam-role from command-line args, groovy-scripts does ./deployServicesToK8s.sh -r palisade-pipeline-prod-worker
 # get security credentials from instance metadata
-#if curl --fail --connect-timeout 5 -o security-credentials.json http://169.254.169.254/latest/meta-data/iam/security-credentials/${role}/; then
-#    AWS_ACCESS_KEY_ID=$(jq -r '.AccessKeyId' < security-credentials.json)
-#    AWS_SECRET_ACCESS_KEY=$(jq -r '.SecretAccessKey' < security-credentials.json)
-#    AWS_SESSION_TOKEN=$(jq -r '.Token' < security-credentials.json)
-#else
-#    echo "failed to get sec credentials"
-#    exit 1
-#fi
+if curl --fail --connect-timeout 5 -o security-credentials.json http://169.254.169.254/latest/meta-data/iam/security-credentials/${role}/; then
+    AWS_ACCESS_KEY_ID=$(jq -r '.AccessKeyId' < security-credentials.json)
+    AWS_SECRET_ACCESS_KEY=$(jq -r '.SecretAccessKey' < security-credentials.json)
+    AWS_SESSION_TOKEN=$(jq -r '.Token' < security-credentials.json)
+else
+    echo "failed to get sec credentials"
+    exit 1
+fi
 
 cd deployment-k8s || exit
 
 # Begin script in case all parameters are correct
 helm dep up
+
+echo helm upgrade --install --wait palisade . \
+    --set global.hosting=aws \
+    --set global.repository="${repository}/" \
+    --set global.hostname="${hostname}" \
+    --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle="${datastore}" \
+    --set global.persistence.classpathJars.aws.volumeHandle="${classpathjars}" \
+    --set global.deployment=example-s3 \
+    --set global.kafka.install=true \
+    --set global.redis.install=true \
+    --set Palisade-services.traefik.install="${traefik}" \
+    --set global.topicPrefix="${topicprefix}" \
+    --set global.env.example-s3[0].name="SPRING_PROFILES_ACTIVE" \
+    --set global.env.example-s3[0].value="k8s\,\s3\,\example-s3\,\debug" \
+    --set global.env.example-s3[1].name="AWS_ACCESS_KEY_ID" \
+    --set global.env.example-s3[1].value="${AWS_ACCESS_KEY_ID}" \
+    --set global.env.example-s3[2].name="AWS_SECRET_ACCESS_KEY" \
+    --set global.env.example-s3[2].value="${AWS_SECRET_ACCESS_KEY}" \
+    --set global.env.example-s3[3].name="AWS_SESSION_TOKEN" \
+    --set global.env.example-s3[3].value="${AWS_SESSION_TOKEN}" \
+    --timeout 300s \
+    --namespace "${namespace}"
 
 helm upgrade --install --wait palisade . \
     --set global.hosting=aws \
