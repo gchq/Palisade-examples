@@ -21,6 +21,7 @@ import uk.gov.gchq.palisade.user.User;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
@@ -31,18 +32,7 @@ import static java.util.Objects.requireNonNull;
 public class ExampleUser extends User {
     private static final long serialVersionUID = 1L;
 
-    private EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
-
-    /**
-     * Constructor using a {@link User}
-     *
-     * @param user the user used to create the {@link ExampleUser}
-     */
-    public ExampleUser(final User user) {
-        setUserId(user.getUserId());
-        setAuths(user.getAuths());
-        setRoles(user.getRoles());
-    }
+    private Set<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     /**
      * Default constructor
@@ -51,7 +41,7 @@ public class ExampleUser extends User {
         //no-args constructor
     }
 
-    public ExampleUser trainingCompleted(final TrainingCourse... trainingCompleted) {
+    public ExampleUser trainingCompleted(final TrainingCourse[] trainingCompleted) {
         requireNonNull(trainingCompleted, "cannot add null training completed");
         trainingCourses.clear();
         trainingCourses.addAll(Arrays.asList(trainingCompleted));
@@ -64,7 +54,7 @@ public class ExampleUser extends User {
      * @param trainingCompleted an EnumSet of the completed training courses
      * @return the {@link ExampleUser} including the added training courses
      */
-    public ExampleUser trainingCompleted(final EnumSet<TrainingCourse> trainingCompleted) {
+    public ExampleUser trainingCompleted(final Set<TrainingCourse> trainingCompleted) {
         requireNonNull(trainingCompleted, "cannot add null training completed");
         trainingCourses.clear();
         trainingCourses.addAll(trainingCompleted);
@@ -74,10 +64,10 @@ public class ExampleUser extends User {
     /**
      * Get the set of training courses for the {@link ExampleUser}
      *
-     * @return the {@link EnumSet} of training courses
+     * @return the {@link Set} of training courses
      */
-    public EnumSet<TrainingCourse> getTrainingCompleted() {
-        return trainingCourses;
+    public Set<TrainingCourse> getTrainingCompleted() {
+        return EnumSet.copyOf(trainingCourses);
     }
 
     /**
@@ -85,7 +75,7 @@ public class ExampleUser extends User {
      *
      * @param trainingCompleted an array of training courses to be added
      */
-    public void setTrainingCompleted(final TrainingCourse... trainingCompleted) {
+    public void setTrainingCompleted(final TrainingCourse[] trainingCompleted) {
         trainingCompleted(trainingCompleted);
     }
 

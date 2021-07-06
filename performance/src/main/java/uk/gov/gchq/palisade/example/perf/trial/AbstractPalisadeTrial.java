@@ -36,8 +36,8 @@ import java.util.concurrent.TimeoutException;
 /**
  * Abstract class for all Palisade specific trials
  */
-public abstract class PalisadeTrial extends PerfTrial {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PalisadeTrial.class);
+public abstract class AbstractPalisadeTrial extends AbstractPerfTrial {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPalisadeTrial.class);
     private static final long TIMEOUT_SECONDS = 30;
     private static final String TIMEOUT_MESSAGE = "Test timed out after " + TIMEOUT_SECONDS + " seconds";
 

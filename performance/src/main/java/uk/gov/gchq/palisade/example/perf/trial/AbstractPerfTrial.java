@@ -29,8 +29,8 @@ import static java.util.Objects.requireNonNull;
 /**
  * Abstract superclass for all performance trials.
  */
-public abstract class PerfTrial {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PerfTrial.class);
+public abstract class AbstractPerfTrial {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPerfTrial.class);
 
     /**
      * Normal trial name.
@@ -76,7 +76,7 @@ public abstract class PerfTrial {
      * @param normalTrialName the trial name to normalise against
      * @return this object
      */
-    public PerfTrial setNameForNormalisation(final String normalTrialName) {
+    public AbstractPerfTrial setNameForNormalisation(final String normalTrialName) {
         requireNonNull(normalTrialName, "normalTrialName");
         this.normal = normalTrialName;
         return this;
@@ -88,7 +88,7 @@ public abstract class PerfTrial {
      * @param trial the trial to normalise against
      * @return this object
      */
-    public PerfTrial setNameForNormalisation(final PerfTrial trial) {
+    public AbstractPerfTrial setNameForNormalisation(final AbstractPerfTrial trial) {
         requireNonNull(trial, "trial");
         return this.setNameForNormalisation(trial.name());
     }

@@ -33,7 +33,7 @@ import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
-import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPerfTrial;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Collection;
@@ -88,9 +88,9 @@ public class ApplicationConfiguration {
      */
     @Bean
     @ConditionalOnProperty(name = "performance.action", havingValue = "run")
-    CommandLineRunner runAction(final PerformanceConfiguration conf, final Collection<PerfTrial> perfTrialSet) {
-        Map<String, PerfTrial> testsToRun = perfTrialSet.stream()
-                .collect(Collectors.toMap(PerfTrial::name, Function.identity()));
+    CommandLineRunner runAction(final PerformanceConfiguration conf, final Collection<AbstractPerfTrial> perfTrialSet) {
+        Map<String, AbstractPerfTrial> testsToRun = perfTrialSet.stream()
+                .collect(Collectors.toMap(AbstractPerfTrial::name, Function.identity()));
         LOGGER.debug("Created RunAction with conf {} and tests {}", conf, testsToRun);
         return new ActionRunner(new RunAction(conf.getDirectory(), conf.getDryRuns(), conf.getLiveRuns(), testsToRun, new HashSet<>(conf.getSkipTests())));
     }
