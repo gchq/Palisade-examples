@@ -50,6 +50,10 @@ fi
 
 # get iam-role from command-line args, groovy-scripts does ./deployServicesToK8s.sh -r palisade-pipeline-prod-worker
 # get security credentials from instance metadata
+
+echo `curl http://169.254.169.254/latest/meta-data/iam/security-credentials/`
+echo `curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${role}/`
+
 if curl --fail --connect-timeout 5 -o security-credentials.json http://169.254.169.254/latest/meta-data/iam/security-credentials/${role}/; then
     AWS_ACCESS_KEY_ID=$(jq -r '.AccessKeyId' < security-credentials.json)
     AWS_SECRET_ACCESS_KEY=$(jq -r '.SecretAccessKey' < security-credentials.json)
