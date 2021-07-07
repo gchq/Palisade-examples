@@ -82,7 +82,7 @@ Calculate the service config location
 {{/*
 Create the image name
 */}}
-{{- define "deployment.image.name" }}
+{{- define "deployment-jvm.image.name" }}
 {{- if contains .Values.image.revision .Values.global.releaseTag -}}
 {{- printf "%s%s:%s-%s-%s" .Values.global.repository .Values.image.name .Values.image.base  .Values.image.revision .Values.image.versionNumber }}
 {{- else -}}
