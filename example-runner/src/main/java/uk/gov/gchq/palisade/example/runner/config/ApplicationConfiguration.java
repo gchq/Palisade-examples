@@ -21,7 +21,6 @@ import akka.stream.Materializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,12 +31,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.runner.runner.BulkTestExample;
 import uk.gov.gchq.palisade.example.runner.runner.CommandLineExample;
 import uk.gov.gchq.palisade.example.runner.runner.RestExample;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
+
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Spring bean configuration to run the example
@@ -47,6 +50,26 @@ import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
+    @ConfigurationProperties(prefix = "web")
+    static class ClientMap {
+        private Map<String, String> client;
+
+        @Generated
+        public Map<String, String> getClient() {
+            return client;
+        }
+
+        @Generated
+        public String getClient(final String key) {
+            return client.get(key);
+        }
+
+        @Generated
+        public void setClient(final Map<String, String> client) {
+            this.client = Optional.ofNullable(client)
+                    .orElseThrow(() -> new IllegalArgumentException("client cannot be null"));
+        }
+    }
 
     @Bean
     ActorSystem actorSystem() {
@@ -54,10 +77,14 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    AkkaClient client(final @Value("${web.client.palisade-service}") String palisadeService,
-                      final @Value("${web.client.filtered-resource-service}") String filteredResourceService,
-                      final ActorSystem actorSystem) {
-        return new AkkaClient(palisadeService, filteredResourceService, actorSystem);
+    AkkaClient client(final ClientMap clientMap, final ActorSystem actorSystem) {
+        return new AkkaClient(
+                clientMap.getClient("palisade-service"),
+                clientMap.getClient("filtered-resource-service"),
+                clientMap.getClient(),
+                actorSystem,
+                AkkaClient.SSLMode.NONE
+        );
     }
 
     @Bean
