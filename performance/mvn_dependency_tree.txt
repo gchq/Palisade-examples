@@ -9,7 +9,6 @@ uk.gov.gchq.palisade:performance:jar:0.5.0-SNAPSHOT
 |     +- org.apache.commons:commons-compress:jar:1.8.1:compile
 |     \- org.tukaani:xz:jar:1.5:compile
 +- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.4:compile
-|  +- org.slf4j:slf4j-api:jar:1.7.30:compile
 |  +- com.github.javafaker:javafaker:jar:1.0.1:compile
 |  |  +- org.apache.commons:commons-lang3:jar:3.10:compile
 |  |  +- org.yaml:snakeyaml:jar:android:1.23:compile
@@ -19,7 +18,7 @@ uk.gov.gchq.palisade:performance:jar:0.5.0-SNAPSHOT
 |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.11.0:compile
 |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.11.0:compile
 |  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.11.0:compile
-|  +- org.slf4j:slf4j-simple:jar:1.7.30:compile
+|  +- org.slf4j:slf4j-api:jar:1.7.30:compile
 |  \- commons-io:commons-io:jar:2.6:compile
 +- uk.gov.gchq.palisade:client-akka:jar:0.5.0-SNAPSHOT:compile
 |  +- com.typesafe.akka:akka-stream_2.13:jar:2.6.10:compile
