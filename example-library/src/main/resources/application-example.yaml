@@ -30,4 +30,4 @@ default:
   rootId: file:../Palisade-examples/resources
   connectionDetail: localhost:8082
   type: uk.gov.gchq.syntheticdatagenerator.types.Employee
-  format: avro
+  format: "avro/binary"
