@@ -97,14 +97,12 @@ uk.gov.gchq.palisade:example-library:jar:0.5.0-SNAPSHOT
 |  +- org.hamcrest:hamcrest:jar:2.2:test
 |  +- org.junit.jupiter:junit-jupiter:jar:5.6.2:test
 |  |  +- org.junit.jupiter:junit-jupiter-api:jar:5.6.2:test
+|  |  |  +- org.apiguardian:apiguardian-api:jar:1.1.0:test
 |  |  |  +- org.opentest4j:opentest4j:jar:1.2.0:test
 |  |  |  \- org.junit.platform:junit-platform-commons:jar:1.6.2:test
 |  |  +- org.junit.jupiter:junit-jupiter-params:jar:5.6.2:test
 |  |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.6.2:test
-|  +- org.junit.vintage:junit-vintage-engine:jar:5.6.2:test
-|  |  +- org.apiguardian:apiguardian-api:jar:1.1.0:test
-|  |  +- org.junit.platform:junit-platform-engine:jar:1.6.2:test
-|  |  \- junit:junit:jar:4.12:test
+|  |     \- org.junit.platform:junit-platform-engine:jar:1.6.2:test
 |  +- org.mockito:mockito-core:jar:3.3.3:test
 |  |  +- net.bytebuddy:byte-buddy:jar:1.10.11:test
 |  |  +- net.bytebuddy:byte-buddy-agent:jar:1.10.11:test
