@@ -78,3 +78,14 @@ Calculate the service config location
 {{- define "deployment-jvm.config.path" }}
 {{- printf "/usr/share/%s/config/" .Chart.Name }}
 {{- end }}
+
+{{/*
+Create the image name
+*/}}
+{{- define "deployment-jvm.image.name" }}
+{{- if contains .Values.image.revision .Values.global.releaseTag -}}
+{{- printf "%s%s:%s-%s-%s" .Values.global.repository .Values.image.name .Values.image.base  .Values.image.revision .Values.image.versionNumber }}
+{{- else -}}
+{{- printf "%s%s:%s-%s" .Values.global.repository .Values.image.name .Values.image.base  .Values.image.tag }}
+{{- end -}}
+{{- end -}}

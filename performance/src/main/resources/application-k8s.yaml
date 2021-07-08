@@ -20,3 +20,4 @@ web:
   client:
     palisade-service: "palisade-service"
     filtered-resource-service: "filtered-resource-service"
+    data-service: "data-service"

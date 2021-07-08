@@ -46,7 +46,7 @@ import java.util.Optional;
  * Spring bean configuration to run the example
  */
 @Configuration
-@EnableConfigurationProperties
+@EnableConfigurationProperties(ClientMap.class)
 public class ApplicationConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
