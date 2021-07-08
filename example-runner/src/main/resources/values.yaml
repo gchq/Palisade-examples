@@ -24,6 +24,9 @@ image:
   tag: @revision@-@git.commit.id.abbrev@
   pullPolicy: IfNotPresent
   codeRelease: @project.parent.version@
+  gitHash: @git.commit.id.abbrev@
+  versionNumber: @version.number@
+  revision: @revision@
 
 resources:
   limits:
