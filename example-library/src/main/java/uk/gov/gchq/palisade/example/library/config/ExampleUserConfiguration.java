@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package uk.gov.gchq.palisade.example.library.config;
 
 import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.service.UserConfiguration;
+import uk.gov.gchq.palisade.service.user.config.UserConfiguration;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +26,11 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Implementation of a {@link UserConfiguration} that uses Spring to configure a list of users from a yaml file
+ * A container for a number of {@link ExampleUserConfiguration} builders used for creating {@link uk.gov.gchq.palisade.user.User}s
+ * These users will be used for pre-populating the {@link uk.gov.gchq.palisade.service.user.service.UserService}
+ */
 public class ExampleUserConfiguration implements UserConfiguration {
 
     private List<ExampleUserPrepopulationFactory> users;
@@ -42,22 +47,22 @@ public class ExampleUserConfiguration implements UserConfiguration {
      * Constructor with 1 argument for an example implementation
      * of the {@link UserConfiguration} interface
      *
-     * @param users a list of objects implementing the {@link uk.gov.gchq.palisade.service.UserPrepopulationFactory} interface
+     * @param users a list of objects implementing the {@link uk.gov.gchq.palisade.service.user.config.UserPrepopulationFactory} interface
      */
     public ExampleUserConfiguration(final List<ExampleUserPrepopulationFactory> users) {
-        this.users = users;
+        this.users = Collections.unmodifiableList(users);
     }
 
     @Override
     @Generated
     public List<ExampleUserPrepopulationFactory> getUsers() {
-        return users;
+        return List.copyOf(users);
     }
 
     @Generated
     public void setUsers(final List<ExampleUserPrepopulationFactory> users) {
         requireNonNull(users);
-        this.users = users;
+        this.users = Collections.unmodifiableList(users);
     }
 
     @Override

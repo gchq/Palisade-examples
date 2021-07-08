@@ -1,0 +1,88 @@
+# Copyright 2018-2021 Crown Copyright
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Use Palisade-services values.yaml mostly, but set some useful defaults here
+
+# Used by templates for naming resources, see assorted helpers.tpl
+fullnameOverride: palisade-examples
+
+global:
+  # uniqueNamespace: if true (and this is a new install) the generated deployment name will be used as the namespace name too
+  uniqueNamespace: false
+
+  # namespace: the target namespace, overridden by (1) --namespace (helm, the preferred override) or (2) global.uniqueNamespace=true, ingress path will include this name at the path root (default truncated to null)
+  namespace: default
+
+  # Sets up some mount points in services for example data
+  deployment: example
+
+  env:
+    example:
+    - name: "SPRING_PROFILES_ACTIVE"
+      # Debug-level logging for the 'example' deployment can be enabled by adding a 'debug' profile here
+      value: "k8s,example-k8s"
+    performance-test:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,example-perf-k8s,nologs"
+    s3:
+    - name: "SPRING_PROFILES_ACTIVE"
+      value: "k8s,s3,example-s3"
+    - name: "AWS_ACCESS_KEY_ID"
+      value: ""
+    - name: "AWS_SECRET_ACCESS_KEY"
+      value: ""
+    - name: "AWS_SESSION_TOKEN"
+      value: ""
+    - name: "AWS_REGION"
+      value: "eu-west-2"
+
+  additionalConfigMaps:
+    # Debug-level logging can be enabled across services at start-time by configuring here and adding a 'debug' profile for the selected deployment (see above)
+    application-debug.yaml: |
+      logging.level.uk.gov.gchq.palisade: DEBUG
+    application-nologs.yaml: |
+      logging.level.root: ERROR
+    application-s3.yaml: |
+      resource:
+        implementation: s3
+      data:
+        implementation: s3
+
+  # repository: the name of the docker image repository that is the source of local application images that was populated during the project build process and will now be referenced in the pods
+  repository: "gchq/palisade-"
+
+  # releaseTag: name used to identify image tags used in a release (as opposed to a SNAPSHOT)
+  releaseTag: RELEASE
+
+
+  # persistent-volume and associated claims configurations
+  persistence:
+    classpathJars:
+      local:
+        hostPath: "/"
+
+    dataStores:
+      palisade-data-store:
+        local:
+          hostPath: "/data"
+
+    redis-master.local.hostPath: "/tmp"
+    redis-slave.local.hostPath: "/tmp"
+    redis-cluster.local.hostPath: "/tmp"
+    kafka.local.hostPath: "/tmp"
+    zookeeper.local.hostPath: "/tmp"
+
+  # must be last for file to be appended with addresses
+  globalIPAddresses:

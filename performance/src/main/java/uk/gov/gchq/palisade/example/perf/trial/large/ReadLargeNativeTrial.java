@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import org.springframework.stereotype.Component;
 
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.example.perf.trial.PerfTrial;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPerfTrial;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,23 +36,36 @@ import java.util.stream.Stream;
  * does try to deserialise the data.
  */
 @Component
-public class ReadLargeNativeTrial extends PerfTrial {
+public class ReadLargeNativeTrial extends AbstractPerfTrial {
     protected static final String NAME = "read_large_native";
     //create the serialiser
     private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
+    private static final String DESCRIPTION = "performs a native read and deserialise of the large file";
 
+    /**
+     * Default constructor
+     */
     public ReadLargeNativeTrial() {
         normal = NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
-        return "performs a native read and deserialise of the large file";
+        return DESCRIPTION;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
         //get file URI
         //read from file
@@ -60,7 +73,7 @@ public class ReadLargeNativeTrial extends PerfTrial {
              Stream<Employee> dataStream = SERIALISER.deserialise(bis)) {
 
             //now read everything in the file
-            sink(Stream.of(dataStream));
+            nativeRead(Stream.of(dataStream));
 
         } catch (IOException e) {
             throw new PerfException(e);

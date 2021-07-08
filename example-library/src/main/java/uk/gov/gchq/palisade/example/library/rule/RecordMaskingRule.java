@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +17,31 @@
 package uk.gov.gchq.palisade.example.library.rule;
 
 import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.UserId;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Manager;
 import uk.gov.gchq.palisade.example.library.common.EmployeeUtils;
 import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.rule.Rule;
+import uk.gov.gchq.palisade.user.User;
+import uk.gov.gchq.palisade.user.UserId;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
+import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * A specific {@link Rule} implementation for specific {@link Employee} fields
+ */
 public class RecordMaskingRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
 
+    /**
+     * Default constructor
+     */
     public RecordMaskingRule() {
+        // no-args constructor
     }
 
-    private Employee estatesRedactRecord(final Employee maskedRecord) {
+    private static Employee estatesRedactRecord(final Employee maskedRecord) {
         maskedRecord.setDateOfBirth(null);
         maskedRecord.setManager(null);
         maskedRecord.setHireDate(null);
@@ -41,24 +49,34 @@ public class RecordMaskingRule implements Rule<Employee> {
         return maskedRecord;
     }
 
+    /**
+     * Applies the {@link Rule} to a record
+     *
+     * @param record the record being processed
+     * @param user the {@link User} making the request
+     * @param context the {@link Context}, including the purpose, of the request
+     * @return the {@link Employee} record after the rule has been applied
+     */
     public Employee apply(final Employee record, final User user, final Context context) {
-
         Objects.requireNonNull(user);
         Objects.requireNonNull(context);
-        UserId userId = user.getUserId();
-        Manager[] managers = record.getManager();
         Set<String> roles = user.getRoles();
 
         if (roles.contains(Role.HR.name())) {
             return record;
         }
+
+        UserId userId = user.getUserId();
+        Manager[] managers = record.getManager();
+
+        if (EmployeeUtils.isManager(managers, userId)) {
+            return record;
+        }
+
         if (roles.contains(Role.ESTATES.name())) {
             return estatesRedactRecord(record);
         }
-        if (EmployeeUtils.isManager(managers, userId)) {
-            return record;
-        } else {
-            return null;
-        }
+
+        return null;
     }
 }

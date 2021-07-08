@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package uk.gov.gchq.palisade.example.library.config;
 
 import uk.gov.gchq.palisade.Generated;
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.library.common.ExampleUser;
 import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
-import uk.gov.gchq.palisade.service.UserPrepopulationFactory;
+import uk.gov.gchq.palisade.service.user.config.UserPrepopulationFactory;
+import uk.gov.gchq.palisade.user.User;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -30,12 +30,16 @@ import java.util.StringJoiner;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Implementation of a {@link UserPrepopulationFactory} that uses Spring to configure a user from a yaml file
+ * A factory for {@link User} objects, using a userId, a list of authorisations and a list of roles.
+ */
 public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory {
 
     private String userId = "";
     private Set<String> auths = Collections.emptySet();
     private Set<String> roles = Collections.emptySet();
-    private EnumSet<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
+    private Set<TrainingCourse> trainingCourses = EnumSet.noneOf(TrainingCourse.class);
 
     /**
      * Constructor with 0 arguments for an example implementation
@@ -51,13 +55,13 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
      * @param userId          a {@link String} value of a user.
      * @param auths           a {@link Set} of {@link String} auth values for the user.
      * @param roles           a {@link Set} of {@link String} role values for the user.
-     * @param trainingCourses an {@link EnumSet} of {@link TrainingCourse}s for the user.
+     * @param trainingCourses an {@link Set} of {@link TrainingCourse}s for the user.
      */
-    public ExampleUserPrepopulationFactory(final String userId, final Set<String> auths, final Set<String> roles, final EnumSet<TrainingCourse> trainingCourses) {
+    public ExampleUserPrepopulationFactory(final String userId, final Set<String> auths, final Set<String> roles, final Set<TrainingCourse> trainingCourses) {
         this.userId = userId;
-        this.auths = auths;
-        this.roles = roles;
-        this.trainingCourses = trainingCourses;
+        this.auths = Set.copyOf(auths);
+        this.roles = Set.copyOf(roles);
+        this.trainingCourses = Set.copyOf(trainingCourses);
     }
 
     @Generated
@@ -73,33 +77,33 @@ public class ExampleUserPrepopulationFactory implements UserPrepopulationFactory
 
     @Generated
     public Set<String> getAuths() {
-        return auths;
+        return Set.copyOf(auths);
     }
 
     @Generated
     public void setAuths(final Set<String> auths) {
         requireNonNull(auths);
-        this.auths = auths;
+        this.auths = Collections.unmodifiableSet(auths);
     }
 
     @Generated
     public Set<String> getRoles() {
-        return roles;
+        return Set.copyOf(roles);
     }
 
     @Generated
     public void setRoles(final Set<String> roles) {
         requireNonNull(roles);
-        this.roles = roles;
+        this.roles = Collections.unmodifiableSet(roles);
     }
 
     @Generated
-    public EnumSet<TrainingCourse> getTrainingCourses() {
-        return trainingCourses;
+    public Set<TrainingCourse> getTrainingCourses() {
+        return Set.copyOf(trainingCourses);
     }
 
     @Generated
-    public void setTrainingCourses(final String... trainingCourse) {
+    public void setTrainingCourses(final String[] trainingCourse) {
         requireNonNull(trainingCourse);
         for (String course : trainingCourse) {
             trainingCourses.add(TrainingCourse.valueOf(course));

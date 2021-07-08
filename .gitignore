@@ -1,4 +1,4 @@
-# Copyright 2018 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ resources/data/no-policy
 
 # Build artifacts
 target/
-charts/*.tgz
+*.tgz
 
 # Other common patterns to ignore
 *.iml
@@ -35,13 +35,14 @@ bin/
 _book
 node_modules/
 .extract/
-.project/
 .settings/
 .terraform/
 terraform.tfvars
 terraform.tfstate
 terraform.tfstate.backup
 dependency-reduced-pom.xml
+*.ipr
+*.iws
 
 ##VSCODE default files that dont need to be tracked
 eclipse-formatter.xml

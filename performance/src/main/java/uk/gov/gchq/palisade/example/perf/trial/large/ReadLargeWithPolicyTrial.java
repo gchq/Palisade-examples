@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,37 +18,42 @@ package uk.gov.gchq.palisade.example.perf.trial.large;
 
 import org.springframework.stereotype.Component;
 
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
-import uk.gov.gchq.palisade.example.perf.trial.PalisadeTrial;
-
-import java.util.function.Function;
-import java.util.stream.Stream;
+import uk.gov.gchq.palisade.example.perf.trial.AbstractPalisadeTrial;
 
 /**
  * Test that reads the large data file from Palisade with an example policy and times entire Palisade interaction.
  */
 @Component
-public class ReadLargeWithPolicyTrial extends PalisadeTrial {
+public class ReadLargeWithPolicyTrial extends AbstractPalisadeTrial {
     protected static final String NAME = "read_large_with_policy";
+    private static final String DESCRIPTION = "reads the large data file with an example policy set";
 
-    public ReadLargeWithPolicyTrial(final Function<String, Stream<Stream<Employee>>> client) {
-        super(client);
+    /**
+     * Default constructor
+     */
+    public ReadLargeWithPolicyTrial() {
         normal = ReadLargeNativeTrial.NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String name() {
         return NAME;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String description() {
-        return "reads the large data file with an example policy set";
+        return DESCRIPTION;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void runTrial(final PerfFileSet fileSet, final PerfFileSet noPolicySet) {
-        //setup a request and read data
-        try (Stream<Stream<Employee>> data = getDataStream(fileSet.largeFile)) {
-            sink(data);
-        }
+        read(fileSet.largeFile);
     }
 }

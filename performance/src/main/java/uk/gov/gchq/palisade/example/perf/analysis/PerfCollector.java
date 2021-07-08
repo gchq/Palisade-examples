@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import static java.util.Objects.requireNonNull;
  * summary statistics to various outputs.
  */
 public class PerfCollector {
+
     /**
      * Number of nanoseconds in a second.
      */
@@ -43,10 +44,12 @@ public class PerfCollector {
     public static final int NINETY_NINE_PERCENT = 99;
     public static final int ONE_HUNDRED_PERCENT = 100;
     public static final double ONE_HUNDRED_DOUBLE = 100D;
+
     /**
      * Column headers.
      */
     protected static final String[] COLUMN_HEADERS = {"Test", "# trials", "Min", "Max", "Mean", "Std.dev.", "25%", "50%", "75%", "99%", "Norm"};
+
     /**
      * Details of all the times.
      */
@@ -70,6 +73,7 @@ public class PerfCollector {
      * @param results the list of results
      * @return performance statistics data
      */
+    @SuppressWarnings("java:S3047")
     public static PerfStats computePerfStats(final List<Long> results) {
         requireNonNull(results, "results");
         // deal with zero length results
@@ -98,11 +102,13 @@ public class PerfCollector {
         for (double seconds : resultList) {
             total += seconds;
         }
+
         stats.setMean(total / stats.getNumTrials());
+
         // std.dev. requires mean computing first
         double totalDiff = 0;
-        for (double seconds : resultList) {
-            double difFromMean = seconds - stats.getMean();
+        for (double result : resultList) {
+            double difFromMean = result - stats.getMean();
             totalDiff += (difFromMean * difFromMean);
         }
         stats.setStdDev(Math.sqrt(totalDiff / stats.getNumTrials()));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,30 @@
 package uk.gov.gchq.palisade.example.library.rule;
 
 import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.rule.Rule;
+import uk.gov.gchq.palisade.user.User;
 
-import java.io.Serializable;
-
-public class PassThroughRule implements Serializable, Rule<Resource> {
+/**
+ * A simple {@link Rule} implementation that does not make any resource redactions
+ */
+public class PassThroughRule implements Rule<Resource> {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Applies the {@link Rule} to a record
+     *
+     * @param resource the resource being processed
+     * @param user the {@link User} making the request
+     * @param context the {@link Context}, including the purpose, of the request
+     * @return the {@link Resource} after the rule has been applied
+     */
     public Resource apply(final Resource resource, final User user, final Context context) {
         return resource;
+    }
+
+    @Override
+    public boolean isApplicable(final User user, final Context context) {
+        return false;
     }
 }

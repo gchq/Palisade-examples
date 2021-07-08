@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,22 @@
 
 package uk.gov.gchq.palisade.example.library.rule;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
 import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.resource.Resource;
 import uk.gov.gchq.palisade.resource.impl.FileResource;
+import uk.gov.gchq.palisade.user.User;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import java.util.Collections;
 
-public class FirstResourceTest {
+import static org.assertj.core.api.Assertions.assertThat;
 
-    private static final User TEST_USER_HR = new User().userId("1").roles(Role.HR.name());
-    private static final User TEST_USER_NOT_HR = new User().userId("1").roles("Not HR");
+class FirstResourceTest {
+
+    private static final User TEST_USER_HR = new User().userId("1").roles(Collections.singleton(Role.HR.name()));
+    private static final User TEST_USER_NOT_HR = new User().userId("1").roles(Collections.singleton("Not HR"));
     private static final Context TEST_CONTEXT = new Context().purpose("purpose");
     private static final FileResource TEST_RESOURCE = new FileResource();
     private static final String FILE_ID_1 = "file1.avro";
@@ -38,7 +39,7 @@ public class FirstResourceTest {
     private static final FirstResourceRule RESOURCE_RULE = new FirstResourceRule();
 
     @Test
-    public void hrGetFirstFile() {
+    void testHrGetFirstFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_1);
 
@@ -46,11 +47,13 @@ public class FirstResourceTest {
         Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals("HR should be able to access first resource", TEST_RESOURCE, actual);
+        assertThat(actual)
+                .as("HR should be able to access first resource")
+                .isEqualTo(TEST_RESOURCE);
     }
 
     @Test
-    public void nonHrGetFirstFile() {
+    void testNonHrGetFirstFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_1);
 
@@ -58,11 +61,13 @@ public class FirstResourceTest {
         Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_NOT_HR, TEST_CONTEXT);
 
         //Then
-        assertNull("non-HR should not be able to access first resource", actual);
+        assertThat(actual)
+                .as("non-HR should not be able to access first resource")
+                .isNull();
     }
 
     @Test
-    public void hrGetSecondFile() {
+    void testHrGetSecondFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_2);
 
@@ -70,11 +75,13 @@ public class FirstResourceTest {
         Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals("HR should be able to access second resource", TEST_RESOURCE, actual);
+        assertThat(actual)
+                .as("HR should be able to access second resource")
+                .isEqualTo(TEST_RESOURCE);
     }
 
     @Test
-    public void nonHrGetSecondFile() {
+    void testNonHrGetSecondFile() {
         //Given - FileId, User
         TEST_RESOURCE.setId(FILE_ID_2);
 
@@ -82,6 +89,8 @@ public class FirstResourceTest {
         Resource actual = RESOURCE_RULE.apply(TEST_RESOURCE, TEST_USER_NOT_HR, TEST_CONTEXT);
 
         //Then
-        assertEquals("non-HR should be able to access second resource", TEST_RESOURCE, actual);
+        assertThat(actual)
+                .as("non-HR should be able to access second resource")
+                .isEqualTo(TEST_RESOURCE);
     }
 }

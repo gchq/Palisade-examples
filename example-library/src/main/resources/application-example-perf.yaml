@@ -1,4 +1,4 @@
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,51 +11,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-# Not interpreted by any java code, simply used by reference in the population.resources section
+spring:
+  profiles:
+    include:
+    - example-perf-config
+    - example-users
+    - example-perf-policies
+    - example-serialisers
+
+---
+
+spring:
+  profiles: example-perf-config
+
 default:
-  rootId: ../Palisade-examples/resources
-  connectionDetail: data-service
-  type: uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee
-  format: avro
+  rootId: file:../Palisade-examples/resources
+  connectionDetail: localhost:8082
+  type: uk.gov.gchq.syntheticdatagenerator.types.Employee
+  format: "avro/binary"
 
-population:
-  userProvider: example
-  users:
-  - userId: Alice
-    auths:
-      public
-      private
-    roles:
-      HR
-    trainingCourses:
-      PAYROLL_TRAINING_COURSE
-
-  policyProvider: std
-  policies:
-  - resource: ${default.rootId}/data/with-policy/
-    owner: Alice
-    recordRules:
-      "1-Bank details only visible for the purpose of salary": uk.gov.gchq.palisade.example.library.rule.BankDetailsRule
-      "2-Emergency numbers only available for duty of care purpose": uk.gov.gchq.palisade.example.library.rule.DutyOfCareRule
-      "3-Nationality is only available for staff report": uk.gov.gchq.palisade.example.library.rule.NationalityRule
-      "4-Address masked for estates staff and otherwise only available for duty of care": uk.gov.gchq.palisade.example.library.rule.ZipCodeMaskingRule
-      "5-Record content masked for all who are not in the employee's management chain or part of the estates or HR.": uk.gov.gchq.palisade.example.library.rule.RecordMaskingRule
-    resourceRules:
-      "1-Only HR can access the first resource": uk.gov.gchq.palisade.example.library.rule.FirstResourceRule
-  - resource: ${default.rootId}/data/no-policy/
-    owner: Alice
-    resourceRules:
-      "1-Pass through rule for no-policy directory": uk.gov.gchq.palisade.example.library.rule.PassThroughRule
-    recordRules: {}
-
-  serialiserProvider: std
-  serialisers:
-  - flavourFormat: ${default.format}
-    flavourType: ${default.type}
-    serialiserClass: uk.gov.gchq.palisade.data.serialise.AvroSerialiser
-
-# Used by the resource-service to infer the types of the (many thousands of) resources created for the performance test
+# Locally, we use the SimpleResourceService which does a Files.walk(...) so no need to prepopulate
+# Used by the Resource Service to infer the types of the (many thousands of) resources created for the performance test
 resource:
   defaultType: ${default.type}

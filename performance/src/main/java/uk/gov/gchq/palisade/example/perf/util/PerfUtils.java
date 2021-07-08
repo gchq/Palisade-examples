@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,12 @@
 
 package uk.gov.gchq.palisade.example.perf.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
@@ -25,7 +29,8 @@ import java.util.Map;
 /**
  * Utility methods for the performance tests.
  */
-public class PerfUtils {
+public final class PerfUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PerfUtils.class);
     public static final String WITH_POLICY_DIR = "with-policy";
     public static final String NO_POLICY_DIR = "no-policy";
     public static final String SMALL_FILE_NAME = "employee_small.avro";
@@ -60,10 +65,36 @@ public class PerfUtils {
         );
     }
 
+    public static Path getDirectory(final String directoryName) {
+        try {
+            URI directoryUri = URI.create(directoryName);
+            return Path.of(directoryUri);
+        } catch (IllegalArgumentException ex) {
+            String userDir = System.getProperty("user.dir") + "/";
+            LOGGER.debug("Caught exception while creating URI", ex);
+            LOGGER.debug("Suspect {} is a relative-path so trying with user.dir '{}' property", directoryName, userDir);
+            URI directoryUri = Path.of(userDir + directoryName)
+                    .toUri().normalize();
+            return Path.of(directoryUri);
+        }
+    }
+
+    /**
+     * Get the directory that has policies
+     *
+     * @param directoryName the directory path
+     * @return the {@link Path} for the directory with policies
+     */
     public static Path getWithPolicyDir(final Path directoryName) {
         return directoryName.resolve(WITH_POLICY_DIR);
     }
 
+    /**
+     * Get the directory that has no policies
+     *
+     * @param directoryName the directory path
+     * @return the {@link Path} for the directory with no policies
+     */
     public static Path getNoPolicyDir(final Path directoryName) {
         return directoryName.resolve(NO_POLICY_DIR);
     }

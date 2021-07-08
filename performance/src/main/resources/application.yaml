@@ -1,4 +1,4 @@
-# Copyright 2020 Crown Copyright
+# Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,38 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 spring:
   application:
     name: performance
   main:
     allow-bean-definition-overriding: true
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-server:
-  port: 0
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 3600000
-        loggerLevel: basic
-    default-config: default
-
-eureka:
-  client:
-    enabled: false
 
 performance:
   # create|run - create test data, run tests on data
   action: run
-  directory: ../Palisade-examples/resources/data/
   # number of employees in single resource "employee_small.avro"
   small: 1000
   # number of employees in single resource "employee_large.avro"
@@ -60,7 +38,7 @@ performance:
   # number of live-runs, does count towards output results
   liveRuns: 5
   ## list of tests by name to skip
-  skipTests: []
+  skipTests: [ ]
   # user making requests
   userId: Alice
   # purpose of requests
@@ -68,4 +46,5 @@ performance:
 
 web:
   client:
-    palisade-service: "http://localhost:8084"
+    palisade-service: "localhost:8084"
+    filtered-resource-service: "localhost:8092"

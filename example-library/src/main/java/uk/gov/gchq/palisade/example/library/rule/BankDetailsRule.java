@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,32 @@
 package uk.gov.gchq.palisade.example.library.rule;
 
 import uk.gov.gchq.palisade.Context;
-import uk.gov.gchq.palisade.User;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Employee;
 import uk.gov.gchq.palisade.example.library.common.ExampleUser;
 import uk.gov.gchq.palisade.example.library.common.Purpose;
 import uk.gov.gchq.palisade.example.library.common.Role;
 import uk.gov.gchq.palisade.example.library.common.TrainingCourse;
 import uk.gov.gchq.palisade.rule.Rule;
+import uk.gov.gchq.palisade.user.User;
+import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
-import java.util.EnumSet;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * A specific {@link Rule} implementation for the {@link Employee} bank detail fields
+ */
 public class BankDetailsRule implements Rule<Employee> {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Default constructor
+     */
     public BankDetailsRule() {
+        // no-args constructor
     }
 
-    private Employee redactRecord(final Employee redactedRecord) {
+    private static Employee redactRecord(final Employee redactedRecord) {
         redactedRecord.setBankDetails(null);
         redactedRecord.setTaxCode(null);
         redactedRecord.setSalaryAmount(-1);
@@ -42,6 +50,14 @@ public class BankDetailsRule implements Rule<Employee> {
         return redactedRecord;
     }
 
+    /**
+     * Applies the {@link Rule} to a record
+     *
+     * @param record the record being processed
+     * @param user the {@link User} making the request
+     * @param context the {@link Context}, including the purpose, of the request
+     * @return the {@link Employee} record after the rule has been applied
+     */
     public Employee apply(final Employee record, final User user, final Context context) {
         if (null == record) {
             return null;
@@ -51,7 +67,7 @@ public class BankDetailsRule implements Rule<Employee> {
 
         if (user instanceof ExampleUser) {
             ExampleUser exampleUser = (ExampleUser) user;
-            EnumSet<TrainingCourse> trainingCompleted = exampleUser.getTrainingCompleted();
+            Set<TrainingCourse> trainingCompleted = Set.copyOf(exampleUser.getTrainingCompleted());
             Set<String> roles = exampleUser.getRoles();
             String purpose = context.getPurpose();
 

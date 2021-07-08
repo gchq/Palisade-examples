@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2019 Crown Copyright
+  ~ Copyright 2018-2021 Crown Copyright
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,87 +15,100 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.0.RELEASE</version>
+        <version>2.3.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>uk.gov.gchq.palisade</groupId>
     <artifactId>example</artifactId>
-    <version>0.4.0</version>
-    <description>Example layer for palisade</description>
+    <version>0.5.0-${revision}</version>
+    <name>GCHQ Palisade Examples</name>
+    <description>Example data-types, users, resources, rules, data-files and deployments for demonstrating Palisade services</description>
     <url>https://github.com/gchq/Palisade-examples</url>
     <packaging>pom</packaging>
-
-    <developers>
-        <developer>
-            <name>PalisadeDevelopers</name>
-            <organization>GCHQ</organization>
-            <organizationUrl>https://github.com/gchq</organizationUrl>
-        </developer>
-    </developers>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
 
+    <scm>
+        <url>${scm.url}</url>
+        <connection>${scm.connection}</connection>
+        <developerConnection>${scm.developer.connection}</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
     <properties>
-        <!-- Versions -->
+        <!-- Dependency properties -->
         <java.version>11</java.version>
-        <revision>RELEASE</revision>
+        <version.number>0.5.0</version.number>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <encoding>UTF-8</encoding>
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+        <synthetic.data.version>0.0.4</synthetic.data.version>
+        <image.repository>gchq/palisade-</image.repository>
 
-        <!-- Plugins -->
+        <!-- Revisions -->
+        <revision>SNAPSHOT</revision>
+        <common.revision>SNAPSHOT</common.revision>
+        <services.revision>SNAPSHOT</services.revision>
+        <clients.revision>SNAPSHOT</clients.revision>
+        <readers.revision>SNAPSHOT</readers.revision>
+
+        <!-- Plugin versions -->
         <compiler.plugin.version>3.8.0</compiler.plugin.version>
         <javadoc.plugin.version>3.2.0</javadoc.plugin.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <checkstyle.phase>verify</checkstyle.phase>
-        <depends.maven.version>3.1.1</depends.maven.version>
+        <depends.maven.version>3.1.2</depends.maven.version>
         <depends.phase>prepare-package</depends.phase>
+        <javafaker.version>1.0.1</javafaker.version>
+        <apache.commons.version>2.6</apache.commons.version>
 
-        <!-- Testing properties -->
-        <junit.version>4.12</junit.version>
+        <!-- Release plugin versions -->
+        <gpg.plugin.version>1.5</gpg.plugin.version>
+        <nexus.plugin.version>1.6.8</nexus.plugin.version>
+        <release.plugin.version>2.5.3</release.plugin.version>
+        <scm.plugin.version>1.1</scm.plugin.version>
+        <source.plugin.version>3.2.1</source.plugin.version>
+
+        <!-- Testing versions -->
         <surefire.plugin.version>2.22.1</surefire.plugin.version>
         <failsafe.version>2.22.1</failsafe.version>
 
-        <!-- Dependencies -->
-        <javafaker.version>1.0.1</javafaker.version>
-        <spring-cloud-starter-ribbon.version>1.4.7.RELEASE</spring-cloud-starter-ribbon.version>
-        <apache.commons.version>1.19</apache.commons.version>
-        <slf4j.api.version>1.7.28</slf4j.api.version>
-        <protobuf.version>3.5.1</protobuf.version>
-        <jetcd.version>0.3.0</jetcd.version>
-        <fabric8.version>4.3.0</fabric8.version>
-
-        <!-- Sonar -->
+        <!-- Sonar Configuration-->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.xml</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
+
+        <!-- SCM properties for Release plugin -->
+        <scm.url>https://github.com/gchq/Palisade-examples</scm.url>
+        <scm.connection>scm:git:https://github.com/gchq/Palisade-examples.git</scm.connection>
+        <scm.developer.connection>scm:git:https://github.com/gchq/Palisade-examples.git</scm.developer.connection>
     </properties>
 
     <modules>
-        <module>hr-data-generator</module>
         <module>example-library</module>
-        <module>example-model</module>
+        <module>example-runner</module>
         <module>performance</module>
-        <module>deployment</module>
+        <module>deployment-k8s</module>
     </modules>
 
     <profiles>
+        <!-- A quick profile for the fastest install of the Repository, skipping tests, checkstyle and docker image generation -->
         <profile>
             <id>quick</id>
             <properties>
@@ -106,6 +119,84 @@
                 <license.skipAggregateAddThirdParty>true</license.skipAggregateAddThirdParty>
                 <license.skipAggregateDownloadLicenses>true</license.skipAggregateDownloadLicenses>
             </properties>
+        </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <!-- Release configuration -->
+                <releases.repository.id>ossrh</releases.repository.id>
+                <releases.repository.name>Sonatype Nexus release repository</releases.repository.name>
+                <releases.repository.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</releases.repository.url>
+                <snapshots.repository.id>ossrh</snapshots.repository.id>
+                <snapshots.repository.name>Sonatype Nexus snapshot repository</snapshots.repository.name>
+                <snapshots.repository.url>https://oss.sonatype.org/content/repositories/snapshots</snapshots.repository.url>
+                <!-- Build configuration for release -->
+                <revision>RELEASE</revision>
+                <common.revision>RELEASE</common.revision>
+                <clients.revision>RELEASE</clients.revision>
+                <services.revision>RELEASE</services.revision>
+                <maven.test.skip>true</maven.test.skip>
+                <dockerfile.push.skip>true</dockerfile.push.skip>
+                <image.tag>${revision}-${version.number}</image.tag>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus.plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>${releases.repository.id}</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                            <keepStagingRepositoryOnCloseRuleFailure>true
+                            </keepStagingRepositoryOnCloseRuleFailure>
+                            <stagingProgressTimeoutMinutes>10</stagingProgressTimeoutMinutes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${source.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${javadoc.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${gpg.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 
@@ -125,15 +216,18 @@
         <!-- in order to use this, one must have nexus up and running on a given url -->
         <repository>
             <!-- Snapshot repositories can be build on each commit to develop branch -->
-            <id>nexus</id>
-            <name>releases</name>
-            <url>${release.url}</url>
+            <id>${releases.repository.id}</id>
+            <name>${releases.repository.name}</name>
+            <!--suppress UnresolvedMavenProperty -->
+            <url>${releases.repository.url}</url>
         </repository>
         <snapshotRepository>
             <!-- Snapshot repositories can be build on each commit to develop branch -->
-            <id>nexus</id>
-            <name>snapshots</name>
-            <url>${snapshot.url}</url>
+            <id>${snapshots.repository.id}</id>
+            <uniqueVersion>false</uniqueVersion>
+            <name>${snapshots.repository.name}</name>
+            <!--suppress UnresolvedMavenProperty -->
+            <url>${snapshots.repository.url}</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -215,6 +309,7 @@
                 <version>${surefire.plugin.version}</version>
             </plugin>
             <plugin>
+                <!-- Generates a dependency tree that is tracked within git -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>${depends.maven.version}</version>
@@ -313,6 +408,7 @@
                 </configuration>
             </plugin>
             <plugin>
+                <!-- Test code coverage report used by SonarQube -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.5</version>
@@ -338,6 +434,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- Static analysis of the codebase -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle.plugin.version}</version>
@@ -363,9 +460,35 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- Testing plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${failsafe.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>ossrh</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public class ActionRunner implements CommandLineRunner {
      * @param args Command-line arguments
      */
     @Override
-    public void run(final String... args) {
+    public void run(final String[] args) {
         // call the action and exit with some return code
         try {
             action.run();

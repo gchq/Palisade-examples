@@ -1,5 +1,5 @@
 <!--
- Copyright 2020 Crown Copyright
+ Copyright 2018-2021 Crown Copyright
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -13,11 +13,14 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+# <img src="../logos/logo.svg" width="180">
+
+## A Tool for Complex and Scalable Data Access Policy Enforcement
 
 # Example Library
 
-The users, resources and policies to be used in the example are configured in the [configuration yaml](/example-library/src/main/resources/application-example.yaml).
-Each of these prepopulation vaules are loaded into the appropriate service on service start-up, see the [run-example scripts](/deployment/local-jvm/example-model).
+The Users, Resources and Policies to be used in the example are configured in the [configuration yaml](/src/main/resources/application-example.yaml).
+Each of these pre-population values are loaded into the appropriate service on service start-up, each type is configured by separate yaml files located by the standard example profile, see the [run-example scripts](../deployment-jvm/local-jvm/example-runner).
 
 In particular, the example deals with the following users:
 - User Alice has the role HR and completed the PAYROLL_TRAINING_COURSE
@@ -26,14 +29,14 @@ In particular, the example deals with the following users:
 
 ### BankDetailsRule  
 The bankDetails field should be returned:
-- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE and the purpose of the query is SALARY
+- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE, and the purpose of the query is SALARY
 
 In all other cases the bankDetails field should be redacted.
 
 ### DutyOfCareRule  
 This rule is concerned with the contactNumber, emergencyContacts and sex fields. These fields should be returned:
-- if the user querying the file has the HR role and the purpose of the query is DUTY_OF_CARE
-- if the user querying the file is the line manager of the Employee record being queried and the purpose of the query is DUTY_OF_CARE  
+- if the user querying the file has the HR role, and the purpose of the query is DUTY_OF_CARE
+- if the user querying the file is the line manager of the Employee record being queried, and the purpose of the query is DUTY_OF_CARE  
 
 In all other cases these fields should be redacted.
 
@@ -45,7 +48,7 @@ In all other cases the first resource will not be returned to the user.
 
 ### NationalityRule  
 The nationality field should be returned:
-- if the user querying the file has the HR role and the purpose of the query is STAFF_REPORT
+- if the user querying the file has the HR role, and the purpose of the query is STAFF_REPORT
 
 In all other cases the nationality field should be redacted.
 

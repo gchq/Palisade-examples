@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2020 Crown Copyright
+  ~ Copyright 2018-2021 Crown Copyright
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,59 +20,75 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.4.0</version>
+        <version>0.5.0-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!--  *********** Aritfact ID ***********    -->
+    <developers>
+        <developer>
+            <name>PalisadeDevelopers</name>
+            <organization>GCHQ</organization>
+            <organizationUrl>https://github.com/gchq</organizationUrl>
+        </developer>
+    </developers>
+
+    <!--  *********** Artifact ID ***********    -->
     <artifactId>performance</artifactId>
-    <url>https://github.com/gchq/Palisade-examples/tree/main/performance</url>
-    <!--  *********** Aritfact ID ***********    -->
+    <url>https://github.com/gchq/Palisade-examples/tree/develop/performance</url>
+    <name>GCHQ Palisade - Performance Test Suite</name>
+    <description>
+        A performance tool for testing some simple scenarios using the example rules and synthetic data.
+    </description>
+    <!--  *********** Artifact ID ***********    -->
+
+    <scm>
+        <url>${scm.url}</url>
+        <connection>${scm.connection}</connection>
+        <developerConnection>${scm.developer.connection}</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <!-- Dockerfile-maven-plugin configurable base image - openjdk:11.0-jdk-slim   OS/ARCH linux/amd64-->
+        <dockerfile.base.image>openjdk@sha256:1ee84ab87de99d6edf3592acde24ec909ec9814a8fb24db76a510ddb643b470c</dockerfile.base.image>
+        <!-- Prefix image tag with image type being used -->
+        <dockerfile.base.tag>jdk</dockerfile.base.tag>
+    </properties>
 
     <dependencies>
+        <!--
+        ~ Palisade Dependencies
+        -->
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>common</artifactId>
+            <version>0.5.0-${common.revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.gov.gchq.data-gen</groupId>
+            <artifactId>synthetic-data-generator</artifactId>
+            <version>${synthetic.data.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>client-akka</artifactId>
+            <version>0.5.0-${clients.revision}</version>
+        </dependency>
+        <!-- Spring Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>common</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>hr-data-generator</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-library</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-model</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
     </dependencies>
 
     <profiles>
+        <!-- Profile used to updated image version used by helm -->
         <profile>
             <id>pi</id>
             <build>
@@ -89,7 +105,7 @@
                                 <configuration>
                                     <tasks>
                                         <copy file="${project.build.outputDirectory}/values.yaml"
-                                              toFile="../charts/${project.artifactId}/values.yaml" overwrite="true"/>
+                                              toFile="../deployment-k8s/charts/${project.artifactId}/values.yaml" overwrite="true"/>
                                     </tasks>
                                 </configuration>
                             </execution>
@@ -149,7 +165,7 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${project.basedir}/../charts/${project.artifactId}/values.yaml</file>
+                                <file>${project.basedir}/../deployment-k8s/charts/${project.artifactId}/values.yaml</file>
                             </files>
                         </configuration>
                     </execution>
@@ -209,12 +225,13 @@
                 </executions>
             </plugin>
             <plugin>
+                <!-- Used to build docker image -->
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.10</version>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>post-integration-test</phase>
                         <id>cache</id>
                         <goals>
                             <goal>build</goal>
@@ -224,47 +241,21 @@
                         <phase>deploy</phase>
                         <id>ar</id>
                         <goals>
-                            <goal>build</goal>
                             <goal>push</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <!--suppress UnresolvedMavenProperty -->
                     <repository>${image.repository}${project.artifactId}</repository>
                     <dockerfile>Dockerfile</dockerfile>
                     <!--suppress UnresolvedMavenProperty -->
-                    <tag>${image.tag}</tag>
+                    <tag>${dockerfile.base.tag}-${image.tag}</tag>
                     <finalName>${project.artifactId}</finalName>
                     <buildArgs>
+                        <BASE_IMG>${dockerfile.base.image}</BASE_IMG>
                         <JAR_FILE>target/${project.build.finalName}-exec.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>1.1.0</version>
-                <configuration>
-                    <updatePomFile>true</updatePomFile>
-                    <flattenMode>ossrh</flattenMode>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

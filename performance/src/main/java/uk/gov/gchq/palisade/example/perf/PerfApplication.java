@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,23 @@
 
 package uk.gov.gchq.palisade.example.perf;
 
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * Main class for the performance testing tool.
  */
-
 @SpringBootApplication
-@EnableDiscoveryClient
 public class PerfApplication {
 
+    /**
+     * Application entrypoint, creates and runs a spring application, passing in the given command-line args
+     *
+     * @param args command-line arguments passed to the application
+     */
     public static void main(final String[] args) {
-        new SpringApplicationBuilder(PerfApplication.class).run(args);
+        new SpringApplicationBuilder(PerfApplication.class).web(WebApplicationType.NONE).run(args);
     }
 
 }

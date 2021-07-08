@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,42 @@
 
 package uk.gov.gchq.palisade.example.library.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import uk.gov.gchq.palisade.service.user.config.UserConfiguration;
+import uk.gov.gchq.palisade.service.user.config.UserPrepopulationFactory;
+
+/**
+ * Configuration class for example specific data that is added to service caches
+ */
 @Configuration
+@ConditionalOnClass(UserConfiguration.class)
 public class ApplicationConfiguration {
+
+    /**
+     * Overrides the {@link UserConfiguration} Spring bean for the example user pre-population
+     *
+     * @return an {@link ExampleUserConfiguration}
+     */
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
     @ConfigurationProperties(prefix = "population")
-    public ExampleUserConfiguration userConfiguration() {
+    public UserConfiguration userConfiguration() {
         return new ExampleUserConfiguration();
     }
 
+    /**
+     * Overrides the {@link UserPrepopulationFactory} Spring bean for the example user pre-population
+     *
+     * @return an {@link ExampleUserPrepopulationFactory}
+     */
     @Bean
     @ConditionalOnProperty(prefix = "population", name = "userProvider", havingValue = "example")
-    public ExampleUserPrepopulationFactory userPrepopulationFactory() {
+    public UserPrepopulationFactory userPrepopulationFactory() {
         return new ExampleUserPrepopulationFactory();
     }
 }

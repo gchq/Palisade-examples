@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Crown Copyright
+ * Copyright 2018-2021 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,35 @@
 
 package uk.gov.gchq.palisade.example.library.common;
 
-import uk.gov.gchq.palisade.UserId;
-import uk.gov.gchq.palisade.example.hrdatagenerator.types.Manager;
+import uk.gov.gchq.palisade.user.UserId;
+import uk.gov.gchq.syntheticdatagenerator.types.Manager;
 
+/**
+ * Contains utility methods for an {@link uk.gov.gchq.syntheticdatagenerator.types.Employee}
+ */
 public final class EmployeeUtils {
 
+    /**
+     * Default constructor
+     */
     private EmployeeUtils() {
+        //no-args constructor
     }
 
+    /**
+     * Checks if the user is in the management chain of an {@link uk.gov.gchq.syntheticdatagenerator.types.Employee}
+     *
+     * @param managers the manager array for an Employee
+     * @param userId the ID of the user making the request
+     * @return a boolean value
+     */
     public static boolean isManager(final Manager[] managers, final UserId userId) {
         if (managers == null) {
             return false;
         }
 
         for (Manager manager : managers) {
-            if (manager.getUid().equals(userId)) {
+            if (manager.getUid().equals(userId.getId())) {
                 return true;
             }
         }
@@ -40,6 +54,7 @@ public final class EmployeeUtils {
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2019 Crown Copyright
+  ~ Copyright 2018-2021 Crown Copyright
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,39 +20,85 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.4.0</version>
+        <version>0.5.0-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!--  *********** Aritfact ID ***********    -->
+    <developers>
+        <developer>
+            <name>PalisadeDevelopers</name>
+            <organization>GCHQ</organization>
+            <organizationUrl>https://github.com/gchq</organizationUrl>
+        </developer>
+    </developers>
+
+    <!--  *********** Artifact ID ***********    -->
     <artifactId>example-library</artifactId>
-    <url>https://github.com/gchq/Palisade-examples/tree/main/example-library</url>
-    <!--  *********** Aritfact ID ***********    -->
+    <url>https://github.com/gchq/Palisade-examples/tree/develop/example-library</url>
+    <name>GCHQ Palisade - Example Library</name>
+    <description>
+        The users, resources and policies to be used in the example, as well as pre-population configuration for services.
+    </description>
+    <!--  *********** Artifact ID ***********    -->
+
+    <scm>
+        <url>${scm.url}</url>
+        <connection>${scm.connection}</connection>
+        <developerConnection>${scm.developer.connection}</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>hr-data-generator</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+        <!-- Palisade Dependency-->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
-            <version>${project.parent.version}</version>
+            <version>0.5.0-${common.revision}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>readers-common</artifactId>
-            <version>${project.parent.version}</version>
+            <artifactId>user-service</artifactId>
+            <version>0.5.0-${services.revision}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Dependency used to generate example data-->
+        <dependency>
+            <groupId>uk.gov.gchq.data-gen</groupId>
+            <artifactId>synthetic-data-generator</artifactId>
+            <version>${synthetic.data.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Spring Dependency -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Testing Dependency -->
+        <dependency>
+            <!-- JUnit, Jupiter, SpringBootTest etc... -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>resource-service</artifactId>
+            <version>0.5.0-${services.revision}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -74,8 +120,7 @@
                 <configuration>
                     <dateFormat>yyyyMMdd-HHmmss</dateFormat>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <generateGitPropertiesFile>false
-                    </generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
                     <useNativeGit>true</useNativeGit>
                 </configuration>
             </plugin>
@@ -104,7 +149,25 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>true</appendAssemblyId>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>
