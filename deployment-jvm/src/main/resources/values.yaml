@@ -19,7 +19,9 @@ image:
   base: @dockerfile.base.tag@
   tag: @revision@-@git.commit.id.abbrev@
   pullPolicy: IfNotPresent
+  versionNumber: @version.number@
   codeRelease: @project.parent.version@
+  revision: @revision@
 
 resources:
   limits:

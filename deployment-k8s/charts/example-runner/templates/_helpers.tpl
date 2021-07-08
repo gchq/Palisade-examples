@@ -57,3 +57,14 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
+
+{{/*
+Create the image name
+*/}}
+{{- define "example-runner.image.name" }}
+{{- if contains .Values.image.revision .Values.global.releaseTag -}}
+{{- printf "%s%s:%s-%s-%s" .Values.global.repository .Values.image.name .Values.image.base  .Values.image.revision .Values.image.versionNumber }}
+{{- else -}}
+{{- printf "%s%s:%s-%s" .Values.global.repository .Values.image.name .Values.image.base  .Values.image.tag }}
+{{- end -}}
+{{- end -}}

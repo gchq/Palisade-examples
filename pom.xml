@@ -48,10 +48,10 @@
         <developerConnection>${scm.developer.connection}</developerConnection>
         <tag>HEAD</tag>
     </scm>
-
     <properties>
         <!-- Dependency properties -->
         <java.version>11</java.version>
+        <version.number>0.5.0</version.number>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <encoding>UTF-8</encoding>
@@ -137,7 +137,7 @@
                 <services.revision>RELEASE</services.revision>
                 <maven.test.skip>true</maven.test.skip>
                 <dockerfile.push.skip>true</dockerfile.push.skip>
-                <image.tag>${project.version}</image.tag>
+                <image.tag>${revision}-${version.number}</image.tag>
             </properties>
             <build>
                 <plugins>
