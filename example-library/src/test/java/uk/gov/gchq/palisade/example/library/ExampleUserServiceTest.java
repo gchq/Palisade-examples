@@ -27,8 +27,6 @@ import uk.gov.gchq.palisade.example.library.config.ExampleUserConfiguration;
 import uk.gov.gchq.palisade.example.library.config.ExampleUserPrepopulationFactory;
 import uk.gov.gchq.palisade.service.user.config.ApplicationConfiguration;
 import uk.gov.gchq.palisade.service.user.config.UserConfiguration;
-import uk.gov.gchq.palisade.service.user.config.UserPrepopulationFactory;
-import uk.gov.gchq.palisade.user.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,20 +38,20 @@ class ExampleUserServiceTest {
     UserConfiguration userConfiguration;
 
     @Test
-    void testContextLoads() {
+    void testUserPrePopulation() {
         // Given
 
         // When
-        UserPrepopulationFactory prepopulationFactory = userConfiguration.getUsers().get(0);
-        User user = prepopulationFactory.build();
+        var prePopulationFactory = userConfiguration.getUsers().get(0);
+        var user = prePopulationFactory.build();
 
         // Then
         assertThat(userConfiguration)
                 .as("Check the instance of the userConfiguration")
                 .isInstanceOf(ExampleUserConfiguration.class);
 
-        assertThat(prepopulationFactory)
-                .as("Check the instance of the prepopulationFactory")
+        assertThat(prePopulationFactory)
+                .as("Check the instance of the prePopulationFactory")
                 .isInstanceOf(ExampleUserPrepopulationFactory.class);
 
         assertThat(user)

@@ -52,7 +52,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @EntityScan(basePackages = {"uk.gov.gchq.palisade.service.resource.domain"})
 @EnableR2dbcRepositories(basePackages = {"uk.gov.gchq.palisade.service.resource.repository"})
 @DirtiesContext(classMode = ClassMode.BEFORE_CLASS)
-class ResourceServicePrepopTest {
+class ResourceServicePrePopTest {
     @Autowired
     ResourceConfiguration resourceConfiguration;
 
@@ -75,20 +75,20 @@ class ResourceServicePrepopTest {
     }
 
     @Test
-    void testContextLoads() {
+    void testResourcePrePopulation() {
         // Given
 
         // When
-        var prepopulationFactory = resourceConfiguration.getResources().get(0);
-        var resourceEntry = prepopulationFactory.build(conn -> new SimpleConnectionDetail().serviceName(conn));
+        var prePopulationFactory = resourceConfiguration.getResources().get(0);
+        var resourceEntry = prePopulationFactory.build(conn -> new SimpleConnectionDetail().serviceName(conn));
 
         // Then
         assertThat(resourceConfiguration)
                 .as("Check the instance of the userConfiguration")
                 .isInstanceOf(StdResourceConfiguration.class);
 
-        assertThat(prepopulationFactory)
-                .as("Check the instance of the prepopulationFactory")
+        assertThat(prePopulationFactory)
+                .as("Check the instance of the prePopulationFactory")
                 .isInstanceOf(StdResourcePrepopulationFactory.class);
 
         assertThat(resourceEntry.getValue())
