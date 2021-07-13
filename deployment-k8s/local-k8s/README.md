@@ -89,10 +89,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
-     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
+     drwxrwxrwx deployment-k8s
+     drwxrwxrwx example-employee-library
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
+     drwxrwxrwx example-user-library
      drwxrwxrwx performance
    ```
 
@@ -144,8 +146,10 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    >> ls
      drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
+     drwxrwxrwx example-employee-library
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
+     drwxrwxrwx example-user-library
      drwxrwxrwx performance
    ```
 
