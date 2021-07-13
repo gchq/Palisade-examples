@@ -153,11 +153,6 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
      drwxrwxrwx performance
    ```
 
-1. Create the performance test dataset locally, run:
-   ```bash
-   bash performance/src/main/resources/k8s-bash-scripts/createPerformanceData.sh
-   ```
-
 1. To deploy the performance tests, run:
    ```bash
    bash deployment-k8s/local-k8s/performance/deployServicesToK8s.sh
@@ -166,7 +161,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    ```bash
    kubectl get pods
    ```
-   
+
+1. Create the performance test dataset locally, run:
+   ```bash
+   bash deployment-k8s/local-k8s/performance/createPerformanceData.sh
+   ```   
+
 1. After the pods have started, you can run the performance tests:
    ```bash
    bash deployment-k8s/local-k8s/performance/runK8sPerformanceTest.sh
