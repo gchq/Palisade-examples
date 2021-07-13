@@ -193,6 +193,20 @@
                                     <type>${project.packaging}</type>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>example-user-library</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>example-employee-library</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
                             </artifactItems>
                             <!-- Move classpath jars to $hostPath/$deployment-k8s dir, in this case $hostPath=deployment-k8s/target, $deployment="example" -->
                             <outputDirectory>target/example</outputDirectory>
