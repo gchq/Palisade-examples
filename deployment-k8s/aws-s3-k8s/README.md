@@ -34,6 +34,9 @@ When running the script a number of AWS values will have to be passed in as argu
    -h(ostname)      The handle for the Elastic Load Balancer (ELB) hostname of the cluster deployment
    -d(atastore)     The handle for the Elastic File System (EFS) aws volume handle used as a data-store
    -c(lasspathjars) The handle for the Elastic File System (EFS) aws volume handle used for storing classpath JARs
+   -t(raefik)       A boolean flag for if traefik should be installed
+   -p(refix)        The name prefix to use in kafka topics
+   -r(ole)          The AWS iam role used to retrieve the relevant AWS credentials
 ```
 ```
 e.g.
@@ -42,26 +45,42 @@ bash deployment/aws-k8s/example-runner/deployServicesToK8s.sh \
     -r aws-repository-handle \
     -h deployment-hostname-handle \
     -d data-store-efs-handle \
-    -c classpath-jars-efs-handle
+    -c classpath-jars-efs-handle \
+    -t false \
+    -p namespace-value \
+    -r its-user
 ```
 
 These are then used in the helm command to deploy Palisade to AWS:
 ```
 helm upgrade --install palisade . \
-    --namespace -n value \
+    --set global.hosting=aws \
     --set global.repository= -r value \
     --set global.hostname= -h value \
     --set global.persistence.dataStores.palisade-data-store.aws.volumeHandle= -d value \
     --set global.persistence.classpathJars.aws.volumeHandle= -c value \
-    --set global.deployment=example \
-    --set global.hosting=aws \
-    --timeout 300s
+    --set global.deployment=example-s3 \
+    --set global.kafka.install=true \
+    --set global.redis.install=true \
+    --set Palisade-services.traefik.install= -t value \
+    --set global.topicPrefix= -p value \
+    --set global.env.example-s3[0].name="SPRING_PROFILES_ACTIVE" \
+    --set global.env.example-s3[0].value="k8s\,\s3\,\example-s3\,\debug" \
+    --set global.env.example-s3[1].name="AWS_ACCESS_KEY_ID" \
+    --set global.env.example-s3[1].value="${aws configure get aws_access_key_id}" \
+    --set global.env.example-s3[2].name="AWS_SECRET_ACCESS_KEY" \
+    --set global.env.example-s3[2].value="${aws configure get aws_secret_access_key}" \
+    --set global.env.example-s3[3].name="AWS_SESSION_TOKEN" \
+    --set global.env.example-s3[3].value="${aws configure get aws_session_token}" \
+    --timeout 300s \
+    --namespace -n value
 ```
-When deploying Palisade into AWS for the purpose of running the example we need to make sure that the persistent volumes have
-the expected data and jars in order for the example to run successfully. This is done using a helm job, this job will run as a `post-install` job
-and will run the script `copyExampleData.sh`.
 
-This takes the example employee files, and the example jars from the [deployment](../Dockerfile) Docker image and copies them to the expected location on the persistent volumes within the AWS environment.
+The AWS S3 example assumes files are stored in S3, and are accessible by the iam role used in the example. 
+Preconfigured, the example expects data to be stored in the following S3 location: `palisade-application-dev/data/remote-data-store/data/`, with `palisade-application-dev` being the name of the bucket. 
+If you receive a `S3 Bucket Doesnt Exist` exception in the `resource-service-0` logs, the bucket name might be incorrect, or the permissions of the user might not be sufficient to read data off the bucket.  
+To change the bucket name and default resource information, change the values in the yaml [here](../../example-library/src/main/resources/application-example-s3.yaml), specifically `s3://{bucket-name}/data/remote-data-store`.  
+To configure the S3 configuration for the Resource and Data Service, see the yaml files [here](../../../Palisade-readers/s3-resource-service/src/main/resources/application-s3.yaml), and [here](../../../Palisade-readers/s3-data-reader/src/main/resources/application-s3.yaml)
 
 #### Running the example
 
