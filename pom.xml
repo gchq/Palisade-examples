@@ -106,6 +106,7 @@
         <module>example-employee-library</module>
         <module>example-user-library</module>
         <module>performance</module>
+        <module>deployment-jvm</module>
         <module>deployment-k8s</module>
     </modules>
 
