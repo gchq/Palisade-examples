@@ -13,10 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FILE=performance/target/performance-*-exec.jar
+JAR_FILE=performance/target/performance-*-exec.jar
 # Create the perf-test dataset
-if [ -f $FILE ]; then
-  java -jar -Dspring.profiles.active=create,static $FILE --performance.action=create
+if [ -f $JAR_FILE ]; then
+  java -jar -Dspring.profiles.active=create,static $JAR_FILE --performance.action=create
 else
   echo "Cannot find performance-<version>-exec.jar - have you run 'mvn install'?"
 fi
