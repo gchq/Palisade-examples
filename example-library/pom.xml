@@ -66,25 +66,7 @@
             <groupId>uk.gov.gchq.palisade</groupId>
             <artifactId>example-user-library</artifactId>
             <version>0.5.0-${revision}</version>
-            <classifier>jar-with-dependencies</classifier>
-        </dependency>
-        <dependency>
-            <groupId>uk.gov.gchq.palisade</groupId>
-            <artifactId>example-employee-library</artifactId>
-            <version>0.5.0-${revision}</version>
-            <classifier>jar-with-dependencies</classifier>
-        </dependency>
-        <!-- Dependency used to generate example data-->
-        <dependency>
-            <groupId>uk.gov.gchq.data-gen</groupId>
-            <artifactId>synthetic-data-generator</artifactId>
-            <version>${synthetic.data.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-            </exclusions>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Spring Dependency -->
