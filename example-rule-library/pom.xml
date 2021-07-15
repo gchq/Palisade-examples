@@ -33,11 +33,11 @@
     </developers>
 
     <!--  *********** Artifact ID ***********    -->
-    <artifactId>example-employee-library</artifactId>
+    <artifactId>example-rule-library</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/example-library</url>
-    <name>GCHQ Palisade - Example Employee Library</name>
+    <name>GCHQ Palisade - Example Rule Library</name>
     <description>
-        The files required to use the Employee data type in the example
+        The files required to use the Rule data type in the example
     </description>
     <!--  *********** Artifact ID ***********    -->
 

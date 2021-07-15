@@ -103,7 +103,7 @@
     <modules>
         <module>example-library</module>
         <module>example-user-library</module>
-        <module>example-employee-library</module>
+        <module>example-rule-library</module>
         <module>example-runner</module>
         <module>performance</module>
         <module>deployment-jvm</module>

@@ -82,7 +82,7 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>example-employee-library</artifactId>
+            <artifactId>example-rule-library</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
