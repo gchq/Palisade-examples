@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +13,18 @@
 # limitations under the License.
 #
 
-JARFILE=./example-runner.jar
-OUTPUT=./exampleOutput.txt
+spring:
+  profiles:
+    include:
+    - example-config
+    - k8s
+    - rest
 
-# Run the rest example
-if [ -f $JARFILE ]; then
-  java -Dspring.profiles.active=k8s -jar $JARFILE | tee $OUTPUT
-else
-  echo "Cannot find example-runner-<version>-exec.jar - have you run 'mvn install'?"
-fi
+---
+
+spring:
+  profiles: example-config
+
+example:
+  directory: "file:/data/local-data-store/data/"
+  filename: "file:/data/local-data-store/data/employee_file0.avro"

@@ -14,8 +14,8 @@
 #
 
 example:
-  directory: "../Palisade-examples/resources/data/"
-  filename: "../Palisade-examples/resources/data/employee_file0.avro"
+  directory: "file:../Palisade-examples/resources/data/"
+  filename: "file:../Palisade-examples/resources/data/employee_file0.avro"
 
 web:
   client:

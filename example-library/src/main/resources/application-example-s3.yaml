@@ -17,7 +17,6 @@ spring:
     include:
     - example-s3-config
     - example-users
-    - example-resources
     - example-policies
     - example-serialisers
 

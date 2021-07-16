@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if eq .Values.global.deployment "example" }}
+{{- if or (eq .Values.global.deployment "example") (eq .Values.global.deployment "example-s3") }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,6 +43,12 @@ spec:
         # keep the pod alive, but don't do anything - waiting for a kubectl exec on this pod
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "chmod +x /usr/share/example-runner/*.sh; while true; do sleep 100; done;" ]
+        env:
+          {{- $envVars := pluck .Values.global.deployment .Values.global.env | first | default .Values.global.env._default }}
+          {{- range $item := $envVars }}
+        - name: {{ $item.name }}
+          value: {{ $item.value }}
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
       {{- with .Values.nodeSelector }}
