@@ -16,7 +16,7 @@
 JAR_FILE=performance/target/performance-*-exec.jar
 # Create the perf-test dataset
 if [ -f $JAR_FILE ]; then
-  java -jar -Dspring.profiles.active=create,static $JAR_FILE --performance.action=create
+  java -jar -Dspring.profiles.active=create,static $JAR_FILE
 else
   echo "Cannot find performance-<version>-exec.jar - have you run 'mvn install'?"
 fi
