@@ -87,10 +87,12 @@ The above steps can be automated using the provided scripts, all of which are in
      drwxrwxrwx Palisade-examples
    >> cd Palisade-examples
    >> ls
-     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
+     drwxrwxrwx deployment-k8s
+     drwxrwxrwx example-library
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
+     drwxrwxrwx example-library
      drwxrwxrwx performance
    ```
 

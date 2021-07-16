@@ -28,7 +28,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
-import uk.gov.gchq.palisade.client.akka.AkkaClient.SSLMode;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
@@ -60,7 +59,7 @@ public class ApplicationConfiguration {
                       final @Value("${web.client.filtered-resource-service}") String filteredResourceService,
                       final @Value("${web.client.data-service}") String dataService,
                       final ActorSystem actorSystem) {
-        return new AkkaClient(palisadeService, filteredResourceService, Map.of("data-service", dataService), actorSystem, SSLMode.NONE);
+        return new AkkaClient(palisadeService, filteredResourceService, Map.of("data-service", dataService), actorSystem, AkkaClient.SSLMode.NONE);
     }
 
     @Bean
