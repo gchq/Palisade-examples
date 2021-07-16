@@ -19,7 +19,9 @@ package uk.gov.gchq.palisade.example.perf.trial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.service.data.avro.AvroSerialiser;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.stream.Stream;
@@ -30,6 +32,7 @@ import static java.util.Objects.requireNonNull;
  * Abstract superclass for all performance trials.
  */
 public abstract class AbstractPerfTrial {
+    protected static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPerfTrial.class);
 
     /**

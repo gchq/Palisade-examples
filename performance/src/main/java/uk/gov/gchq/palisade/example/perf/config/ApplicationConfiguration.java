@@ -29,11 +29,11 @@ import org.springframework.context.annotation.Configuration;
 
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
 import uk.gov.gchq.palisade.client.akka.AkkaClient.SSLMode;
-import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.perf.actions.ActionRunner;
 import uk.gov.gchq.palisade.example.perf.actions.CreateAction;
 import uk.gov.gchq.palisade.example.perf.actions.RunAction;
 import uk.gov.gchq.palisade.example.perf.trial.AbstractPerfTrial;
+import uk.gov.gchq.palisade.service.data.avro.AvroSerialiser;
 import uk.gov.gchq.syntheticdatagenerator.types.Employee;
 
 import java.util.Collection;
