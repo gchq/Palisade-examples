@@ -26,9 +26,9 @@ import org.slf4j.LoggerFactory;
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
 import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.resource.LeafResource;
+import uk.gov.gchq.palisade.util.AbstractResourceBuilder;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.concurrent.CompletionStage;
@@ -69,7 +69,7 @@ public class AkkaClientWrapper<T> {
 
     private static String fileNameToResourceId(final String fileName) {
         try {
-            return URI.create(fileName).toString();
+            return AbstractResourceBuilder.create(fileName).toString();
         } catch (IllegalArgumentException ex) {
             String userDir = System.getProperty("user.dir") + "/";
             LOGGER.debug("Caught exception while creating URI", ex);

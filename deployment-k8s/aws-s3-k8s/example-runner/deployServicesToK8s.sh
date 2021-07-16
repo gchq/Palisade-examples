@@ -23,7 +23,7 @@ helpFunction() {
    echo -e "\t-c(lasspathjars)            The URL for the (EFS) aws volume handle used for storing classpath JARs"
    echo -e "\t-t(raefik)                  The boolean true/false value for installing traefik"
    echo -e "\t-P(refix)                   The topic prefix so we generate unique topic names"
-   echo -e "\t-R(ole)                     Aws iam role name"
+   echo -e "\t-R(ole)                     AWS iam role name used to read resources from S3, and therefore requires S3 Read Permissions, including get/list on objects and buckets"
    exit 1 # Exit script after printing help
 }
 
