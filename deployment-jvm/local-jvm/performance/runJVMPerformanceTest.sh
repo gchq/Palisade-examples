@@ -13,10 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FILE=performance/target/performance-*-exec.jar
+JAR_FILE=performance/target/performance-*-exec.jar
 # Run the JVM performance test
-if [ -f $FILE ]; then
-  java -jar -Dspring.profiles.active=static $FILE --performance.action=run
+if [ -f $JAR_FILE ]; then
+  java -jar -Dspring.profiles.active=static $JAR_FILE --performance.action=run
 else
   echo "Cannot find performance-<version>-exec.jar - have you run 'mvn install'?"
 fi
