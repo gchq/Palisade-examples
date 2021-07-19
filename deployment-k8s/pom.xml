@@ -188,6 +188,13 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
+                                    <artifactId>avro-serialiser</artifactId>
+                                    <version>0.5.0-${readers.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
                                     <artifactId>example-library</artifactId>
                                     <version>${project.version}</version>
                                     <type>${project.packaging}</type>
@@ -208,6 +215,13 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
+                                    <artifactId>avro-serialiser</artifactId>
+                                    <version>0.5.0-${readers.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
                                     <artifactId>example-library</artifactId>
                                     <version>${project.version}</version>
                                     <classifier>jar-with-dependencies</classifier>
@@ -224,6 +238,13 @@
                         </goals>
                         <configuration>
                             <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>avro-serialiser</artifactId>
+                                    <version>0.5.0-${readers.revision}</version>
+                                    <type>${project.packaging}</type>
+                                    <classifier>jar-with-dependencies</classifier>
+                                </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>example-library</artifactId>
