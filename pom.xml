@@ -108,6 +108,7 @@
         <module>performance</module>
         <module>deployment-jvm</module>
         <module>deployment-k8s</module>
+        <module>deployment-jvm</module>
     </modules>
 
     <profiles>

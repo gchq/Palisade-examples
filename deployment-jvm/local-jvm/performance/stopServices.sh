@@ -14,16 +14,16 @@
 # limitations under the License.
 #
 
-FILE=services-manager/target/services-manager-*-exec.jar
+JAR_FILE=services-manager/target/services-manager-*-exec.jar
 DIR=../Palisade-services/
 
 if [ -d $DIR ]; then
   # Important to cd before running the jar - the working directory must be somewhere under Palisade-services
   cd $DIR || exit
   # Stop all the services using the service manager from Palisade-services
-  if [ -f $FILE ]; then
-    java -jar -Dspring.profiles.active=example-libs,debug $FILE --manager.mode=shutdown
-    java -jar -Dspring.profiles.active=discovery $FILE --manager.mode=shutdown
+  if [ -f $JAR_FILE ]; then
+    java -jar -Dspring.profiles.active=example-libs,debug $JAR_FILE --manager.mode=shutdown
+    java -jar -Dspring.profiles.active=discovery $JAR_FILE --manager.mode=shutdown
   else
     echo "Cannot find services-manager-<version>-exec.jar - have you run 'mvn install' in Palisade-services?"
   fi
