@@ -21,12 +21,10 @@ service:
 image:
   name: performance
   base: jdk
-  tag: RELEASE-46f1aa7
   pullPolicy: IfNotPresent
-  codeRelease: 0.5.0-RELEASE
-  gitHash: 46f1aa7
+  gitHash: 13a3f09
   versionNumber: 0.5.0
-  revision: RELEASE
+  revision: SNAPSHOT
 
 resources:
   limits:
