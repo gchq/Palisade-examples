@@ -79,12 +79,11 @@
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
             </exclusions>
-            <classifier>jar-with-dependencies</classifier>
         </dependency>
 
         <!-- Testing Dependency -->
         <dependency>
-            <!-- JUnit, Jupiter, SpringBootTest etc... -->
+            <!-- JUnit, Jupiter etc... -->
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
