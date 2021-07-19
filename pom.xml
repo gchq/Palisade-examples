@@ -101,14 +101,13 @@
     </properties>
 
     <modules>
-        <module>example-library</module>
-        <module>example-user-library</module>
-        <module>example-rule-library</module>
-        <module>example-runner</module>
-        <module>performance</module>
         <module>deployment-jvm</module>
         <module>deployment-k8s</module>
-        <module>deployment-jvm</module>
+        <module>example-library</module>
+        <module>example-rule-library</module>
+        <module>example-runner</module>
+        <module>example-user-library</module>
+        <module>performance</module>
     </modules>
 
     <profiles>
