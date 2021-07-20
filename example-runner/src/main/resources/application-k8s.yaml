@@ -13,10 +13,6 @@
 # limitations under the License.
 #
 
-example:
-  directory: "/data/local-data-store/data/"
-  filename: "/data/local-data-store/data/employee_file0.avro"
-
 web:
   client:
     palisade-service: "palisade-service"
