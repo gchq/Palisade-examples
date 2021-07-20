@@ -29,7 +29,7 @@
 
     <groupId>uk.gov.gchq.palisade</groupId>
     <artifactId>example</artifactId>
-    <version>0.5.0-${revision}</version>
+    <version>0.5.1-${revision}</version>
     <name>GCHQ Palisade Examples</name>
     <description>Example data-types, users, resources, rules, data-files and deployments for demonstrating Palisade services</description>
     <url>https://github.com/gchq/Palisade-examples</url>
