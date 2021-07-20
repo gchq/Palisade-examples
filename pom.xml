@@ -105,6 +105,7 @@
         <module>example-runner</module>
         <module>performance</module>
         <module>deployment-k8s</module>
+        <module>deployment-jvm</module>
     </modules>
 
     <profiles>
