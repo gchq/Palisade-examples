@@ -198,7 +198,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>attribute-masking-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>attribute-masking-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -206,7 +206,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>audit-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>audit-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -214,7 +214,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>data-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>data-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -222,7 +222,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>filtered-resource-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>filtered-resource-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -230,7 +230,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>palisade-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>palisade-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -238,7 +238,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>policy-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>policy-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -246,7 +246,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>resource-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>resource-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -254,7 +254,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>topic-offset-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>topic-offset-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -262,7 +262,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>user-service-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>user-service-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -270,7 +270,7 @@
                                     <version>0.5.1-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>services-manager-0.5.0-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>services-manager-0.5.1-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>

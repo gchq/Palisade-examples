@@ -51,7 +51,7 @@
     <properties>
         <!-- Dependency properties -->
         <java.version>11</java.version>
-        <version.number>0.5.0</version.number>
+        <version.number>0.5.1</version.number>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <encoding>UTF-8</encoding>
