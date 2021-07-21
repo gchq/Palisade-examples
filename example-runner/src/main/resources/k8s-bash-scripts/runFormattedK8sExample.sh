@@ -21,7 +21,7 @@ FORMATTER=./formatOutput.sh
 # Run the formatted rest example
 if [ -f $JARFILE ]; then
   if [ -f $FORMATTER ]; then
-    java -Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.runner.runner.RestExample=INFO -Dspring.profiles.active=k8s -jar $JARFILE | $FORMATTER | tee $OUTPUT
+    java -Dlogging.level.root=ERROR -Dlogging.level.uk.gov.gchq.palisade.example.runner.runner.RestExample=INFO -Dspring.profiles.active=example -jar $JARFILE | $FORMATTER | tee $OUTPUT
   else
     echo "Cannot find formatter script -- check your 'git status'"
   fi
