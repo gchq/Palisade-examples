@@ -99,7 +99,7 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>resource-service</artifactId>
-            <version>0.5.0-${services.revision}</version>
+            <version>0.5.1-${services.revision}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
