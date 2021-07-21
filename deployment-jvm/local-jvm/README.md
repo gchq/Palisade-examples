@@ -122,6 +122,11 @@ To run the example and verify its output, use the [local-jvm example-runner scri
 #### [Performance Tests](../../performance/README.md)
 To run the performance tests, use the [local-jvm performance scripts](performance):
 
+1. Create the performance data:
+   ```bash
+   bash deployment-jvm/local-jvm/performance/createPerformanceData.sh
+   ```
+   
 1. Start all the relevant services:
    ```bash
    bash deployment-jvm/local-jvm/performance/startServices.sh

@@ -23,7 +23,7 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.5.0-${revision}</version>
+        <version>0.5.1-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -254,17 +254,17 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>s3-resource-service</artifactId>
-                                    <version>0.5.0-${readers.revision}</version>
+                                    <version>0.5.1-${readers.revision}</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>s3-data-reader</artifactId>
-                                    <version>0.5.0-${readers.revision}</version>
+                                    <version>0.5.1-${readers.revision}</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
-                            <outputDirectory>target/s3</outputDirectory>
+                            <outputDirectory>target/example-s3</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

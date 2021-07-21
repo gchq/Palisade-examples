@@ -12,30 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-replicaCount: 1
 
-service:
-  port: 80
-  type: ClusterIP
+spring:
+  profiles:
+    include:
+    - example-s3-config
+    - k8s
+    - rest
 
-image:
-  name: example-runner
-  base: jdk
-  tag: SNAPSHOT-0b838de
-  pullPolicy: IfNotPresent
-  codeRelease: 0.5.1-SNAPSHOT
-  gitHash: 0b838de
-  versionNumber: 0.5.0
-  revision: SNAPSHOT
+---
 
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 500Mi
+spring:
+  profiles: example-s3-config
 
-nodeSelector: { }
-tolerations: [ ]
-affinity: { }
+example:
+  directory: "s3://palisade-application-dev/data/remote-data-store/data/"
+  filename: "s3://palisade-application-dev/data/remote-data-store/data/employee_file0.avro"

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,31 +12,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-replicaCount: 1
 
-service:
-  port: 80
-  type: ClusterIP
+NAMESPACE=$1
 
-image:
-  name: example-runner
-  base: jdk
-  tag: SNAPSHOT-0b838de
-  pullPolicy: IfNotPresent
-  codeRelease: 0.5.1-SNAPSHOT
-  gitHash: 0b838de
-  versionNumber: 0.5.0
-  revision: SNAPSHOT
-
-resources:
-  limits:
-    cpu: 750m
-    memory: 1Gi
-  requests:
-    cpu: 250m
-    memory: 500Mi
-
-nodeSelector: { }
-tolerations: [ ]
-affinity: { }
+if [ -z "$NAMESPACE" ]
+then
+  # If the user doesnt pass in a namespace
+  kubectl exec $(kubectl get pods | awk '/example-runner/ {print $1}') -- bash -c "cd /usr/share/example-runner && bash ./verify.sh"
+else
+  # If the user passes in a namespace, use the namespace in the kubectl command
+  kubectl exec $(kubectl get pods --namespace="$NAMESPACE" | awk '/example-runner/ {print $1}') --namespace="$NAMESPACE" -- bash -c "cd /usr/share/example-runner && bash ./verify.sh"
+fi

@@ -19,7 +19,7 @@ OUTPUT=./exampleOutput.txt
 
 # Run the rest example
 if [ -f $JARFILE ]; then
-  java -Dspring.profiles.active=k8s,rest -jar $JARFILE | tee $OUTPUT
+  java -Dspring.profiles.active=k8s -jar $JARFILE | tee $OUTPUT
 else
   echo "Cannot find example-runner-<version>-exec.jar - have you run 'mvn install'?"
 fi

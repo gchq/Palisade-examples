@@ -21,10 +21,10 @@ service:
 image:
   name: performance
   base: jdk
-  tag: SNAPSHOT-47a35ae
+  tag: SNAPSHOT-0b838de
   pullPolicy: IfNotPresent
-  codeRelease: 0.5.0-SNAPSHOT
-  gitHash: 47a35ae
+  codeRelease: 0.5.1-SNAPSHOT
+  gitHash: 0b838de
   versionNumber: 0.5.0
   revision: SNAPSHOT
 

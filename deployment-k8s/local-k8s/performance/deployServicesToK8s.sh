@@ -18,6 +18,7 @@ cd deployment-k8s || exit
 helm dep up
 
 helm upgrade --install --wait palisade . \
+--set global.hosting=local \
 --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
 --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
 --set global.deployment=performance-test
