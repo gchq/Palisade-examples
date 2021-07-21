@@ -33,11 +33,11 @@
     </developers>
 
     <!--  *********** Artifact ID ***********    -->
-    <artifactId>example-library</artifactId>
+    <artifactId>example-user-library</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/example-library</url>
-    <name>GCHQ Palisade - Example Library</name>
+    <name>GCHQ Palisade - Example User Library</name>
     <description>
-        The users, resources and policies to be used in the example, as well as pre-population configuration for services.
+        The users to be used in the example.
     </description>
     <!--  *********** Artifact ID ***********    -->
 
@@ -47,6 +47,12 @@
         <developerConnection>${scm.developer.connection}</developerConnection>
         <tag>HEAD</tag>
     </scm>
+
+    <properties>
+        <!-- Test dependency versions -->
+        <junit.version>5.5.2</junit.version>
+        <assertj.version>3.18.0</assertj.version>
+    </properties>
 
     <dependencies>
         <!-- Palisade Dependency-->
@@ -62,37 +68,20 @@
             <version>0.5.1-${services.revision}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>uk.gov.gchq.palisade</groupId>
-            <artifactId>example-user-library</artifactId>
-            <version>0.5.1-${revision}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Spring Dependency -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
         <!-- Testing Dependency -->
         <dependency>
             <!-- JUnit, Jupiter, SpringBootTest etc... -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>resource-service</artifactId>
-            <version>0.5.1-${services.revision}</version>
+            <!-- AssertJ for test assertions -->
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -51,7 +51,7 @@
     <properties>
         <!-- Dependency properties -->
         <java.version>11</java.version>
-        <version.number>0.5.0</version.number>
+        <version.number>0.5.1</version.number>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <encoding>UTF-8</encoding>
@@ -102,10 +102,13 @@
 
     <modules>
         <module>example-library</module>
+        <module>example-rule-library</module>
         <module>example-runner</module>
+        <module>example-user-library</module>
         <module>performance</module>
-        <module>deployment-k8s</module>
+        <!-- Deployment modules pull in jars from palisade (including example jars) so must be last -->
         <module>deployment-jvm</module>
+        <module>deployment-k8s</module>
     </modules>
 
     <profiles>

@@ -89,10 +89,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
-     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
+     drwxrwxrwx deployment-k8s
      drwxrwxrwx example-library
+     drwxrwxrwx example-rule-library
      drwxrwxrwx example-runner
+     drwxrwxrwx example-user-library
      drwxrwxrwx performance
    ```
 
@@ -145,7 +147,9 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
      drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
+     drwxrwxrwx example-rule-library
      drwxrwxrwx example-runner
+     drwxrwxrwx example-user-library
      drwxrwxrwx performance
    ```
 
@@ -157,12 +161,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    ```bash
    kubectl get pods
    ```
-   
-1. Create the performance test dataset, run:
+
+1. Create the performance test dataset locally, run:
    ```bash
-   bash performance/src/main/resources/k8s-bash-scripts/createPerformanceData.sh
-   ```
-   
+   bash deployment-k8s/local-k8s/performance/createPerformanceData.sh
+   ```   
+
 1. After the pods have started, you can run the performance tests:
    ```bash
    bash deployment-k8s/local-k8s/performance/runK8sPerformanceTest.sh
