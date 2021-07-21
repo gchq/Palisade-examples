@@ -271,7 +271,7 @@
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>
-                            <outputDirectory>target/s3</outputDirectory>
+                            <outputDirectory>target/example-s3</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
