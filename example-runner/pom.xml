@@ -73,7 +73,7 @@
             <!-- User, Resource, Context types -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>avro-serialiser</artifactId>
-            <version>0.5.0-${readers.revision}</version>
+            <version>0.5.1-${readers.revision}</version>
         </dependency>
         <dependency>
             <!-- Resource request pre-population -->
