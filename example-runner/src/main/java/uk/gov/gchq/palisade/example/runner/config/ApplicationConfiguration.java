@@ -33,7 +33,6 @@ import org.springframework.context.annotation.Primary;
 
 import uk.gov.gchq.palisade.Generated;
 import uk.gov.gchq.palisade.client.akka.AkkaClient;
-import uk.gov.gchq.palisade.client.akka.AkkaClient.SSLMode;
 import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
 import uk.gov.gchq.palisade.example.runner.config.ApplicationConfiguration.ClientMap;
 import uk.gov.gchq.palisade.example.runner.runner.BulkTestExample;
@@ -85,7 +84,7 @@ public class ApplicationConfiguration {
                 clientMap.getClient("filtered-resource-service"),
                 clientMap.getClient(),
                 actorSystem,
-                SSLMode.NONE
+                AkkaClient.SSLMode.NONE
         );
     }
 
