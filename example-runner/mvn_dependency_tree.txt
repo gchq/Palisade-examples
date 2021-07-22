@@ -23,6 +23,8 @@ uk.gov.gchq.palisade:example-runner:jar:0.5.1-SNAPSHOT
 |     +- org.apache.commons:commons-compress:jar:1.8.1:compile
 |     \- org.tukaani:xz:jar:1.5:compile
 +- uk.gov.gchq.palisade:example-library:jar:0.5.1-SNAPSHOT:compile
++- uk.gov.gchq.palisade:example-user-library:jar:0.5.1-SNAPSHOT:compile
++- uk.gov.gchq.palisade:example-rule-library:jar:0.5.1-SNAPSHOT:compile
 |  \- uk.gov.gchq.data-gen:synthetic-data-generator:jar:0.0.4:compile
 |     +- com.github.javafaker:javafaker:jar:1.0.1:compile
 |     |  +- org.apache.commons:commons-lang3:jar:3.10:compile
