@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Copyright 2018-2021 Crown Copyright
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-JARFILE=./example-runner.jar
-OUTPUT=./exampleOutput.txt
+default:
+  rootId: file:../Palisade-examples/resources
+  connectionDetail: localhost:8082
+  type: uk.gov.gchq.syntheticdatagenerator.types.Employee
+  format: avro
 
-# Run the rest example
-if [ -f $JARFILE ]; then
-  java -Dspring.profiles.active=example -jar $JARFILE | tee $OUTPUT
-else
-  echo "Cannot find example-runner-<version>-exec.jar - have you run 'mvn install'?"
-fi
+# Locally, we use the SimpleResourceService which does a Files.walk(...) so no need to prepopulate
+# Used by the Resource Service to infer the types of the (many thousands of) resources created for the performance test
+resource:
+  defaultType: ${default.type}
