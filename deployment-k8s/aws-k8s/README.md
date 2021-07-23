@@ -20,9 +20,7 @@ This example demonstrates different users querying an avro file over a REST api 
 
 The example runs different queries by different users, with different purposes.
 When you run the example you will see the data has been redacted in line with the rules.
-For an overview of the example, see [here](../../README.md).
-
-### Rest Example ([example-runner](../../example-runner/README.md))
+For an overview of the example, see [here](../../example-library/README.md).
 
 #### Deploying into AWS
 
