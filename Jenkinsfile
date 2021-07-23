@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@Library('jenkinsfile-lib@bug/sq-revisions')_
+@Library('jenkinsfile-lib')_
 
 timestamps {
     examples()
