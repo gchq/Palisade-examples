@@ -20,15 +20,14 @@ This example demonstrates different users querying an avro file over a REST api 
 
 The example runs different queries by different users, with different purposes.
 When you run the example you will see the data has been redacted in line with the rules.
-For an overview of the example, see [here](../../README.md).
+For an overview of the example, see [here](../../example-library/README.md).
 
-In order to successfully run the K8s example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) and [example-runner](../../example-runner) docker images have been built.
+In order to successfully run the K8s example, please make sure the docker images for [Palisade-services](https://github.com/gchq/Palisade-services) and [example-runner](../../example-runner) have been built as well as the jar files for the example-library [example-library](../../example-library).
 
 To run the example in a local Kubernetes cluster, follow these steps (running commands from the root [Palisade-examples](../..) directory):
 
 ## Prerequisites
 As well as Docker, this example also requires Kubernetes and Helm 3.
-Kubernetes is now bundled as part of Docker.
 
 Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services README](https://github.com/gchq/Palisade-services/tree/develop/README.md).
 
