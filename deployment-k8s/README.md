@@ -17,18 +17,22 @@
 
 ## A Tool for Complex and Scalable Data Access Policy Enforcement
 
+Contains the deployment specific code and scripts for running the example within a Kubernetes environment.  
+
+The Dockerfile is used to create an image that will hold the data and supporting resources needed for testing in each of the different environments.    
+
 # Deployment
 
-A collection of scripts to allow the example to be run in a Kubernetes environment, and a script for creating the HR example data. 
+A collection of scripts to allow the example to be run in different types of Kubernetes environment.
 
-## [hr-data-generator](hr-data-generator/createHRData.sh)
-Script for running the synthetic data generator bundled in the example library/runner, see the [synthetic-data-generator](https://github.com/gchq/synthetic-data-generator/blob/main/README.md) repo for more info
+## [aws-K8s](./aws-k8s/README.md)
+Scripts for running the examples in an AWS K8s cluster
 
-## [local-jvm](../deployment-jvm/local-jvm/README.md)
-Scripts for running the examples in a local jvm environment
+## [aws-s3-K8s](./aws-s3-k8s/README.md)
+Scripts for running the examples in an AWS K8s cluster where the data is stored in a S3 bucket
 
-## [local-k8s](local-k8s/README.md)
-Scripts for running the examples in a local k8s cluster
+## [local-K8s](./local-k8s/README.md)
+Scripts for running the examples in a local K8s cluster
+This includes both the local example that is provided in the AWS version of the test as well as a performance test for the local K8s environment
 
-## [aws-k8s](aws-k8s/README.md)
-Scripts for running the examples in an AWS k8s cluster
+
