@@ -20,7 +20,7 @@
 
 The Users, Resources and Policies to be used in the example are configured in the [configuration yaml](/src/main/resources/application-example.yaml).
 Each of these pre-population values are loaded into the appropriate service on service start-up, each type is configured by separate yaml files located by the standard example profile.
-Populating Data records for the example will rely on the use of the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator) for this task.
+Populating data records for the example will rely on the use of the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator) for this task.
 
 The example deals with the following users:
 - User Alice has the role HR and completed the PAYROLL_TRAINING_COURSE
