@@ -18,7 +18,6 @@ limitations under the License.
 ## A Tool for Complex and Scalable Data Access Policy Enforcement
 
 # Performance
-
 Palisade includes a performance tool for testing some simple scenarios.
 It can be used to benchmark the performance in the local JVM and the local K8s environments. 
 See the respective sections for more detail on the running of this performance test in these environments:
