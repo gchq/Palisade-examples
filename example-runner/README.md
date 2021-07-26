@@ -18,16 +18,13 @@
 ## A Tool for Complex and Scalable Data Access Policy Enforcement
 
 # Example Runner
+Contains the code and shell scripts used in the running of the examples.
 
-### Rest Example
-
-The [RestExample](src/main/java/uk/gov/gchq/palisade/example/runner/runner/RestExample.java) class executes several different queries by the example users, with different purposes.
-When you run the example you will see the data has been redacted in line with the policy set out in the rules above.
+These examples will work with [AkkaClient](https://doc.akka.io/docs/akka-http/current/client-side/index.html) to simulate the front-end aspect of streaming of data to the service.  
+The back-end configuration of the service will be dependent on the choice of the deployment that has been selected, local JVM or K8s environments.
+In each of the examples run, the same data set is used, but with a different user who has a different purpose in viewing the records.
+The response that is produced will be different according the rules that have been defined.
 
 For deployment specific instructions on how to run the example please refer to the following documentation:
 - [Local JVM](../deployment-jvm/local-jvm/README.md) - Runs the example in separate JVMs on the local machine
 - [Local Kubernetes](../deployment-k8s/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
-
-### Bulk Retrieval Test (developer/maintenance only)
-
-Deprecated in favour of the [many-resources performance tests](../performance/README.md)
