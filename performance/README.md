@@ -20,8 +20,14 @@ limitations under the License.
 # Performance
 
 Palisade includes a performance tool for testing some simple scenarios.
-It uses the example rules and generates some fake HR data using the [synthetic data generator](https://github.com/gchq/synthetic-data-generator).
+It can be used to benchmark the performance in the local JVM and the local K8s environments. 
+See the respective sections for more detail on the running of this performance test in these environments:
+* [Local JVM Processes](../deployment-jvm/local-jvm/README.md)
+* [Local Docker/Kubernetes Containers](../deployment-k8s/local-k8s/README.md)
 
+Populating data records for the example will rely on the use of the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator) for this task.
+
+#Overview of the Performance Tests
 The tool works on the following data-set sizes:
 
 * *large* - 10,000 records in a single ~20MB file resource
@@ -41,76 +47,8 @@ The following trials are tested for each size and variant of data-set:
 
 The general naming scheme is "trial_size_variant".
 
-All above values and more can be tweaked through the [config yaml](src/main/resources/application.yaml).
+All of the above values can be tweaked through the [config yaml](src/main/resources/application.yaml).
 
-## Usage
-
-### Automated
-
-For an automated way to perform these tests, see the [Services Manager](https://github.com/gchq/Palisade-services/blob/develop/services-manager/README.md) for more details.
-
-Creates some test data for the performance tests, starts all the Palisade services and runs the performance tests:
-
-1. Make sure you are within the Palisade-services directory
-   ```bash
-   >> ls
-     drwxrwxrwx attribute-masking-service
-     drwxrwxrwx audit-service
-     drwxrwxrwx data-service
-     drwxrwxrwx filtered-resource-service
-     drwxrwxrwx palisade-service
-     drwxrwxrwx policy-service
-     drwxrwxrwx resource-service
-     drwxrwxrwx services-manager
-     drwxrwxrwx topic-offset-service
-     drwxrwxrwx user-service
-   ```
-1. Then run the services manager:
-    ```bash
-    >> java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-create-task,palisade-task,performance-test-task
-    ```
-
-* The services will start up with their cache/persistence stores pre-populated with example data
-* The performance-test will run once all services have started
-* Check `performance-test.log` for output data
-
-Once the create-perf-data task has been run once, it does not need to be re-run:
-
-* If running the performance tests repeatedly, the above command can be sped up to the default configuration of:  
-  `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar`
-* If the Palisade services are also still running, the above command can be sped up again to exclude starting the already-running services:  
-  `java -jar -Dspring.profiles.active=example-perf services-manager/target/services-manager-*-exec.jar --manager.schedule=performance-test-task`  
-  Or run just the performance-test manually as below...
-
-### Manual
-
-#### Creation of test data
-
-Create a collection of Employee records in the [resources directory](../resources/data)
-
-```bash
->> java -jar performance/target/performance-*-exec.jar --performance.action=create
-# or similarly
->> java -Dspring.profiles.active=create -jar performance/target/performance-*-exec.jar
-```
-
-This may take a long time to run, depending upon the requested sizes of the test data (up to 5 minutes).
-
-#### Running performance tests
-
-Ensure first the [Palisade services](https://github.com/gchq/Palisade-services/) are running, and have been populated with the appropriate example data.
-This also includes ensuring Kafka and Redis are running and ready.
-The profile for prepopulating the services can be found [here](../example-library/src/main/resources/application-example-perf.yaml).
-The procedure for starting services can be followed from the [deployment-jvm](../deployment-jvm/README.md), which includes pre-populating and starting Kafka/Redis with docker-compose.
-
-Once all services have started, run the following:
-
-```bash
->> java -jar performance/target/performance-*-exec.jar
-```
-
-Again, this may take some time, depending upon test data size.
-Be aware of any running antivirus software that may scan files in real time - eg. McAfee will contribute a factor of ~5x slow-down to bulk file tests.
 
 ### Analysis of results
 
