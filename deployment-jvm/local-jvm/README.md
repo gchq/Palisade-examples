@@ -148,7 +148,7 @@ To run the performance tests, use the [local-jvm performance scripts](performanc
 See the [README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
 #### [JVM Example](../../example-runner/README.md)
-When using the Services Manager, follow these steps running commands from the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
+When using the Services Manager, follow these steps running commands from the root [Palisade-services](https://github.com/gchq/Palisade-services) directory:
 
 1. Make sure you are within the Palisade-services directory
    ```bash
