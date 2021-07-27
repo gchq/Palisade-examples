@@ -53,7 +53,7 @@ The example scenarios can be run using the Spring Boot REST client application i
 This simple Spring Boot application has a number of different runners for such REST clients, which also manage using the Palisade Service response to connect to the appropriate Data Service.
 
 ### [Performance](./performance/README.md)
-The performance of the Palisade Services compared to native file reads (and other metrics) can be measured using the Performance testing suite.
+The performance of the Palisade services compared to native file reads (and other metrics) can be measured using the Performance testing suite.
 This performance-testing suite has a number of different trial types, datasets and policy variants to cover a reasonable number of common use-cases.
 
 ### [Deployment-K8s](./deployment-k8s/README.md)
