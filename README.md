@@ -36,7 +36,7 @@ The Palisade-examples repository contains all the example specific modules as fo
 ### [Example Library](./example-library/README.md)
 The Example Library is a collection of Java classes that are required for running the example.
 For example, the ExampleUser class, as well as a number of fine-grained and coarse-grained policies rules that will be applied to the returned records.
-The ExampleUser datatype is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class and contains specific extra fields.
+The ExampleUser datatype is a extension of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class and contains extra fields specific to the example.
 The policies applied when running the example are a collection of static coarse-grained (resource-level) and fine-grained (record-level) policy rules that can be found in the [Example Library](example-library/README.md), and are used for pre-populating the Palisade services with data.
 This collection of example-specific rules, types and configurations is based around the possible policies a company might set out for users accessing sensitive employee data, depending upon their role in the company.
 This library is further divided into two separate distinct categories for the simplification of maintenance of the library.
