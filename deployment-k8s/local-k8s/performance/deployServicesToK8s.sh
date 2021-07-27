@@ -21,4 +21,5 @@ helm upgrade --install --wait palisade . \
 --set global.hosting=local \
 --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data, \
 --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
---set global.deployment=performance-test
+--set global.deployment=performance-test \
+--timeout 600s
