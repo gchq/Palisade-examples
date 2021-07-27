@@ -30,6 +30,10 @@
     <!--  *********** Artifact ID ***********    -->
     <artifactId>deployment-jvm</artifactId>
     <url>https://github.com/gchq/Palisade-examples/tree/develop/deployment-jvm</url>
+    <name>GCHQ Palisade - JVM Deployment</name>
+    <description>
+        Copies jars to a single container, to run the JVM example
+    </description>
     <!--  *********** Artifact ID ***********    -->
 
     <properties>

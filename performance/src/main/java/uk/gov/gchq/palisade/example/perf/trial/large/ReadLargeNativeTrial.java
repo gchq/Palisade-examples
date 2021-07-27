@@ -18,8 +18,6 @@ package uk.gov.gchq.palisade.example.perf.trial.large;
 
 import org.springframework.stereotype.Component;
 
-import uk.gov.gchq.palisade.data.serialise.AvroSerialiser;
-import uk.gov.gchq.palisade.data.serialise.Serialiser;
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
 import uk.gov.gchq.palisade.example.perf.trial.AbstractPerfTrial;
 import uk.gov.gchq.palisade.example.perf.util.PerfException;
@@ -38,8 +36,6 @@ import java.util.stream.Stream;
 @Component
 public class ReadLargeNativeTrial extends AbstractPerfTrial {
     protected static final String NAME = "read_large_native";
-    //create the serialiser
-    private static final Serialiser<Employee> SERIALISER = new AvroSerialiser<>(Employee.class);
     private static final String DESCRIPTION = "performs a native read and deserialise of the large file";
 
     /**
