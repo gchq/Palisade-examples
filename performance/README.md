@@ -26,7 +26,7 @@ See the respective sections for more detail on the running of this performance t
 
 Populating data records for the example will rely on the use of the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator) for this task.
 
-#Overview of the Performance Tests
+# Overview of the Performance Tests
 The tool works on the following data-set sizes:
 
 * *large* - 10,000 records in a single ~20MB file resource
