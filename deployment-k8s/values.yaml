@@ -32,14 +32,14 @@ global:
     example:
     - name: "SPRING_PROFILES_ACTIVE"
       # Debug-level logging for the 'example' deployment can be enabled by adding a 'debug' profile here
-      value: "k8s,example-k8s"
+      value: "k8s,example-k8s,avro"
     performance-test:
     - name: "SPRING_PROFILES_ACTIVE"
-      value: "k8s,example-perf-k8s,nologs"
+      value: "k8s,example-perf-k8s,avro,nologs"
     example-s3:
     # The order of these properties is important, they are addressed by index in the aws-s3-k8s deployServicesToK8s.sh script
     - name: "SPRING_PROFILES_ACTIVE"
-      value: "k8s,s3,example-s3"
+      value: "k8s,s3,example-s3,avro"
     - name: "AWS_ACCESS_KEY_ID"
       value: ""
     - name: "AWS_SECRET_ACCESS_KEY"

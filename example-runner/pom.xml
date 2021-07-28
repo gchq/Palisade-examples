@@ -71,6 +71,12 @@
             <version>0.5.1-${common.revision}</version>
         </dependency>
         <dependency>
+            <!-- User, Resource, Context types -->
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>avro-serialiser</artifactId>
+            <version>0.5.1-${readers.revision}</version>
+        </dependency>
+        <dependency>
             <!-- Resource request pre-population -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>example-library</artifactId>

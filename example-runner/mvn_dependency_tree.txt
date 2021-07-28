@@ -14,6 +14,7 @@ uk.gov.gchq.palisade:example-runner:jar:0.5.1-SNAPSHOT
 |  |     \- com.typesafe.akka:akka-parsing_2.13:jar:10.2.1:compile
 |  \- com.fasterxml.jackson.core:jackson-annotations:jar:2.11.0:compile
 +- uk.gov.gchq.palisade:common:jar:0.5.1-SNAPSHOT:compile
++- uk.gov.gchq.palisade:avro-serialiser:jar:0.5.1-SNAPSHOT:compile
 |  \- org.apache.avro:avro:jar:1.8.2:compile
 |     +- org.codehaus.jackson:jackson-core-asl:jar:1.9.13:compile
 |     +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13:compile
