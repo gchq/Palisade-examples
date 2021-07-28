@@ -20,7 +20,6 @@ Windows is not an explicitly supported environment, although where possible Pali
 For Windows developer environments, we recommend setting up [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
 
 # Palisade Examples
-
 The example demonstrates different users querying an avro file over a REST api. 
 These examples are run in 3 different scenarios as described in the [Deployment-K8s](./deployment-k8s/README.md) and [Deployment-JVM](./deployment-jvm/README.md) modules:
 - [local-JVM](./deployment-jvm/local-jvm/README.md)
@@ -65,3 +64,52 @@ Contains the deployment specific code and scripts for running the examples withi
 Shell scripts are provided to set-up and run both the example and the performance tests.
 Also, Dockerfiles and charts are provided to run all the JVMs in a single container.
 * [Local JVM Processes](./deployment-jvm/local-jvm/README.md)
+
+## Overview of the Example
+The following describes the key aspects of the example and explains how the different users will see the same set of data records based on the applied rules.
+
+The example deals with the following users:
+- User Alice has the role HR and completed the PAYROLL_TRAINING_COURSE
+- User Bob has the role ESTATES and not completed any training
+- User Eve has the role IT and not completed any training
+
+### BankDetailsRule
+The bankDetails field should be returned:
+- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE, and the purpose of the query is SALARY
+
+In all other cases the bankDetails field should be redacted.
+
+### DutyOfCareRule
+This rule is concerned with the contactNumber, emergencyContacts and sex fields. These fields should be returned:
+- if the user querying the file has the HR role, and the purpose of the query is DUTY_OF_CARE
+- if the user querying the file is the line manager of the Employee record being queried, and the purpose of the query is DUTY_OF_CARE
+
+In all other cases these fields should be redacted.
+
+### FirstResourceRule
+This rule is concerned with the resource file that is being requested:
+- if the user has an HR role they will be able to access the first resource file
+
+In all other cases the first resource will not be returned to the user.
+
+### NationalityRule
+The nationality field should be returned:
+- if the user querying the file has the HR role, and the purpose of the query is STAFF_REPORT
+
+In all other cases the nationality field should be redacted.
+
+### RecordMaskingRule
+This rule is concerned with the full record:
+- if the user querying the file has the HR role then no modifications are made to the record
+- if the user is in the management tree of the employee then no modifications are made to the record
+- if the user querying the file has the ESTATES role then the DateOfBirth, HireDate, Grade and Manager fields are redacted
+
+In all other cases the record will have no information returned.
+
+### ZipCodeMaskingRule
+This rule is concerned with the address field:
+- if the user querying the file has the HR role then the whole address is returned
+- if the purpose of the query is DUTY_OF_CARE and the user querying the file is the line manager of the Employee record being queried then the whole address is returned
+- if the user querying the file has the ESTATES role then the address field should be returned with the zipcode/postcode masked to reduce its precision
+
+In all other cases the address field should be redacted.
