@@ -22,7 +22,7 @@ The example runs different queries by different users, with different purposes.
 When you run the example you will see the data has been redacted in line with the rules.
 For an overview of the example, see [here](../../example-library/README.md).
 
-In order to successfully run the K8s example, please make sure the docker images for [Palisade-services](https://github.com/gchq/Palisade-services) and [example-runner](../../example-runner) have been built as well as the jar files for the example-library [example-library](../../example-library).
+In order to successfully run the K8s example, please make sure the docker images for [Palisade-services](https://github.com/gchq/Palisade-services) and [example-runner](../../example-runner) have been built as well as the jar files for the [example-user-library](../../example-user-library), [example-rule-library](../../example-rule-library) and [example-library](../../example-library).
 
 To run the example in a local Kubernetes cluster, follow these steps (running commands from the root [Palisade-examples](../..) directory):
 
