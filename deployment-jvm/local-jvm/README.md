@@ -108,8 +108,9 @@ To run the example and verify its output, use the [local-jvm example-runner scri
    
 1. Then run the example and pipe the output to a text file:
    ```bash
-   bash deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh
+   bash deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
    ```
+   Note the tee command is needed to create the exampleOutput file needed in running the verify script
    
 1. Verify that the example has run successfully by running the verify script:
    ```bash
