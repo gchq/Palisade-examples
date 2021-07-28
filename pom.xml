@@ -139,6 +139,7 @@
                 <common.revision>RELEASE</common.revision>
                 <clients.revision>RELEASE</clients.revision>
                 <services.revision>RELEASE</services.revision>
+                <readers.revision>RELEASE</readers.revision>
                 <maven.test.skip>true</maven.test.skip>
                 <dockerfile.push.skip>true</dockerfile.push.skip>
                 <image.tag>${revision}-${version.number}</image.tag>
