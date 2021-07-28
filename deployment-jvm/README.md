@@ -21,7 +21,8 @@ Contains the deployment specific code and scripts for running the example within
 
 # Deployment JVM
 
-A collection of scripts to allow the example to be run in a JVM environment.
+A collection of scripts to allow the Palisade service to be run in a JVM environment.  
+This can be run on a computer that has a Java Runtime Environment (JRE) installed.
 
 ## [local-JVM](./local-jvm/README.md)
 Scripts for running the examples in a local JVM environment
