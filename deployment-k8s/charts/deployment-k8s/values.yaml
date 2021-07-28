@@ -17,10 +17,10 @@ replicaCount: 1
 image:
   name: deployment-k8s
   base: jdk
-  tag: SNAPSHOT-0b838de
+  tag: SNAPSHOT-598ad63
   pullPolicy: IfNotPresent
-  gitHash: 0b838de
-  versionNumber: 0.5.0
+  gitHash: 598ad63
+  versionNumber: 0.5.1
   codeRelease: 0.5.1-SNAPSHOT
   revision: SNAPSHOT
 
