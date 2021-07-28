@@ -31,20 +31,23 @@ The rest of the modules contain all the necessary classes and objects required f
 
 The Palisade-examples repository contains all the example specific modules as follows:
 
+### [Example User Library](./example-user-library/README.md)
+Users and supporting code for the example.  
+The users in the example have different job roles and need access to the employee data records each with a different purpose.
+The implementation is with ExampleUser which is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class.
+
+### [Example Rule Library](./example-rule-library/README.md)
+Rules and supporting code that are to be used in the example.
+The rules in the example determine if the entire resource is to be redacted in the case of resource  and if it is not then what parts of the employee records are to be redacted.
+Normally these rules would be provided by the Policy Service, but for this example they are a prepopulaedd
+
 ### [Example Library](./example-library/README.md)
 The Example Library is a collection of Java classes that are required for running the example.
 For example, the ExampleUser class, as well as a number of fine-grained and coarse-grained policy rules that will be applied to the returned records.
-The ExampleUser datatype is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class and contains specific extra fields.
 The policies applied when running the example are a collection of static coarse-grained (resource-level) and fine-grained (record-level) policy rules that can be found in the [Example Library](example-library/README.md), and are used for pre-populating the Palisade services with data.
 This collection of example-specific rules, types and configurations is based around the possible policies a company might set out for users accessing sensitive employee data, depending upon their role in the company.
 This library is further divided into two separate distinct categories for the simplification of maintenance of the library.
 One is for defining the types of Users, [Example User Library](./example-user-library/README.md) and the second is for defining the Rules, [Example Rule Library](./example-library/README.md) that are to be applied to these Users.
-
-### [Example User Library](./example-user-library/README.md)
-The ExampleUser and supporting code for the example.
-
-### [Example Rule Library](./example-rule-library/README.md)
-The Rules and supporting code that are to be used in the example.
 
 ### [Example Runner](./example-runner/README.md)
 The example scenarios can be run using the Spring Boot REST client application in the Example Runner, requesting and reading for a number of different users, resources and contexts.
