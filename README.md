@@ -68,6 +68,7 @@ Also, Dockerfiles and charts are provided to run all the JVMs in a single contai
 ## Overview of the Example
 The following describes the key aspects of the example and explains how the different users will see the same set of data records based on the applied rules.
 
+##ExampleUser
 The example deals with the following users:
 - User Alice has the role HR and completed the PAYROLL_TRAINING_COURSE
 - User Bob has the role ESTATES and not completed any training

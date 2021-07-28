@@ -19,7 +19,7 @@
 
 # Example Rule library
 Contains the Rules and supporting code used in the example.
-The full explanation of how this library is used in context to the example is described in the [Example Library](./example-library/README.md).
+The full explanation of how this library is used in context to the example is described in the [Overview of the Example](./README.md).
 
 
 
