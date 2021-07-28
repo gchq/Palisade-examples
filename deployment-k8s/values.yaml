@@ -32,7 +32,7 @@ global:
     example:
     - name: "SPRING_PROFILES_ACTIVE"
       # Debug-level logging for the 'example' deployment can be enabled by adding a 'debug' profile here
-      value: "k8s,example-k8s,avroervices-
+      value: "k8s,example-k8s,avro"
     performance-test:
     - name: "SPRING_PROFILES_ACTIVE"
       value: "k8s,example-perf-k8s,avro,nologs"
