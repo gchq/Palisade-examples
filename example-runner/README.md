@@ -28,3 +28,5 @@ The response that is produced will be different according the rules that have be
 For deployment specific instructions on how to run the example please refer to the following documentation:
 - [Local JVM](../deployment-jvm/local-jvm/README.md) - Runs the example in separate JVMs on the local machine
 - [Local Kubernetes](../deployment-k8s/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
+
+For an overview of the examples and 
