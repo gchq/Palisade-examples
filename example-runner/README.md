@@ -20,13 +20,11 @@
 # Example Runner
 Contains the code and shell scripts used in the running of the examples.
 
-These examples will work with [AkkaClient](https://doc.akka.io/docs/akka-http/current/client-side/index.html) to simulate the front-end aspect of streaming of data to the service.  
-The back-end configuration of the service will be dependent on the choice of the deployment that has been selected, local JVM or K8s environments.
-In each of the examples run, the same data set is used, but with a different user who has a different purpose in viewing the records.
-The response that is produced will be different according the rules that have been defined.
+The runner is a wrapper intended to run a set of usecases though the deployed Palisade services.
+It will work with [AkkaClient](https://doc.akka.io/docs/akka-http/current/client-side/index.html) to send in requests to Palisade service and collect the response.  
 
 For deployment specific instructions on how to run the example please refer to the following documentation:
 - [Local JVM](../deployment-jvm/local-jvm/README.md) - Runs the example in separate JVMs on the local machine
 - [Local Kubernetes](../deployment-k8s/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
 
-For an overview of the examples and 
+The full explanation of how this library is used in context to the example is described in the [Overview of the Example](./README.md).

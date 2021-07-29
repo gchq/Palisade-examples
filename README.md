@@ -33,7 +33,8 @@ The purpose of his query is to see the data related to a duty of care assignment
 He will be able to see the data, but have for example the date-of-bith redacted and the postal code of the address will be reduced in precision. 
 
 User Eve has the role IT and not completed any training.
-There is no purpose for her query and will not 
+She does not have a purpose for her query.
+The response for her will be a resource-level redaction which means no data at all not even see any indication of what resources exists.
 
 ### Rules
 These are the Rules that will used to enforce these restrictions:
