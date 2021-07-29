@@ -98,6 +98,10 @@
         <scm.url>https://github.com/gchq/Palisade-examples</scm.url>
         <scm.connection>scm:git:https://github.com/gchq/Palisade-examples.git</scm.connection>
         <scm.developer.connection>scm:git:https://github.com/gchq/Palisade-examples.git</scm.developer.connection>
+
+        <!-- Set the version-tag depending on profile (defaults to SNAPSHOT-$githash, but may be RELEASE-$version for releases) -->
+        <!--suppress UnresolvedMavenProperty -->
+        <dockerfile.version.tag>${revision}-${git.commit.id.abbrev}</dockerfile.version.tag>
     </properties>
 
     <modules>
@@ -142,7 +146,7 @@
                 <readers.revision>RELEASE</readers.revision>
                 <maven.test.skip>true</maven.test.skip>
                 <dockerfile.push.skip>true</dockerfile.push.skip>
-                <image.tag>${revision}-${version.number}</image.tag>
+                <dockerfile.version.tag>${revision}-${version.number}</dockerfile.version.tag>
             </properties>
             <build>
                 <plugins>
