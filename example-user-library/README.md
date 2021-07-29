@@ -18,5 +18,11 @@
 
 # Example User Library
 Contains the ExampleUser and supporting code.
+Each of these users is defined by the ExampleUser which is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class.
+This will be used to create the following users:
+- User Alice has the role HR and completed the PAYROLL_TRAINING_COURSE
+- User Bob has the role ESTATES and not completed any training
+- User Eve has the role IT and not completed any training
+
 The full explanation of how this library is used in context to the example is described in the [Overview of the Example](./README.md).
 
