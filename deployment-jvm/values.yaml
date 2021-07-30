@@ -18,7 +18,7 @@ image:
   name: deployment-jvm
   base: jdk
   pullPolicy: IfNotPresent
-  gitHash: 9c1c9c1
+  gitHash: "2736912"
   versionNumber: 0.5.1
   revision: SNAPSHOT
 
