@@ -21,25 +21,25 @@ For Windows developer environments, we recommend setting up [WSL](https://docs.m
 
 ## Overview of the Example
 This example is designed around a generic fictional company where staff need to access sensitive data for legitimate purposes.
-The generic use cases explored in these examples all involve the same HR employee data but with different outcomes based on rules that are enforced.
+The generic use cases explored in these examples all involve the same HR employee data but with different outcomes based on the rules that are enforced.
 
 Alice works in HR and has completed the Payroll Training Course.  
-She needs to perform different tasks one of which is to process the payroll.
-To process the payroll she will need to have access to bank details, but for example should not have access to contact information.
-As a member of the HR department she needs to have contact information to meet the legal obligation for duty of care, so in this role she will have the contact information, but the bank information will be redacted. 
+She needs to perform different tasks, one of which is to process the payroll.
+To process the payroll she will need to have access to bank details however, she should not have access to contact information.  
+As a member of the HR department she needs to view the employee contact information to meet the legal obligation for duty of care, so in this role she will be able to view the contact information, but the bank information will be redacted. 
 
 Bob works in Estates and has not completed any formal training.
 His work includes the need to plan the companies staff parking requirements and office locations.  
-Therefore, he needs access the rough location of staff home addresses, but do not need personal information such as the date of birth or the banking information.
+Therefore, he needs to know the rough location of staff home addresses, but does not need personal information such as the date of birth or the banking information.  
 Bob is also a line manager and in that capacity needs to perform queries to address any duty of care concern for the employees under his management.
-In this capacity, he will need to get the contact information including the emergency contact number and the exact postal code, but he will not need the payroll information.
+In this capacity, he will need to view the contact information, including the emergency contact number, and the exact postal code. However, he does not need to view the payroll information.
 
-Eve works in the IT department and not completed any training.
+Eve works in the IT department and has not completed any training.
 She does not have a legitimate need to query the HR employee data.
 The response for her is that she will not be able to access any of the HR employee data. 
 
-For more detail on the technical aspect of users in the example [example-user-library](./example-rule-library/README.md).
-For more detail on the technical aspect of rules and purposes that are used in the example [example-rule-library](./example-rule-library/README.md).
+For more detail on the technical aspect of the users in the example see the [example-user-library](./example-user-library/README.md).  
+For more detail on the technical aspect of the rules and purposes that are used in the example see the [example-rule-library](./example-rule-library/README.md).
 
 # Palisade Examples
 The example demonstrates different users querying an avro file over a REST api. 
