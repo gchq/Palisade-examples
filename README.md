@@ -41,7 +41,23 @@ The response for her is that she will not be able to access any of the HR employ
 For more detail on the technical aspect of the users in the example see the [example-user-library](./example-user-library/README.md).  
 For more detail on the technical aspect of the rules and purposes that are used in the example see the [example-rule-library](./example-rule-library/README.md).
 
-# Palisade Examples
+
+# Deployment of Palisade Examples
+-can be deployed into any Kubernetes environment
+-important is extensible but need to define and show how the example show this
+-important is that it is pluggable need to define and show how the example show this
+
+
+The examples also demonstrate the flexibility of environments Palisade can be deployed into.
+
+In addition to the examples demonstrating the enforcement of rules and purpose to applied to record, they also demonstrate the flexibility of the solution for different working environments.
+
+This is shown in the 3 different deployments
+
+Key to the design of Palisade is the object of being flexible so this it can be made to fit into an exiting business workflow for the processing of data. 
+
+Thr user and rules in the examples demonstrate the extensible nature of the application in the context of user and rolex
+
 The example demonstrates different users querying an avro file over a REST api. 
 These examples are run in 3 different scenarios as described in the [Deployment-K8s](./deployment-k8s/README.md) and [Deployment-JVM](./deployment-jvm/README.md) modules:
 - [local-JVM](./deployment-jvm/local-jvm/README.md)
