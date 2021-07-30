@@ -20,66 +20,26 @@ Windows is not an explicitly supported environment, although where possible Pali
 For Windows developer environments, we recommend setting up [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
 
 ## Overview of the Example
-The following describes the key aspects of the example and explains how the different users will see the same set of data records based on the applied rules.
+This example is designed around a generic fictional company where staff need to access sensitive data for legitimate purposes.
+The generic use cases explored in these examples all involve the same HR employee data but with different outcomes based on rules that are enforced.
 
-These are the kind of use cases that are meant to be handled with the different users and rules that are provided in the examples. 
+Alice works in HR and has completed the Payroll Training Course.  
+She needs to perform different tasks one of which is to process the payroll.
+To process the payroll she will need to have access to bank details, but for example should not have access to contact information.
+As a member of the HR department she needs to have contact information to meet the legal obligation for duty of care, so in this role she will have the contact information, but the bank information will be redacted. 
 
-###Users
-Alice works in HR and completed the Payroll Training Course.  
-The purpose of query is related to processing the payroll, so she will have access to bank details, but for example will not have access to contact information.
+Bob works in Estates and has not completed any formal training.
+His work includes the need to plan the companies staff parking requirements and office locations.  
+Therefore, he needs access the rough location of staff home addresses, but do not need personal information such as the date of birth or the banking information.
+Bob is also a line manager and in that capacity needs to perform queries to address any duty of care concern for the employees under his management.
+In this capacity, he will need to get the contact information including the emergency contact number and the exact postal code, but he will not need the payroll information.
 
-Bob works in Estates and has not completed any training.
-The purpose of his query is to see the data related to a duty of care assignment.  
-He will be able to see the data, but have for example the date-of-bith redacted and the postal code of the address will be reduced in precision. 
+Eve works in the IT department and not completed any training.
+She does not have a legitimate need to query the HR employee data.
+The response for her is that she will not be able to access any of the HR employee data. 
 
-User Eve has the role IT and not completed any training.
-She does not have a purpose for her query.
-The response for her will be a resource-level redaction which means no data at all not even see any indication of what resources exists.
-
-### Rules
-These are the Rules that will used to enforce these restrictions:
-
-#### BankDetailsRule
-The bankDetails field should be returned:
-- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE, and the purpose of the query is SALARY
-
-In all other cases the bankDetails field should be redacted.
-
-#### DutyOfCareRule
-This rule is concerned with the contactNumber, emergencyContacts and sex fields. These fields should be returned:
-- if the user querying the file has the HR role, and the purpose of the query is DUTY_OF_CARE
-- if the user querying the file is the line manager of the Employee record being queried, and the purpose of the query is DUTY_OF_CARE
-
-In all other cases these fields should be redacted.
-
-#### FirstResourceRule
-This rule is concerned with the resource file that is being requested:
-- if the user has an HR role they will be able to access the first resource file
-
-In all other cases the first resource will not be returned to the user.
-
-#### NationalityRule
-The nationality field should be returned:
-- if the user querying the file has the HR role, and the purpose of the query is STAFF_REPORT
-
-In all other cases the nationality field should be redacted.
-
-#### RecordMaskingRule
-This rule is concerned with the full record:
-- if the user querying the file has the HR role then no modifications are made to the record
-- if the user is in the management tree of the employee then no modifications are made to the record
-- if the user querying the file has the ESTATES role then the DateOfBirth, HireDate, Grade and Manager fields are redacted
-
-In all other cases the record will have no information returned.
-
-#### ZipCodeMaskingRule
-This rule is concerned with the address field:
-- if the user querying the file has the HR role then the whole address is returned
-- if the purpose of the query is DUTY_OF_CARE and the user querying the file is the line manager of the Employee record being queried then the whole address is returned
-- if the user querying the file has the ESTATES role then the address field should be returned with the zipcode/postcode masked to reduce its precision
-
-In all other cases the address field should be redacted.
-
+For more detail on the technical aspect of users in the example [example-user-library](./example-rule-library/README.md).
+For more detail on the technical aspect of rules and purposes that are used in the example [example-rule-library](./example-rule-library/README.md).
 
 # Palisade Examples
 The example demonstrates different users querying an avro file over a REST api. 
