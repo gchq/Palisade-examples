@@ -18,27 +18,41 @@
 ## A Tool for Complex and Scalable Data Access Policy Enforcement
 
 # Example Rule library
-Contains the Rules and supporting code used in the example.
-Each of these users is defined by the ExampleUser which is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) Rule interface.
+This module contains the specific rules that are used when running the example. 
+Each of these rules is a specialisation of the Palisade-common [Rule interface](https://github.com/gchq/Palisade-common/blob/develop/src/main/java/uk/gov/gchq/palisade/rule/Rule.java).
+There are two types of rule that can be applied to a resource:
 
-#### BankDetailsRule
-The bankDetails field should be returned:
-- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE, and the purpose of the query is SALARY
+1. Resource Level Rules
+1. Record Level Rules
 
-In all other cases the bankDetails field should be redacted.
+The Resource Level Rules are coarse grain rules that will allow a user to access a resource.  
+The Record Level Rules are fine grain rules that define what records, within a given resource, the user is allowed to view.
 
-#### DutyOfCareRule
-This rule is concerned with the contactNumber, emergencyContacts and sex fields. These fields should be returned:
-- if the user querying the file has the HR role, and the purpose of the query is DUTY_OF_CARE
-- if the user querying the file is the line manager of the Employee record being queried, and the purpose of the query is DUTY_OF_CARE
+When running the example within a Palisade deployment the resources and policies associated with the example will need to be populated into the cache of the Resource Service and Policy Service respectively.
+The information for doing this is contained within application yaml files that are located in the [resources directory](./src/main/resources)
 
-In all other cases these fields should be redacted.
+### Resource Level Rules (coarse grain)
 
 #### FirstResourceRule
 This rule is concerned with the resource file that is being requested:
 - if the user has an HR role they will be able to access the first resource file
 
 In all other cases the first resource will not be returned to the user.
+
+### Record Level Rules (fine grain)
+
+#### BankDetailsRule
+The bankDetails field should be returned:
+- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE, and the purpose of the query is SALARY. All of these criteria must be met if the user is to see the employees bank details.
+
+In all other cases the bankDetails field should be redacted.
+
+#### DutyOfCareRule
+This rule is concerned with the contactNumber, emergencyContacts and sex fields. These fields should be returned:
+- if the user querying the file has the HR role, and the purpose of the query is DUTY_OF_CARE
+- if the user querying the file is the management tree of the Employee record being queried, and the purpose of the query is DUTY_OF_CARE
+
+In all other cases these fields should be redacted.
 
 #### NationalityRule
 The nationality field should be returned:
@@ -62,7 +76,7 @@ This rule is concerned with the address field:
 
 In all other cases the address field should be redacted.
 
-The full explanation of how this library is used in context to the example is described in the [Overview of the Example](./README.md).
+The full explanation of how this library is used in context to the example is described in the [Overview of the Example](../README.md#Overview of the Example).
 
 
 
