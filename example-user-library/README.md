@@ -17,12 +17,13 @@
 ## A Tool for Complex and Scalable Data Access Policy Enforcement
 
 # Example User Library
-Contains the ExampleUser and supporting code.
-Each of these users is defined by the ExampleUser which is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class.
-This will be used to create the following users:
-- User Alice has the role HR and completed the PAYROLL_TRAINING_COURSE
-- User Bob has the role ESTATES and not completed any training
-- User Eve has the role IT and not completed any training
+Each of these users is defined as an ExampleUser which is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class.
+These are accompanied by key attributes that defined the properties of the users in the working example.
+These include:
+    Purpose which defines the reason a query is being made
+    Role which defines the department that an employee work in
+    Training Course which list the formal training course that an employee has completed
+With this example of a user, we are able to demonstrate the ease it is to apply the existing concept of a Palisade user to fit the requirements of a business. 
 
-The full explanation of how this library is used in context to the example is described in the [Overview of the Example](./README.md).
+For a full explanation of how this library is used in context to the example is described in the [Overview of the Example](./README.md).
 
