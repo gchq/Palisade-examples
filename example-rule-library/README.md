@@ -29,7 +29,7 @@ The Resource Level Rules are coarse grain rules that will allow a user to access
 The Record Level Rules are fine grain rules that define what records, within a given resource, the user is allowed to view.
 
 When running the example within a Palisade deployment the resources and policies associated with the example will need to be populated into the cache of the Resource Service and Policy Service respectively.
-The information for doing this is contained within application yaml files that are located in the [resources directory](./src/main/resources)
+The information for doing this is contained within application yaml files that are located in the [resources directory](./src/main/resources).
 
 ### Resource Level Rules (coarse grain)
 
@@ -40,6 +40,9 @@ This rule is concerned with the resource file that is being requested:
 In all other cases the first resource will not be returned to the user.
 
 ### Record Level Rules (fine grain)
+
+#### Flow diagram of rules
+<img src="../img/PalisadeRulesFlowDiagram.png">
 
 #### BankDetailsRule
 The bankDetails field should be returned:
@@ -76,4 +79,3 @@ This rule is concerned with the address field:
 
 In all other cases the address field should be redacted.
 
-The full motivation behind this library and how it is used in context to the example is described in the [Overview of the Example](../README.md).
