@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.gov.gchq.palisade.example.perf.analysis.PerfFileSet;
+import uk.gov.gchq.palisade.util.AbstractResourceBuilder;
 
 import java.net.URI;
 import java.nio.file.Path;
@@ -57,17 +58,17 @@ public final class PerfUtils {
                 new PerfFileSet(
                         getWithPolicyDir(directoryName).resolve(SMALL_FILE_NAME).toString(),
                         getWithPolicyDir(directoryName).resolve(LARGE_FILE_NAME).toString(),
-                        getWithPolicyDir(directoryName).resolve(MANY_FILE_DIR).toString() + "/"),
+                        getWithPolicyDir(directoryName).resolve(MANY_FILE_DIR) + "/"),
                 new PerfFileSet(
                         getNoPolicyDir(directoryName).resolve(SMALL_FILE_NAME).toString(),
                         getNoPolicyDir(directoryName).resolve(LARGE_FILE_NAME).toString(),
-                        getNoPolicyDir(directoryName).resolve(MANY_FILE_DIR).toString() + "/")
+                        getNoPolicyDir(directoryName).resolve(MANY_FILE_DIR) + "/")
         );
     }
 
     public static Path getDirectory(final String directoryName) {
         try {
-            URI directoryUri = URI.create(directoryName);
+            URI directoryUri = URI.create(AbstractResourceBuilder.create(directoryName).getId());
             return Path.of(directoryUri);
         } catch (IllegalArgumentException ex) {
             String userDir = System.getProperty("user.dir") + "/";

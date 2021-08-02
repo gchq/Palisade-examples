@@ -22,7 +22,7 @@ image:
   name: performance
   base: jdk
   pullPolicy: IfNotPresent
-  gitHash: 9c1c9c1
+  gitHash: "077ba81"
   versionNumber: 0.5.1
   revision: SNAPSHOT
 
