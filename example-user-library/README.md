@@ -17,14 +17,42 @@
 ## A Tool for Complex and Scalable Data Access Policy Enforcement
 
 # Example User Library
-Each of these users is defined as an ExampleUser which is a specialisation of the [Palisade-common User class](https://github.com/gchq/Palisade-common/blob/develop/src/main/java/uk/gov/gchq/palisade/user/User.java).
-These are accompanied by key attributes that defined the properties of the users in the working example.
-These include:
-    Purpose which defines the reason a query is being made and therefore enriches th equery context.
-    Role which defines the department that an employee works in
-    Training Course which list the formal training course that an employee has completed
-With this example of a user, we are able to demonstrate the ease it is to apply the existing concept of a Palisade user to fit the requirements of a business. 
+Forr the purposes of showing that the User object is easily extensible we have defined an ExampleUser which is a specialisation of the [Palisade-common User class](https://github.com/gchq/Palisade-common/blob/develop/src/main/java/uk/gov/gchq/palisade/user/User.java).
+The only difference is that we have added an extra attribute "trainingCourses" which is used to store a set of Enum TrainingCourse values. This means that we can now base some of our data access decisions based on whether the user has recently completed relevant training courses.
 
-For a full explanation of the motivation behind this library is used in context to the example is described in the [Overview of the Example](../README.md).
+The Users that have been defined for this example are as follows:
+
+| UserId   | Auths               | Roles       | Training courses             |
+|:---------|:--------------------|:------------|:-----------------------------|
+| Alice    | \[public, private\] | \[HR\]      | \[PAYROLL_TRAINING_COURSE\]  |
+| Bob      | \[public\]          | \[ESTATES\] |                              |
+| Eve      | \[public\]          | \[IT\]      |                              |
+
 
 This module also contains the Spring boot classes and yaml files to configure the services on bootup. Firstly we have the Example User Configuration and Prepopulation Factory classes. These are used to tell the user service Spring Boot application to pre load into its cache the example user configurations as specified in the application-example-users.yaml file. The reason we need these extra classes is because we have added a new attribute to the example user object which Spring needs to know how to serialise and deserialise that new attribute.
+
+The yaml file is pretty simple and just specifies that you want to use the example user prepopulation beans (population.userProvider: example) rather then any others that may be declared in the [Example Library ApplicationConfiguration](Palisade-examples/example-library/src/main/java/uk/gov/gchq/palisade/example/library/config/ApplicationConfiguration.java) and then defines each of the users as stated in the above table (population.users: ...).
+
+```yaml
+population:
+  userProvider: example
+  users:
+  - userId: Alice
+    auths:
+      public
+      private
+    roles:
+      HR
+    trainingCourses:
+      PAYROLL_TRAINING_COURSE
+  - userId: Bob
+    auths:
+      public
+    roles:
+      ESTATES
+  - userId: Eve
+    auths:
+      public
+    roles:
+      IT
+```
