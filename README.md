@@ -28,11 +28,11 @@ The generic use cases explored in these examples all involve the same HR employe
 Alice works in HR and has completed the Payroll Training Course.  
 She needs to perform different tasks, one of which is to process the payroll.
 To process the payroll she will need to have access to bank details however, she should not have access to contact information.  
-As a member of the HR department she needs to view the employee contact information to meet the legal obligation for duty of care, so in this role she will be able to view the contact information, but the bank information will be redacted. 
+As a member of the HR department she needs to view the employee contact information to meet the legal obligation for duty of care, so for this purpose she will be able to view the contact information, but the bank information will be redacted. 
 
 Bob works in Estates and has not completed any formal training.
-His work includes the need to plan the companies staff parking requirements and office locations.  
-Therefore, he needs to know the rough location of staff home addresses, but does not need personal information such as the date of birth or the banking information.  
+His work includes the need to plan the companies office locations and staff parking requirements.  
+Therefore, he needs to know the rough location of staff home addresses, but does not need personal information such as the contact or banking information.  
 Bob is also a line manager and in that capacity needs to perform queries to address any duty of care concern for the employees under his management.
 In this capacity, he will need to view the contact information, including the emergency contact number, and the exact postal code. However, he does not need to view the payroll information.
 
@@ -71,7 +71,7 @@ Normally the source of these rules would be provided by the Policy Service, but 
 Concrete implementation of the rules are a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) Rule interface.
 
 ### [Example Library](./example-library/README.md)
-The Example Library is primarily a factory that uses the [Example User Library](./example-user-library/README.md) and the [Example Rule Library](./example-library/README.md) to spin-up the users, rules and records needed for running the example.
+The Example Library is primarily a factory that uses the [Example User Library](./example-user-library/README.md) and the [Example Rule Library](./example-rule-library/README.md) to spin-up the users, rules and records needed for running the example.
 
 ### [Example Runner](./example-runner/README.md)
 The example scenarios can be run using the Spring Boot REST client application in the Example Runner, requesting and reading for a number of different users, resources and contexts.

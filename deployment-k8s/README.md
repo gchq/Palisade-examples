@@ -26,12 +26,12 @@ The Dockerfile is used to create a deployment image that will hold the data and 
 A collection of scripts to allow the example to be run in different types of Kubernetes environment.
 
 ## [aws-K8s](./aws-k8s/README.md)
-Scripts for running the examples in an AWS K8s cluster where the data is stored in the Kubernetes cluster
+Scripts for running the examples in an AWS K8s cluster where the data is stored locally in the relevant services persistance volume.
 
 ## [aws-s3-K8s](./aws-s3-k8s/README.md)
-Scripts for running the examples in an AWS K8s cluster where the data is stored in a S3 bucket
+Scripts for running the examples in an AWS K8s cluster where the data is stored in an S3 bucket.
 
 ## [local-K8s](./local-k8s/README.md)
-Scripts for running the examples in a local K8s cluster
-This includes both the local example that is provided in the AWS version of the test as well as a performance test for the local K8s environment
+Scripts for running the examples in a local K8s cluster.
+This includes both the local example that is provided in the AWS version of the test as well as a performance test for the local K8s environment.
 
