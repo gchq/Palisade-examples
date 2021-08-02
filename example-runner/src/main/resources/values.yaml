@@ -21,10 +21,8 @@ service:
 image:
   name: @artifactId@
   base: @dockerfile.base.tag@
-  tag: @revision@-@git.commit.id.abbrev@
   pullPolicy: IfNotPresent
-  codeRelease: @project.parent.version@
-  gitHash: @git.commit.id.abbrev@
+  gitHash: "@git.commit.id.abbrev@"
   versionNumber: @version.number@
   revision: @revision@
 
