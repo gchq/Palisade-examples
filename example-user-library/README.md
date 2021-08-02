@@ -25,6 +25,6 @@ These include:
     Training Course which list the formal training course that an employee has completed
 With this example of a user, we are able to demonstrate the ease it is to apply the existing concept of a Palisade user to fit the requirements of a business. 
 
-For a full explanation of the motivation behind this library is used in context to the example is described in the [Overview of the Example](./README.md).
+For a full explanation of the motivation behind this library is used in context to the example is described in the [Overview of the Example](../README.md).
 
 This module also contains the Spring boot classes and yaml files to configure the services on bootup. Firstly we have the Example User Configuration and Prepopulation Factory classes. These are used to tell the user service Spring Boot application to pre load into its cache the example user configurations as specified in the application-example-users.yaml file. The reason we need these extra classes is because we have added a new attribute to the example user object which Spring needs to know how to serialise and deserialise that new attribute.

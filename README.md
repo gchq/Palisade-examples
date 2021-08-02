@@ -20,9 +20,9 @@ Windows is not an explicitly supported environment, although where possible Pali
 For Windows developer environments, we recommend setting up [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
 
 # Overview of the Example
-This repo contains the business logic required to configure and deploy Palisade to meet your organisations requirements. Therefore the contents of this repo show the potential of Palisade via an example scenario and performance test suite.
+This repository contains the business logic required to configure and deploy Palisade to meet your organisations requirements. Therefore the contents of this repository shows the potential of Palisade via an example scenario and performance test suite.
 
-This example is designed around a generic fictional company where staff need to access sensitive data for legitimate purposes.
+This example is designed around a generic fictional company where staff need to access [sensitive data](https://github.com/gchq/synthetic-data-generator/tree/v0.0.4) for legitimate purposes.
 The generic use cases explored in these examples all involve the same HR employee data but with different outcomes based on the rules that are enforced.
 
 Alice works in HR and has completed the Payroll Training Course.  
@@ -53,7 +53,7 @@ To demonstate the flexibility of Palisade we have been developing and testing Pa
 
 These three environments show that Palisade can work both on a single machine laptop as well as in a production grade cloud Kubernetes environment all without having to modify the core service code that is based in the [Palisade-services](https://github.com/gchq/Palisade-services) repository.
 
-To demonstrate the flexibility of what rules and data we can work against we have the [example runner](./deployment-k8s/local-k8s/example-runner) and the [performance suite](./deployment-k8s/local-k8s/performance), which operate on different files and have different data access policies set in the spring boot configuration.
+To demonstrate the flexibility of what rules and data we can work against we have the [example runner](./deployment-k8s/local-k8s/example-runner) and the [performance suite](./performance/README.mde), which operate on different files and have different data access policies set in the spring boot configuration.
 
 # Structure of Examples repository
 The Palisade-examples repository is broken down into the following specific modules:
@@ -61,17 +61,17 @@ The Palisade-examples repository is broken down into the following specific modu
 ### [Example User Library](./example-user-library/README.md)
 Contains the business logic related to the users, the roles and purposes they work under.
 The users in the example have different job roles and need access to the employee data records with different purposes.
-Each of these users is defined by the ExampleUser which is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class.
+Each of these users is defined by the ExampleUser which is a specialisation of the Palisade-common User class.
 
 ### [Example Rule Library](./example-rule-library/README.md)
 Contains the busineess logic of the data access rules and therefore how those rules apply to the resources and user attributes.
 The rules are split into two categories: resource-level rules which apply to an entire resource; and the record-level rules which apply to the individual records.
 They are provided to illustrate the rules a company might set out for users accessing sensitive employee data, depending upon their role in the company.
 Normally the source of these rules would be provided by the Policy Service, but for this example they are a provided in a pre-populated data set that is used to create the Rules used in the example.
-Concrete implementation of the rules are a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) Rule interface.
+Concrete implementation of the rules are a specialisation of the Palisade-common Rule interface.
 
 ### [Example Library](./example-library/README.md)
-The Example Library is primarily a factory that uses the [Example User Library](./example-user-library/README.md) and the [Example Rule Library](./example-rule-library/README.md) to spin-up the users, rules and records needed for running the example.
+The Example Library is primarily a factory that uses the [Example User Library](./example-user-library/README.md) and the [Example Rule Library](./example-rule-library/README.md) to spin-up the users, rules and the data needed for running the example.
 
 ### [Example Runner](./example-runner/README.md)
 The example scenarios can be run using the Spring Boot REST client application in the Example Runner, requesting and reading for a number of different users, resources and contexts.

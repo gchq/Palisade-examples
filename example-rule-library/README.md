@@ -76,4 +76,4 @@ This rule is concerned with the address field:
 
 In all other cases the address field should be redacted.
 
-The full motivation behind this library and how it is used in context to the example is described in the [Overview of the Example](../README.md#Overview of the Example).
+The full motivation behind this library and how it is used in context to the example is described in the [Overview of the Example](../README.md).
