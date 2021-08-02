@@ -31,7 +31,7 @@ The Users that have been defined for this example are as follows:
 
 This module also contains the Spring boot classes and yaml files to configure the services on bootup. Firstly we have the Example User Configuration and Prepopulation Factory classes. These are used to tell the user service Spring Boot application to pre load into its cache the example user configurations as specified in the application-example-users.yaml file. The reason we need these extra classes is because we have added a new attribute to the example user object which Spring needs to know how to serialise and deserialise that new attribute.
 
-The yaml file is pretty simple and just specifies that you want to use the example user prepopulation beans (population.userProvider: example) rather then any others that may be declared in the [Example Library ApplicationConfiguration](Palisade-examples/example-library/src/main/java/uk/gov/gchq/palisade/example/library/config/ApplicationConfiguration.java) and then defines each of the users as stated in the above table (population.users: ...).
+The yaml file is pretty simple and just specifies that you want to use the example user prepopulation beans (population.userProvider: example) rather then any others that may be declared in the [Example Library ApplicationConfiguration](../example-library/src/main/java/uk/gov/gchq/palisade/example/library/config/ApplicationConfiguration.java) and then defines each of the users as stated in the above table (population.users: ...).
 
 ```yaml
 population:
