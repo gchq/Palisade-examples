@@ -18,6 +18,7 @@
 
 # Example Library
 
-The Users, Resources and Policies to be used in the example are configured in the [configuration yaml](/src/main/resources/application-example.yaml).
-Each of these pre-population values are loaded into the appropriate service on service start-up, each type is configured by separate yaml files located by the standard example profile.
-Populating data records for the example will rely on the use of the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator) for this task.
+This module contains the Spring boot application configuration class, which overrides some of the user pre-population beans to enable use to eextend the user attributes that we hold and make use of them in our example data access policies. It also contains the application [configuration yaml files](/src/main/resources/application-example.yaml) to configure the example under the various deployment environments, such that the Users, Resources, Policies and serialisers are all setup correctly.
+
+Each of the pre-population values are loaded into the appropriate service on service start-up, each type is configured by separate yaml files located by the standard example profile.
+Populating the data files for the example will rely on the use of the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator).

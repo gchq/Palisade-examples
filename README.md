@@ -19,7 +19,9 @@
 Windows is not an explicitly supported environment, although where possible Palisade has been made compatible.  
 For Windows developer environments, we recommend setting up [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
 
-## Overview of the Example
+# Overview of the Example
+This repo contains the business logic required to configure and deploy Palisade to meet your organisations requirements. Therefore the contents of this repo show the potential of Palisade via an example scenario and performance test suite.
+
 This example is designed around a generic fictional company where staff need to access sensitive data for legitimate purposes.
 The generic use cases explored in these examples all involve the same HR employee data but with different outcomes based on the rules that are enforced.
 
@@ -43,38 +45,26 @@ For more detail on the technical aspect of the rules and purposes that are used 
 
 
 # Deployment of Palisade Examples
--can be deployed into any Kubernetes environment
--important is extensible but need to define and show how the example show this
--important is that it is pluggable need to define and show how the example show this
 
-
-The examples also demonstrate the flexibility of environments Palisade can be deployed into.
-
-In addition to the examples demonstrating the enforcement of rules and purpose to applied to record, they also demonstrate the flexibility of the solution for different working environments.
-
-This is shown in the 3 different deployments
-
-Key to the design of Palisade is the object of being flexible so this it can be made to fit into an exiting business workflow for the processing of data. 
-
-Thr user and rules in the examples demonstrate the extensible nature of the application in the context of user and rolex
-
-The example demonstrates different users querying an avro file over a REST api. 
-These examples are run in 3 different scenarios as described in the [Deployment-K8s](./deployment-k8s/README.md) and [Deployment-JVM](./deployment-jvm/README.md) modules:
+To demonstate the flexibility of Palisade we have been developing and testing Palisade under 3 deployment environments:
 - [local-JVM](./deployment-jvm/local-jvm/README.md)
 - [local-K8s](./deployment-k8s/local-k8s/README.md)
 - [aws-K8s](./deployment-k8s/aws-k8s/README.md)
 
-The rest of the modules contain all the necessary classes and objects required for running the examples in those environments.
+These three environments show that Palisade can work both on a single machine laptop as well as in a production grade cloud Kubernetes environment all without having to modify the core service code that is based in the [Palisade-services](https://github.com/gchq/Palisade-services) repository.
 
-The Palisade-examples repository contains all the example specific modules as follows:
+To demonstrate the flexibility of what rules and data we can work against we have the [example runner](./deployment-k8s/local-k8s/example-runner) and the [performance suite](./deployment-k8s/local-k8s/performance), which operate on different files and have different data access policies set in the spring boot configuration.
+
+# Structure of Examples repository
+The Palisade-examples repository is broken down into the following specific modules:
 
 ### [Example User Library](./example-user-library/README.md)
-Users and supporting code for the example.  
-The users in the example have different job roles and need access to the employee data records each with a different purpose.
+Contains the business logic related to the users, the roles and purposes they work under.
+The users in the example have different job roles and need access to the employee data records with different purposes.
 Each of these users is defined by the ExampleUser which is a specialisation of the [Palisade-common](https://github.com/gchq/Palisade-common/README.md) User class.
 
 ### [Example Rule Library](./example-rule-library/README.md)
-Rules and supporting code that are to be used in the example.
+Contains the busineess logic of the data access rules and therefore how those rules apply to the resources and user attributes.
 The rules are split into two categories: resource-level rules which apply to an entire resource; and the record-level rules which apply to the individual records.
 They are provided to illustrate the rules a company might set out for users accessing sensitive employee data, depending upon their role in the company.
 Normally the source of these rules would be provided by the Policy Service, but for this example they are a provided in a pre-populated data set that is used to create the Rules used in the example.
@@ -102,4 +92,3 @@ Contains the deployment specific code and scripts for running the examples withi
 Shell scripts are provided to set-up and run both the example and the performance tests.
 Also, Dockerfiles and charts are provided to run all the JVMs in a single container.
 * [Local JVM Processes](./deployment-jvm/local-jvm/README.md)
-
