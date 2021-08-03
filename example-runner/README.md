@@ -26,5 +26,3 @@ It will work with [AkkaClient](https://doc.akka.io/docs/akka-http/current/client
 For deployment specific instructions on how to run the example please refer to the following documentation:
 - [Local JVM](../deployment-jvm/local-jvm/README.md) - Runs the example in separate JVMs on the local machine
 - [Local Kubernetes](../deployment-k8s/local-k8s/README.md) - Runs the example in Kubernetes on the local machine
-
-The full explanation of how this library is used in context to the example is described in the [Overview of the Example](./README.md).

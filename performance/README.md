@@ -24,7 +24,7 @@ See the respective sections for more detail on the running of this performance t
 * [Local JVM Processes](../deployment-jvm/local-jvm/README.md)
 * [Local Docker/Kubernetes Containers](../deployment-k8s/local-k8s/README.md)
 
-Populating data records for the example will rely on the use of the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator) for this task.
+Populating data records for the example will rely on the use of the [Synthetic Data Generator](https://github.com/gchq/synthetic-data-generator/tree/v0.0.4) for this task.
 
 # Overview of the Performance Tests
 The tool works on the following data-set sizes:
