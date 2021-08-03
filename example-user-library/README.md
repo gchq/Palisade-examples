@@ -13,54 +13,46 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+# <img src="../logos/logo.svg" width="180">
+## A Tool for Complex and Scalable Data Access Policy Enforcement
 
-# Example Library
+# Example User Library
+Forr the purposes of showing that the User object is easily extensible we have defined an ExampleUser which is a specialisation of the [Palisade-common User class](https://github.com/gchq/Palisade-common/blob/develop/src/main/java/uk/gov/gchq/palisade/user/User.java).
+The only difference is that we have added an extra attribute "trainingCourses" which is used to store a set of Enum TrainingCourse values. This means that we can now base some of our data access decisions based on whether the user has recently completed relevant training courses.
 
-The users, resources and policies to be used in the example are configured in the [configuration yaml](/example-library/src/main/resources/application-example.yaml).
-Each of these pre-population values are loaded into the appropriate service on service start-up, see the [run-example scripts](/deployment/local-jvm/example-runner).
+The Users that have been defined for this example are as follows:
 
-In particular, the example deals with the following users:
-- User Alice has the role HR and completed the PAYROLL_TRAINING_COURSE
-- User Bob has the role ESTATES and not completed any training
-- User Eve has the role IT and not completed any training
+| UserId   | Auths               | Roles       | Training courses             |
+|:---------|:--------------------|:------------|:-----------------------------|
+| Alice    | \[public, private\] | \[HR\]      | \[PAYROLL_TRAINING_COURSE\]  |
+| Bob      | \[public\]          | \[ESTATES\] |                              |
+| Eve      | \[public\]          | \[IT\]      |                              |
 
-### BankDetailsRule  
-The bankDetails field should be returned:
-- if the user querying the file has the HR role, completed the PAYROLL_TRAINING_COURSE, and the purpose of the query is SALARY
 
-In all other cases the bankDetails field should be redacted.
+This module also contains the Spring boot classes and yaml files to configure the services on bootup. Firstly we have the Example User Configuration and Prepopulation Factory classes. These are used to tell the user service Spring Boot application to pre load into its cache the example user configurations as specified in the application-example-users.yaml file. The reason we need these extra classes is because we have added a new attribute to the example user object which Spring needs to know how to serialise and deserialise that new attribute.
 
-### DutyOfCareRule  
-This rule is concerned with the contactNumber, emergencyContacts and sex fields. These fields should be returned:
-- if the user querying the file has the HR role, and the purpose of the query is DUTY_OF_CARE
-- if the user querying the file is the line manager of the Employee record being queried, and the purpose of the query is DUTY_OF_CARE  
+The yaml file is pretty simple and just specifies that you want to use the example user prepopulation beans (population.userProvider: example) rather then any others that may be declared in the [Example Library ApplicationConfiguration](../example-library/src/main/java/uk/gov/gchq/palisade/example/library/config/ApplicationConfiguration.java) and then defines each of the users as stated in the above table (population.users: ...).
 
-In all other cases these fields should be redacted.
-
-### FirstResourceRule  
-This rule is concerned with the resource file that is being requested:
-- if the user has an HR role they will be able to access the first resource file
-
-In all other cases the first resource will not be returned to the user.
-
-### NationalityRule  
-The nationality field should be returned:
-- if the user querying the file has the HR role, and the purpose of the query is STAFF_REPORT
-
-In all other cases the nationality field should be redacted.
-
-### RecordMaskingRule
-This rule is concerned with the full record:
-- if the user querying the file has the HR role then no modifications are made to the record
-- if the user is in the management tree of the employee then no modifications are made to the record
-- if the user querying the file has the ESTATES role then the DateOfBirth, HireDate, Grade and Manager fields are redacted  
-
-In all other cases the record will have no information returned.
-
-### ZipCodeMaskingRule
-This rule is concerned with the address field:
-- if the user querying the file has the HR role then the whole address is returned
-- if the purpose of the query is DUTY_OF_CARE and the user querying the file is the line manager of the Employee record being queried then the whole address is returned
-- if the user querying the file has the ESTATES role then the address field should be returned with the zipcode/postcode masked to reduce its precision
-
-In all other cases the address field should be redacted.
+```yaml
+population:
+  userProvider: example
+  users:
+  - userId: Alice
+    auths:
+      public
+      private
+    roles:
+      HR
+    trainingCourses:
+      PAYROLL_TRAINING_COURSE
+  - userId: Bob
+    auths:
+      public
+    roles:
+      ESTATES
+  - userId: Eve
+    auths:
+      public
+    roles:
+      IT
+```

@@ -31,7 +31,7 @@ To run the example locally in JVMs, follow these steps (running commands from th
 ## Prerequisites
 
 1. Start **Kafka** and **Redis** on localhost using default ports by your preferred means:
-   * Try the [docker-compose](docker-compose.yml) file if you have docker available - `docker-compose -f deployment-jvm/local-jvm/docker-compose.yml up -d`  
+   * Try the [docker-compose](docker-compose.yml) file if you have docker-compose available - `docker-compose -f deployment-jvm/local-jvm/docker-compose.yml up -d`  
      ***or***
    * Kafka must be listening to `http://localhost:9092`, see the [Kafka Quickstart Guide](https://kafka.apache.org/quickstart)
    * Redis must be listening to `http://localhost:6379`, see the [Redis Quickstart Guide](https://redis.io/topics/quickstart)
@@ -110,6 +110,7 @@ To run the example and verify its output, use the [local-jvm example-runner scri
    ```bash
    bash deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
    ```
+   Note the tee command is needed to create the exampleOutput file needed in running the verify script
    
 1. Verify that the example has run successfully by running the verify script:
    ```bash
@@ -136,7 +137,7 @@ To run the performance tests, use the [local-jvm performance scripts](performanc
 
 1. Then run the performance test and pipe the output to a text file:
    ```bash
-   bash deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
+   bash deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh
    ```
 
 1. Finally, stop the services:
@@ -144,12 +145,11 @@ To run the performance tests, use the [local-jvm performance scripts](performanc
    bash deployment-jvm/local-jvm/performance/stopServices.sh
    ```
 
-
-### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
+#### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
 See the [README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
 #### [JVM Example](../../example-runner/README.md)
-When using the Services Manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
+When using the Services Manager, follow these steps running commands from the root [Palisade-services](https://github.com/gchq/Palisade-services) directory:
 
 1. Make sure you are within the Palisade-services directory
    ```bash
