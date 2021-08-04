@@ -168,7 +168,7 @@ When using the Services Manager, follow these steps running commands from the ro
 
 1. Start the Palisade services and run the example using the services manager.
    ```bash
-   >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
+   java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
    ```
    
 1. It will take a couple of minutes for the Spring Boot services to start up.  
@@ -201,7 +201,7 @@ When using the Services Manager, follow these steps running commands from the ro
 
 1. Stop the services.
    ```bash
-   >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
+   java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```
 
 #### [Performance Tests](../../performance/README.md)
@@ -224,7 +224,7 @@ Run as above, but substitute using the `example-runner` profile for the `example
 
 1. Create the performance test data, start the Palisade services and run the performance tests using the services manager.
    ```bash
-   >> java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run --manager.schedule=performance-create-task,palisade-task,performance-test-task
+   java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run --manager.schedule=performance-create-task,palisade-task,performance-test-task
    ```
    
 1. It will take a couple of minutes to generate the performance test data.
@@ -259,5 +259,5 @@ Run as above, but substitute using the `example-runner` profile for the `example
 1. Stop the services.
     
    ```bash
-   >> java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
+   java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```
