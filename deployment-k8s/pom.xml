@@ -23,7 +23,7 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.5.1-${revision}</version>
+        <version>0.5.2-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -190,7 +190,7 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>avro-serialiser</artifactId>
-                                    <version>0.5.1-${readers.revision}</version>
+                                    <version>0.5.2-${readers.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
@@ -231,7 +231,7 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>avro-serialiser</artifactId>
-                                    <version>0.5.1-${readers.revision}</version>
+                                    <version>0.5.2-${readers.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
@@ -270,7 +270,7 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>avro-serialiser</artifactId>
-                                    <version>0.5.1-${readers.revision}</version>
+                                    <version>0.5.2-${readers.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
@@ -283,13 +283,13 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>s3-resource-service</artifactId>
-                                    <version>0.5.1-${readers.revision}</version>
+                                    <version>0.5.2-${readers.revision}</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>s3-data-reader</artifactId>
-                                    <version>0.5.1-${readers.revision}</version>
+                                    <version>0.5.2-${readers.revision}</version>
                                     <classifier>jar-with-dependencies</classifier>
                                 </artifactItem>
                             </artifactItems>

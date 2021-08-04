@@ -23,7 +23,7 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.5.1-${revision}</version>
+        <version>0.5.2-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -200,82 +200,82 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>attribute-masking-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>attribute-masking-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>attribute-masking-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>audit-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>audit-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>audit-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>data-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>data-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>data-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>filtered-resource-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>filtered-resource-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>filtered-resource-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>palisade-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>palisade-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>palisade-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>policy-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>policy-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>policy-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>resource-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>resource-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>resource-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>topic-offset-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>topic-offset-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>topic-offset-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>user-service</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>user-service-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>user-service-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>services-manager</artifactId>
-                                    <version>0.5.1-${services.revision}</version>
+                                    <version>0.5.2-${services.revision}</version>
                                     <type>${project.packaging}</type>
                                     <classifier>exec</classifier>
-                                    <destFileName>services-manager-0.5.1-${services.revision}-exec.jar</destFileName>
+                                    <destFileName>services-manager-0.5.2-${services.revision}-exec.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>

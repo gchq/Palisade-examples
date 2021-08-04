@@ -19,7 +19,7 @@ image:
   base: jdk
   pullPolicy: IfNotPresent
   gitHash: "401914d"
-  versionNumber: 0.5.1
+  versionNumber: 0.5.2
   revision: RELEASE
 
 resources:

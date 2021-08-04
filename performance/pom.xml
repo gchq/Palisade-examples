@@ -20,7 +20,7 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.5.1-${revision}</version>
+        <version>0.5.2-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -62,13 +62,13 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
-            <version>0.5.1-${common.revision}</version>
+            <version>0.5.2-${common.revision}</version>
         </dependency>
         <dependency>
             <!-- User, Resource, Context types -->
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>avro-serialiser</artifactId>
-            <version>0.5.1-${readers.revision}</version>
+            <version>0.5.2-${readers.revision}</version>
         </dependency>
         <dependency>
             <groupId>uk.gov.gchq.data-gen</groupId>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>client-akka</artifactId>
-            <version>0.5.1-${clients.revision}</version>
+            <version>0.5.2-${clients.revision}</version>
         </dependency>
         <!-- Spring Dependency -->
         <dependency>
