@@ -1,10 +1,10 @@
-uk.gov.gchq.palisade:example-library:jar:0.5.1-SNAPSHOT
-+- uk.gov.gchq.palisade:common:jar:0.5.1-SNAPSHOT:provided
+uk.gov.gchq.palisade:example-library:jar:0.5.1-RELEASE
++- uk.gov.gchq.palisade:common:jar:0.5.1-RELEASE:provided
 |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.11.0:provided
 |  |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.11.0:provided
 |  |  \- com.fasterxml.jackson.core:jackson-core:jar:2.11.0:provided
 |  \- org.slf4j:slf4j-api:jar:1.7.30:provided
-+- uk.gov.gchq.palisade:user-service:jar:0.5.1-SNAPSHOT:provided
++- uk.gov.gchq.palisade:user-service:jar:0.5.1-RELEASE:provided
 |  +- com.typesafe.akka:akka-stream_2.13:jar:2.6.10:provided
 |  |  +- org.scala-lang:scala-library:jar:2.13.3:provided
 |  |  +- com.typesafe.akka:akka-actor_2.13:jar:2.6.10:provided
@@ -59,7 +59,7 @@ uk.gov.gchq.palisade:example-library:jar:0.5.1-SNAPSHOT
 |        |  +- io.netty:netty-buffer:jar:4.1.50.Final:provided
 |        |  \- io.netty:netty-codec:jar:4.1.50.Final:provided
 |        \- io.netty:netty-transport:jar:4.1.50.Final:provided
-+- uk.gov.gchq.palisade:example-user-library:jar:0.5.1-SNAPSHOT:provided
++- uk.gov.gchq.palisade:example-user-library:jar:0.5.1-RELEASE:provided
 +- org.springframework.boot:spring-boot-autoconfigure:jar:2.3.1.RELEASE:provided
 |  \- org.springframework.boot:spring-boot:jar:2.3.1.RELEASE:provided
 |     \- org.springframework:spring-context:jar:5.2.7.RELEASE:provided
@@ -102,7 +102,7 @@ uk.gov.gchq.palisade:example-library:jar:0.5.1-SNAPSHOT
 |  |  \- org.springframework:spring-jcl:jar:5.2.7.RELEASE:provided
 |  +- org.springframework:spring-test:jar:5.2.7.RELEASE:test
 |  \- org.xmlunit:xmlunit-core:jar:2.7.0:test
-\- uk.gov.gchq.palisade:resource-service:jar:0.5.1-SNAPSHOT:test
+\- uk.gov.gchq.palisade:resource-service:jar:0.5.1-RELEASE:test
    +- org.springframework.boot:spring-boot-starter-data-r2dbc:jar:2.3.1.RELEASE:test
    |  +- org.springframework.data:spring-data-r2dbc:jar:1.1.1.RELEASE:test
    |  |  +- org.springframework.data:spring-data-commons:jar:2.3.1.RELEASE:provided
