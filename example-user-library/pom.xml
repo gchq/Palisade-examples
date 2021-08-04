@@ -20,7 +20,7 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.5.1-${revision}</version>
+        <version>0.5.2-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -59,13 +59,13 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
-            <version>0.5.1-${common.revision}</version>
+            <version>0.5.2-${common.revision}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>user-service</artifactId>
-            <version>0.5.1-${services.revision}</version>
+            <version>0.5.2-${services.revision}</version>
             <scope>provided</scope>
         </dependency>
 

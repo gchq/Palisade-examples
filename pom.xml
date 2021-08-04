@@ -29,7 +29,7 @@
 
     <groupId>uk.gov.gchq.palisade</groupId>
     <artifactId>example</artifactId>
-    <version>0.5.1-${revision}</version>
+    <version>0.5.2-${revision}</version>
     <name>GCHQ Palisade Examples</name>
     <description>Example data-types, users, resources, rules, data-files and deployments for demonstrating Palisade services</description>
     <url>https://github.com/gchq/Palisade-examples</url>
@@ -51,7 +51,7 @@
     <properties>
         <!-- Dependency properties -->
         <java.version>11</java.version>
-        <version.number>0.5.1</version.number>
+        <version.number>0.5.2</version.number>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <encoding>UTF-8</encoding>
@@ -105,10 +105,10 @@
     </properties>
 
     <modules>
-        <module>example-library</module>
+        <module>example-user-library</module>
         <module>example-rule-library</module>
         <module>example-runner</module>
-        <module>example-user-library</module>
+        <module>example-library</module>
         <module>performance</module>
         <!-- Deployment modules pull in jars from palisade (including example jars) so must be last -->
         <module>deployment-jvm</module>
