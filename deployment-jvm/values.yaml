@@ -18,9 +18,9 @@ image:
   name: deployment-jvm
   base: jdk
   pullPolicy: IfNotPresent
-  gitHash: "401914d"
+  gitHash: "17a404d"
   versionNumber: 0.5.2
-  revision: RELEASE
+  revision: SNAPSHOT
 
 resources:
   limits:
