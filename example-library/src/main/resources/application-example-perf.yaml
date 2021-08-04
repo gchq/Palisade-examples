@@ -26,7 +26,7 @@ spring:
   profiles: example-perf-config
 
 default:
-  rootId: file:../Palisade-examples/resources
+  rootId: file:../Palisade-examples/resources/data
   connectionDetail: localhost:8082
   type: uk.gov.gchq.syntheticdatagenerator.types.Employee
   format: "avro/binary"
@@ -35,3 +35,5 @@ default:
 # Used by the Resource Service to infer the types of the (many thousands of) resources created for the performance test
 resource:
   defaultType: ${default.type}
+  defaultFormats:
+    avro: ${default.format}

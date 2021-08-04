@@ -26,7 +26,8 @@ then
   --set global.persistence.dataStores.palisade-data-store.local.hostPath=$(pwd)/resources/data \
   --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
   --set global.deployment=example \
-  --set Palisade-services.traefik.install=false
+  --set Palisade-services.traefik.install=false \
+  --timeout 600s
 else
   # If the user provides a namespace value:
   # 1) create the namespace
@@ -40,5 +41,6 @@ else
   --set global.persistence.classpathJars.local.hostPath=$(pwd)/deployment-k8s/target \
   --set global.deployment=example \
   --set Palisade-services.traefik.install=false \
-  --namespace $NAMESPACE
+  --namespace $NAMESPACE \
+  --timeout 600s
 fi

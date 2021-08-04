@@ -1,1 +1,1 @@
-uk.gov.gchq.palisade:deployment-jvm:jar:0.5.0-SNAPSHOT
+uk.gov.gchq.palisade:deployment-jvm:jar:0.5.1-RELEASE

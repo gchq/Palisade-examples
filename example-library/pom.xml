@@ -20,7 +20,7 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.5.0-${revision}</version>
+        <version>0.5.1-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -53,26 +53,20 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
-            <version>0.5.0-${common.revision}</version>
+            <version>0.5.1-${common.revision}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>user-service</artifactId>
-            <version>0.5.0-${services.revision}</version>
+            <version>0.5.1-${services.revision}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Dependency used to generate example data-->
         <dependency>
-            <groupId>uk.gov.gchq.data-gen</groupId>
-            <artifactId>synthetic-data-generator</artifactId>
-            <version>${synthetic.data.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>uk.gov.gchq.palisade</groupId>
+            <artifactId>example-user-library</artifactId>
+            <version>0.5.1-${revision}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Spring Dependency -->
@@ -98,7 +92,7 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>resource-service</artifactId>
-            <version>0.5.0-${services.revision}</version>
+            <version>0.5.1-${services.revision}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -120,7 +114,8 @@
                 <configuration>
                     <dateFormat>yyyyMMdd-HHmmss</dateFormat>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile>
                     <useNativeGit>true</useNativeGit>
                 </configuration>
             </plugin>

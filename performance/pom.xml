@@ -20,7 +20,7 @@
     <parent>
         <groupId>uk.gov.gchq.palisade</groupId>
         <artifactId>example</artifactId>
-        <version>0.5.0-${revision}</version>
+        <version>0.5.1-${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -62,7 +62,13 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>common</artifactId>
-            <version>0.5.0-${common.revision}</version>
+            <version>0.5.1-${common.revision}</version>
+        </dependency>
+        <dependency>
+            <!-- User, Resource, Context types -->
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>avro-serialiser</artifactId>
+            <version>0.5.1-${readers.revision}</version>
         </dependency>
         <dependency>
             <groupId>uk.gov.gchq.data-gen</groupId>
@@ -78,7 +84,7 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>client-akka</artifactId>
-            <version>0.5.0-${clients.revision}</version>
+            <version>0.5.1-${clients.revision}</version>
         </dependency>
         <!-- Spring Dependency -->
         <dependency>
@@ -149,7 +155,8 @@
                 <configuration>
                     <dateFormat>yyyyMMdd-HHmmss</dateFormat>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <!-- somehow necessary. otherwise the variables are not available in the pom -->
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile>
                     <useNativeGit>true</useNativeGit>
                 </configuration>
             </plugin>
@@ -189,7 +196,7 @@
                         <replacement>
                             <token>image.tag</token>
                             <!--suppress UnresolvedMavenProperty -->
-                            <value>${image.tag}</value>
+                            <value>${version}-${git.commit.id.abbrev}</value>
                         </replacement>
                     </replacements>
                 </configuration>
@@ -248,8 +255,7 @@
                 <configuration>
                     <repository>${image.repository}${project.artifactId}</repository>
                     <dockerfile>Dockerfile</dockerfile>
-                    <!--suppress UnresolvedMavenProperty -->
-                    <tag>${dockerfile.base.tag}-${image.tag}</tag>
+                    <tag>${dockerfile.base.tag}-${dockerfile.version.tag}</tag>
                     <finalName>${project.artifactId}</finalName>
                     <buildArgs>
                         <BASE_IMG>${dockerfile.base.image}</BASE_IMG>

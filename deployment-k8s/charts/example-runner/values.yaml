@@ -21,11 +21,9 @@ service:
 image:
   name: example-runner
   base: jdk
-  tag: RELEASE-46f1aa7
   pullPolicy: IfNotPresent
-  codeRelease: 0.5.0-RELEASE
-  gitHash: 46f1aa7
-  versionNumber: 0.5.0
+  gitHash: "401914d"
+  versionNumber: 0.5.1
   revision: RELEASE
 
 resources:

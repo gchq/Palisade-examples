@@ -11,10 +11,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-population:
-  serialiserProvider: std
-  serialisers:
-  - flavourFormat: ${default.format}
-    flavourType: ${default.type}
-    serialiserClass: uk.gov.gchq.palisade.example.library.serialise.AvroSerialiser
+spring:
+  profiles:
+    include:
+    - example-config
+    - k8s
+    - rest
+
+---
+
+spring:
+  profiles: example-config
+
+example:
+  directory: "file:/data/local-data-store/data/"
+  filename: "file:/data/local-data-store/data/employee_file0.avro"

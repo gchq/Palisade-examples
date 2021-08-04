@@ -17,11 +17,9 @@ replicaCount: 1
 image:
   name: deployment-k8s
   base: jdk
-  tag: RELEASE-46f1aa7
   pullPolicy: IfNotPresent
-  gitHash: 46f1aa7
-  versionNumber: 0.5.0
-  codeRelease: 0.5.0-RELEASE
+  gitHash: "401914d"
+  versionNumber: 0.5.1
   revision: RELEASE
 
 resources:

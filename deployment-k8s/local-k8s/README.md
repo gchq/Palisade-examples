@@ -20,20 +20,21 @@ This example demonstrates different users querying an avro file over a REST api 
 
 The example runs different queries by different users, with different purposes.
 When you run the example you will see the data has been redacted in line with the rules.
-For an overview of the example, see [here](../../README.md).
+For an overview of the example, see [here](../../example-library/README.md).
 
-In order to successfully run the K8s example, please make sure the [Palisade-services](https://github.com/gchq/Palisade-services) and [example-runner](../../example-runner) docker images have been built.
+In order to successfully run the K8s example, please make sure the docker images for [Palisade-services](https://github.com/gchq/Palisade-services) and [example-runner](../../example-runner) have been built as well as the jar files for the [example-user-library](../../example-user-library), [example-rule-library](../../example-rule-library) and [example-library](../../example-library).
 
 To run the example in a local Kubernetes cluster, follow these steps (running commands from the root [Palisade-examples](../..) directory):
 
 ## Prerequisites
 As well as Docker, this example also requires Kubernetes and Helm 3.
-Kubernetes is now bundled as part of Docker.
 
 Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services README](https://github.com/gchq/Palisade-services/tree/develop/README.md).
 
-Otherwise, follow the [local-jvm prerequisites](../../deployment-jvm/local-jvm/README.md).
-
+If you have changed any of the code base then you will need to run `mvn clean install -P pi` to update the charts to use the local docker images:
+```bash
+for dir in Palisade-{common,services,readers,clients,examples}; do (cd $dir && mvn clean install -P pi); done
+```
 
 ## Deployment Types
 On running `helm install`, there are a number of variables that can be set in the [values.yaml](../values.yaml).
@@ -89,10 +90,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
 1. Make sure you are within the Palisade-examples directory:  
    ```bash
    >> ls
-     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
+     drwxrwxrwx deployment-k8s
      drwxrwxrwx example-library
+     drwxrwxrwx example-rule-library
      drwxrwxrwx example-runner
+     drwxrwxrwx example-user-library
      drwxrwxrwx performance
    ```
 
@@ -145,13 +148,10 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
      drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
      drwxrwxrwx example-library
+     drwxrwxrwx example-rule-library
      drwxrwxrwx example-runner
+     drwxrwxrwx example-user-library
      drwxrwxrwx performance
-   ```
-
-1. Create the performance test dataset locally, run:
-   ```bash
-   bash performance/src/main/resources/k8s-bash-scripts/createPerformanceData.sh
    ```
 
 1. To deploy the performance tests, run:
@@ -162,7 +162,12 @@ These, in turn, will call the scripts in [k8s bash-scripts](../../example-runner
    ```bash
    kubectl get pods
    ```
-   
+
+1. Create the performance test dataset locally, run:
+   ```bash
+   bash deployment-k8s/local-k8s/performance/createPerformanceData.sh
+   ```   
+
 1. After the pods have started, you can run the performance tests:
    ```bash
    bash deployment-k8s/local-k8s/performance/runK8sPerformanceTest.sh

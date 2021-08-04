@@ -31,7 +31,7 @@ To run the example locally in JVMs, follow these steps (running commands from th
 ## Prerequisites
 
 1. Start **Kafka** and **Redis** on localhost using default ports by your preferred means:
-   * Try the [docker-compose](docker-compose.yml) file if you have docker available - `docker-compose -f deployment-jvm/local-jvm/docker-compose.yml up -d`  
+   * Try the [docker-compose](docker-compose.yml) file if you have docker-compose available - `docker-compose -f deployment-jvm/local-jvm/docker-compose.yml up -d`  
      ***or***
    * Kafka must be listening to `http://localhost:9092`, see the [Kafka Quickstart Guide](https://kafka.apache.org/quickstart)
    * Redis must be listening to `http://localhost:6379`, see the [Redis Quickstart Guide](https://redis.io/topics/quickstart)
@@ -87,10 +87,12 @@ The above steps can be automated using the provided scripts, all of which are in
      drwxrwxrwx Palisade-examples
    >> cd Palisade-examples
    >> ls
-     drwxrwxrwx deployment-k8s
      drwxrwxrwx deployment-jvm
+     drwxrwxrwx deployment-k8s
+     drwxrwxrwx example-library
      drwxrwxrwx example-library
      drwxrwxrwx example-runner
+     drwxrwxrwx example-library
      drwxrwxrwx performance
    ```
 
@@ -108,6 +110,7 @@ To run the example and verify its output, use the [local-jvm example-runner scri
    ```bash
    bash deployment-jvm/local-jvm/example-runner/runFormattedLocalJVMExample.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
    ```
+   Note the tee command is needed to create the exampleOutput file needed in running the verify script
    
 1. Verify that the example has run successfully by running the verify script:
    ```bash
@@ -122,6 +125,11 @@ To run the example and verify its output, use the [local-jvm example-runner scri
 #### [Performance Tests](../../performance/README.md)
 To run the performance tests, use the [local-jvm performance scripts](performance):
 
+1. Create the performance data:
+   ```bash
+   bash deployment-jvm/local-jvm/performance/createPerformanceData.sh
+   ```
+   
 1. Start all the relevant services:
    ```bash
    bash deployment-jvm/local-jvm/performance/startServices.sh
@@ -129,7 +137,7 @@ To run the performance tests, use the [local-jvm performance scripts](performanc
 
 1. Then run the performance test and pipe the output to a text file:
    ```bash
-   bash deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh | tee deployment-jvm/local-jvm/example-runner/exampleOutput.txt
+   bash deployment-jvm/local-jvm/performance/runJVMPerformanceTest.sh
    ```
 
 1. Finally, stop the services:
@@ -137,12 +145,11 @@ To run the performance tests, use the [local-jvm performance scripts](performanc
    bash deployment-jvm/local-jvm/performance/stopServices.sh
    ```
 
-
-### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
+#### Running using the [Services Manager](https://github.com/gchq/Palisade-services/tree/develop/services-manager)
 See the [README](https://github.com/gchq/Palisade-services/tree/develop/services-manager/README.md) for more info.
 
 #### [JVM Example](../../example-runner/README.md)
-When using the Services Manager, follow these steps (running commands from anywhere under the root [Palisade-services](https://github.com/gchq/Palisade-services) directory):
+When using the Services Manager, follow these steps running commands from the root [Palisade-services](https://github.com/gchq/Palisade-services) directory:
 
 1. Make sure you are within the Palisade-services directory
    ```bash
@@ -161,7 +168,7 @@ When using the Services Manager, follow these steps (running commands from anywh
 
 1. Start the Palisade services and run the example using the services manager.
    ```bash
-   >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
+   java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run
    ```
    
 1. It will take a couple of minutes for the Spring Boot services to start up.  
@@ -194,7 +201,7 @@ When using the Services Manager, follow these steps (running commands from anywh
 
 1. Stop the services.
    ```bash
-   >> java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
+   java -Dspring.profiles.active=example-runner -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```
 
 #### [Performance Tests](../../performance/README.md)
@@ -217,7 +224,7 @@ Run as above, but substitute using the `example-runner` profile for the `example
 
 1. Create the performance test data, start the Palisade services and run the performance tests using the services manager.
    ```bash
-   >> java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run --manager.schedule=performance-create-task,palisade-task,performance-test-task
+   java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=run --manager.schedule=performance-create-task,palisade-task,performance-test-task
    ```
    
 1. It will take a couple of minutes to generate the performance test data.
@@ -252,5 +259,5 @@ Run as above, but substitute using the `example-runner` profile for the `example
 1. Stop the services.
     
    ```bash
-   >> java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
+   java -Dspring.profiles.active=example-perf -jar services-manager/target/services-manager-*-exec.jar --manager.mode=shutdown
    ```

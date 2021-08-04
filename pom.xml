@@ -29,7 +29,7 @@
 
     <groupId>uk.gov.gchq.palisade</groupId>
     <artifactId>example</artifactId>
-    <version>0.5.0-${revision}</version>
+    <version>0.5.1-${revision}</version>
     <name>GCHQ Palisade Examples</name>
     <description>Example data-types, users, resources, rules, data-files and deployments for demonstrating Palisade services</description>
     <url>https://github.com/gchq/Palisade-examples</url>
@@ -51,7 +51,7 @@
     <properties>
         <!-- Dependency properties -->
         <java.version>11</java.version>
-        <version.number>0.5.0</version.number>
+        <version.number>0.5.1</version.number>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <encoding>UTF-8</encoding>
@@ -98,12 +98,20 @@
         <scm.url>https://github.com/gchq/Palisade-examples</scm.url>
         <scm.connection>scm:git:https://github.com/gchq/Palisade-examples.git</scm.connection>
         <scm.developer.connection>scm:git:https://github.com/gchq/Palisade-examples.git</scm.developer.connection>
+
+        <!-- Set the version-tag depending on profile (defaults to SNAPSHOT-$githash, but may be RELEASE-$version for releases) -->
+        <!--suppress UnresolvedMavenProperty -->
+        <dockerfile.version.tag>${revision}-${git.commit.id.abbrev}</dockerfile.version.tag>
     </properties>
 
     <modules>
         <module>example-library</module>
+        <module>example-rule-library</module>
         <module>example-runner</module>
+        <module>example-user-library</module>
         <module>performance</module>
+        <!-- Deployment modules pull in jars from palisade (including example jars) so must be last -->
+        <module>deployment-jvm</module>
         <module>deployment-k8s</module>
     </modules>
 
@@ -135,9 +143,10 @@
                 <common.revision>RELEASE</common.revision>
                 <clients.revision>RELEASE</clients.revision>
                 <services.revision>RELEASE</services.revision>
+                <readers.revision>RELEASE</readers.revision>
                 <maven.test.skip>true</maven.test.skip>
                 <dockerfile.push.skip>true</dockerfile.push.skip>
-                <image.tag>${revision}-${version.number}</image.tag>
+                <dockerfile.version.tag>${revision}-${version.number}</dockerfile.version.tag>
             </properties>
             <build>
                 <plugins>
@@ -355,6 +364,7 @@
                         <licenseMerge>Apache Software License 2.0 :: apache_software_license_2.0.txt|Apache Software License, Version 2.0|The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache License 2.0|Apache 2|Apache 2.0</licenseMerge>
                         <licenseMerge>MIT License :: mit_license.txt|MIT License|The MIT License|MIT X11 License</licenseMerge>
                         <licenseMerge>Eclipse Public License 1.0 :: eclipse_public_license_1.0.html|Eclipse Public License 1.0|The Eclipse Public License 1.0|Eclipse Public License - v 1.0|Eclipse Distribution License - v 1.0</licenseMerge>
+                        <licenseMerge>Eclipse Public License 2.0 :: eclipse_public_license_2.0.html|Eclipse Public License v2.0</licenseMerge>
                         <licenseMerge>BSD License 3 :: bsd_license_3.html|BSD Licence 3</licenseMerge>
                         <licenseMerge>GNU Lesser General Public License 2.1 :: gnu_lgpl_2.1.html|GNU Lesser General Public License</licenseMerge>
                         <licenseMerge>Mozilla Public License 2.0 or Eclipse Public License 1.0 :: mpl_2.0_or_epl_1.0.html|MPL 2.0 or EPL 1.0</licenseMerge>
@@ -379,6 +389,10 @@
                         <licenseUrlFileNameSanitizer>
                             <regexp>.*eclipse.*license.*1.0.*</regexp>
                             <replacement>eclipse_public_license_1.0</replacement>
+                        </licenseUrlFileNameSanitizer>
+                        <licenseUrlFileNameSanitizer>
+                            <regexp>.*eclipse.*license.*2.0.*</regexp>
+                            <replacement>eclipse_public_license_2.0</replacement>
                         </licenseUrlFileNameSanitizer>
                         <licenseUrlFileNameSanitizer>
                             <regexp>.*bsd.*licence.*3.*</regexp>

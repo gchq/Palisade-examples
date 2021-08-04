@@ -16,10 +16,10 @@ apiVersion: v2
 appVersion: 1.0
 description: A Helm chart for the Palisade Examples suite
 name: Palisade-examples
-version: 0.5.0
+version: 0.5.1
 dependencies:
   - name: Palisade-services
-    version: 0.5.0
+    version: 0.5.1
     repository: file://../../Palisade-services
     import-values:
     - child: global.persistence.dataStores
