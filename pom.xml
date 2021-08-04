@@ -105,10 +105,10 @@
     </properties>
 
     <modules>
-        <module>example-library</module>
+        <module>example-user-library</module>
         <module>example-rule-library</module>
         <module>example-runner</module>
-        <module>example-user-library</module>
+        <module>example-library</module>
         <module>performance</module>
         <!-- Deployment modules pull in jars from palisade (including example jars) so must be last -->
         <module>deployment-jvm</module>
