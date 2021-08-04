@@ -18,9 +18,9 @@ image:
   name: deployment-k8s
   base: jdk
   pullPolicy: IfNotPresent
-  gitHash: "077ba81"
+  gitHash: "401914d"
   versionNumber: 0.5.1
-  revision: SNAPSHOT
+  revision: RELEASE
 
 resources:
   limits:
