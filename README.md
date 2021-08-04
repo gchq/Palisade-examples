@@ -16,10 +16,18 @@
 # <img src="logos/logo.svg" width="180">
 
 ## A Tool for Complex and Scalable Data Access Policy Enforcement
+
+# Palisade Examples
+
+## Status
+<span style="color:red">Palisade is no longer under active development.</span>
+
 Windows is not an explicitly supported environment, although where possible Palisade has been made compatible.  
 For Windows developer environments, we recommend setting up [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
 
-# Overview of the Example
+For an overview of Palisade, start with the Palisade introduction and the accompanying guides: QuickStart Guide; and Developer Guide which are found in the [Palisade README](https://github.com/gchq/Palisade/README.md).
+
+## Overview of the Example
 This repository contains the business logic required to configure and deploy Palisade to meet your organisations requirements. Therefore the contents of this repository shows the potential of Palisade via an example scenario and performance test suite.
 
 This example is designed around a generic fictional company where staff need to access [sensitive data](https://github.com/gchq/synthetic-data-generator/tree/v0.0.4) for legitimate purposes.
@@ -44,7 +52,7 @@ For more detail on the technical aspect of the users in the example see the [exa
 For more detail on the technical aspect of the rules and purposes that are used in the example see the [example-rule-library](./example-rule-library/README.md).
 
 
-# Deployment of Palisade Examples
+## Deployment of Palisade Examples
 
 To demonstate the flexibility of Palisade we have been developing and testing Palisade under 3 deployment environments:
 - [local-JVM](./deployment-jvm/local-jvm/README.md)
@@ -55,7 +63,7 @@ These three environments show that Palisade can work both on a single machine la
 
 To demonstrate the flexibility of what rules and data we can work against we have the [example runner](./deployment-k8s/local-k8s/example-runner) and the [performance suite](./performance/README.mde), which operate on different files and have different data access policies set in the spring boot configuration.
 
-# Structure of Examples repository
+## Structure of Examples repository
 The Palisade-examples repository is broken down into the following specific modules:
 
 ### [Example User Library](./example-user-library/README.md)
