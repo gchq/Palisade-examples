@@ -31,8 +31,10 @@ As well as Docker, this example also requires Kubernetes and Helm 3.
 
 Windows Subsystem for Linux (WSL) users may have to make special considerations to ensure local directories are mounted correctly, see the [Palisade-services README](https://github.com/gchq/Palisade-services/tree/develop/README.md).
 
-Otherwise, follow the [local-jvm prerequisites](../../deployment-jvm/local-jvm/README.md).
-
+If you have changed any of the code base then you will need to run `mvn clean install -P pi` to update the charts to use the local docker images:
+```bash
+for dir in Palisade-{common,services,readers,clients,examples}; do (cd $dir && mvn clean install -P pi); done
+```
 
 ## Deployment Types
 On running `helm install`, there are a number of variables that can be set in the [values.yaml](../values.yaml).
