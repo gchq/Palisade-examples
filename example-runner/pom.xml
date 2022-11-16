@@ -49,7 +49,7 @@
     </scm>
 
     <properties>
-        <jackson.version>2.11.0</jackson.version>
+        <jackson.version>2.12.7.1</jackson.version>
 
         <!-- Dockerfile-maven-plugin configurable base image - openjdk:11.0-jdk-slim   OS/ARCH linux/amd64-->
         <dockerfile.base.image>openjdk@sha256:1ee84ab87de99d6edf3592acde24ec909ec9814a8fb24db76a510ddb643b470c</dockerfile.base.image>
